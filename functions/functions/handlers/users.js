@@ -9,6 +9,7 @@ firebase.initializeApp(config);
 
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
 
+//executes whenever a new user is created in Firebase Authentication
 exports.onUserCreateInAuth = (userRecord) => {
     return Promise.all([sendGreetingEmail(userRecord.email), createRecordInFirestore(userRecord)]);
 };
