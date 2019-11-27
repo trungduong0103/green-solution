@@ -9,7 +9,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/cloud-asm2-client" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1TYQOhL2c141CJPeKFo3W0Gtitd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -53,6 +58,7 @@
       <workItem from="1573664514969" duration="14000" />
       <workItem from="1574866393036" duration="5382000" />
       <workItem from="1574883298909" duration="45000" />
+      <workItem from="1574883475846" duration="516000" />
     </task>
     <servers />
   </component>
