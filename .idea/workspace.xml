@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="423601fb-be57-42a8-80cf-d8da1f5b7cc3" name="Default Changelist" comment="" />
+    <list default="true" id="423601fb-be57-42a8-80cf-d8da1f5b7cc3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +61,7 @@
       <workItem from="1573664514969" duration="14000" />
       <workItem from="1574866393036" duration="5382000" />
       <workItem from="1574883298909" duration="45000" />
-      <workItem from="1574883475846" duration="516000" />
+      <workItem from="1574883475846" duration="807000" />
     </task>
     <servers />
   </component>
@@ -71,8 +74,34 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="clean-up" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="COLUMN_ORDER" />
             </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="clean-up" />
+                </option>
+              </RecentGroup>
+            </list>
           </value>
         </entry>
       </map>
