@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f7db303b-4964-498c-b188-adbf5aa3e0ef" name="Default Changelist" comment="" />
+    <list default="true" id="f7db303b-4964-498c-b188-adbf5aa3e0ef" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/functions/environments/config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/functions/environments/environments.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +19,9 @@
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectId" id="1TF2AQCaVWLYTYP8q1RIACEZmSu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/WebstormProjects/mlweb-functions" />
@@ -74,9 +80,32 @@
       <workItem from="1574701533443" duration="2996000" />
       <workItem from="1574749202238" duration="4000" />
     </task>
+    <task id="LOCAL-00001" summary="add .idea folder and environment folder to gitignore">
+      <created>1574912940591</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574912940591</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add .idea folder and environment folder to gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="add .idea folder and environment folder to gitignore" />
   </component>
 </project>
