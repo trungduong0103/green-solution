@@ -4,8 +4,6 @@ import './App.css';
 
 import {Provider} from "react-redux";
 import store from "./redux/store";
-
-import NavBar from "./components/NavBar";
 import Register from "./components/authentication/Register";
 import Login from "./components/authentication/Login";
 import Home from "./components/Home";
@@ -13,6 +11,8 @@ import JoinCleanUp from "./components/map/JoinCleanUp"
 import Authentication from "./components/authentication/Authentication"
 import CleanUpDetail from "./components/map/CleanUpDetail";
 
+
+//first comment for github
 function App() {
     return (
         <Provider store={store}>
