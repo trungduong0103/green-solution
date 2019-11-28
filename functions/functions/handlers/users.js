@@ -14,6 +14,14 @@ exports.onUserCreateInAuth = (userRecord) => {
     return Promise.all([sendGreetingEmail(userRecord.email), createRecordInFirestore(userRecord)]);
 };
 
+exports.onUserDeleteInAuth = (userRecord) => {
+    return Promise.all([deleteUserRecordInFirestore(userRecord)]);
+};
+
+function deleteUserRecordInFirestore(record) {
+    return db.collection("users").doc(record.uid).delete();
+}
+
 function sendGreetingEmail(email) {
     return sendEmailToUser("Welcome to Green Clean Vietnam!!!", email);
 }

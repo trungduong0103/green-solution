@@ -4,8 +4,7 @@ const cors = require("cors");
 
 app.use(cors());
 
-const FirebaseAuth = require("./utils/firebaseAuth");
-const {signUp, signIn, getAuthenticatedUser, onUserCreateInAuth} = require("./handlers/users");
+const {signUp, signIn, onUserCreateInAuth, onUserDeleteInAuth} = require("./handlers/users");
 const {createNewTopic, publishMessageToTopic, sendEmailToUser} = require("./handlers/topics");
 
 //User routes
@@ -17,7 +16,8 @@ app.post("/newmessage", publishMessageToTopic);
 // app.get("/user", FirebaseAuth, getAuthenticatedUser);
 
 exports.api = functions.region("asia-northeast1").https.onRequest(app);
-exports.onCreateUserInAuth = functions.region("asia-northeast1").auth.user().onCreate(onUserCreateInAuth);
+exports.onUserCreatedInAuth = functions.region("asia-northeast1").auth.user().onCreate(onUserCreateInAuth);
+exports.onUserDeletedInAuth = functions.region("asia-northeast1").auth.user().onDelete(onUserDeleteInAuth);
 
 
 //background functions for pubsub
