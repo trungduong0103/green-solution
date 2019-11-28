@@ -11,6 +11,10 @@
   <component name="FavoritesManager">
     <favorites_list name="cloud-asm2-functions" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
   <component name="ProjectId" id="1TF2AQCaVWLYTYP8q1RIACEZmSu" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
