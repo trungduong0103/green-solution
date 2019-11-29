@@ -14,18 +14,28 @@ exports.onUserCreateInAuth = (userRecord) => {
     return Promise.all([sendGreetingEmail(userRecord.email), createRecordInFirestore(userRecord)]);
 };
 
+//executes whenever an account is deleted from Firebase Authentication
 exports.onUserDeleteInAuth = (userRecord) => {
     return Promise.all([deleteUserRecordInFirestore(userRecord)]);
 };
 
 function deleteUserRecordInFirestore(record) {
-    return db.collection("users").doc(record.uid).delete();
+    if (checkUserRecordInFirestore(record.uid)) {
+        return db.collection("users").doc(record.uid).delete();
+    }
+    return null;
 }
 
 function sendGreetingEmail(email) {
     return sendEmailToUser("Welcome to Green Clean Vietnam!!!", email);
 }
 
+function checkUserRecordInFirestore(recordId) {
+    return db.collection("users").doc(recordId).get()
+        .then((doc) => {
+            return doc.exists;
+        })
+}
 
 function createRecordInFirestore(record) {
     return db.collection("users")
