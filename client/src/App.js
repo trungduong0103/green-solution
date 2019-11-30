@@ -20,12 +20,12 @@ function App() {
             <Router>
                 {/*<NavBar/>*/}
                 <Switch>
-                    <Route exact path="/" component={Authentication}/>
+                    <Route exact path="/authentication" component={Authentication}/>
                     <Route exact path="/home" component={Home}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/login" component={Login}/>
-                    <Route exact path="/join_cleanup" component={JoinCleanUp}/>
-                    <Route exact path="/join_cleanup/:id" component={CleanUpDetail}/>
+                    <Route exact path="/join-cleanup" component={JoinCleanUp}/>
+                    <Route exact path="/join-cleanup/:id" component={CleanUpDetail}/>
                 </Switch>
             </Router>
         </Provider>

@@ -1,17 +1,12 @@
 import React, {Component} from 'react'
-import {signInWithEmail, signInWithFacebook, signInWithGoogle, signedIn} from "../../redux/actions/UserActions";
+
 import {signUp} from "../../redux/actions/UserActions";
 
 import PropTypes from 'prop-types';
 
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
-import CircularProgress from "@material-ui/core/TextField"
-import withStyles from "@material-ui/core/styles/withStyles";
-import CheckIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = {
     textField: {
@@ -41,136 +36,82 @@ const styles = {
 
 
 class Authentication extends Component {
-     constructor(props) {
-         super(props);
-         this.state = {
+    constructor(props) {
+        super(props);
+        this.state = {
 
-             // Login form states
-             loginEmail: "",
-             loginPassword: "",
+            // Login form states
+            loginEmail: "",
+            loginPassword: "",
 
-             //Sign up form states
-             signUpEmail: "",
-             signUpPassword: "",
-             signUpConfirmPassword: "",
+            //Sign up form states
+            signUpEmail: "",
+            signUpPassword: "",
+            signUpConfirmPassword: "",
 
-             // loading: false,
+            // loading: false,
 
-             formSignUpErrors: {
-                 emailError:"",
-                 passwordError:"",
-                 confirmPassError:""
-             },
+            formSignUpErrors: {
+                emailError: "",
+                passwordError: "",
+                confirmPassError: ""
+            },
 
-             formLoginErrors: {
-                 emailError: "",
-                 passwordError: ""
-             }
+            formLoginErrors: {
+                emailError: "",
+                passwordError: ""
+            }
 
-         }
-     }
-
-     handleAnimation() {
-         const signUpButton = document.getElementById('signUp');
-         const signInButton = document.getElementById('signIn');
-         const container = document.getElementById('container');
-
-         signUpButton.addEventListener('click', () => {
-             container.classList.add("right-panel-active");
-         });
-
-         signInButton.addEventListener('click', () => {
-             container.classList.remove("right-panel-active");
-         });
-     }
-
-    validateSignUpForm() {
-        let valid = true;
-
-        if (this.state.signUpEmail == null || this.state.signUpEmail == "") {
-            valid = false;
-            this.state.formSignUpErrors.emailError = "Vui lòng nhập email"
         }
-
-        if (this.state.signUpPassword == null || this.state.signUpPassword == "") {
-            valid = false;
-            this.state.formSignUpErrors.passwordError = "Vui lòng nhập mật khẩu"
-        }
-
-        if (this.state.signUpConfirmPassword == null || this.state.signUpConfirmPassword == "") {
-            valid = false;
-            this.state.formSignUpErrors.confirmPassError = "Vui lòng nhập mật khẩu xác nhận"
-        }
-
-        if (this.state.signUpPassword != this.state.signUpConfirmPassword) {
-            valid = false;
-            this.state.formSignUpErrors.confirmPassError = "Mật khẩu xác nhận không trùng khớp"
-        }
-        return valid
-
     }
 
-    handleSubmit = (event) => {
-         if (this.validateSignUpForm()) {
-             event.preventDefault();
-             this.props.signUp({
-                 email: this.state.signUpEmail,
-                 password: this.state.signUpPassword,
-                 confirmPassword: this.state.signUpConfirmPassword
-             }, this.props.history);
-         }
-         else {
-             alert("Invalid")
-         }
-
-    };
-
-    // handleChange = (event) => {
-    //     this.setState({[event.target.name]: event.target.value});
-    // };
-
-
-    handleChange(e) {
-        e.preventDefault();
-
-        const { name, value } = e.target;
-        let formSignUpErrors = this.state.formSignUpErrors;
-
-        switch (name) {
-            case "signUpEmail":
-                formSignUpErrors.emailError =
-                    value.length < 5
-                        ? "Vui lòng nhập đúng format email"
-                        : "";
-                break;
-            case "signUpPassword":
-                formSignUpErrors.passwordError =
-                    value.length === 0
-                        ? "Vui lòng nhập mật khầu"
-                        : "";
-                break;
-            case "signUpConfirmPassword":
-                formSignUpErrors.confirmPassError =
-                    value.length === 0
-                        ? "Vui lòng nhập mật khẩu xác nhận"
-                        : "";
-                break;
-            default:
-                break;
+    static getDerivedStateFromProps(props, state) {
+        if (props.UI.errors !== state.errors) {
+            return {
+                errors: props.UI.errors
+            }
         }
-        this.setState({ formSignUpErrors, [name]: value }, () => console.log(this.state))
-
+        return null;
     }
-
-
 
     componentDidMount() {
         this.handleAnimation()
     }
 
+    handleAnimation() {
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.signUp({
+            email: this.state.signUpEmail,
+            password: this.state.signUpPassword,
+            confirmPassword: this.state.signUpConfirmPassword
+        }, this.props.history);
+    };
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    };
+
+
     render() {
-        const { formSignUpErrors, formLoginErrors  } = this.state;
-        const {classes, UI: {doneSignUp, loading}} = this.props;
+
+        // const {formSignUpErrors, formLoginErrors} = this.state;
+        // const {classes, UI: {doneSignUp, loading}} = this.props;
 
         return (
             <div className="body">
@@ -179,131 +120,56 @@ class Authentication extends Component {
 
                         <form>
                             <h1>Tạo tài khoản</h1>
-                             <div className="social-container">
+                            <div className="social-container">
                                 <a href="#" className="social">
-                                    <i className="fab fa-facebook-f" />
+                                    <i className="fab fa-facebook-f"/>
                                 </a>
                                 <a href="#" className="social">
-                                    <i className="fab fa-google-plus-g" />
+                                    <i className="fab fa-google-plus-g"/>
                                 </a>
                             </div>
                             <span>hoặc đăng ký bằng Email</span>
 
-                            {/*<TextField*/}
-                            {/*    variant="filled"*/}
-                            {/*    id="signUpEmail"*/}
-                            {/*    name="signUpEmail"*/}
-                            {/*    type="email"*/}
-                            {/*    label="Email"*/}
-                            {/*    className={classes.textField}*/}
-                            {/*    helperText={formSignUpErrors.emailError}*/}
-                            {/*    error={!!formSignUpErrors.emailError}*/}
-                            {/*    value={this.state.signUpEmail}*/}
-                            {/*    onChange={this.handleChange}*/}
-                            {/*    fullWidth*/}
-                            {/*>*/}
-                            {/*</TextField>*/}
-
-
-                            {/*<TextField*/}
-                            {/*    variant="filled"*/}
-                            {/*    id="signUpPassword"*/}
-                            {/*    name="signUpPassword"*/}
-                            {/*    type="password"*/}
-                            {/*    label="Mật khẩu"*/}
-                            {/*    className={classes.textField}*/}
-                            {/*    helperText={formSignUpErrors.passwordError}*/}
-                            {/*    error={!!formSignUpErrors.passwordError}*/}
-                            {/*    value={this.state.signUpPassword}*/}
-                            {/*    onChange={this.handleChange}*/}
-                            {/*    fullWidth*/}
-                            {/*>*/}
-
-                            {/*</TextField>*/}
-
-
-                            {/*<TextField*/}
-                            {/*    variant="filled"*/}
-                            {/*    id="confirmPassword"*/}
-                            {/*    name="confirmPassword"*/}
-                            {/*    type="password"*/}
-                            {/*    label="Xác nhận mật khẩu"*/}
-                            {/*    className={classes.textField}*/}
-                            {/*    helperText={formSignUpErrors.confirmPassError}*/}
-                            {/*    error={!!formSignUpErrors.confirmPassError}*/}
-                            {/*    value={this.state.signUpConfirmPassword}*/}
-                            {/*    onChange={this.handleChange}*/}
-                            {/*    fullWidth*/}
-                            {/*>*/}
-                            {/*</TextField>*/}
-
-                            {/*<Button*/}
-                            {/*    onClick={this.handleSubmit}*/}
-                            {/*    variant="contained"*/}
-                            {/*    className={doneSignUp ? classes.successBtn : classes.registerBtn}*/}
-                            {/*    disabled={loading}*/}
-                            {/*> {doneSignUp ? "Hoàn tất" : "Đăng ký"}*/}
-                            {/*    {loading ? (*/}
-                            {/*        <CircularProgress variant="indeterminate" size={35} className={classes.progress}/>*/}
-                            {/*    ) : ""}*/}
-                            {/*    {doneSignUp ? (*/}
-                            {/*        <CheckIcon />*/}
-                            {/*    ) : ""}*/}
-                            {/*</Button>*/}
-
                             <input
-                                name="signUpEmail"
                                 type="text"
+                                name="signUpEmail"
                                 placeholder="Email"
                                 className="form-input"
                                 id="signUpEmail"
-                                onChange={this.handleChange.bind(this)}
+                                onChange={this.handleChange}
                                 value={this.state.signUpEmail}
                             >
                             </input>
-                            {formSignUpErrors.emailError.length > 0 && (
-                                <span className="error-message">{formSignUpErrors.emailError}</span>
-                            )}
 
                             <input
-                                name="signUpPassword"
                                 type="password"
+                                name="signUpPassword"
                                 placeholder="Mật khẩu"
                                 className="form-input"
                                 id="signUpPassword"
-                                onChange={this.handleChange.bind(this)}
+                                onChange={this.handleChange}
                                 value={this.state.signUpPassword}
                             >
                             </input>
-                            {formSignUpErrors.passwordError.length > 0 && (
-                                <span className="error-message">{formSignUpErrors.passwordError}</span>
-                            )}
-
 
                             <input
-                                name="signUpConfirmPassword"
                                 type="password"
+                                name="signUpConfirmPassword"
                                 placeholder="Xác nhận mật khẩu"
                                 className="form-input"
-                                id="signUpConfirmPassword"
-                                onChange={this.handleChange.bind(this)}
+                                id="confirmPassword"
+                                onChange={this.handleChange}
                                 value={this.state.signUpConfirmPassword}
                             >
                             </input>
-                            {formSignUpErrors.confirmPassError.length > 0 && (
-                                <span className="error-message">{formSignUpErrors.confirmPassError}</span>
-                            )}
 
                             <button
-                                type="button"
                                 className="custom-btn"
-                                onClick={this.handleSubmit}
-                            > Đăng ký </button>
+                            > Đăng ký
+                            </button>
 
                         </form>
                     </div>
-
-
 
                     <div className="form-container sign-in-container">
                         <form>
@@ -311,35 +177,49 @@ class Authentication extends Component {
                             <div className="social-container">
 
                                 <a href="#" className="social">
-                                    <i className="fab fa-facebook-f" />
+                                    <i className="fab fa-facebook-f"/>
                                 </a>
                                 <a href="#" className="social">
-                                    <i className="fab fa-google-plus-g" />
+                                    <i className="fab fa-google-plus-g"/>
                                 </a>
 
                             </div>
                             <span>hoặc sử dụng tài khoản</span>
 
-                            <input type="text" placeholder="Email" className="form-input"></input>
-                            <input type="password" placeholder="Mật khẩu" className="form-input"></input>
+                            <input type="text"
+                                   name="loginEmail"
+                                   placeholder="Email"
+                                   className="form-input"
+                                   id="loginEmail"
+                                   onChange={this.handleChange}
+                                   value={this.state.loginEmail}
+                            />
+                            <input type="password"
+                                   placeholder="Mật khẩu"
+                                   className="form-input"
+                                   id="loginPassword"
+                                   onChange={this.handleChange}
+                                   value={this.state.loginPassword}
+                            />
                             <button className="custom-btn">Đăng nhập</button>
                         </form>
                     </div>
+
                     <div className="overlay-container">
                         <div className="overlay">
                             <div className="overlay-panel overlay-left">
                                 <h1>Mừng bạn quay lại</h1>
                                 <p>
-                                   Giữ liên lạc với chúng tôi bằng cách đăng nhập bằng tài khoản cá nhân
+                                    Giữ liên lạc với chúng tôi bằng cách đăng nhập bằng tài khoản cá nhân
                                 </p>
-                                <button className="custom-btn ghost" id="signIn" onClick = { () => this.handleAnimation()}>
+                                <button className="custom-btn ghost" id="signIn" onClick={() => this.handleAnimation()}>
                                     Đăng nhập
                                 </button>
                             </div>
                             <div className="overlay-panel overlay-right">
                                 <h1>Chào Bạn!</h1>
                                 <p>Nhập thông tin cá nhân và bắt đầu cuộc hành trình với chúng tôi</p>
-                                <button className="custom-btn ghost" id="signUp" onClick = { () => this.handleAnimation()}>
+                                <button className="custom-btn ghost" id="signUp" onClick={() => this.handleAnimation()}>
                                     Đăng ký
                                 </button>
                             </div>

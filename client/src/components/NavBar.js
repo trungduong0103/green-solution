@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
-
 import {Link} from "react-router-dom";
 
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -10,8 +8,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import Grid from "@material-ui/core/Grid";
 import logo from "../assets/imgs/MyLogo.png"
-//Icons
 import Button from "@material-ui/core/Button";
+// import PropTypes from 'prop-types';
+//Icons
 
 const styles = {
     appBar: {
@@ -24,7 +23,7 @@ const styles = {
         textDecoration: "none",
         fontSize: 17,
 
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         textTransform: "none",
         border: "none",
 
@@ -43,14 +42,14 @@ const styles = {
         height: 100
     },
     toolbar: {
-        padding: "0 2% 0 2%",
+        padding: "0 3% 0 3%",
     },
     signUpBtn: {
-        width: "100px",
+        width: "90px",
         fontSize: 15,
         borderRadius: 20,
         textTransform: "none",
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         color: "black",
         "&:hover": {
             backgroundColor: "black",
@@ -62,11 +61,11 @@ const styles = {
 
     },
     signInBtn: {
-        width: "120px",
+        width: "90px",
         fontSize: 15,
         borderRadius: 20,
         textTransform: "none",
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         backgroundColor: "#7da968",
         color: "black",
         "&:hover": {
@@ -90,47 +89,39 @@ class NavBar extends Component {
                     <Grid container>
 
                         <Grid item sm={2} md={2}>
-
-                            <img src={logo} className={classes.logo} alt="logo"
-                            />
-
+                            <img alt="navbar logo" src={logo} className={classes.logo}/>
                         </Grid>
 
+                        <Grid item sm={8} md={8}>
 
-                        <Grid item sm={8} md={8} >
-
-                            <Grid container spacing={4} justify="center">
+                            <Grid container spacing={5} justify="center">
 
                                 <Grid item>
-                                    <Button
-                                        component={Link}
-                                        to="/home"
-                                        className={classes.navBtn}>
-                                        Trang chủ
+                                    <Button className={classes.navBtn}>
+                                        Home
                                     </Button>
                                 </Grid>
 
                                 <Grid item>
                                     <Button className={classes.navBtn}>
-                                        Về chúng tôi
+                                        About
                                     </Button>
                                 </Grid>
 
                                 <Grid item>
                                     <Button
-
+                                        to="create-cleanup"
                                         className={classes.navBtn}>
-                                        Tạo sự kiện
+                                        Create a Clean Up
                                     </Button>
                                 </Grid>
 
 
                                 <Grid item>
                                     <Button
-                                        to="/join_cleanup"
-                                        component={Link}
+                                        to="join-cleanup"
                                         className={classes.navBtn}>
-                                        Tham gia sự kiện
+                                        Join a Clean Up
                                     </Button>
                                 </Grid>
 
@@ -138,24 +129,24 @@ class NavBar extends Component {
                         </Grid>
 
                         <Grid item sm={2} md={2}>
-                            <Grid container spacing={1} >
+                            <Grid container spacing={1}>
                                 <Grid item>
                                     <Button
                                         variant="outlined"
                                         className={classes.signUpBtn}
                                         component={Link}
                                         to="/register">
-                                        Đăng ký
+                                        Sign Up
                                     </Button>
                                 </Grid>
 
-                                <Grid item >
+                                <Grid item>
                                     <Button
                                         variant="outlined"
                                         className={classes.signInBtn}
                                         component={Link}
                                         to="/login">
-                                        Đăng nhập
+                                        Login
                                     </Button>
                                 </Grid>
 

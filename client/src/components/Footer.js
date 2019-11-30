@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {Typography} from "@material-ui/core";
@@ -8,7 +7,7 @@ import Icon from "@material-ui/core/Icon"
 import IconButton from "@material-ui/core/IconButton"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button";
-import {Link} from "react-router-dom";
+
 const styles = {
     logo: {
         maxWidth: "100%",
@@ -105,7 +104,7 @@ class Footer extends Component {
                 <Grid container className={classes.footer_wrapper}>
                     <Grid item sm={3}>
                         <Grid container className={classes.logo_wrapper}>
-                            <img src={logo} className={classes.logo}/>
+                            <img src={logo} className={classes.logo} alt="logo"/>
                             <Typography variant="h6" className={classes.copyright}>
                                 © 2019 Green Solution
                             </Typography>
@@ -129,13 +128,13 @@ class Footer extends Component {
                             </Grid>
                             <Grid item>
                                 <IconButton className={classes.iconBtn}>
-                                   <Icon className="fab fa-facebook-f"></Icon>
+                                    <Icon className="fab fa-facebook-f"/>
                                 </IconButton>
                                 <IconButton className={classes.iconBtn}>
-                                    <Icon className="fab fa-twitter"></Icon>
+                                    <Icon className="fab fa-twitter"/>
                                 </IconButton>
                                 <IconButton className={classes.iconBtn}>
-                                    <Icon className="far fa-envelope"></Icon>
+                                    <Icon className="far fa-envelope"/>
                                 </IconButton>
                             </Grid>
                         </Grid>

@@ -3,7 +3,8 @@ import React from 'react';
 
 export default class CleanUpDetail extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {}
     }
 
     render() {
