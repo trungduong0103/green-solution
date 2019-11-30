@@ -15,10 +15,12 @@ app.post("/newmessage", publishMessageToTopic);
 // app.post("/sendemail", sendEmailToUser);
 // app.get("/user", FirebaseAuth, getAuthenticatedUser);
 
+//HTTPs routes
 exports.api = functions.region("asia-northeast1").https.onRequest(app);
+
+//background functions for Firebase Authentication
 exports.onUserCreatedInAuth = functions.region("asia-northeast1").auth.user().onCreate(onUserCreateInAuth);
 exports.onUserDeletedInAuth = functions.region("asia-northeast1").auth.user().onDelete(onUserDeleteInAuth);
-
 
 //background functions for pubsub
 exports.onNewMessagePublished = functions.region("asia-northeast1").pubsub.topic("my-first-topic").onPublish((message) => {
