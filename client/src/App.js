@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import JoinCleanUp from "./components/map/JoinCleanUp"
 import Authentication from "./components/authentication/Authentication"
 import CleanUpDetail from "./components/map/CleanUpDetail";
+import SearchBar from "./components/map/SearchBar"
 
 
 //first comment for github

@@ -12,4 +12,4 @@ export const SET_USER = "SET_USER";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const SET_ERRORS = "SET_ERRORS";
 
-export const DEFAULT_URL = "https://asia-northeast1-rmit-project-a-d497e.cloudfunctions.net/api";
+export const DEFAULT_URL = "https://asia-northeast1-rmit-cloud-a2-c8905.cloudfunctions.net/api";

@@ -16,8 +16,6 @@ import CheckIcon from "@material-ui/core/SvgIcon/SvgIcon";
 const styles = {
     textField: {
         border: "none",
-
-
     },
 
     registerBtn: {
@@ -86,41 +84,91 @@ class Authentication extends Component {
          });
      }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.UI.errors !== state.errors) {
-            return {
-                errors: props.UI.errors
-            }
+    validateSignUpForm() {
+        let valid = true;
+
+        if (this.state.signUpEmail == null || this.state.signUpEmail == "") {
+            valid = false;
+            this.state.formSignUpErrors.emailError = "Vui lòng nhập email"
         }
-        return null;
+
+        if (this.state.signUpPassword == null || this.state.signUpPassword == "") {
+            valid = false;
+            this.state.formSignUpErrors.passwordError = "Vui lòng nhập mật khẩu"
+        }
+
+        if (this.state.signUpConfirmPassword == null || this.state.signUpConfirmPassword == "") {
+            valid = false;
+            this.state.formSignUpErrors.confirmPassError = "Vui lòng nhập mật khẩu xác nhận"
+        }
+
+        if (this.state.signUpPassword != this.state.signUpConfirmPassword) {
+            valid = false;
+            this.state.formSignUpErrors.confirmPassError = "Mật khẩu xác nhận không trùng khớp"
+        }
+        return valid
+
     }
 
     handleSubmit = (event) => {
-        event.preventDefault();
-        this.props.signUp({
-            email: this.state.signUpEmail,
-            password: this.state.signUpPassword,
-            confirmPassword: this.state.signUpConfirmPassword
-        }, this.props.history);
+         if (this.validateSignUpForm()) {
+             event.preventDefault();
+             this.props.signUp({
+                 email: this.state.signUpEmail,
+                 password: this.state.signUpPassword,
+                 confirmPassword: this.state.signUpConfirmPassword
+             }, this.props.history);
+         }
+         else {
+             alert("Invalid")
+         }
+
     };
 
+    // handleChange = (event) => {
+    //     this.setState({[event.target.name]: event.target.value});
+    // };
 
-     handleChange = (event) => {
-         this.setState({
-             [event.target.name]: event.target.value
-         });
-     };
+
+    handleChange(e) {
+        e.preventDefault();
+
+        const { name, value } = e.target;
+        let formSignUpErrors = this.state.formSignUpErrors;
+
+        switch (name) {
+            case "signUpEmail":
+                formSignUpErrors.emailError =
+                    value.length < 5
+                        ? "Vui lòng nhập đúng format email"
+                        : "";
+                break;
+            case "signUpPassword":
+                formSignUpErrors.passwordError =
+                    value.length === 0
+                        ? "Vui lòng nhập mật khầu"
+                        : "";
+                break;
+            case "signUpConfirmPassword":
+                formSignUpErrors.confirmPassError =
+                    value.length === 0
+                        ? "Vui lòng nhập mật khẩu xác nhận"
+                        : "";
+                break;
+            default:
+                break;
+        }
+        this.setState({ formSignUpErrors, [name]: value }, () => console.log(this.state))
+
+    }
+
+
 
     componentDidMount() {
         this.handleAnimation()
     }
 
-
-
-
-
     render() {
-
         const { formSignUpErrors, formLoginErrors  } = this.state;
         const {classes, UI: {doneSignUp, loading}} = this.props;
 
@@ -204,6 +252,7 @@ class Authentication extends Component {
                             {/*</Button>*/}
 
                             <input
+                                name="signUpEmail"
                                 type="text"
                                 placeholder="Email"
                                 className="form-input"
@@ -212,9 +261,12 @@ class Authentication extends Component {
                                 value={this.state.signUpEmail}
                             >
                             </input>
-
+                            {formSignUpErrors.emailError.length > 0 && (
+                                <span className="error-message">{formSignUpErrors.emailError}</span>
+                            )}
 
                             <input
+                                name="signUpPassword"
                                 type="password"
                                 placeholder="Mật khẩu"
                                 className="form-input"
@@ -223,23 +275,29 @@ class Authentication extends Component {
                                 value={this.state.signUpPassword}
                             >
                             </input>
-
+                            {formSignUpErrors.passwordError.length > 0 && (
+                                <span className="error-message">{formSignUpErrors.passwordError}</span>
+                            )}
 
 
                             <input
+                                name="signUpConfirmPassword"
                                 type="password"
                                 placeholder="Xác nhận mật khẩu"
                                 className="form-input"
-                                id="signUpPassword"
+                                id="signUpConfirmPassword"
                                 onChange={this.handleChange.bind(this)}
                                 value={this.state.signUpConfirmPassword}
                             >
                             </input>
-
+                            {formSignUpErrors.confirmPassError.length > 0 && (
+                                <span className="error-message">{formSignUpErrors.confirmPassError}</span>
+                            )}
 
                             <button
+                                type="button"
                                 className="custom-btn"
-
+                                onClick={this.handleSubmit}
                             > Đăng ký </button>
 
                         </form>

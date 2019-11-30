@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from "react-google-maps"
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox"
@@ -168,7 +168,7 @@ const Map = compose (
                         key={index}
                     >
                         <div style={{
-                            textAlign: "center"
+                        textAlign: "center"
                         }}>
                             <h5>{marker.name}</h5>
                             <Link to={`/DetailLocation/${marker.id}`}>Detail</Link>
@@ -181,7 +181,7 @@ const Map = compose (
     </GoogleMap>
 );
 
-class JoinCleanUp extends Component {
+class SearchBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -241,7 +241,7 @@ class JoinCleanUp extends Component {
     }
 }
 
-export default withStyles(styles)(JoinCleanUp);
+export default withStyles(styles)(SearchBar);
 
 
 

@@ -6,62 +6,6 @@
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
 }
-
-/*h1 {*/
-/*    font-weight: bold;*/
-/*    margin: 0;*/
-/*}*/
-
-/*h2 {*/
-/*    text-align: center;*/
-/*}*/
-
-/*p {*/
-/*    font-size: 14px;*/
-/*    font-weight: 100;*/
-/*    line-height: 20px;*/
-/*    letter-spacing: 0.5px;*/
-/*    margin: 20px 0 30px;*/
-/*}*/
-
-/*span {*/
-/*    font-size: 12px;*/
-/*}*/
-
-/*a {*/
-/*    color: #333;*/
-/*    font-size: 14px;*/
-/*    text-decoration: none;*/
-/*    margin: 15px 0;*/
-/*}*/
-
-/*button {*/
-/*    border-radius: 20px;*/
-/*    border: 1px solid #4C7037;*/
-/*    background-color: #4C7037;*/
-/*    color: #FFFFFF;*/
-/*    font-size: 12px;*/
-/*    font-weight: bold;*/
-/*    padding: 12px 45px;*/
-/*    letter-spacing: 1px;*/
-/*    text-transform: uppercase;*/
-/*    transition: transform 80ms ease-in;*/
-/*}*/
-
-
-/*button:active {*/
-/*    transform: scale(0.95);*/
-/*}*/
-
-/*button:focus {*/
-/*    outline: none;*/
-/*}*/
-
-/*button.ghost {*/
-/*    background-color: transparent;*/
-/*    border-color: #FFFFFF;*/
-/*}*/
-
 .custom-btn {
     border-radius: 20px;
     border: 1px solid #DDDDDD;
@@ -96,10 +40,6 @@
     outline: none
 }
 
-/*.custom-btn:hover {*/
-
-/*}*/
-
 form {
     background-color: #FFFFFF;
     display: flex;
@@ -114,9 +54,18 @@ form {
     background-color: #eee;
     border: none;
     padding: 12px 15px;
-    margin: 10px 0 ;
+    margin: 5px 0 ;
     width: 100%;
     outline: none
+}
+
+.error {
+    border: 0.5px solid #ff5453
+}
+
+.error-message {
+    color: #ff5453;
+    font-size: 12px;
 }
 
 .form-input:focus {

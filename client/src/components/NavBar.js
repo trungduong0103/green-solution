@@ -11,7 +11,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
 import logo from "../assets/imgs/MyLogo.png"
 //Icons
-
 import Button from "@material-ui/core/Button";
 
 const styles = {
@@ -44,10 +43,10 @@ const styles = {
         height: 100
     },
     toolbar: {
-        padding: "0 3% 0 3%",
+        padding: "0 2% 0 2%",
     },
     signUpBtn: {
-        width: "90px",
+        width: "100px",
         fontSize: 15,
         borderRadius: 20,
         textTransform: "none",
@@ -63,7 +62,7 @@ const styles = {
 
     },
     signInBtn: {
-        width: "90px",
+        width: "120px",
         fontSize: 15,
         borderRadius: 20,
         textTransform: "none",
@@ -92,7 +91,7 @@ class NavBar extends Component {
 
                         <Grid item sm={2} md={2}>
 
-                            <img src={logo} className={classes.logo}
+                            <img src={logo} className={classes.logo} alt="logo"
                             />
 
                         </Grid>
@@ -100,17 +99,20 @@ class NavBar extends Component {
 
                         <Grid item sm={8} md={8} >
 
-                            <Grid container spacing={5} justify="center">
+                            <Grid container spacing={4} justify="center">
 
                                 <Grid item>
-                                    <Button className={classes.navBtn}>
-                                        Home
+                                    <Button
+                                        component={Link}
+                                        to="/home"
+                                        className={classes.navBtn}>
+                                        Trang chủ
                                     </Button>
                                 </Grid>
 
                                 <Grid item>
                                     <Button className={classes.navBtn}>
-                                        About
+                                        Về chúng tôi
                                     </Button>
                                 </Grid>
 
@@ -118,14 +120,17 @@ class NavBar extends Component {
                                     <Button
 
                                         className={classes.navBtn}>
-                                        Create a Clean Up
+                                        Tạo sự kiện
                                     </Button>
                                 </Grid>
 
 
                                 <Grid item>
-                                    <Button className={classes.navBtn}>
-                                        Join a Clean Up
+                                    <Button
+                                        to="/join_cleanup"
+                                        component={Link}
+                                        className={classes.navBtn}>
+                                        Tham gia sự kiện
                                     </Button>
                                 </Grid>
 
@@ -140,7 +145,7 @@ class NavBar extends Component {
                                         className={classes.signUpBtn}
                                         component={Link}
                                         to="/register">
-                                        Sign Up
+                                        Đăng ký
                                     </Button>
                                 </Grid>
 
@@ -150,7 +155,7 @@ class NavBar extends Component {
                                         className={classes.signInBtn}
                                         component={Link}
                                         to="/login">
-                                        Login
+                                        Đăng nhập
                                     </Button>
                                 </Grid>
 

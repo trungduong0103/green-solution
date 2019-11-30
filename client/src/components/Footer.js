@@ -142,7 +142,7 @@ class Footer extends Component {
                     </Grid>
 
                     <Grid item sm={3}>
-                        <Grid conatiner className={classes.subscribe_wrapper}>
+                        <Grid container className={classes.subscribe_wrapper}>
                             <Grid item sm={12}>
                                 <Typography className={classes.typo_title}>Stay in touch with us </Typography>
                             </Grid>
