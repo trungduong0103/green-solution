@@ -5,16 +5,21 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {Link} from "react-router-dom";
 
 import {connect} from "react-redux";
-import {signInWithEmail, signInWithFacebook, signInWithGoogle, signedIn} from "../../redux/actions/UserActions";
+import {
+    signedIn,
+    signInWithEmail,
+    signInWithFacebook,
+    signInWithGoogle,
+    signOut
+} from "../../../redux/actions/UserActions";
 
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
 //Firebase stuff
-import firebase from "../../environments/Firebase";
+import firebase from "../../../environments/Firebase";
 import CheckIcon from "@material-ui/icons/Check";
 
 const provider = new firebase.auth.FacebookAuthProvider();
@@ -98,11 +103,7 @@ class Login extends Component {
     };
 
     handleFacebookSignOut = () => {
-        firebase.auth().signOut().then(function () {
-            alert("signed out");
-        }).catch(function (error) {
-            alert("error");
-        });
+        this.props.signOut();
     };
 
     handleChange = (event) => {
@@ -203,7 +204,8 @@ const mapDispatchToProps = {
     signInWithEmail,
     signInWithFacebook,
     signInWithGoogle,
-    signedIn
+    signedIn,
+    signOut
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));

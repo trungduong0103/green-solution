@@ -1,6 +1,6 @@
 import React, {Component, useState} from 'react';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
-import {REACT_APP_GOOGLE_KEY} from "../../environments/Enviroments";
+import {REACT_APP_GOOGLE_KEY} from "../../environments/Keys";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import {Link} from "react-router-dom"
 import Grid from "@material-ui/core/Grid"

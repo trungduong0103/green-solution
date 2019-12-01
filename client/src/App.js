@@ -4,13 +4,12 @@ import './App.css';
 
 import {Provider} from "react-redux";
 import store from "./redux/store";
-import Register from "./components/authentication/Register";
-import Login from "./components/authentication/Login";
+import Register from "./components/authentication/Temp/Register";
+import Login from "./components/authentication/Temp/Login";
 import Home from "./components/Home";
 import JoinCleanUp from "./components/map/JoinCleanUp"
 import Authentication from "./components/authentication/Authentication"
 import CleanUpDetail from "./components/map/CleanUpDetail";
-import SearchBar from "./components/map/SearchBar"
 
 
 //first comment for github

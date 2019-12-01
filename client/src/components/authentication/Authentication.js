@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
 import withStyles from "@material-ui/core/styles/withStyles";
+import SignUp from "./SignUp";
+import SignIn from "./SignIn";
 
 const styles = {
     textField: {
@@ -116,99 +118,12 @@ class Authentication extends Component {
         return (
             <div className="body">
                 <div className="container" id="container">
-                    <div className="form-container sign-up-container">
-
-                        <form>
-                            <h1>Tạo tài khoản</h1>
-                            <div className="social-container">
-                                <a href="#" className="social">
-                                    <i className="fab fa-facebook-f"/>
-                                </a>
-                                <a href="#" className="social">
-                                    <i className="fab fa-google-plus-g"/>
-                                </a>
-                            </div>
-                            <span>hoặc đăng ký bằng Email</span>
-
-                            <input
-                                type="text"
-                                name="signUpEmail"
-                                placeholder="Email"
-                                className="form-input"
-                                id="signUpEmail"
-                                onChange={this.handleChange}
-                                value={this.state.signUpEmail}
-                            >
-                            </input>
-
-                            <input
-                                type="password"
-                                name="signUpPassword"
-                                placeholder="Mật khẩu"
-                                className="form-input"
-                                id="signUpPassword"
-                                onChange={this.handleChange}
-                                value={this.state.signUpPassword}
-                            >
-                            </input>
-
-                            <input
-                                type="password"
-                                name="signUpConfirmPassword"
-                                placeholder="Xác nhận mật khẩu"
-                                className="form-input"
-                                id="confirmPassword"
-                                onChange={this.handleChange}
-                                value={this.state.signUpConfirmPassword}
-                            >
-                            </input>
-
-                            <button
-                                className="custom-btn"
-                            > Đăng ký
-                            </button>
-
-                        </form>
-                    </div>
-
-                    <div className="form-container sign-in-container">
-                        <form>
-                            <h1 className="title">Đăng nhập</h1>
-                            <div className="social-container">
-
-                                <a href="#" className="social">
-                                    <i className="fab fa-facebook-f"/>
-                                </a>
-                                <a href="#" className="social">
-                                    <i className="fab fa-google-plus-g"/>
-                                </a>
-
-                            </div>
-                            <span>hoặc sử dụng tài khoản</span>
-
-                            <input type="text"
-                                   name="loginEmail"
-                                   placeholder="Email"
-                                   className="form-input"
-                                   id="loginEmail"
-                                   onChange={this.handleChange}
-                                   value={this.state.loginEmail}
-                            />
-                            <input type="password"
-                                   placeholder="Mật khẩu"
-                                   className="form-input"
-                                   id="loginPassword"
-                                   onChange={this.handleChange}
-                                   value={this.state.loginPassword}
-                            />
-                            <button className="custom-btn">Đăng nhập</button>
-                        </form>
-                    </div>
-
+                    <SignUp history={this.props.history}/>
+                    <SignIn history={this.props.history}/>
                     <div className="overlay-container">
                         <div className="overlay">
                             <div className="overlay-panel overlay-left">
-                                <h1>Mừng bạn quay lại</h1>
+                                <h1>Chào mừng bạn quay lại</h1>
                                 <p>
                                     Giữ liên lạc với chúng tôi bằng cách đăng nhập bằng tài khoản cá nhân
                                 </p>

@@ -4,9 +4,12 @@ import {
     DEFAULT_URL,
     FETCHING_USER,
     SET_ERRORS,
-    SET_USER, SIGN_IN_COMPLETE,
-    SIGN_UP_COMPLETE, SIGNING_IN,
-    SIGNING_UP
+    SET_USER,
+    SIGN_IN_COMPLETE,
+    SIGN_UP_COMPLETE,
+    SIGNING_IN,
+    SIGNING_UP,
+    SIGNING_UP_SOCIAL_MEDIA
 } from "../types";
 
 import firebase from "../../environments/Firebase";
@@ -16,6 +19,10 @@ const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 const db = firebase.firestore;
 
 facebookAuthProvider.setCustomParameters({
+    'display': 'popup'
+});
+
+googleAuthProvider.setCustomParameters({
     'display': 'popup'
 });
 
@@ -57,7 +64,7 @@ export function signInWithEmail(userData, history) {
                 setAuthorizationHeader(res.data.token);
                 dispatch({type: CLEAR_ERRORS});
                 setTimeout(() => {
-                    history.push("/")
+                    history.push("/home")
                 }, 1500);
             })
             .then(() => {
@@ -94,8 +101,9 @@ export function getUserData() {
     };
 }
 
-export function signInWithFacebook() {
+export function signInWithFacebook(history) {
     return function (dispatch) {
+        dispatch({type: SIGNING_UP_SOCIAL_MEDIA});
         firebase.auth().signInWithPopup(facebookAuthProvider)
             .then((result) => {
                 if (!signedIn()) {
@@ -106,21 +114,32 @@ export function signInWithFacebook() {
                 } else {
                     return null;
                 }
-            }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.email;
-            const credential = error.credential;
-            console.log(errorCode, "error code");
-            console.log(errorMessage, "error message");
-            console.log(email, "error email");
-            console.log(credential, "error credential");
-        });
+            })
+            .then(() => {
+                setSocialMediaToken()
+                    .then(() => {
+                        dispatch({type: SIGN_UP_COMPLETE});
+                        setTimeout(() => {
+                            history.push("/home")
+                        }, 1500);
+                    });
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.email;
+                const credential = error.credential;
+                console.log(errorCode, "error code");
+                console.log(errorMessage, "error message");
+                console.log(email, "error email");
+                console.log(credential, "error credential");
+            });
     }
 }
 
-export function signInWithGoogle() {
+export function signInWithGoogle(history) {
     return function (dispatch) {
+        dispatch({type: SIGNING_UP_SOCIAL_MEDIA});
         firebase.auth().signInWithPopup(googleAuthProvider)
             .then((result) => {
                 if (!signedIn()) {
@@ -131,16 +150,26 @@ export function signInWithGoogle() {
                 } else {
                     return null;
                 }
-            }).catch(function (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.email;
-            const credential = error.credential;
-            console.log(errorCode, "error code");
-            console.log(errorMessage, "error message");
-            console.log(email, "error email");
-            console.log(credential, "error credential");
-        });
+            })
+            .then(() => {
+                setSocialMediaToken()
+                    .then(() => {
+                        dispatch({type: SIGN_UP_COMPLETE});
+                        setTimeout(() => {
+                            history.push("/home")
+                        }, 1500);
+                    });
+            })
+            .catch(function (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.email;
+                const credential = error.credential;
+                console.log(errorCode, "error code");
+                console.log(errorMessage, "error message");
+                console.log(email, "error email");
+                console.log(credential, "error credential");
+            });
     }
 }
 
@@ -160,6 +189,31 @@ export function signedIn() {
         return false;
     }
 }
+
+export function signOut() {
+    return function (dispatch) {
+        const user = firebase.auth().currentUser;
+        if (user !== null) {
+            firebase.auth().signOut()
+                .then(() => {
+                    localStorage.clear();
+                    alert("signed out.")
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+
+    }
+}
+
+const setSocialMediaToken = () => {
+    console.log("called to get token.");
+    return firebase.auth().currentUser.getIdToken(true)
+        .then((idToken) => {
+            setAuthorizationHeader(idToken);
+        })
+};
 
 const setAuthorizationHeader = (token) => {
     const FBIdToken = `Bearer ${token}`;

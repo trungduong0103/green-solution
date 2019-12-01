@@ -1,5 +1,5 @@
-import React, {Component, useState} from 'react';
-import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from "react-google-maps"
+import React, {Component} from 'react';
+import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox"
 import {Link} from "react-router-dom"
@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid"
 import NavBar from "../NavBar";
 import withStyles from "@material-ui/core/styles/withStyles";
 import _ from "lodash"
-import { compose, withProps, lifecycle, withHandlers, withStateHandlers} from "recompose";
+import {compose, lifecycle, withHandlers, withProps, withStateHandlers} from "recompose";
 
 const REACT_APP_GOOGLE_KEY = "AIzaSyCYNKAOTtJlvMv3_gteqJOVoaQAS2k7N-A";
 

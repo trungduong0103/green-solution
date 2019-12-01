@@ -1,5 +1,6 @@
 //user types
 export const SIGNING_UP = "SIGNING_UP";
+export const SIGNING_UP_SOCIAL_MEDIA = "SIGNING_UP_SOCIAL_MEDIA";
 export const SIGN_UP_COMPLETE = "SIGN_UP_COMPLETE";
 export const SIGNING_IN = "SIGNING_IN";
 export const SIGN_IN_COMPLETE = "SIGN_IN_COMPLETE";
