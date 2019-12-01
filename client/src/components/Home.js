@@ -13,7 +13,7 @@ const styles = {
     home_title: {
         align: "center",
     },
-    home_banner: {
+    homeBanner: {
         // width: "650px",
         // height: "550px",
         width: "100%",
@@ -26,7 +26,7 @@ const styles = {
         maxWidth: "100%",
         maxHeight: "100%"
     },
-    register_form: {
+    registerForm: {
         width: "700px",
         position: "absolute",
         top: "18%",
@@ -49,12 +49,12 @@ const styles = {
         marginTop: 35,
         border: "1px solid black",
     },
-    typo_title: {
+    typoTitle: {
         fontFamily:"'Quicksand', sans-serif;",
         fontWeight: "fontWeightMedium",
         fontSize: 30
     },
-    typo_txt: {
+    typoText: {
         fontFamily:"'Quicksand', sans-serif;",
         fontSize: 17
     }
@@ -75,33 +75,33 @@ class Home extends Component {
                 <NavBar/>
                 <Grid container>
                     <Grid item>
-                        <Grid container className={classes.home_banner}>
+                        <Grid container className={classes.homeBanner}>
                             <img className={classes.banner} src={banner} alt="banner-background"/>
                         </Grid>
 
                     </Grid>
 
                     <Grid item sm={6}>
-                        <Paper className={classes.register_form} elevation={5}>
-                            <Typography variant="h4" gutterBottom className={classes.typo_title}>
+                        <Paper className={classes.registerForm} elevation={5}>
+                            <Typography variant="h4" gutterBottom className={classes.typoTitle}>
                                 Communities and Individuals
                             </Typography>
 
-                            <Typography gutterBottom className={classes.typo_txt} paragraph>
+                            <Typography gutterBottom className={classes.typoText} paragraph>
                                 This is the main website of Green Solution Organization. Our main principles are to protect and improve the environment
                                 condition against degradation from human forces.
                             </Typography>
 
-                            <Typography gutterBottom className={classes.typo_txt} paragraph>
+                            <Typography gutterBottom className={classes.typoText} paragraph>
                                 Participate as a member of the Green Solution Community, which comprises of multiple families, individuals and local groups
                             </Typography>
 
-                            <Typography paragraph className={classes.typo_txt}>
+                            <Typography paragraph className={classes.typoText}>
                                 Clean Up Event owner has to be at least 18, but for participant, everyone is warmly welcomed.
                                 Ideal places for Clean Up event are beaches, parks, shared outdoor spaces and so on.
                             </Typography>
 
-                            <Typography className={classes.typo_txt} >
+                            <Typography className={classes.typoText} >
                                 We will send you a starter kit once you finish registering.
                             </Typography>
 

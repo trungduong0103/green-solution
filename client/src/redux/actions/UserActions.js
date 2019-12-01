@@ -35,7 +35,7 @@ export function signUp(userData, history) {
                 setAuthorizationHeader(res.data.token);
                 dispatch({type: CLEAR_ERRORS});
                 setTimeout(() => {
-                    history.push("/home")
+                    history.push("/")
                 }, 1500);
             })
             .then(() => {
