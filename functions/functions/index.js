@@ -6,12 +6,20 @@ app.use(cors());
 
 const {signUp, signIn, onUserCreateInAuth, onUserDeleteInAuth} = require("./handlers/users");
 const {createNewTopic, publishMessageToTopic, sendEmailToUser} = require("./handlers/topics");
+const {createNewLocation} = require("./handlers/cleanUpLocations");
 
 //User routes
 app.post("/signup", signUp);
 app.post("/signin", signIn);
+
+//clean up locations
+app.post("/create_location", createNewLocation);
+
+//topics
 app.get("/newtopic", createNewTopic);
 app.post("/newmessage", publishMessageToTopic);
+
+
 // app.post("/sendemail", sendEmailToUser);
 // app.get("/user", FirebaseAuth, getAuthenticatedUser);
 

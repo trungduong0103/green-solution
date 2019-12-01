@@ -1,11 +1,7 @@
 const {sendEmailToUser} = require("./topics");
 
 const {db} = require("../utils/admin");
-
-const config = require("../environments/config");
-
 const firebase = require("firebase");
-firebase.initializeApp(config);
 
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
 
