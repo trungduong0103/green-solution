@@ -19,15 +19,37 @@ exports.createNewLocation = (req, res) => {
         });
 };
 
+exports.getAllCleanUpLocations = (req, res) => {
+    const documents = [];
+    return db.collection("cleanUpLocations").get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                documents.push({
+                    id: doc.id,
+                    name: doc.data().name,
+                    lat: parseFloat(doc.data().lat),
+                    lng: parseFloat(doc.data().lng),
+                    createdAt: doc.data().createdAt
+                });
+            });
+            return res.json(documents);
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({error: err.code});
+        })
+
+};
+
 exports.getCleanUpLocation = (req, res) => {
     return db.collection("cleanUpLocations")
-        .doc(req.body.id)
+        .doc(req.params.locationId)
         .get()
         .then((doc) => {
             if (doc.exists) {
                 return res.json(doc.data());
             }
-            return res.json({message:"clean up location not found."});
+            return res.json({message: "clean up location not found."});
         })
         .catch((err) => {
             console.log(err);
