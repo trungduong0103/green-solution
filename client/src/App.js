@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import './App.css';
 
 import {Provider} from "react-redux";
@@ -26,6 +26,7 @@ function App() {
                     <Route exact path="/join-cleanup" component={JoinCleanUp}/>
                     <Route exact path="/create-cleanup" component={CreateCleanUp}/>
                     <Route exact path="/join-cleanup/:id" component={CleanUpDetail}/>
+                    <Redirect exact from="/" to="home"/>
                 </Switch>
             </Router>
         </Provider>

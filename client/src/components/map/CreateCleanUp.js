@@ -1,23 +1,19 @@
 import React, {Component} from 'react';
-import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
+import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 import SearchBox from "react-google-maps/lib/components/places/SearchBox"
-
 //Material UI
 import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import withStyles from "@material-ui/core/styles/withStyles";
-
 //React-redux
 import {connect} from "react-redux";
 import {getAllLocations} from "../../redux/actions/LocationActions";
-
 //React router
-import {Link} from "react-router-dom"
 
 import NavBar from "../NavBar";
 
 import _ from "lodash"
-import {compose, lifecycle, withHandlers, withProps, withStateHandlers} from "recompose";
+import {compose, lifecycle, withProps, withStateHandlers} from "recompose";
 import {REACT_APP_GOOGLE_KEY} from "../../environments/Keys";
 
 
@@ -107,24 +103,24 @@ const Map = compose(
                             bounds.extend(place.geometry.location)
                         }
                     });
+
                     places.map(place => {
-                        this.props.handleCall({
+                        return this.props.handleCall({
                             lat: place.geometry.location.lat(),
                             lng: place.geometry.location.lng()
                         })
-                        // console.log(place.geometry.location.lat())
                     });
+
                     const nextMarkers = places.map(place => ({
                         position: place.geometry.location
                     }));
+
                     const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
                     this.setState({
                         center: nextCenter,
                         markers: nextMarkers,
                     });
 
-                    // this.props.handleCall(place.geometry.location.lat());
-                    // refs.map.fitBounds(bounds);
                 },
             })
         }

@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 
 
 const styles = {
@@ -21,6 +22,14 @@ const styles = {
             outline: "none",
             border: "none"
         },
+    },
+    formInput: {
+        backgroundColor: "#eee",
+        border: "none",
+        padding: "12px 15px",
+        margin: "5px 0 ",
+        width: "100%",
+        outline: "none",
     }
 
 
@@ -32,18 +41,14 @@ class SignIn extends Component {
         this.state = {
             loginEmail: "",
             loginPassword: "",
-
-            formLoginErrors: {
-                emailError: "",
-                passwordError: ""
-            }
+            errors: {}
         };
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.UI.errors !== state.errors) {
+        if (props.errors !== state.errors) {
             return {
-                errors: props.UI.errors
+                errors: props.errors
             }
         }
         return null;
@@ -67,6 +72,7 @@ class SignIn extends Component {
 
     render() {
         const {classes} = this.props;
+        const {errors} = this.state;
         return (
             <div className="form-container sign-in-container">
                 <form>
@@ -84,25 +90,30 @@ class SignIn extends Component {
                         </Button>
                     </div>
                     <span>hoặc sử dụng tài khoản</span>
-                    <input type="text"
-                           name="loginEmail"
-                           placeholder="Email"
-                           className="form-input"
-                           id="loginEmail"
-                           onChange={this.handleChange}
-                           value={this.state.loginEmail}
+
+                    <TextField type="text"
+                               name="loginEmail"
+                               placeholder="Email"
+                               className={classes.formInput}
+                               helperText={errors.email}
+                               error={!!errors.email}
+                               id="loginEmail"
+                               onChange={this.handleChange}
+                               value={this.state.loginEmail}
                     />
 
 
-                    <input type="password"
-                           name="loginPassword"
-                           placeholder="Mật khẩu"
-                           className="form-input"
-                           id="loginPassword"
-                           onChange={this.handleChange}
-                           value={this.state.loginPassword}
+                    <TextField type="password"
+                               name="loginPassword"
+                               placeholder="Mật khẩu"
+                               className={classes.formInput}
+                               helperText={errors.password}
+                               error={!!errors.password}
+                               id="loginPassword"
+                               onChange={this.handleChange}
+                               value={this.state.loginPassword}
                     />
-                    {/*<Typography variant="body2" className={classes.customError}>{errors.general}</Typography>*/}
+                    <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
 
                     <button
                         onClick={this.loginWithEmail}
@@ -120,10 +131,14 @@ SignIn.propTypes = {
     // signInWithEmail: PropTypes.func.isRequired
 };
 
+const mapStateToProps = (state) => ({
+    errors: state.UI.errors
+});
+
 const mapDispatchToProps = {
     signInWithEmail,
     signInWithFacebook,
     signInWithGoogle
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignIn));

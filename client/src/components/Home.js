@@ -6,7 +6,6 @@ import {Typography} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper"
 import banner from "../assets/imgs/img1.jpg"
 import {Link} from "react-router-dom";
-import Footer from "../components/Footer"
 import NavBar from "./NavBar";
 
 const styles = {
@@ -124,8 +123,6 @@ class Home extends Component {
                                     Xem thêm
                                 </Button>
                             </Grid>
-
-
 
                         </Paper>
                     </Grid>

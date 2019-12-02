@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {signInWithFacebook, signInWithGoogle, signUp} from "../../redux/actions/UserActions";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
+import {TextField} from "@material-ui/core";
 
 
 const styles = {
@@ -19,6 +20,13 @@ const styles = {
             outline: "none",
             border: "none"
         },
+    },
+    formInput: {
+        backgroundColor: "#eee",
+        border: "none",
+        padding: "12px 15px",
+        margin: "5px 0 ",
+        outline: "none",
     }
 
 
@@ -42,9 +50,9 @@ class SignUp extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.UI.errors !== state.errors) {
+        if (props.errors !== state.errors) {
             return {
-                errors: props.UI.errors
+                errors: props.errors
             }
         }
         return null;
@@ -67,6 +75,7 @@ class SignUp extends Component {
 
     render() {
         const {classes} = this.props;
+        const {errors} = this.state;
         return (
 
             <div className="form-container sign-up-container">
@@ -86,38 +95,47 @@ class SignUp extends Component {
                     </div>
                     <span>hoặc đăng ký bằng Email</span>
 
-                    <input
+                    <TextField
                         type="text"
                         name="signUpEmail"
                         placeholder="Email"
-                        className="form-input"
+                        className={classes.formInput}
+                        helperText={errors.email}
+                        error={!!errors.email}
                         id="signUpEmail"
                         onChange={this.handleChange}
                         value={this.state.signUpEmail}
+                        fullWidth
                     >
-                    </input>
+                    </TextField>
 
-                    <input
+                    <TextField
                         type="password"
                         name="signUpPassword"
                         placeholder="Mật khẩu"
-                        className="form-input"
+                        className={classes.formInput}
+                        helperText={errors.password}
+                        error={!!errors.password}
                         id="signUpPassword"
                         onChange={this.handleChange}
                         value={this.state.signUpPassword}
+                        fullWidth
                     >
-                    </input>
+                    </TextField>
 
-                    <input
+                    <TextField
                         type="password"
                         name="signUpConfirmPassword"
                         placeholder="Xác nhận mật khẩu"
-                        className="form-input"
+                        className={classes.formInput}
+                        helperText={errors.confirmPassword}
+                        error={!!errors.confirmPassword}
                         id="confirmPassword"
                         onChange={this.handleChange}
                         value={this.state.signUpConfirmPassword}
+                        fullWidth
                     >
-                    </input>
+                    </TextField>
 
                     <button
                         onClick={this.signUpWithEmail}
@@ -137,10 +155,14 @@ SignUp.propTypes = {
     // signUp: PropTypes.func.isRequired
 };
 
+const mapStateToProps = (state) => ({
+    errors: state.UI.errors
+});
+
 const mapDispatchToProps = {
     signInWithFacebook,
     signInWithGoogle,
     signUp
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(SignUp));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignUp));

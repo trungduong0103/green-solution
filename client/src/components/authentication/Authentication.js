@@ -67,14 +67,14 @@ class Authentication extends Component {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.UI.errors !== state.errors) {
-            return {
-                errors: props.UI.errors
-            }
-        }
-        return null;
-    }
+    // static getDerivedStateFromProps(props, state) {
+    //     if (props.UI.errors !== state.errors) {
+    //         return {
+    //             errors: props.UI.errors
+    //         }
+    //     }
+    //     return null;
+    // }
 
     componentDidMount() {
         this.handleAnimation()
@@ -114,13 +114,12 @@ class Authentication extends Component {
 
         // const {formSignUpErrors, formLoginErrors} = this.state;
         // const {classes, UI: {doneSignUp, loading}} = this.props;
-
+        console.log(this.props);
         return (
             <div className="body">
                 <div className="container" id="container">
                     <SignUp history={this.props.history}/>
                     <SignIn history={this.props.history}/>
-
 
                     <div className="overlay-container">
                         <div className="overlay">
