@@ -1,1 +1,0 @@
-export const REACT_APP_GOOGLE_KEY = "AIzaSyCYNKAOTtJlvMv3_gteqJOVoaQAS2k7N-A";
