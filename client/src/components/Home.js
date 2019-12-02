@@ -10,14 +10,14 @@ import Footer from "../components/Footer"
 import NavBar from "./NavBar";
 
 const styles = {
-    home_title: {
-        align: "center",
-    },
+    // home_title: {
+    //     align: "center",
+    // },
     homeBanner: {
         // width: "650px",
         // height: "550px",
         width: "100%",
-        height: "500px",
+        height: "450px",
         backgroundAttachment: "fixed",
         backgroundPosition: "center",
         backgroundSize: "cover",
@@ -25,13 +25,15 @@ const styles = {
     banner: {
         maxWidth: "100%",
         maxHeight: "100%"
+        // width: "100%",
+        // height: "100%"
     },
     registerForm: {
         width: "700px",
         position: "absolute",
-        top: "18%",
+        top: "20%",
         right: "5%",
-        padding: "30px",
+        padding: "40px",
         borderRadius: 0,
 
     },
@@ -73,10 +75,11 @@ class Home extends Component {
 
             <div>
                 <NavBar/>
+
                 <Grid container>
                     <Grid item>
                         <Grid container className={classes.homeBanner}>
-                            <img className={classes.banner} src={banner} alt="banner-background"/>
+                            <img className={classes.banner} src={banner} alt="bannerBackground"/>
                         </Grid>
 
                     </Grid>
@@ -84,26 +87,27 @@ class Home extends Component {
                     <Grid item sm={6}>
                         <Paper className={classes.registerForm} elevation={5}>
                             <Typography variant="h4" gutterBottom className={classes.typoTitle}>
-                                Communities and Individuals
+                                Giới thiệu về Green Solution
                             </Typography>
 
                             <Typography gutterBottom className={classes.typoText} paragraph>
-                                This is the main website of Green Solution Organization. Our main principles are to protect and improve the environment
-                                condition against degradation from human forces.
+                                Mục tiêu của Green Solution là nâng cao nhận thức về vấn đề rác và xả rác bừa bãi ở Việt Nam.
+
                             </Typography>
 
-                            <Typography gutterBottom className={classes.typoText} paragraph>
-                                Participate as a member of the Green Solution Community, which comprises of multiple families, individuals and local groups
+                            <Typography className={classes.typoText} paragraph>
+                                Chúng tôi hiểu rằng, trong khi có nhiều vấn đề khác tác động đến môi trường, chúng tôi tập trung vào vấn nạn xả rác bởi tin rằng đây là yếu tố cơ bản nhất dẫn đến những vấn đề môi trường khác
+                                và là nền tảng trong chương trình giáo dục về bảo vệ môi trường.
                             </Typography>
 
-                            <Typography paragraph className={classes.typoText}>
-                                Clean Up Event owner has to be at least 18, but for participant, everyone is warmly welcomed.
-                                Ideal places for Clean Up event are beaches, parks, shared outdoor spaces and so on.
-                            </Typography>
+                            {/*<Typography paragraph className={classes.typoText}>*/}
+                            {/*    Clean Up Event owner has to be at least 18, but for participant, everyone is warmly welcomed.*/}
+                            {/*    Ideal places for Clean Up event are beaches, parks, shared outdoor spaces and so on.*/}
+                            {/*</Typography>*/}
 
-                            <Typography className={classes.typoText} >
-                                We will send you a starter kit once you finish registering.
-                            </Typography>
+                            {/*<Typography className={classes.typoText} >*/}
+                            {/*    We will send you a starter kit once you finish registering.*/}
+                            {/*</Typography>*/}
 
                             <Grid container justify="center">
                                 <Button
@@ -111,10 +115,9 @@ class Home extends Component {
                                     className={classes.signUpBtn}
                                     component={Link}
                                     to="/register">
-                                    Register
+                                    Xem thêm
                                 </Button>
                             </Grid>
-
                         </Paper>
                     </Grid>
                 </Grid>
@@ -126,7 +129,7 @@ class Home extends Component {
                 </Grid>
 
 
-                <Footer/>
+                {/*<Footer/>*/}
 
             </div>
         );

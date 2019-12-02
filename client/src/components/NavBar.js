@@ -51,13 +51,14 @@ const styles = {
         fontFamily:"'Quicksand', sans-serif;",
         backgroundColor: "rgb(99,151,68)",
         color: "white",
+        transition: "all 350ms ease-in-out",
         "&:hover": {
-            backgroundColor: "rgb(53,87,43)",
+            backgroundColor: "black",
             color: "white",
-            transition: "all 350ms ease-in-out",
+
         },
         marginTop: 35,
-        border: "1px solid black",
+        // border: "1px solid white",
 
     },
     signInBtn: {
@@ -126,7 +127,7 @@ class NavBar extends Component {
 
                                 <Grid item>
                                     <Button
-                                        to="/join_cleanup"
+                                        to="/join-cleanup"
                                         component={Link}
                                         className={classes.navBtn}>
                                         Tham gia sự kiện

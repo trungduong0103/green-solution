@@ -11,7 +11,6 @@ import JoinCleanUp from "./components/map/JoinCleanUp"
 import Authentication from "./components/authentication/Authentication"
 import CleanUpDetail from "./components/map/CleanUpDetail";
 
-
 //first comment for github
 function App() {
     return (

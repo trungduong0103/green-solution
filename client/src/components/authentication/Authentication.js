@@ -4,8 +4,8 @@ import {signUp} from "../../redux/actions/UserActions";
 
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
-import TextField from "@material-ui/core/TextField"
+// import {Link} from "react-router-dom";
+// import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import withStyles from "@material-ui/core/styles/withStyles";
