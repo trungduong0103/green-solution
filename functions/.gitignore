@@ -66,5 +66,5 @@ node_modules/
 
 .idea
 
-functions/environments/config.js
-functions/environments/environments.js
+functions/environments
+#functions/environments/environments.js
