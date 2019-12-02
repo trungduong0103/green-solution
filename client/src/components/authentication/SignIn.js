@@ -4,15 +4,51 @@ import {signInWithEmail, signInWithFacebook, signInWithGoogle} from "../../redux
 
 import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography"
+import {withStyles} from "@material-ui/core";
+
+
+const styles = {
+    textField: {
+        border: "none",
+    },
+    buttonWrapper: {
+        outline: "none",
+        "&:hover": {
+            backgroundColor: "transparent",
+        },
+        "&:focus": {
+            outline: "none",
+            border: "none"
+        },
+    }
+
+
+};
 
 class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loginEmail: "",
-            loginPassword: ""
+            loginPassword: "",
+
+            formLoginErrors: {
+                emailError: "",
+                passwordError: ""
+            }
         };
     }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.UI.errors !== state.errors) {
+            return {
+                errors: props.UI.errors
+            }
+        }
+        return null;
+    }
+
 
     handleChange = (event) => {
         this.setState({
@@ -24,21 +60,26 @@ class SignIn extends Component {
         event.preventDefault();
         this.props.signInWithEmail({
             email: this.state.loginEmail,
-            password: this.state.password
+            password: this.state.loginPassword
         }, this.props.history);
     };
 
 
     render() {
+        const {classes} = this.props;
         return (
             <div className="form-container sign-in-container">
                 <form>
                     <h1 className="title">Đăng nhập</h1>
                     <div className="social-container">
-                        <Button onClick={() => this.props.signInWithFacebook(this.props.history)}>
+                        <Button
+                            className={classes.buttonWrapper}
+                            onClick={() => this.props.signInWithFacebook(this.props.history)}>
                             <i className="fab fa-facebook-f"/>
                         </Button>
-                        <Button onClick={() => this.props.signInWithGoogle(this.props.history)}>
+                        <Button
+                            className={classes.buttonWrapper}
+                            onClick={() => this.props.signInWithGoogle(this.props.history)}>
                             <i className="fab fa-google-plus-g"/>
                         </Button>
                     </div>
@@ -51,6 +92,8 @@ class SignIn extends Component {
                            onChange={this.handleChange}
                            value={this.state.loginEmail}
                     />
+
+
                     <input type="password"
                            name="loginPassword"
                            placeholder="Mật khẩu"
@@ -59,6 +102,8 @@ class SignIn extends Component {
                            onChange={this.handleChange}
                            value={this.state.loginPassword}
                     />
+                    {/*<Typography variant="body2" className={classes.customError}>{errors.general}</Typography>*/}
+
                     <button
                         onClick={this.loginWithEmail}
                         className="custom-btn">Đăng nhập
@@ -69,7 +114,11 @@ class SignIn extends Component {
     }
 }
 
-SignIn.propTypes = {};
+SignIn.propTypes = {
+    // UI: PropTypes.object.isRequired,
+    // classes: PropTypes.object.isRequired,
+    // signInWithEmail: PropTypes.func.isRequired
+};
 
 const mapDispatchToProps = {
     signInWithEmail,
@@ -77,4 +126,4 @@ const mapDispatchToProps = {
     signInWithGoogle
 };
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(SignIn));

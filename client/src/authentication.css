@@ -206,10 +206,10 @@ form {
 }
 
 .social-container {
-    margin: 5px 0;
+    margin: 2px 0;
 }
 
-.social-container a {
+.social-container i {
     border: 1px solid #DDDDDD;
     color: black;
     border-radius: 50%;
@@ -222,7 +222,7 @@ form {
     transition: all 350ms ease-in-out;
 }
 
-.social-container a:hover{
+.social-container i:hover{
     color: white;
     background-color: black;
     text-decoration: none;

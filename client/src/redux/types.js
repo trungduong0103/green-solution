@@ -9,6 +9,9 @@ export const FETCHING_USER = "FETCHING_USER";
 export const STOP_FETCHING_USER = "STOP_FETCHING_USER";
 export const SET_USER = "SET_USER";
 
+//locations types
+export const GET_ALL_LOCATIONS = "GET_ALL_LOCATIONS";
+
 //UI types
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const SET_ERRORS = "SET_ERRORS";

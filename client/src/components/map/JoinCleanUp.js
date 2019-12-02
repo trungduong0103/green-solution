@@ -2,14 +2,25 @@ import React, {Component} from 'react';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox"
-import {Link} from "react-router-dom"
+
+//Material UI
 import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
-import NavBar from "../NavBar";
 import withStyles from "@material-ui/core/styles/withStyles";
+
+//React-redux
+import {connect} from "react-redux";
+import {getAllLocations} from "../../redux/actions/LocationActions";
+
+//React router
+import {Link} from "react-router-dom"
+
+import NavBar from "../NavBar";
+
 import _ from "lodash"
 import {compose, lifecycle, withHandlers, withProps, withStateHandlers} from "recompose";
-import {REACT_APP_GOOGLE_KEY} from "../../environments/Key";
+import {REACT_APP_GOOGLE_KEY} from "../../environments/Keys";
+
 
 
 const styles = {
@@ -56,13 +67,12 @@ const Map = compose (
             isOpen: !isOpen,
             markerIndex: index
         }),
-
-
     }),
 
     lifecycle({
 
-        componentWillMount() {
+        componentDidMount() {
+
             const refs = {};
 
             this.setState({
@@ -70,17 +80,6 @@ const Map = compose (
                 center: {
                     lat: 10.812675, lng: 106.656734
                 },
-
-
-                // onMapMounted: ref => {
-                //     refs.map = ref;
-                // },
-                // onBoundsChanged: () => {
-                //     this.setState({
-                //         bounds: refs.map.getBounds(),
-                //         center: refs.map.getCenter(),
-                //     })
-                // },
 
                 onSearchBoxMounted: ref => {
                     refs.searchBox = ref;
@@ -159,7 +158,6 @@ const Map = compose (
                     position={{ lat: marker.lat, lng: marker.lng }}
                     onClick={() => props.onToggleOpen(index)}
                 >
-
                     {(props.isOpen && props.markerIndex === index) &&
                     <InfoWindow
                         onCloseClick={props.onToggleOpen}
@@ -172,7 +170,6 @@ const Map = compose (
                             <Link to={`/DetailLocation/${marker.id}`}>Detail</Link>
                         </div>
                     </InfoWindow>}
-
                 </Marker>
             ))}
         </MarkerClusterer>
@@ -183,35 +180,17 @@ class JoinCleanUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            locations: [
-                {
-                    name: "Ton Duc Thang University",
-                    lat: 10.732629,
-                    lng: 106.699156,
-                    id: 1
-                },
-                {
-                    name: "Civil Police University",
-                    lat: 10.733936,
-                    lng: 106.697933,
-                    id: 2
-                },
-                {
-                    name: "RMIT University Vietnam",
-                    lat: 10.729793,
-                    lng: 106.693759,
-                    id: 3
-                }
-            ]
+            locations: []
         }
     }
     // Fetch all locations from database and setState
     componentDidMount() {
-        
+        this.props.getAllLocations();
     }
 
 
     render() {
+        console.log(this.props.locations);
         const {classes} = this.props;
         return (
             <div>
@@ -220,7 +199,7 @@ class JoinCleanUp extends Component {
                     <Grid item sm={8} md={8}>
                         <Typography className={classes.text}>Chọn địa điểm bạn muốn tham dự</Typography>
                         <Grid item className={classes.mapContainer}>
-                            <Map locations={this.state.locations}/>
+                            <Map locations={this.props.locations}/>
 
                         </Grid>
                     </Grid>
@@ -239,7 +218,15 @@ class JoinCleanUp extends Component {
     }
 }
 
-export default withStyles(styles)(JoinCleanUp);
+const mapStateToProps = state => ({
+    locations: state.locationsData.locations
+});
+
+const mapDispatchToProps = {
+    getAllLocations
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(JoinCleanUp));
 
 
 

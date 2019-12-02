@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid";
 import {Typography} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper"
-import banner from "../assets/imgs/home_banner.jpg"
+import banner from "../assets/imgs/img1.jpg"
 import {Link} from "react-router-dom";
 import Footer from "../components/Footer"
 import NavBar from "./NavBar";
@@ -17,7 +17,7 @@ const styles = {
         // width: "650px",
         // height: "550px",
         width: "100%",
-        height: "450px",
+        height: "550px",
         backgroundAttachment: "fixed",
         backgroundPosition: "center",
         backgroundSize: "cover",
@@ -29,11 +29,11 @@ const styles = {
         // height: "100%"
     },
     registerForm: {
-        width: "700px",
+        width: "615px",
+        height: "550px",
         position: "absolute",
-        top: "20%",
-        right: "5%",
-        padding: "40px",
+        backgroundColor: "rgb(99,151,68)",
+        padding: "60px 40px",
         borderRadius: 0,
 
     },
@@ -42,23 +42,26 @@ const styles = {
         fontSize: 20,
         textTransform: "none",
         fontFamily:"'Quicksand', sans-serif;",
+        backgroundColor: "rgb(53,117,58)",
         color: "black",
         "&:hover": {
             backgroundColor: "black",
             color: "white",
             transition: "all 350ms ease-in-out",
         },
-        marginTop: 35,
-        border: "1px solid black",
+        marginTop: 10,
+        border: "1px solid rgb(74,117,58)",
     },
     typoTitle: {
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Merriweather', serif",
         fontWeight: "fontWeightMedium",
-        fontSize: 30
+        fontSize: 50,
+        color: "white"
     },
     typoText: {
         fontFamily:"'Quicksand', sans-serif;",
-        fontSize: 17
+        fontSize: 17,
+        color: "white"
     }
 };
 
@@ -84,8 +87,8 @@ class Home extends Component {
 
                     </Grid>
 
-                    <Grid item sm={6}>
-                        <Paper className={classes.registerForm} elevation={5}>
+                    <Grid item sm={4} md={4}>
+                        <Paper className={classes.registerForm} elevation={0}>
                             <Typography variant="h4" gutterBottom className={classes.typoTitle}>
                                 Giới thiệu về Green Solution
                             </Typography>
@@ -100,6 +103,10 @@ class Home extends Component {
                                 và là nền tảng trong chương trình giáo dục về bảo vệ môi trường.
                             </Typography>
 
+                            <Typography className={classes.typoText} paragraph>
+                                Ở thời điểm hiện tại, tồ chức chúng tôi đang triển khai nhiều chiến dịch dọn dẹp môi trường với hy vọng có thể giáo dục và nâng cao ý thức của thế hệ trẻ về bảo vệ môi trường.
+                            </Typography>
+
                             {/*<Typography paragraph className={classes.typoText}>*/}
                             {/*    Clean Up Event owner has to be at least 18, but for participant, everyone is warmly welcomed.*/}
                             {/*    Ideal places for Clean Up event are beaches, parks, shared outdoor spaces and so on.*/}
@@ -108,7 +115,6 @@ class Home extends Component {
                             {/*<Typography className={classes.typoText} >*/}
                             {/*    We will send you a starter kit once you finish registering.*/}
                             {/*</Typography>*/}
-
                             <Grid container justify="center">
                                 <Button
                                     variant="outlined"
@@ -118,6 +124,9 @@ class Home extends Component {
                                     Xem thêm
                                 </Button>
                             </Grid>
+
+
+
                         </Paper>
                     </Grid>
                 </Grid>

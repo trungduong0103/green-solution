@@ -118,7 +118,8 @@ class NavBar extends Component {
 
                                 <Grid item>
                                     <Button
-
+                                        component={Link}
+                                        to="/create-cleanup"
                                         className={classes.navBtn}>
                                         Tạo sự kiện
                                     </Button>
