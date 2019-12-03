@@ -178,7 +178,9 @@ class CreateCleanUp extends Component {
         this.state = {
             locations: [],
             eventLat: 0,
-            eventLng: 0
+            eventLng: 0,
+            name:"",
+
         }
     }
 
@@ -199,18 +201,18 @@ class CreateCleanUp extends Component {
             <div>
                 <NavBar/>
                 <Grid container>
-                    <Grid item sm={8} md={8}>
+                    <Grid item sm={7} md={7}>
                         <Typography className={classes.text}>Chọn địa điểm bạn muốn tạo sự kiện</Typography>
                         <Grid item className={classes.mapContainer}>
                             <Map
-                                handleCall={this.getLocation()}
+                                handleCall={this.getLocation}
                             />
 
                         </Grid>
                     </Grid>
 
 
-                    <Grid item sm={4} md={4}>
+                    <Grid item sm={5} md={5}>
                         <Typography>{this.state.eventLat}</Typography>
                         <Typography>{this.state.eventLng}</Typography>
                     </Grid>
