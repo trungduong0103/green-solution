@@ -90,9 +90,8 @@ class NavBar extends Component {
 
 
     render() {
-        const {classes, authenticated} = this.props;
+        const {classes} = this.props;
         const auth = localStorage.getItem("FBIdToken");
-        console.log(auth);
         return (
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>

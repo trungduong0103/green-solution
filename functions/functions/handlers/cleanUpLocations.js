@@ -18,7 +18,6 @@ exports.createNewLocation = (req, res) => {
                 lat: req.body.lat,
                 lng: req.body.lng,
                 createdAt: creationTime
-
             });
         })
         .catch((err) => {
@@ -66,36 +65,32 @@ exports.getCleanUpLocation = (req, res) => {
 };
 
 exports.updateCleanUpLocation = (req, res) => {
-    let docRef = db.collection("cleanUpLocations").doc(req.body.id);
-    docRef.get()
-        .then((snap) => {
-            if (snap.exists) {
-                return docRef.update({
-                    name: req.body.name,
-                    lat: req.body.lat,
-                    lng: req.body.lng
-                })
-            }
-            return res.json({message: "document being update is deleted or does not exist."});
+    const updateData = req.body;
+    return db.collection("cleanUpLocations").doc(updateData.id)
+        .update({
+            name: req.body.name,
+            lat: req.body.lat,
+            lng: req.body.lng
+        })
+        .then(() => {
+            return res.json({
+                updateData
+            });
         })
         .catch((err) => {
             console.log(err);
-            return err;
-        })
+        });
 };
 
 exports.deleteCleanUpLocation = (req, res) => {
-    let docRef = db.db.collection("cleanUpLocations").doc(req.params.locationId);
-    docRef.get()
-        .then((snap) => {
-            if (snap.exists) {
-                return docRef.delete();
-            }
-            return res.json({message: "document being deleted is deleted or does not exist."});
+    return db.collection("cleanUpLocations")
+        .doc(req.params.locationId)
+        .delete()
+        .then(() => {
+            return res.json(req.params.locationId);
         })
         .catch((err) => {
             console.log(err);
-            return err;
-        })
+        });
 };
 

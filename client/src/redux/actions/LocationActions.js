@@ -1,4 +1,11 @@
-import {CREATE_NEW_LOCATION, DEFAULT_URL, GET_ALL_LOCATIONS} from "../types";
+import {
+    CREATE_NEW_LOCATION,
+    DEFAULT_URL,
+    DELETE_LOCATION,
+    GET_ALL_LOCATIONS,
+    GET_LOCATION,
+    UPDATE_LOCATION
+} from "../types";
 import axios from "axios";
 
 
@@ -18,11 +25,49 @@ export function getAllLocations() {
     };
 }
 
+export function getLocation(locationId) {
+    return function (dispatch) {
+        axios
+            .get(`${DEFAULT_URL}/get_location/${locationId}`)
+            .then((res) => {
+                dispatch({
+                    type: GET_LOCATION,
+                    payload: res.data
+                });
+            });
+    }
+}
+
+export function updateLocation(locationData) {
+    return function (dispatch) {
+        axios
+            .put(`${DEFAULT_URL}/update_location`, locationData)
+            .then((res) => {
+                dispatch({
+                    type: UPDATE_LOCATION,
+                    payload: res.data.updateData
+                });
+            });
+    }
+}
+
+export function deleteLocation(locationId) {
+    return function (dispatch) {
+        axios
+            .delete(`${DEFAULT_URL}/delete_location/${locationId}`)
+            .then((res) => {
+                dispatch({
+                    type: DELETE_LOCATION,
+                    payload: res.data
+                })
+            });
+    };
+}
 
 export function createNewLocation(location) {
     return function (dispatch) {
         axios
-            .post(`${DEFAULT_URL}/create_location`,location)
+            .post(`${DEFAULT_URL}/create_location`, location)
             .then((res) => {
                 console.log(res.data);
                 dispatch({
@@ -36,6 +81,7 @@ export function createNewLocation(location) {
             });
     };
 }
+
 
 
 
