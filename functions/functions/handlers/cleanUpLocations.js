@@ -1,4 +1,5 @@
 const {db} = require("../utils/admin");
+const {firebase} = require("../environments/config");
 
 exports.createNewLocation = (req, res) => {
     const creationTime = new Date().toISOString();

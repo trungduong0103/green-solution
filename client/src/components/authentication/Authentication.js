@@ -5,6 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import {clearAuthenticationErrors} from "../../redux/actions/UIActions";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const styles = {
     textField: {
@@ -40,7 +41,12 @@ class Authentication extends Component {
     }
 
     componentDidMount() {
-        this.handleAnimation()
+        const auth = localStorage.getItem("FBIdToken");
+        if (auth) {
+            window.location.href = "/home";
+        } else {
+            this.handleAnimation()
+        }
     }
 
     handleAnimation() {
@@ -60,6 +66,7 @@ class Authentication extends Component {
 
 
     render() {
+        const {UI: {openAuthenticationSnackbar}} = this.props;
         return (
             <div className="body">
                 <div className="container" id="container">
@@ -87,6 +94,9 @@ class Authentication extends Component {
                         </div>
                     </div>
                 </div>
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                          open={openAuthenticationSnackbar}
+                          message={"Vui lòng đăng nhập trước khi tạo sự kiện."}/>
             </div>
         );
     }

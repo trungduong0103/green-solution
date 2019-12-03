@@ -1,14 +1,33 @@
-import {CLEAR_ERRORS, SET_ERRORS, SIGN_IN_COMPLETE, SIGN_UP_COMPLETE, SIGNING_IN, SIGNING_UP} from "../types";
+import {
+    CLEAR_ERRORS, CLOSE_AUTHENTICATION_SNACKBAR,
+    OPEN_AUTHENTICATION_SNACKBAR,
+    SET_ERRORS,
+    SIGN_IN_COMPLETE,
+    SIGN_UP_COMPLETE,
+    SIGNING_IN,
+    SIGNING_UP
+} from "../types";
 
 const initialState = {
     loading: false,
     doneSignUp: false,
     doneSignIn: false,
+    openAuthenticationSnackbar: false,
     errors: {}
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case OPEN_AUTHENTICATION_SNACKBAR:
+            return {
+                ...state,
+                openAuthenticationSnackbar: true
+            };
+        case CLOSE_AUTHENTICATION_SNACKBAR:
+            return {
+                ...state,
+                openAuthenticationSnackbar: false
+            };
         case SIGNING_UP:
             return {
                 ...state,

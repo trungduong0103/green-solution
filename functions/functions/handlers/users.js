@@ -4,6 +4,7 @@ const firebase = require("firebase");
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
 const {WELCOME_MESSAGE} = require("../environments/emailTemplates");
 const {INVALID_CREDENTIALS, EMAIL_ALREADY_IN_USE, UNIDENTIFIED_ERRORS} = require("../environments/errorTemplates");
+
 //executes whenever a new user is created in Firebase Authentication
 exports.onUserCreateInAuth = (userRecord) => {
     return Promise.all([sendGreetingEmail(userRecord.email), createRecordInFirestore(userRecord)]);

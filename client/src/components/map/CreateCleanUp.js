@@ -174,7 +174,6 @@ const Map = compose(
     withScriptjs,
     withGoogleMap,
 )(props =>
-
     <GoogleMap
         // ref={props.onMapMounted}
         defaultZoom={11}
@@ -231,10 +230,10 @@ class CreateCleanUp extends Component {
             eventEndDate: null,
             startDate: null,
             endDate: null,
-            errors:{}
+            errors:{},
 
         }
-    }
+    };
 
     handleChange = (event) => {
         this.setState({
@@ -244,7 +243,6 @@ class CreateCleanUp extends Component {
 
     //Get marker position from user's search
     getLocation = (childData) => {
-        console.log("called from parent", childData);
         this.setState({
             eventLat: childData.lat,
             eventLng: childData.lng
@@ -260,9 +258,14 @@ class CreateCleanUp extends Component {
         })
     };
 
+    componentDidMount() {
+        const auth = localStorage.getItem("FBIdToken");
+        if (!auth) {
+            window.location.href = "/authentication";
+        }
+    }
 
     render() {
-        // console.log(this.props.locations);
         const {classes} = this.props;
         return (
             <div>
@@ -277,7 +280,6 @@ class CreateCleanUp extends Component {
 
                         {/*</Grid>*/}
                     </Grid>
-
 
                     <Grid item sm={5} md={5} className={classes.formWrapper}>
                         <Grid container>
@@ -312,7 +314,6 @@ class CreateCleanUp extends Component {
                                         value={this.state.eventLat}
                                         variant="outlined"
                                         fullWidth
-
                                     />
 
                                     <TextField
@@ -335,18 +336,11 @@ class CreateCleanUp extends Component {
                                         Xác nhận
                                     </Button>
                                 </form>
-
                             </Grid>
-
                         </Grid>
-                        {/*<Typography>{this.state.eventLat}</Typography>*/}
-                        {/*<Typography>{this.state.eventLng}</Typography>*/}
                     </Grid>
                 </Grid>
-
-
             </div>
-
         )
     }
 }

@@ -16,5 +16,7 @@ export const CREATE_NEW_LOCATION = "CREATE_NEW_LOCATION";
 //UI types
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const SET_ERRORS = "SET_ERRORS";
+export const OPEN_AUTHENTICATION_SNACKBAR = "OPEN_AUTHENTICATION_SNACKBAR";
+export const CLOSE_AUTHENTICATION_SNACKBAR = "CLOSE_AUTHENTICATION_SNACKBAR";
 
 export const DEFAULT_URL = "https://asia-northeast1-rmit-cloud-a2-c8905.cloudfunctions.net/api";

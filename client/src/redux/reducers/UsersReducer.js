@@ -3,7 +3,6 @@ import {FETCHING_USER, SET_AUTHENTICATED, SET_USER, STOP_FETCHING_USER} from "..
 const initialState = {
     authenticated: false,
     loading: false,
-
 };
 
 export default function (state = initialState, action) {

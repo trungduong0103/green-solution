@@ -188,9 +188,8 @@ class JoinCleanUp extends Component {
         this.props.getAllLocations();
     }
 
-
     render() {
-        console.log(this.props.locations);
+        console.log(this.props.locations, "all current locations");
         const {classes} = this.props;
         return (
             <div>

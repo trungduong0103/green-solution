@@ -1,15 +1,21 @@
 import React, {Component} from 'react';
+
+//React Redux
+import {connect} from "react-redux";
+
+//React Router
 import {Link} from "react-router-dom";
 
 import withStyles from "@material-ui/core/styles/withStyles";
+import logo from "../assets/imgs/website_logo.png"
 
+//Material UI
+import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-
 import Grid from "@material-ui/core/Grid";
-import logo from "../assets/imgs/website_logo.png"
-//Icons
-import Button from "@material-ui/core/Button";
+
+import {openAuthenticationSnackbar} from "../redux/actions/UIActions";
 // import PropTypes from 'prop-types';
 
 const styles = {
@@ -24,7 +30,7 @@ const styles = {
         textDecoration: "none",
         fontSize: 17,
 
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         textTransform: "none",
         border: "none",
 
@@ -49,7 +55,7 @@ const styles = {
     signUpBtn: {
         fontSize: 15,
         textTransform: "uppercase",
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         backgroundColor: "rgb(99,151,68)",
         color: "white",
         transition: "all 350ms ease-in-out",
@@ -67,7 +73,7 @@ const styles = {
         fontSize: 15,
         borderRadius: 20,
         textTransform: "none",
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         backgroundColor: "#7da968",
         color: "black",
         "&:hover": {
@@ -82,8 +88,11 @@ const styles = {
 
 class NavBar extends Component {
 
+
     render() {
-        const {classes} = this.props;
+        const {classes, authenticated} = this.props;
+        const auth = localStorage.getItem("FBIdToken");
+        console.log(auth);
         return (
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
@@ -96,7 +105,7 @@ class NavBar extends Component {
                         </Grid>
 
 
-                        <Grid item sm={7} md={7} >
+                        <Grid item sm={7} md={7}>
 
                             <Grid container spacing={5} justify="center">
 
@@ -117,8 +126,9 @@ class NavBar extends Component {
 
                                 <Grid item>
                                     <Button
+                                        onClick={!auth ? () => this.props.openAuthenticationSnackbar() : () => console.log("logged in")}
                                         component={Link}
-                                        to="/create-cleanup"
+                                        to={auth ? "/create-cleanup" : "/authentication"}
                                         className={classes.navBtn}>
                                         Tạo sự kiện
                                     </Button>
@@ -133,32 +143,22 @@ class NavBar extends Component {
                                         Tham gia sự kiện
                                     </Button>
                                 </Grid>
-
                             </Grid>
                         </Grid>
 
                         <Grid item sm={2} md={2}>
-                            <Grid container spacing={1} >
+                            <Grid container spacing={1}>
                                 <Grid item>
                                     <Button
                                         variant="contained"
                                         className={classes.signUpBtn}
                                         component={Link}
+                                        disabled = {!!auth}
                                         to="/authentication">
-                                        Tham gia ngay
+                                        {auth ? "LOGGED IN" : "Tham gia ngay"}
+
                                     </Button>
                                 </Grid>
-
-                                {/*<Grid item >*/}
-                                {/*    <Button*/}
-                                {/*        variant="outlined"*/}
-                                {/*        className={classes.signInBtn}*/}
-                                {/*        component={Link}*/}
-                                {/*        to="/login">*/}
-                                {/*        Đăng nhập*/}
-                                {/*    </Button>*/}
-                                {/*</Grid>*/}
-
                             </Grid>
                         </Grid>
 
@@ -172,4 +172,13 @@ class NavBar extends Component {
 
 // NavBar.propTypes = {};
 
-export default withStyles(styles)(NavBar);
+const mapStateToProps = (state) => ({
+    authenticated: state.user.authenticated
+});
+
+const mapDispatchToProps = {
+    openAuthenticationSnackbar
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NavBar));

@@ -2,7 +2,7 @@ import axios from "axios";
 import {
     CLEAR_ERRORS,
     DEFAULT_URL,
-    FETCHING_USER,
+    FETCHING_USER, SET_AUTHENTICATED,
     SET_ERRORS,
     SET_USER,
     SIGN_IN_COMPLETE,
@@ -69,6 +69,7 @@ export function signInWithEmail(userData, history) {
             })
             .then(() => {
                 dispatch({type: SIGN_IN_COMPLETE});
+                dispatch({type: SET_AUTHENTICATED});
             })
             .then(() => {
                 setTimeout(() => {
@@ -119,6 +120,7 @@ export function signInWithFacebook(history) {
                 setSocialMediaToken()
                     .then(() => {
                         dispatch({type: SIGN_UP_COMPLETE});
+                        dispatch({type: SET_AUTHENTICATED});
                         setTimeout(() => {
                             history.push("/home")
                         }, 1500);
@@ -155,6 +157,7 @@ export function signInWithGoogle(history) {
                 setSocialMediaToken()
                     .then(() => {
                         dispatch({type: SIGN_UP_COMPLETE});
+                        dispatch({type: SET_AUTHENTICATED});
                         setTimeout(() => {
                             history.push("/home")
                         }, 1500);
