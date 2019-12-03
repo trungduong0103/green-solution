@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
 import withStyles from "@material-ui/core/styles/withStyles";
+import Button from "@material-ui/core/Button"
 //React-redux
 import {connect} from "react-redux";
 import {getAllLocations} from "../../redux/actions/LocationActions";
@@ -304,8 +305,13 @@ class CreateCleanUp extends Component {
                                         value={this.state.eventLng}
                                         variant="outlined"
                                         fullWidth
-
                                     />
+                                    <Button
+                                        variant="contained"
+
+                                    >
+
+                                    </Button>
                                 </form>
 
                             </Grid>
