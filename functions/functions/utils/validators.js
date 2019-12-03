@@ -1,3 +1,5 @@
+const {CANNOT_EMPTY, INVALID_EMAIL, PASSWORD_LENGTH_INSUFFICIENT, PASSWORDS_MUST_MATCH} = require("../environments/errorTemplates");
+
 const isEmpty = string => {
     if (!string) return true;
     return string.trim() === "";
@@ -14,15 +16,20 @@ exports.validateSignUpData = data => {
     let errors = {};
 
     if (isEmpty(data.email)) {
-        errors.email = "Must not be empty";
+        errors.email = CANNOT_EMPTY;
     } else if (!isEmail(data.email)) {
-        errors.email = "Must be a valid email address";
+        errors.email = INVALID_EMAIL;
     }
 
-    if (isEmpty(data.password)) errors.password = "Must not be empty";
-    if (data.password !== data.confirmPassword)
-        errors.confirmPassword = "Passwords must match";
+    if (isEmpty(data.password)) {
+        errors.password = CANNOT_EMPTY;
+    } else if (data.password.length < 6) {
+        errors.password = PASSWORD_LENGTH_INSUFFICIENT;
+    }
 
+
+    if (data.password !== data.confirmPassword)
+        errors.confirmPassword = PASSWORDS_MUST_MATCH;
 
     return {
         errors,
@@ -32,8 +39,8 @@ exports.validateSignUpData = data => {
 
 exports.validateLoginData = data => {
     let errors = {};
-    if (isEmpty(data.email)) errors.email = "Must not be empty";
-    if (isEmpty(data.password)) errors.password = "Must not be empty";
+    if (isEmpty(data.email)) errors.email = CANNOT_EMPTY;
+    if (isEmpty(data.password)) errors.password = CANNOT_EMPTY;
 
     return {
         errors,
@@ -41,17 +48,17 @@ exports.validateLoginData = data => {
     };
 };
 
-exports.reduceUserDetails = data => {
-    let userDetails = {};
-    if (!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
-    if (!isEmpty(data.website.trim())) {
-        if (data.website.trim().substring(0, 4) !== "http") {
-            userDetails.website = `http://${data.website.trim()}`;
-        } else {
-            userDetails.website = data.website;
-        }
-    }
-    if (!isEmpty(data.location.trim())) userDetails.location = data.location;
-
-    return userDetails;
-};
+// exports.reduceUserDetails = data => {
+//     let userDetails = {};
+//     if (!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
+//     if (!isEmpty(data.website.trim())) {
+//         if (data.website.trim().substring(0, 4) !== "http") {
+//             userDetails.website = `http://${data.website.trim()}`;
+//         } else {
+//             userDetails.website = data.website;
+//         }
+//     }
+//     if (!isEmpty(data.location.trim())) userDetails.location = data.location;
+//
+//     return userDetails;
+// };
