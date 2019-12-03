@@ -24,3 +24,5 @@ yarn-error.log*
 
 src/environments/Firebase.js
 src/environments/Keys.js
+
+.idea/

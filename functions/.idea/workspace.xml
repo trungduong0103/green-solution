@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f7db303b-4964-498c-b188-adbf5aa3e0ef" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/functions/environments/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/environments/environments.js" afterDir="false" />
-    </list>
+    <list default="true" id="f7db303b-4964-498c-b188-adbf5aa3e0ef" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +21,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/WebstormProjects/mlweb-functions" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -37,7 +34,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RunDashboard">
@@ -79,6 +76,14 @@
       <workItem from="1574671246368" duration="12851000" />
       <workItem from="1574701533443" duration="2996000" />
       <workItem from="1574749202238" duration="4000" />
+      <workItem from="1575132768766" duration="250000" />
+      <workItem from="1575133268762" duration="204000" />
+      <workItem from="1575133557017" duration="83000" />
+      <workItem from="1575209523774" duration="3724000" />
+      <workItem from="1575268641553" duration="5443000" />
+      <workItem from="1575350005327" duration="113000" />
+      <workItem from="1575350179372" duration="2670000" />
+      <workItem from="1575354733314" duration="193000" />
     </task>
     <task id="LOCAL-00001" summary="add .idea folder and environment folder to gitignore">
       <created>1574912940591</created>
@@ -87,7 +92,49 @@
       <option name="project" value="LOCAL" />
       <updated>1574912940591</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add comments, test ignore files on webstorm">
+      <created>1575133614986</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1575133614986</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix firebase authentication errors.">
+      <created>1575212381145</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1575212381145</updated>
+    </task>
+    <task id="LOCAL-00004" summary="WIP: Clean up CRUD.">
+      <created>1575213658409</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1575213658409</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix firebase authentication errors.">
+      <created>1575268705127</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1575268705127</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update location functions">
+      <created>1575273541953</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1575273541953</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Change authentication error messages to Vietnamese, add template emails/errors">
+      <created>1575352535340</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1575352535340</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -98,7 +145,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -106,6 +155,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add .idea folder and environment folder to gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="add .idea folder and environment folder to gitignore" />
+    <MESSAGE value="add comments, test ignore files on webstorm" />
+    <MESSAGE value="WIP: Clean up CRUD." />
+    <MESSAGE value="update gitignore" />
+    <MESSAGE value="update location functions" />
+    <MESSAGE value="Change authentication error messages to Vietnamese, add template emails/errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change authentication error messages to Vietnamese, add template emails/errors" />
   </component>
 </project>
