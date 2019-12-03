@@ -9,6 +9,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
 
 
+
 const styles = {
     textField: {
         border: "none",
@@ -24,12 +25,57 @@ const styles = {
         },
     },
     formInput: {
+        width: "80%",
         backgroundColor: "#eee",
         border: "none",
         padding: "12px 15px",
         margin: "5px 0 ",
         outline: "none",
-    }
+    },
+    successBtn: {
+        outline: "none",
+        fontFamily: "inherit",
+        borderRadius: 20,
+        color: "black",
+        fontSize: 13,
+        padding: "10px 30px",
+        // letterSpacing: 1,
+        textTransform: "uppercase",
+        margin: "10px 0",
+        backgroundColor: "rgb(99,151,68)",
+        "&:focus": {
+            outline: "none"
+        }
+    },
+    progress: {
+        color: "rgb(99,151,68)",
+        position: "absolute",
+    },
+    icon: {
+        color: "white"
+    },
+    registerBtn: {
+        fontFamily: "inherit",
+        outline: "none",
+        borderRadius: 20,
+        border: "1px solid #DDDDDD",
+        backgroundColor: "white",
+        padding: "10px 30px",
+        // letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+        margin: "10px 0",
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "black",
+            color: "white",
+            border: "1px solid black",
+            outline: "none"
+        },
+        "&:focus": {
+            outline: "none"
+        }
+    },
 
 
 };
@@ -137,15 +183,20 @@ class SignUp extends Component {
                         InputProps={{disableUnderline: true}}
                     >
                     </TextField>
-                    {loading ? (
-                        <CircularProgress variant="indeterminate" size={35}/>
-                    ) : (
-                        <button
-                            onClick={this.signUpWithEmail}
-                            className="custom-btn">
-                            {doneSignUp ? (<CheckIcon/>) : "Đăng kí"}
-                        </button>
-                    )}
+
+                    <Button
+                        variant="contained"
+                        onClick={this.signUpWithEmail}
+                        disabled={loading}
+                        className={doneSignUp ? classes.successBtn : classes.registerBtn}
+
+                    >
+                        {loading ? (
+                                <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
+                            ) : ""}
+
+                        {doneSignUp ? (<CheckIcon/>) : "Đăng kí"}
+                    </Button>
                 </form>
             </div>
         );

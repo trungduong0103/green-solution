@@ -22,6 +22,7 @@ const styles = {
         borderRadius: 0
     },
     signUpBtn: {
+        textAlign: "center",
         fontSize: 20,
         textTransform: "none",
         fontFamily: "'Quicksand', sans-serif;",
@@ -45,6 +46,9 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 17,
         color: "white"
+    },
+    cardActions: {
+        textAlign: "center"
     }
 };
 
@@ -61,7 +65,7 @@ class Home extends Component {
 
             <div>
                 <NavBar/>
-                <GridList cols={2} cellHeight={600}>
+                <GridList cols={2} cellHeight={600} spacing={0}>
                     <GridListTile>
                         <img src={banner} alt="bannerBackground"/>
                     </GridListTile>
@@ -70,11 +74,11 @@ class Home extends Component {
                         <Card className={classes.registerForm} elevation={0}>
                             <CardContent>
                                 <Typography variant="h4" gutterBottom className={classes.typoTitle}>
-                                    Giới thiệu về Green Solution
+                                    Giới thiệu về Việt Nam Sạch và Xanh
                                 </Typography>
 
                                 <Typography gutterBottom className={classes.typoText} paragraph>
-                                    Mục tiêu của Green Solution là nâng cao nhận thức về vấn đề rác và xả rác bừa bãi ở
+                                    Mục tiêu của Việt Nam Sạch và Xanh là nâng cao nhận thức về vấn đề rác và xả rác bừa bãi ở
                                     Việt
                                     Nam.
 
@@ -95,7 +99,7 @@ class Home extends Component {
                                     trường.
                                 </Typography>
                             </CardContent>
-                            <CardActions>
+                            <CardActions className={classes.cardActions}>
                                 <Button
                                     variant="outlined"
                                     className={classes.signUpBtn}

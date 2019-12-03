@@ -13,20 +13,45 @@ import {getAllLocations} from "../../redux/actions/LocationActions";
 //React router
 
 import NavBar from "../NavBar";
-
 import _ from "lodash"
 import {compose, lifecycle, withProps, withStateHandlers} from "recompose";
 import {REACT_APP_GOOGLE_KEY} from "../../environments/Keys";
 
-
 const styles = {
-    mapContainer: {
+    mapWrapper: {
         position: "absolute",
         width: "50vw",
         height: "50vh",
+        top: "20%",
+        padding: 15
+    },
+
+    formWrapper: {
+        position: "absolute",
+        width: "50vw",
+        height: "50vh",
+        left: "55%",
+        top: "20%",
+        padding: 15
+    },
+
+    mapContainer: {
+        position: "absolute",
         top: "30%",
         left: "5%",
+        width: "50vw",
+        height: "50vh",
         boxShadow: "0 10px 20px rgba(0,0,0,0.25)"
+    },
+    title: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: 30,
+        textAlign: "center"
+    },
+    helpTitle: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: 12,
+        textAlign: "center"
     },
     text: {
         position: "absolute",
@@ -35,12 +60,13 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 30,
     },
+
     createForm: {
-
+        border: "1px solid black"
     },
-    formTitle: {
-
-    }
+    formInput: {
+        margin: 10
+    },
 };
 const Map = compose(
     withProps({
@@ -220,59 +246,69 @@ class CreateCleanUp extends Component {
             <div>
                 <NavBar/>
                 <Grid container>
-                    <Grid item sm={7} md={7}>
-                        <Typography className={classes.text}>Chọn địa điểm bạn muốn tạo sự kiện</Typography>
-                        <Grid item className={classes.mapContainer}>
-                            <Map
-                                handleCall={this.getLocation}
-                            />
+                    <Grid item sm={7} md={7} className={classes.mapWrapper}>
+                        <Typography
+                            className={classes.title}
+                        >Chọn địa điểm bạn muốn tạo sự kiện</Typography>
 
-                        </Grid>
+                            <Map handleCall={this.getLocation}/>
+
+                        {/*</Grid>*/}
                     </Grid>
 
 
-                    <Grid item sm={5} md={5}>
+                    <Grid item sm={5} md={5} className={classes.formWrapper}>
+                        <Grid container>
+                            <Grid item sm={12}>
+                                <Typography className={classes.title}>Đơn tạo sự kiện</Typography>
+                                <Typography className={classes.helpTitle}>* Nhập địa chỉ bạn muốn chọn vảo bản đồ và hoàn thành đơn tạo sự kiện</Typography>
+                            </Grid>
 
+                            <Grid item sm={12}>
+                                <form className={classes.createForm}>
+                                    <TextField
+                                        className={classes.formInput}
+                                        name="eventName"
+                                        required
+                                        type="text"
+                                        label="Tên sự kiện"
+                                        onChange={this.handleChange}
+                                        value={this.state.eventName}
+                                        variant="outlined"
+                                        helperText={this.errors}
+                                        fullWidth
+                                    />
 
-                        <Grid container className={classes.createForm}>
-                            <Typography className={classes.formTitle}>Đơn tạo sự kiện</Typography>
-                            <form>
+                                    <TextField
+                                        className={classes.formInput}
+                                        name="eventLat"
+                                        required
+                                        type="text"
+                                        disabled
+                                        label="Tung độ"
+                                        onChange={this.handleChange}
+                                        value={this.state.eventLat}
+                                        variant="outlined"
+                                        fullWidth
 
-                                <TextField
-                                    name="eventName"
-                                    required
-                                    type="text"
-                                    label="Tên sự kiện"
-                                    onChange={this.handleChange}
-                                    value={this.state.eventName}
-                                    variant="outlined"
-                                    helperText={this.errors}
-                                />
+                                    />
 
-                                <TextField
-                                    required
-                                    type="text"
-                                    disabled
-                                    label="Tung độ"
-                                    onChange={this.handleChange}
-                                    value={this.state.eventName}
-                                    variant="outlined"
-                                    helperText={this.errors}
-                                />
+                                    <TextField
+                                        className={classes.formInput}
+                                        name="eventLng"
+                                        disabled
+                                        required
+                                        type="text"
+                                        label="Hoành độ"
+                                        onChange={this.handleChange}
+                                        value={this.state.eventLng}
+                                        variant="outlined"
+                                        fullWidth
 
-                                <TextField
-                                    disabled
-                                    required
-                                    type="text"
-                                    label="Hoành độ"
-                                    onChange={this.handleChange}
-                                    value={this.state.eventName}
-                                    variant="outlined"
-                                    helperText={this.errors}
-                                />
+                                    />
+                                </form>
 
-
-                            </form>
+                            </Grid>
 
                         </Grid>
                         {/*<Typography>{this.state.eventLat}</Typography>*/}
