@@ -11,7 +11,8 @@ import {getAllLocations} from "../../redux/actions/LocationActions";
 
 //React router
 import NavBar from "../NavBar";
-import {JoinCleanUpMap} from "./JoinCleanUpMap";
+import {JoinCleanUpMap} from "./maps/JoinCleanUpMap";
+import CleanUpDetail from "./CleanUpDetail";
 
 const styles = {
     mapContainer: {
@@ -58,10 +59,8 @@ class JoinCleanUp extends Component {
                         </Grid>
                     </Grid>
 
-
                     <Grid item sm={4} md={4}>
-                        {/*<SearchBar/>*/}
-
+                        <CleanUpDetail />
                     </Grid>
                 </Grid>
 

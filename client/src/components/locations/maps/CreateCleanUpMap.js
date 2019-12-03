@@ -1,5 +1,5 @@
 import {compose, lifecycle, withProps, withStateHandlers} from "recompose";
-import {REACT_APP_GOOGLE_KEY} from "../../environments/Keys";
+import {REACT_APP_GOOGLE_KEY} from "../../../environments/Keys";
 import _ from "lodash";
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";

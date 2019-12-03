@@ -12,7 +12,7 @@ import {createNewLocation} from "../../redux/actions/LocationActions";
 //React router
 
 import NavBar from "../NavBar";
-import {CreateCleanUpMap} from "./CreateCleanUpMap";
+import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
 
 const styles = {
     mapWrapper: {
@@ -132,7 +132,7 @@ class CreateCleanUp extends Component {
             <div>
                 <NavBar/>
                 <Grid container>
-                    <Grid item sm={7} md={7} className={classes.mapWrapper}>
+                    <Grid item sm={7} className={classes.mapWrapper}>
                         <Typography
                             className={classes.title}
                         >Chọn địa điểm bạn muốn tạo sự kiện</Typography>
@@ -141,7 +141,7 @@ class CreateCleanUp extends Component {
 
                     </Grid>
 
-                    <Grid item sm={5} md={5} className={classes.formWrapper}>
+                    <Grid item sm={5} className={classes.formWrapper}>
                         <Grid container>
                             <Grid item sm={12}>
                                 <Typography className={classes.title}>Đơn tạo sự kiện</Typography>
