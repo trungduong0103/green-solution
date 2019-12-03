@@ -5,6 +5,8 @@ import {signInWithFacebook, signInWithGoogle, signUp} from "../../redux/actions/
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {TextField} from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
 
 
 const styles = {
@@ -50,9 +52,9 @@ class SignUp extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.errors !== state.errors) {
+        if (props.UI.errors !== state.errors) {
             return {
-                errors: props.errors
+                errors: props.UI.errors
             }
         }
         return null;
@@ -74,10 +76,9 @@ class SignUp extends Component {
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, UI: {loading, doneSignUp}} = this.props;
         const {errors} = this.state;
         return (
-
             <div className="form-container sign-up-container">
                 <form>
                     <h1>Tạo tài khoản</h1>
@@ -94,7 +95,6 @@ class SignUp extends Component {
                         </Button>
                     </div>
                     <span>hoặc đăng ký bằng Email</span>
-
                     <TextField
                         type="text"
                         name="signUpEmail"
@@ -109,7 +109,6 @@ class SignUp extends Component {
                         InputProps={{disableUnderline: true}}
                     >
                     </TextField>
-
                     <TextField
                         type="password"
                         name="signUpPassword"
@@ -124,7 +123,6 @@ class SignUp extends Component {
                         InputProps={{disableUnderline: true}}
                     >
                     </TextField>
-
                     <TextField
                         type="password"
                         name="signUpConfirmPassword"
@@ -139,15 +137,17 @@ class SignUp extends Component {
                         InputProps={{disableUnderline: true}}
                     >
                     </TextField>
-
-                    <button
-                        onClick={this.signUpWithEmail}
-                        className="custom-btn"
-                    > Đăng ký
-                    </button>
+                    {loading ? (
+                        <CircularProgress variant="indeterminate" size={35}/>
+                    ) : (
+                        <button
+                            onClick={this.signUpWithEmail}
+                            className="custom-btn">
+                            {doneSignUp ? (<CheckIcon/>) : "Đăng kí"}
+                        </button>
+                    )}
                 </form>
             </div>
-
         );
     }
 }
@@ -159,7 +159,7 @@ SignUp.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    errors: state.UI.errors
+    UI: state.UI
 });
 
 const mapDispatchToProps = {
