@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 import SearchBox from "react-google-maps/lib/components/places/SearchBox"
+
 //Material UI
 import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
 import withStyles from "@material-ui/core/styles/withStyles";
 //React-redux
 import {connect} from "react-redux";
@@ -32,6 +34,11 @@ const styles = {
         left: "13%",
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 30,
+    },
+    createForm: {
+
+    },
+    formTitle: {
 
     }
 };
@@ -165,8 +172,9 @@ const Map = compose(
             <Marker
                 key={index}
                 position={marker.position}
-                onPositionChanged={props.onPositionChanged}
-                ref={props.onMarkerMounted}/>
+                // onPositionChanged={props.onPositionChanged}
+                // ref={props.onMarkerMounted}
+            />
         )}
 
     </GoogleMap>
@@ -179,10 +187,21 @@ class CreateCleanUp extends Component {
             locations: [],
             eventLat: 0,
             eventLng: 0,
-            name:"",
+            eventName:"",
+            eventStartDate: null,
+            eventEndDate: null,
+            startDate: null,
+            endDate: null,
+            errors:{}
 
         }
     }
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    };
 
     //Get marker position from user's search
     getLocation = (childData) => {
@@ -213,8 +232,51 @@ class CreateCleanUp extends Component {
 
 
                     <Grid item sm={5} md={5}>
-                        <Typography>{this.state.eventLat}</Typography>
-                        <Typography>{this.state.eventLng}</Typography>
+
+
+                        <Grid container className={classes.createForm}>
+                            <Typography className={classes.formTitle}>Đơn tạo sự kiện</Typography>
+                            <form>
+
+                                <TextField
+                                    name="eventName"
+                                    required
+                                    type="text"
+                                    label="Tên sự kiện"
+                                    onChange={this.handleChange}
+                                    value={this.state.eventName}
+                                    variant="outlined"
+                                    helperText={this.errors}
+                                />
+
+                                <TextField
+                                    required
+                                    type="text"
+                                    disabled
+                                    label="Tung độ"
+                                    onChange={this.handleChange}
+                                    value={this.state.eventName}
+                                    variant="outlined"
+                                    helperText={this.errors}
+                                />
+
+                                <TextField
+                                    disabled
+                                    required
+                                    type="text"
+                                    label="Hoành độ"
+                                    onChange={this.handleChange}
+                                    value={this.state.eventName}
+                                    variant="outlined"
+                                    helperText={this.errors}
+                                />
+
+
+                            </form>
+
+                        </Grid>
+                        {/*<Typography>{this.state.eventLat}</Typography>*/}
+                        {/*<Typography>{this.state.eventLng}</Typography>*/}
                     </Grid>
                 </Grid>
 

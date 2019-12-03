@@ -106,6 +106,7 @@ class SignUp extends Component {
                         onChange={this.handleChange}
                         value={this.state.signUpEmail}
                         fullWidth
+                        InputProps={{disableUnderline: true}}
                     >
                     </TextField>
 
@@ -120,6 +121,7 @@ class SignUp extends Component {
                         onChange={this.handleChange}
                         value={this.state.signUpPassword}
                         fullWidth
+                        InputProps={{disableUnderline: true}}
                     >
                     </TextField>
 
@@ -134,6 +136,7 @@ class SignUp extends Component {
                         onChange={this.handleChange}
                         value={this.state.signUpConfirmPassword}
                         fullWidth
+                        InputProps={{disableUnderline: true}}
                     >
                     </TextField>
 

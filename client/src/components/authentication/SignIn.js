@@ -30,6 +30,15 @@ const styles = {
         margin: "5px 0 ",
         width: "100%",
         outline: "none",
+        "&&&:before": {
+            borderBottom: "none"
+        },
+        "&&:after": {
+            borderBottom: "none"
+        }
+    },
+    inputPlaceholder: {
+        fontFamily: "'Montserrat', sans-serif'",
     }
 
 
@@ -100,10 +109,31 @@ class SignIn extends Component {
                                id="loginEmail"
                                onChange={this.handleChange}
                                value={this.state.loginEmail}
+                               InputProps={
+                                   {
+                                       disableUnderline: true,
+                                       inputProps: {
+                                           fontFamily: "'Montserrat', sans-serif'"
+                                       }
+                                   }
+                               }
+                               // InputLabelProps={
+                               //     {
+                               //         fontFamily: "'Quicksand', sans-serif;",
+                               //     }
+                               // }
+                               // inputProps={
+                               //     {
+                               //         fontFamily: "'Quicksand', sans-serif;",
+                               //     }
+                               // }
+
                     />
 
 
-                    <TextField type="password"
+                    <TextField
+
+                                type="password"
                                name="loginPassword"
                                placeholder="Mật khẩu"
                                className={classes.formInput}
@@ -112,6 +142,20 @@ class SignIn extends Component {
                                id="loginPassword"
                                onChange={this.handleChange}
                                value={this.state.loginPassword}
+                                InputProps={
+                                    {
+                                        disableUnderline: true,
+                                        inputProps: {
+                                            fontFamily: "'Montserrat', sans-serif'"
+                                        }
+                                    }
+                                }
+                               // inputProps={{
+                               //     style: {
+                               //         fontFamily: "'Montserrat', sans-serif'",
+                               //     }
+                               // }}
+
                     />
                     <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
 

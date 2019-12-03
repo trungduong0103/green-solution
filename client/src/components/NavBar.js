@@ -7,7 +7,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import Grid from "@material-ui/core/Grid";
-import logo from "../assets/imgs/MyLogo.png"
+import logo from "../assets/imgs/website_logo.png"
 //Icons
 import Button from "@material-ui/core/Button";
 // import PropTypes from 'prop-types';
@@ -38,7 +38,8 @@ const styles = {
         marginTop: 35
     },
     logo: {
-        width: 200,
+        padding: 25,
+        width: 250,
         height: 100
     },
     toolbar: {
