@@ -1,13 +1,9 @@
-import {
-    FETCHING_USER,
-    SET_AUTHENTICATED,
-    SET_USER,
-    STOP_FETCHING_USER
-} from "../types";
+import {FETCHING_USER, SET_AUTHENTICATED, SET_USER, STOP_FETCHING_USER} from "../types";
 
 const initialState = {
     authenticated: false,
-    loading: false
+    loading: false,
+
 };
 
 export default function (state = initialState, action) {

@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 
 import {signInWithEmail, signInWithFacebook, signInWithGoogle} from "../../redux/actions/UserActions";
-
+import {withStyles} from "@material-ui/core";
 import {connect} from "react-redux";
+//Material UI
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography"
-import {withStyles} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
+//Material UI Icons
+import CheckIcon from "@material-ui/icons/Check";
 
 const styles = {
-    textField: {
-        border: "none",
-    },
     buttonWrapper: {
         outline: "none",
         "&:hover": {
@@ -39,6 +38,9 @@ const styles = {
     },
     inputPlaceholder: {
         fontFamily: "'Montserrat', sans-serif'",
+    },
+    progress: {
+        position: "absolute"
     }
 
 
@@ -55,9 +57,9 @@ class SignIn extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.errors !== state.errors) {
+        if (props.UI.errors !== state.errors) {
             return {
-                errors: props.errors
+                errors: props.UI.errors
             }
         }
         return null;
@@ -80,7 +82,7 @@ class SignIn extends Component {
 
 
     render() {
-        const {classes} = this.props;
+        const {classes, UI: {loading, doneSignIn}} = this.props;
         const {errors} = this.state;
         return (
             <div className="form-container sign-in-container">
@@ -117,40 +119,37 @@ class SignIn extends Component {
                                        }
                                    }
                                }
-
                     />
-
-
-                    <TextField type="password"
-                               name="loginPassword"
-                               placeholder="Mật khẩu"
-                               className={classes.formInput}
-                               helperText={errors.password}
-                               error={!!errors.password}
-                               id="loginPassword"
-                               onChange={this.handleChange}
-                               value={this.state.loginPassword}
-                                InputProps={
-                                    {
-                                        disableUnderline: true,
-                                        inputProps: {
-                                            fontFamily: "'Montserrat', sans-serif'"
-                                        }
-                                    }
+                    <TextField
+                        type="password"
+                        name="loginPassword"
+                        placeholder="Mật khẩu"
+                        className={classes.formInput}
+                        helperText={errors.password}
+                        error={!!errors.password}
+                        id="loginPassword"
+                        onChange={this.handleChange}
+                        value={this.state.loginPassword}
+                        InputProps={
+                            {
+                                disableUnderline: true,
+                                inputProps: {
+                                    fontFamily: "'Montserrat', sans-serif'"
                                 }
-                               // inputProps={{
-                               //     style: {
-                               //         fontFamily: "'Montserrat', sans-serif'",
-                               //     }
-                               // }}
-
+                            }
+                        }
                     />
                     <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
-
-                    <button
-                        onClick={this.loginWithEmail}
-                        className="custom-btn">Đăng nhập
-                    </button>
+                    <br/>
+                    {loading ? (
+                        <CircularProgress variant="indeterminate" size={35}/>
+                    ) : (
+                        <button
+                            onClick={this.loginWithEmail}
+                            className="custom-btn">
+                            {doneSignIn ? (<CheckIcon/>) : "Đăng nhập"}
+                        </button>
+                    )}
                 </form>
             </div>
         );
@@ -164,7 +163,7 @@ SignIn.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    errors: state.UI.errors
+    UI: state.UI
 });
 
 const mapDispatchToProps = {

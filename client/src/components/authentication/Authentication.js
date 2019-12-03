@@ -1,14 +1,10 @@
 import React, {Component} from 'react'
-
-import {signUp} from "../../redux/actions/UserActions";
-
 import PropTypes from 'prop-types';
-
 import {connect} from "react-redux";
-
 import withStyles from "@material-ui/core/styles/withStyles";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
+import {clearAuthenticationErrors} from "../../redux/actions/UIActions";
 
 const styles = {
     textField: {
@@ -40,47 +36,15 @@ const styles = {
 class Authentication extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-            // Login form states
-            loginEmail: "",
-            loginPassword: "",
-
-            //Sign up form states
-            signUpEmail: "",
-            signUpPassword: "",
-            signUpConfirmPassword: "",
-
-            // loading: false,
-
-            formSignUpErrors: {
-                emailError: "",
-                passwordError: "",
-                confirmPassError: ""
-            },
-
-            formLoginErrors: {
-                emailError: "",
-                passwordError: ""
-            }
-
-        }
+        this.state = {}
     }
-
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.UI.errors !== state.errors) {
-    //         return {
-    //             errors: props.UI.errors
-    //         }
-    //     }
-    //     return null;
-    // }
 
     componentDidMount() {
         this.handleAnimation()
     }
 
     handleAnimation() {
+        this.props.clearAuthenticationErrors();
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
         const container = document.getElementById('container');
@@ -94,27 +58,8 @@ class Authentication extends Component {
         });
     }
 
-    // handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     this.props.signUp({
-    //         email: this.state.signUpEmail,
-    //         password: this.state.signUpPassword,
-    //         confirmPassword: this.state.signUpConfirmPassword
-    //     }, this.props.history);
-    // };
-
-    // handleChange = (event) => {
-    //     this.setState({
-    //         [event.target.name]: event.target.value
-    //     });
-    // };
-
 
     render() {
-
-        // const {formSignUpErrors, formLoginErrors} = this.state;
-        // const {classes, UI: {doneSignUp, loading}} = this.props;
-        console.log(this.props);
         return (
             <div className="body">
                 <div className="container" id="container">
@@ -150,7 +95,7 @@ class Authentication extends Component {
 Authentication.propTypes = {
     UI: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    signUp: PropTypes.func.isRequired
+    signUp: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -158,7 +103,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    signUp
+    clearAuthenticationErrors
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Authentication));

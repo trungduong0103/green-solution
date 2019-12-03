@@ -7,6 +7,7 @@
     height: 100vh;
 }
 .custom-btn {
+    position: relative;
     border-radius: 20px;
     border: 1px solid #DDDDDD;
     background-color: white;
