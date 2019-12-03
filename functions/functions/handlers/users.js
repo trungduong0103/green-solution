@@ -1,10 +1,9 @@
 const {sendEmailToUser} = require("./topics");
-
 const {db} = require("../utils/admin");
 const firebase = require("firebase");
-
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
-
+const {WELCOME_MESSAGE} = require("../environments/emailTemplates");
+const {INVALID_CREDENTIALS, EMAIL_ALREADY_IN_USE, UNIDENTIFIED_ERRORS} = require("../environments/errorTemplates");
 //executes whenever a new user is created in Firebase Authentication
 exports.onUserCreateInAuth = (userRecord) => {
     return Promise.all([sendGreetingEmail(userRecord.email), createRecordInFirestore(userRecord)]);
@@ -23,7 +22,7 @@ function deleteUserRecordInFirestore(record) {
 }
 
 function sendGreetingEmail(email) {
-    return sendEmailToUser("Welcome to Green Clean Vietnam!!!", email);
+    return sendEmailToUser( WELCOME_MESSAGE, email);
 }
 
 function checkUserRecordInFirestore(recordId) {
@@ -78,11 +77,11 @@ exports.signUp = (req, res) => {
             if (err.code === "auth/email-already-in-use") {
                 return res
                     .status(400)
-                    .json({email: "Email is already in use"});
+                    .json({email: EMAIL_ALREADY_IN_USE});
             } else {
                 return res
                     .status(500)
-                    .json({general: "Something went wrong please try again"});
+                    .json({general: UNIDENTIFIED_ERRORS});
             }
         });
 };
@@ -111,7 +110,7 @@ exports.signIn = (req, res) => {
             console.error(err);
             return res
                 .status(403)
-                .json({general: "Wrong credentials, please try again"});
+                .json({general: INVALID_CREDENTIALS});
         });
 };
 

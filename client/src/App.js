@@ -1,7 +1,5 @@
 import React from 'react';
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
-import './App.css';
-
 import {Provider} from "react-redux";
 import store from "./redux/store";
 import Register from "./components/authentication/Temp/Register";
@@ -11,6 +9,7 @@ import JoinCleanUp from "./components/map/JoinCleanUp"
 import CreateCleanUp from "./components/map/CreateCleanUp"
 import Authentication from "./components/authentication/Authentication"
 import CleanUpDetail from "./components/map/CleanUpDetail";
+// import './stylesheets/App.css';
 
 //first comment for github
 function App() {

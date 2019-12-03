@@ -67,4 +67,3 @@ node_modules/
 .idea/
 
 functions/environments/
-#functions/environments/environments.js
