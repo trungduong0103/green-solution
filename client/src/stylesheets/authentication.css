@@ -85,9 +85,6 @@ form {
     min-height: 65%;
 }
 
-.title {
-}
-
 .form-container {
     position: absolute;
     top: 0;
@@ -147,13 +144,6 @@ form {
 }
 
 .overlay {
-    /*background: #FF416C;*/
-    /*background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);*/
-    /*background: linear-gradient(to right, #FF4B2B, #FF416C);*/
-
-    /*background: #76b852;  !* fallback for old browsers *!*/
-    /*background: -webkit-linear-gradient(to bottom, #8DC26F, #76b852);  !* Chrome 10-25, Safari 5.1-6 *!*/
-    /*background: linear-gradient(to bottom, #8DC26F, #76b852); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
     background: rgb(76,112,55);
     background: linear-gradient(90deg, rgba(76,112,55,1) 0%, rgba(95,161,59,1) 71%);
 
@@ -171,6 +161,11 @@ form {
 
 .container.right-panel-active .overlay {
     transform: translateX(50%);
+}
+
+.title {
+    margin: 10px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .overlay-panel {

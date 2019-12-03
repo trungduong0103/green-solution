@@ -16,7 +16,7 @@ const styles = {
         // width: "650px",
         // height: "550px",
         width: "100%",
-        height: "550px",
+        height: "560px",
         backgroundAttachment: "fixed",
         backgroundPosition: "center",
         backgroundSize: "cover",
@@ -26,7 +26,8 @@ const styles = {
         maxHeight: "100%"
     },
     registerForm: {
-        height: "52.4%",
+        width:"520px",
+        height: "440px",
         position: "absolute",
         backgroundColor: "rgb(99,151,68)",
         padding: "60px 40px",
@@ -45,7 +46,7 @@ const styles = {
             color: "white",
             transition: "all 350ms ease-in-out",
         },
-        marginTop: 10,
+        // marginTop: 10,
         border: "1px solid rgb(74,117,58)",
     },
     typoTitle: {
@@ -76,14 +77,14 @@ class Home extends Component {
                 <NavBar/>
 
                 <Grid container>
-                    <Grid item>
+                    <Grid item sm={12} md={12} lg={7}>
                         <Grid container className={classes.homeBanner}>
                             <img className={classes.banner} src={banner} alt="bannerBackground"/>
                         </Grid>
 
                     </Grid>
 
-                    <Grid item sm={4} md={4}>
+                    <Grid item sm={12} md={12} lg={5}>
                         <Paper className={classes.registerForm} elevation={0}>
                             <Typography variant="h4" gutterBottom className={classes.typoTitle}>
                                 Giới thiệu về Green Solution

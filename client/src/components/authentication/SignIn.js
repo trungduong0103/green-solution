@@ -117,23 +117,11 @@ class SignIn extends Component {
                                        }
                                    }
                                }
-                               // InputLabelProps={
-                               //     {
-                               //         fontFamily: "'Quicksand', sans-serif;",
-                               //     }
-                               // }
-                               // inputProps={
-                               //     {
-                               //         fontFamily: "'Quicksand', sans-serif;",
-                               //     }
-                               // }
 
                     />
 
 
-                    <TextField
-
-                                type="password"
+                    <TextField type="password"
                                name="loginPassword"
                                placeholder="Mật khẩu"
                                className={classes.formInput}

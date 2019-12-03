@@ -15,7 +15,8 @@ import Button from "@material-ui/core/Button";
 const styles = {
     appBar: {
         backgroundColor: "white",
-        height: "120px",
+        height: "100px",
+        // height: "100px",
         justifyContent: "center"
     },
     navBtn: {
@@ -39,22 +40,22 @@ const styles = {
     },
     logo: {
         padding: 25,
-        width: 250,
-        height: 100
+        width: 200,
+        height: 60
     },
     toolbar: {
         padding: "0 2% 0 2%",
     },
     signUpBtn: {
-        // fontSize: 15,
+        fontSize: 15,
         textTransform: "uppercase",
         fontFamily:"'Quicksand', sans-serif;",
         backgroundColor: "rgb(99,151,68)",
         color: "white",
         transition: "all 350ms ease-in-out",
         "&:hover": {
-            backgroundColor: "black",
-            color: "white",
+            backgroundColor: "#7F986F",
+            color: "black",
 
         },
         marginTop: 35,
@@ -86,20 +87,18 @@ class NavBar extends Component {
         return (
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
-
                     <Grid container>
 
-                        <Grid item sm={2} md={2}>
+                        <Grid item sm={3} md={3}>
 
-                            <img src={logo} className={classes.logo} alt="logo"
-                            />
+                            <img src={logo} className={classes.logo} alt="logo"/>
 
                         </Grid>
 
 
-                        <Grid item sm={8} md={8} >
+                        <Grid item sm={7} md={7} >
 
-                            <Grid container spacing={4} justify="center">
+                            <Grid container spacing={5} justify="center">
 
                                 <Grid item>
                                     <Button
