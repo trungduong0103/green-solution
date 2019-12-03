@@ -11,6 +11,7 @@ export const SET_USER = "SET_USER";
 
 //locations types
 export const GET_ALL_LOCATIONS = "GET_ALL_LOCATIONS";
+export const CREATE_NEW_LOCATION = "CREATE_NEW_LOCATION";
 
 //UI types
 export const CLEAR_ERRORS = "CLEAR_ERRORS";

@@ -1,7 +1,8 @@
-import {GET_ALL_LOCATIONS} from "../types";
+import {GET_ALL_LOCATIONS, CREATE_NEW_LOCATION} from "../types";
 
 const initialState = {
-    locations: []
+    locations: [],
+    location: {}
 };
 
 
@@ -11,6 +12,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 locations: action.payload
+            };
+        case CREATE_NEW_LOCATION:
+            return {
+                ...state,
+                locations: [...state.locations, action.payload]
             };
 
         default:

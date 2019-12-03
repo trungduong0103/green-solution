@@ -10,7 +10,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button"
 //React-redux
 import {connect} from "react-redux";
-import {getAllLocations} from "../../redux/actions/LocationActions";
+import {createNewLocation} from "../../redux/actions/LocationActions";
 //React router
 
 import NavBar from "../NavBar";
@@ -68,6 +68,18 @@ const styles = {
     formInput: {
         margin: 10
     },
+    customBtn: {
+        fontFamily: "inherit",
+        outline: "none",
+        borderRadius: 20,
+        border: "1px solid #DDDDDD",
+        backgroundColor: "white",
+        padding: "10px 30px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+        margin: "10px 0",
+    }
 };
 const Map = compose(
     withProps({
@@ -239,6 +251,15 @@ class CreateCleanUp extends Component {
         })
     };
 
+    addNewLocation = (event) => {
+        event.preventDefault();
+        this.props.createNewLocation({
+            "name": this.state.eventName,
+            "lat": this.state.eventLat,
+            "lng": this.state.eventLng
+        })
+    };
+
 
     render() {
         // console.log(this.props.locations);
@@ -286,7 +307,7 @@ class CreateCleanUp extends Component {
                                         required
                                         type="text"
                                         disabled
-                                        label="Tung độ"
+                                        label="Kinh độ"
                                         onChange={this.handleChange}
                                         value={this.state.eventLat}
                                         variant="outlined"
@@ -300,7 +321,7 @@ class CreateCleanUp extends Component {
                                         disabled
                                         required
                                         type="text"
-                                        label="Hoành độ"
+                                        label="Vĩ độ"
                                         onChange={this.handleChange}
                                         value={this.state.eventLng}
                                         variant="outlined"
@@ -308,9 +329,10 @@ class CreateCleanUp extends Component {
                                     />
                                     <Button
                                         variant="contained"
-
+                                        onClick={this.addNewLocation}
+                                        className={classes.customBtn}
                                     >
-
+                                        Xác nhận
                                     </Button>
                                 </form>
 
@@ -334,7 +356,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    getAllLocations
+    createNewLocation
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CreateCleanUp));
