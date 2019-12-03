@@ -24,12 +24,9 @@ const styles = {
     banner: {
         maxWidth: "100%",
         maxHeight: "100%"
-        // width: "100%",
-        // height: "100%"
     },
     registerForm: {
-        width: "615px",
-        height: "550px",
+        height: "52.4%",
         position: "absolute",
         backgroundColor: "rgb(99,151,68)",
         padding: "60px 40px",
@@ -37,7 +34,7 @@ const styles = {
 
     },
     signUpBtn: {
-        width: "150px",
+        // width: "150px",
         fontSize: 20,
         textTransform: "none",
         fontFamily:"'Quicksand', sans-serif;",

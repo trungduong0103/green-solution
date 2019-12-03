@@ -80,9 +80,9 @@ form {
     0 10px 10px rgba(0,0,0,0.22);
     position: relative;
     overflow: hidden;
-    width: 768px;
+    width: 85%;
     max-width: 90%;
-    min-height: 450px;
+    min-height: 65%;
 }
 
 .title {
@@ -179,7 +179,6 @@ form {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 40px;
     text-align: center;
     top: 0;
     height: 100%;

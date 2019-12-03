@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
-
 import {Link} from "react-router-dom";
 
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -12,6 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import logo from "../assets/imgs/MyLogo.png"
 //Icons
 import Button from "@material-ui/core/Button";
+// import PropTypes from 'prop-types';
 
 const styles = {
     appBar: {
@@ -46,7 +45,7 @@ const styles = {
         padding: "0 2% 0 2%",
     },
     signUpBtn: {
-        fontSize: 15,
+        // fontSize: 15,
         textTransform: "uppercase",
         fontFamily:"'Quicksand', sans-serif;",
         backgroundColor: "rgb(99,151,68)",
@@ -62,7 +61,7 @@ const styles = {
 
     },
     signInBtn: {
-        width: "120px",
+
         fontSize: 15,
         borderRadius: 20,
         textTransform: "none",
