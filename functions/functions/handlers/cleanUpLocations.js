@@ -1,17 +1,24 @@
 const {db} = require("../utils/admin");
-const {firebase} = require("../environments/config");
 
 exports.createNewLocation = (req, res) => {
+    const creationTime = new Date().toISOString();
     return db.collection("cleanUpLocations")
         .add({
             name: req.body.name,
             lat: req.body.lat,
             lng: req.body.lng,
-            createdAt: new Date().toISOString()
+            createdAt: creationTime
         })
         .then((ref) => {
             console.log("Clean up location ", ref.id, " created.");
-            return res.json({message: "location created successfully."});
+            return res.json({
+                id: ref.id,
+                name: req.body.name,
+                lat: req.body.lat,
+                lng: req.body.lng,
+                createdAt: creationTime
+
+            });
         })
         .catch((err) => {
             console.log(err);
