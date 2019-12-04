@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 //Material UI
-import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Collapse from '@material-ui/core/Collapse';
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -13,7 +12,7 @@ import {getAllLocations} from "../../redux/actions/LocationActions";
 //React router
 import NavBar from "../NavBar";
 import {JoinCleanUpMap} from "./maps/JoinCleanUpMap";
-import {openJoinCleanUpForm} from "../../redux/actions/FormActions";
+import {closeCleanUpModal, openCleanUpDetail} from "../../redux/actions/FormActions";
 
 import CleanUpDetail from "./CleanUpDetail";
 import {CircularProgress} from "@material-ui/core";
@@ -23,7 +22,7 @@ const styles = {
         position: "absolute",
         width: "50vw",
         height: "60vh",
-        top:"30%",
+        top:"20%",
         left: "5%",
         boxShadow: "0 10px 20px rgba(0,0,0,0.25)"
     },
@@ -36,14 +35,19 @@ const styles = {
     },
     progress: {
         position: "absolute",
-        top: "55%",
+        top: "45%",
         marginLeft: "20%"
     },
     detailContainer: {
         position: "absolute",
-        top:"30%",
-        marginRight: "3%"
-    }
+        top:"20%",
+        width: "35%"
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 };
 
 class JoinCleanUp extends Component {
@@ -59,7 +63,7 @@ class JoinCleanUp extends Component {
     }
 
     render() {
-        const {classes, formState: {open, locationId, loading}} = this.props;
+        const {classes, formState: {open, locationId, loading, modalOpen}} = this.props;
         return (
             <div>
                 <NavBar/>
@@ -86,8 +90,6 @@ class JoinCleanUp extends Component {
 
                     </Grid>
                 </Grid>
-
-
             </div>
 
         )
@@ -101,7 +103,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     getAllLocations,
-    openJoinCleanUpForm
+    openJoinCleanUpForm: openCleanUpDetail,
+    closeCleanUpModal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(JoinCleanUp));

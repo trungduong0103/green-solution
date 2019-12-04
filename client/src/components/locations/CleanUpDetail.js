@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
+import {openCleanUpModal} from "../../redux/actions/FormActions";
 
 const styles = {
 
@@ -59,11 +60,11 @@ class CleanUpDetail extends React.Component {
                 </CardContent>
                 <CardActions>
                     <Button
-                        className={classes.joinButton}>
+                        className={classes.joinButton}
+                        onClick={() => this.props.openCleanUpModal()}>
                         Tham Gia
                     </Button>
                 </CardActions>
-
             </Card>
         )
     }
@@ -77,7 +78,8 @@ const mapDispatchToProps = {
     getLocation,
     updateLocation,
     getAllLocations,
-    deleteLocation
+    deleteLocation,
+    openCleanUpModal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CleanUpDetail));

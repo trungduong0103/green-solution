@@ -19,6 +19,9 @@ app.get("/get_all_locations", getAllCleanUpLocations);
 app.put("/update_location", updateCleanUpLocation);
 app.delete("/delete_location/:locationId", deleteCleanUpLocation);
 
+//register
+app.post("/register_clean_site");
+
 //topics
 app.get("/newtopic", createNewTopic);
 app.post("/newmessage", publishMessageToTopic);

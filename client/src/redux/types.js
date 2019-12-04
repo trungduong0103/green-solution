@@ -27,5 +27,8 @@ export const OPEN_JOIN_CLEAN_UP_FORM = "OPEN_JOIN_CLEAN_UP_FORM";
 export const CLOSE_JOIN_CLEAN_UP_FORM = "CLOSE_JOIN_CLEAN_UP_FORM";
 export const LOADING_FORM = "LOADING_FORM";
 export const STOP_LOADING_FORM = "STOP_LOADING_FORM";
+export const OPEN_CLEAN_UP_MODAL = "OPEN_CLEAN_UP_MODAL";
+export const CLOSE_CLEAN_UP_MODAL = "CLOSE_CLEAN_UP_MODAL";
+
 
 export const DEFAULT_URL = "https://asia-northeast1-rmit-cloud-a2-c8905.cloudfunctions.net/api";

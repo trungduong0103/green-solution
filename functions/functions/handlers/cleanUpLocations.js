@@ -102,3 +102,7 @@ exports.deleteCleanUpLocation = (req, res) => {
         });
 };
 
+exports.joinCleanUpLocation = (req, res) => {
+
+}
+
