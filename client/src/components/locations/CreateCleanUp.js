@@ -17,12 +17,13 @@ import {createNewLocation} from "../../redux/actions/LocationActions";
 import NavBar from "../NavBar";
 import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
 
+var today = new Date();
 const styles = {
     mapWrapper: {
         position: "absolute",
         width: "50vw",
         height: "50vh",
-        top: "15%",
+        top: "20%",
         left: "2%",
         padding: 15
     },
@@ -98,8 +99,8 @@ class CreateCleanUp extends Component {
             eventName: "",
             eventDescription:"",
 
-            eventStartDate:"",
-            eventStartTime:"",
+            eventStartDate: today,
+            eventStartTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
 
             errors: {},
 
@@ -116,14 +117,16 @@ class CreateCleanUp extends Component {
         const startDate  = dayjs(date).format("YYYY-MM-DD");
         // console.log(typeof time);
         this.setState({
-            startDate: startDate
+            startDate: startDate,
+            eventStartDate: startDate
         });
     };
 
     handleTimeChange = (time) => {
-        // const startTime = dayjs(time).format("h:mm:ss a");
+        const startTime = dayjs(time).format("HH:mm:ss");
         this.setState({
-            startTime: time
+            startTime: time,
+            eventStartTime: startTime
         })
     };
 
@@ -143,8 +146,8 @@ class CreateCleanUp extends Component {
             "lat": this.state.eventLat,
             "lng": this.state.eventLng,
             "description": this.state.eventDescription,
-            "startDate": this.state.startDate,
-            // "startTime": this.state.eventStartTime
+            "startDate": this.state.eventStartDate,
+            "startTime": this.state.eventStartTime
         })
     };
 
@@ -155,8 +158,8 @@ class CreateCleanUp extends Component {
             "Lat": ${this.state.eventLat},
             "Lng": ${this.state.eventLng},
             "Description": ${this.state.eventDescription},
-            "StartDate": ${this.state.startDate},
-            "StartTime": ${this.state.startTime}
+            "StartDate": ${this.state.eventStartDate},
+            "StartTime": ${this.state.eventStartTime}
         
         `)
     };
@@ -177,12 +180,7 @@ class CreateCleanUp extends Component {
                 <NavBar/>
                 <Grid container>
                     <Grid item sm={7} className={classes.mapWrapper}>
-                        <Typography
-                            className={classes.title}
-                        >Chọn địa điểm bạn muốn tạo sự kiện</Typography>
-
                         <CreateCleanUpMap handleCall={this.getLocation}/>
-
                     </Grid>
 
                     <Grid item sm={5} className={classes.formWrapper}>
@@ -237,6 +235,7 @@ class CreateCleanUp extends Component {
                                     <Grid item sm={12}>
                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                             <KeyboardDatePicker
+
                                                 className={classes.picker}
                                                 invalidDateMessage="Ngày không hợp lệ"
                                                 disablePast
@@ -252,8 +251,6 @@ class CreateCleanUp extends Component {
                                             <KeyboardTimePicker
                                                 className={classes.picker}
                                                 label="Thời gian bắt đầu sự kiện"
-                                                ampm
-                                                id="date-picker-dialog"
                                                 value={this.state.startTime}
                                                 onChange={this.handleTimeChange}
                                             />

@@ -91,13 +91,13 @@ export const CreateCleanUpMap = compose(
         >
             <input
                 type="text"
-                placeholder="Nhập tỉnh thành bạn muốn tìm"
+                placeholder="Nhập địa chỉ bạn muốn tìm..."
                 style={{
                     boxSizing: `border-box`,
                     border: `1px solid transparent`,
                     width: `240px`,
                     height: `40px`,
-                    marginTop: `12px`,
+                    marginTop: `10px`,
                     padding: `0 12px`,
                     borderRadius: `3px`,
                     boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
