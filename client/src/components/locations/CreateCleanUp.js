@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-
+import DateFnsUtils from "@date-io/date-fns"
 //Material UI
 import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button"
+import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers"
+import dayjs from "dayjs";
+
 //React-redux
 import {connect} from "react-redux";
 import {createNewLocation} from "../../redux/actions/LocationActions";
@@ -19,7 +22,8 @@ const styles = {
         position: "absolute",
         width: "50vw",
         height: "50vh",
-        top: "20%",
+        top: "15%",
+        left: "2%",
         padding: 15
     },
 
@@ -74,7 +78,11 @@ const styles = {
         letterSpacing: 1,
         textTransform: "uppercase",
         transition: "all 350mx ease-in-out",
-        margin: "10px 0",
+        margin: "20px 0",
+    },
+    picker: {
+        margin: "0 5px",
+
     }
 };
 
@@ -84,13 +92,15 @@ class CreateCleanUp extends Component {
         super(props);
         this.state = {
             locations: [],
+
             eventLat: 0,
             eventLng: 0,
             eventName: "",
-            eventStartDate: null,
-            eventEndDate: null,
-            startDate: null,
-            endDate: null,
+            eventDescription:"",
+
+            eventStartDate:"",
+            eventStartTime:"",
+
             errors: {},
 
         }
@@ -101,6 +111,22 @@ class CreateCleanUp extends Component {
             [event.target.name]: event.target.value
         });
     };
+
+    handleDateChange = (date) => {
+        const startDate  = dayjs(date).format("YYYY-MM-DD");
+        // console.log(typeof time);
+        this.setState({
+            startDate: startDate
+        });
+    };
+
+    handleTimeChange = (time) => {
+        // const startTime = dayjs(time).format("h:mm:ss a");
+        this.setState({
+            startTime: time
+        })
+    };
+
 
     //Get marker position from user's search
     getLocation = (childData) => {
@@ -115,8 +141,24 @@ class CreateCleanUp extends Component {
         this.props.createNewLocation({
             "name": this.state.eventName,
             "lat": this.state.eventLat,
-            "lng": this.state.eventLng
+            "lng": this.state.eventLng,
+            "description": this.state.eventDescription,
+            "startDate": this.state.startDate,
+            // "startTime": this.state.eventStartTime
         })
+    };
+
+    printSomething = (event) => {
+        event.preventDefault();
+        console.log(`
+            "Name": ${this.state.eventName},
+            "Lat": ${this.state.eventLat},
+            "Lng": ${this.state.eventLng},
+            "Description": ${this.state.eventDescription},
+            "StartDate": ${this.state.startDate},
+            "StartTime": ${this.state.startTime}
+        
+        `)
     };
 
     componentDidMount() {
@@ -126,8 +168,10 @@ class CreateCleanUp extends Component {
         }
     }
 
+
     render() {
         const {classes} = this.props;
+
         return (
             <div>
                 <NavBar/>
@@ -142,7 +186,7 @@ class CreateCleanUp extends Component {
                     </Grid>
 
                     <Grid item sm={5} className={classes.formWrapper}>
-                        <Grid container>
+                        <Grid container className={classes.createForm}>
                             <Grid item sm={12}>
                                 <Typography className={classes.title}>Đơn tạo sự kiện</Typography>
                                 <Typography className={classes.helpTitle}>* Nhập địa chỉ bạn muốn chọn vảo bản đồ và
@@ -150,7 +194,7 @@ class CreateCleanUp extends Component {
                             </Grid>
 
                             <Grid item sm={12}>
-                                <form className={classes.createForm}>
+                                <form>
                                     <TextField
                                         className={classes.formInput}
                                         name="eventName"
@@ -159,10 +203,10 @@ class CreateCleanUp extends Component {
                                         label="Tên sự kiện"
                                         onChange={this.handleChange}
                                         value={this.state.eventName}
-                                        variant="outlined"
                                         helperText={this.errors}
                                         fullWidth
                                     />
+
 
                                     <TextField
                                         className={classes.formInput}
@@ -173,7 +217,7 @@ class CreateCleanUp extends Component {
                                         label="Kinh độ"
                                         onChange={this.handleChange}
                                         value={this.state.eventLat}
-                                        variant="outlined"
+                                        // variant="outlined"
                                         fullWidth
                                     />
 
@@ -186,12 +230,56 @@ class CreateCleanUp extends Component {
                                         label="Vĩ độ"
                                         onChange={this.handleChange}
                                         value={this.state.eventLng}
-                                        variant="outlined"
+                                        // variant="outlined"
                                         fullWidth
                                     />
+
+                                    <Grid item sm={12}>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <KeyboardDatePicker
+                                                className={classes.picker}
+                                                invalidDateMessage="Ngày không hợp lệ"
+                                                disablePast
+                                                format="dd/MM/yyyy"
+                                                id="date-picker-dialog"
+                                                value={this.state.startDate}
+                                                onChange={this.handleDateChange}
+                                                label="Ngày bắt đầu sự kiện"
+                                            />
+                                        </MuiPickersUtilsProvider>
+
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <KeyboardTimePicker
+                                                className={classes.picker}
+                                                label="Thời gian bắt đầu sự kiện"
+                                                ampm
+                                                id="date-picker-dialog"
+                                                value={this.state.startTime}
+                                                onChange={this.handleTimeChange}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </Grid>
+
+                                    <TextField
+                                        variant="outlined"
+                                        className={classes.formInput}
+                                        name="eventDescription"
+                                        required
+                                        type="text"
+                                        label="Mô tả sự kiện"
+                                        onChange={this.handleChange}
+                                        value={this.state.eventDescription}
+                                        multiline
+                                        rows="4"
+                                        helperText={this.errors}
+                                        fullWidth
+                                    />
+
+
+
                                     <Button
                                         variant="contained"
-                                        onClick={this.addNewLocation}
+                                        onClick={this.printSomething}
                                         className={classes.customBtn}
                                     >
                                         Xác nhận
@@ -207,7 +295,7 @@ class CreateCleanUp extends Component {
 }
 
 const mapStateToProps = state => ({
-    // locations: state.locationsData.locations
+    UI: state.UI
 });
 
 const mapDispatchToProps = {

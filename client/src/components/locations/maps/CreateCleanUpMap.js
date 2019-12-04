@@ -56,7 +56,7 @@ export const CreateCleanUpMap = compose(
                     places.map(place => {
                         return this.props.handleCall({
                             lat: place.geometry.location.lat(),
-                            lng: place.geometry.location.lng()
+                            lng: place.geometry.location.lng(),
                         })
                     });
 

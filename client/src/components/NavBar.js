@@ -29,7 +29,6 @@ const styles = {
         outline: "none",
         textDecoration: "none",
         fontSize: 17,
-
         fontFamily: "'Quicksand', sans-serif;",
         textTransform: "none",
         border: "none",
@@ -45,9 +44,24 @@ const styles = {
         marginTop: 35
     },
     logo: {
-        padding: 25,
+        // padding: 25,
         width: 200,
         height: 60
+    },
+    logoBtn: {
+        outline: "none",
+        textDecoration: "none",
+        textTransform: "none",
+        border: "none",
+
+        "&:hover": {
+            backgroundColor: "transparent",
+        },
+        "&:focus": {
+            outline: "none",
+            border: "none"
+        },
+        padding: 25,
     },
     toolbar: {
         padding: "0 2% 0 2%",
@@ -97,14 +111,20 @@ class NavBar extends Component {
                 <Toolbar className={classes.toolbar}>
                     <Grid container>
 
-                        <Grid item sm={3}>
+                        <Grid item sm={3} md={3}>
+                            <Button
+                                component={Link}
+                                to="/home"
+                                className={classes.logoBtn}
+                            >
+                                <img src={logo} className={classes.logo} alt="logo"/>
+                            </Button>
 
-                            <img src={logo} className={classes.logo} alt="logo"/>
 
                         </Grid>
 
 
-                        <Grid item sm={7}>
+                        <Grid item sm={7} md={7}>
 
                             <Grid container spacing={5} justify="center">
 
@@ -145,16 +165,17 @@ class NavBar extends Component {
                             </Grid>
                         </Grid>
 
-                        <Grid item sm={2}>
+                        <Grid item sm={2} md={2}>
                             <Grid container spacing={1}>
                                 <Grid item>
                                     <Button
                                         variant="contained"
                                         className={classes.signUpBtn}
                                         component={Link}
-                                        disabled={!!auth}
+                                        disabled = {!!auth}
                                         to="/authentication">
                                         {auth ? "LOGGED IN" : "Tham gia ngay"}
+
                                     </Button>
                                 </Grid>
                             </Grid>
