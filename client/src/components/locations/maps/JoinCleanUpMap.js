@@ -1,11 +1,13 @@
-import {compose, lifecycle, withHandlers, withProps, withStateHandlers} from "recompose";
+import React from "react";
+import {compose, lifecycle, withProps, withStateHandlers} from "recompose";
 import {REACT_APP_GOOGLE_KEY} from "../../../environments/Keys";
 import _ from "lodash";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
+
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import {Link} from "react-router-dom";
-import React from "react";
+import Button from "@material-ui/core/Button";
 
 export const JoinCleanUpMap = compose(
     withProps({
@@ -16,14 +18,12 @@ export const JoinCleanUpMap = compose(
         mapElement: <div style={{height: `100%`}}/>
     }),
 
-    withHandlers({
-        onMarkerClusterClick: () => (markerClusterer) => {
-            const clickedMarkers = markerClusterer.getMarkers();
-            console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-            console.log(clickedMarkers)
-        },
-
-    }),
+    // withHandlers({
+    //     onMarkerClusterClick: () => (markerClusterer) => {
+    //         const clickedMarkers = markerClusterer.getMarkers();
+    //     },
+    //
+    // }),
 
     withStateHandlers(() => ({
         isOpen: false,
@@ -125,7 +125,12 @@ export const JoinCleanUpMap = compose(
                             textAlign: "center"
                         }}>
                             <h5>{marker.name}</h5>
-                            <Link to={`/cleanup-detail/${marker.id}`}>Detail</Link>
+                            <Button
+                                onClick={() => props.openCleanUpForm(marker.id)}
+                            >
+                                Chọn
+                            </Button>
+                            {/*<Link to={`/cleanup-detail/${marker.id}`}>Detail</Link>*/}
                         </div>
                     </InfoWindow>}
                 </Marker>

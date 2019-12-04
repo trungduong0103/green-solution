@@ -8,6 +8,8 @@ exports.createNewLocation = (req, res) => {
             name: req.body.name,
             lat: req.body.lat,
             lng: req.body.lng,
+            description: req.body.description,
+            startDate: req.body.startDate,
             createdAt: creationTime
         })
         .then((ref) => {
@@ -17,6 +19,8 @@ exports.createNewLocation = (req, res) => {
                 name: req.body.name,
                 lat: req.body.lat,
                 lng: req.body.lng,
+                description: req.body.description,
+                startDate: req.body.startDate,
                 createdAt: creationTime
             });
         })
@@ -36,6 +40,8 @@ exports.getAllCleanUpLocations = (req, res) => {
                     name: doc.data().name,
                     lat: parseFloat(doc.data().lat),
                     lng: parseFloat(doc.data().lng),
+                    description: doc.data().description,
+                    startDate: doc.data().startDate,
                     createdAt: doc.data().createdAt
                 });
             });
@@ -70,7 +76,9 @@ exports.updateCleanUpLocation = (req, res) => {
         .update({
             name: req.body.name,
             lat: req.body.lat,
-            lng: req.body.lng
+            lng: req.body.lng,
+            description: req.body.description,
+            startDate: req.body.startDate
         })
         .then(() => {
             return res.json({

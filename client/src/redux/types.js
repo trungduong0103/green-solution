@@ -22,4 +22,10 @@ export const SET_ERRORS = "SET_ERRORS";
 export const OPEN_AUTHENTICATION_SNACKBAR = "OPEN_AUTHENTICATION_SNACKBAR";
 export const CLOSE_AUTHENTICATION_SNACKBAR = "CLOSE_AUTHENTICATION_SNACKBAR";
 
+//form types
+export const OPEN_JOIN_CLEAN_UP_FORM = "OPEN_JOIN_CLEAN_UP_FORM";
+export const CLOSE_JOIN_CLEAN_UP_FORM = "CLOSE_JOIN_CLEAN_UP_FORM";
+export const LOADING_FORM = "LOADING_FORM";
+export const STOP_LOADING_FORM = "STOP_LOADING_FORM";
+
 export const DEFAULT_URL = "https://asia-northeast1-rmit-cloud-a2-c8905.cloudfunctions.net/api";

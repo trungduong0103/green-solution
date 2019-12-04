@@ -196,6 +196,13 @@ export function signedIn() {
 export function signOut() {
     return function (dispatch) {
         const user = firebase.auth().currentUser;
+        const token = localStorage.getItem("FBIdToken");
+        if (token) {
+            localStorage.clear();
+        }
+        else {
+            console.log("no token");
+        }
         if (user !== null) {
             firebase.auth().signOut()
                 .then(() => {
@@ -205,6 +212,8 @@ export function signOut() {
                 .catch((err) => {
                     console.log(err);
                 })
+        }else {
+            console.log("no user");
         }
 
     }

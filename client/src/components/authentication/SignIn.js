@@ -88,9 +88,6 @@ const styles = {
         color: "red",
 
     }
-
-
-
 };
 
 class SignIn extends Component {

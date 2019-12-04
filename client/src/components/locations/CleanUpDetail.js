@@ -1,16 +1,28 @@
 import React from 'react';
-import NavBar from "../NavBar";
 import {connect} from "react-redux";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
+
+import CardContent from "@material-ui/core/CardContent";
+import Card from "@material-ui/core/Card";
+import Typography from "@material-ui/core/Typography";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const styles = {
+
+};
 
 class CleanUpDetail extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            location:{}
+        }
     }
 
     componentDidMount() {
-        const locationId = this.props.match.params.id;
+        // const locationId = this.props.match.params.id;
         // this.props.getAllLocations();
         // this.props.deleteLocation("LVpPAv3vRZpUDVRNkc3Z");
         // this.props.getLocation(locationId);
@@ -22,13 +34,37 @@ class CleanUpDetail extends React.Component {
         // })
     }
 
-    render() {
+    static getDerivedStateFromProps(props, state) {
+        if(props.location !== state.location) {
+            return {
+                location: props.location
+            }
+        }
+        return null;
+    }
 
+
+    render() {
+        const {classes} = this.props;
         return(
-            <div>
-                <NavBar/>
-                <h3>Detail Location {this.props.match.params.id}</h3>
-            </div>
+            <Card>
+                <CardContent>
+                    <Typography gutterBottom variant="h4" component="h2">
+                        {this.props.location.name}
+                    </Typography>
+                    <br/>
+                    <Typography variant="body2" component="p">
+                        {this.props.location.description}
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    <Button
+                        className={classes.joinButton}>
+                        Tham Gia
+                    </Button>
+                </CardActions>
+
+            </Card>
         )
     }
 }
@@ -44,4 +80,4 @@ const mapDispatchToProps = {
     deleteLocation
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CleanUpDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CleanUpDetail));

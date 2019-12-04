@@ -3,7 +3,7 @@ import {
     DEFAULT_URL,
     DELETE_LOCATION,
     GET_ALL_LOCATIONS,
-    GET_LOCATION,
+    GET_LOCATION, LOADING_FORM, STOP_LOADING_FORM,
     UPDATE_LOCATION
 } from "../types";
 import axios from "axios";
@@ -27,6 +27,7 @@ export function getAllLocations() {
 
 export function getLocation(locationId) {
     return function (dispatch) {
+        dispatch({type: LOADING_FORM});
         axios
             .get(`${DEFAULT_URL}/get_location/${locationId}`)
             .then((res) => {
@@ -34,6 +35,7 @@ export function getLocation(locationId) {
                     type: GET_LOCATION,
                     payload: res.data
                 });
+                dispatch({type: STOP_LOADING_FORM});
             });
     }
 }
