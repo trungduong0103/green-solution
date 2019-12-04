@@ -57,6 +57,7 @@ export const CreateCleanUpMap = compose(
                         return this.props.handleCall({
                             lat: place.geometry.location.lat(),
                             lng: place.geometry.location.lng(),
+                            address: place.formatted_address
                         })
                     });
 
