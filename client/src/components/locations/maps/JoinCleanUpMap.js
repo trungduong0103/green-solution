@@ -128,7 +128,7 @@ export const JoinCleanUpMap = compose(
                             <Button
                                 onClick={() => props.openCleanUpForm(marker.id)}
                             >
-                                Chọn
+                                Tham Gia
                             </Button>
                             {/*<Link to={`/cleanup-detail/${marker.id}`}>Detail</Link>*/}
                         </div>

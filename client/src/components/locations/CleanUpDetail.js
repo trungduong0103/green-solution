@@ -8,17 +8,19 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {openCleanUpModal} from "../../redux/actions/FormActions";
+import JoinCleanUpForm from "./forms/JoinCleanSiteForm";
 
 const styles = {
-
+    cardActions: {
+        textAlign: "center"
+    }
 };
 
 class CleanUpDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            location:{}
+            location: {}
         }
     }
 
@@ -36,7 +38,7 @@ class CleanUpDetail extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if(props.location !== state.location) {
+        if (props.location !== state.location) {
             return {
                 location: props.location
             }
@@ -44,24 +46,25 @@ class CleanUpDetail extends React.Component {
         return null;
     }
 
-
     render() {
         const {classes} = this.props;
-        return(
+        return (
             <Card>
                 <CardContent>
                     <Typography gutterBottom variant="h4" component="h2">
-                        {this.props.location.name}
+                        {this.state.location.name}
                     </Typography>
                     <br/>
                     <Typography variant="body2" component="p">
-                        {this.props.location.description}
+                        {this.state.location.description}
                     </Typography>
+
+                    <JoinCleanUpForm/>
                 </CardContent>
-                <CardActions>
+                <CardActions className={classes.cardActions}>
                     <Button
                         className={classes.joinButton}
-                        onClick={() => this.props.openCleanUpModal()}>
+                    >
                         Tham Gia
                     </Button>
                 </CardActions>
@@ -78,8 +81,7 @@ const mapDispatchToProps = {
     getLocation,
     updateLocation,
     getAllLocations,
-    deleteLocation,
-    openCleanUpModal
+    deleteLocation
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CleanUpDetail));

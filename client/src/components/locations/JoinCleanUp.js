@@ -12,7 +12,7 @@ import {getAllLocations} from "../../redux/actions/LocationActions";
 //React router
 import NavBar from "../NavBar";
 import {JoinCleanUpMap} from "./maps/JoinCleanUpMap";
-import {closeCleanUpModal, openCleanUpDetail} from "../../redux/actions/FormActions";
+import {openCleanUpDetail} from "../../redux/actions/FormActions";
 
 import CleanUpDetail from "./CleanUpDetail";
 import {CircularProgress} from "@material-ui/core";
@@ -63,7 +63,7 @@ class JoinCleanUp extends Component {
     }
 
     render() {
-        const {classes, formState: {open, locationId, loading, modalOpen}} = this.props;
+        const {classes, formState: {open, locationId, loading}} = this.props;
         return (
             <div>
                 <NavBar/>
@@ -72,7 +72,7 @@ class JoinCleanUp extends Component {
                         <Grid className={classes.mapContainer}>
                             <JoinCleanUpMap
                                 locations={this.props.locations}
-                                openCleanUpForm={this.props.openJoinCleanUpForm}/>
+                                openCleanUpForm={this.props.openCleanUpDetail}/>
                         </Grid>
                     </Grid>
 
@@ -87,7 +87,6 @@ class JoinCleanUp extends Component {
                                 <CleanUpDetail id={locationId}/>
                             </Collapse>
                         )}
-
                     </Grid>
                 </Grid>
             </div>
@@ -103,8 +102,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     getAllLocations,
-    openJoinCleanUpForm: openCleanUpDetail,
-    closeCleanUpModal
+    openCleanUpDetail
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(JoinCleanUp));

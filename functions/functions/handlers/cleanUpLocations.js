@@ -8,8 +8,10 @@ exports.createNewLocation = (req, res) => {
             name: req.body.name,
             lat: req.body.lat,
             lng: req.body.lng,
+            address: req.body.address,
             description: req.body.description,
             startDate: req.body.startDate,
+            startTime: req.body.startTime,
             createdAt: creationTime
         })
         .then((ref) => {
@@ -19,8 +21,10 @@ exports.createNewLocation = (req, res) => {
                 name: req.body.name,
                 lat: req.body.lat,
                 lng: req.body.lng,
+                address: req.body.address,
                 description: req.body.description,
                 startDate: req.body.startDate,
+                startTime: req.body.startTime,
                 createdAt: creationTime
             });
         })
@@ -40,8 +44,10 @@ exports.getAllCleanUpLocations = (req, res) => {
                     name: doc.data().name,
                     lat: parseFloat(doc.data().lat),
                     lng: parseFloat(doc.data().lng),
+                    address: doc.data().address,
                     description: doc.data().description,
                     startDate: doc.data().startDate,
+                    startTime: doc.data().startTime,
                     createdAt: doc.data().createdAt
                 });
             });
@@ -77,8 +83,10 @@ exports.updateCleanUpLocation = (req, res) => {
             name: req.body.name,
             lat: req.body.lat,
             lng: req.body.lng,
+            address: req.body.address,
             description: req.body.description,
-            startDate: req.body.startDate
+            startDate: req.body.startDate,
+            startTime: req.body.startTime
         })
         .then(() => {
             return res.json({
@@ -101,8 +109,8 @@ exports.deleteCleanUpLocation = (req, res) => {
             console.log(err);
         });
 };
-
-exports.joinCleanUpLocation = (req, res) => {
-
-}
+//
+// exports.joinCleanUpLocation = (req, res) => {
+//
+// }
 
