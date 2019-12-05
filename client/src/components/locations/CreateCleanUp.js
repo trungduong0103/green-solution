@@ -13,7 +13,7 @@ import CardContent from "@material-ui/core/CardContent"
 import NavBar from "../NavBar";
 import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import CheckIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import CheckIcon from "@material-ui/icons/Check";
 //React-redux
 import {connect} from "react-redux";
 import {createNewLocation} from "../../redux/actions/LocationActions";
@@ -221,8 +221,7 @@ class CreateCleanUp extends Component {
 
     clearFormAndError() {
         this.setState({
-            errors: {},
-
+            errors: {}
         })
     }
 
@@ -379,17 +378,24 @@ class CreateCleanUp extends Component {
                                                     }
                                                 }
                                             />
-                                            <Button
-                                                variant="contained"
-                                                onClick={this.addNewLocation}
-                                                disabled={loading}
-                                                className={doneCreateLocation ? classes.successBtn : classes.customBtn}
-                                            >
-                                                {loading ? (
-                                                    <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
-                                                ) : "" }
-                                                {doneCreateLocation ? (<CheckIcon color="primary"/>) : "Xác nhận"}
-                                            </Button>
+
+                                            {doneCreateLocation ? (
+
+                                                <CheckIcon className={classes.check} />
+                                            ):
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={this.addNewLocation}
+                                                    disabled={loading}
+
+                                                    className={doneCreateLocation ? classes.successBtn : classes.customBtn}
+                                                > Xác Nhận
+                                                    {loading ? (
+                                                        <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
+                                                    ) : "" }
+                                                </Button>
+                                            }
+
                                         </form>
                                     </Grid>
                                 </Grid>

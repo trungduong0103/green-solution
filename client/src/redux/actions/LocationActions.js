@@ -98,8 +98,13 @@ export function joinLocation(info) {
                 console.log(res.data);
                 dispatch({type: JOINED_CLEAN_SITE})
             })
+            .then(() => {
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE})
+                }, 1000);
+            })
             .catch((err) => {
                 console.log(err);
-            })
+            });
     }
 }

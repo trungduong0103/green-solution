@@ -15,6 +15,7 @@ import {
 
 const initialState = {
     doneCreateLocation: false,
+    doneJoinLocation: false,
     loading: false,
     doneSignUp: false,
     doneSignIn: false,
