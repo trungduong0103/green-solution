@@ -56,7 +56,7 @@ class CleanUpDetail extends React.Component {
                     <Typography variant="body2" component="p">
                         {this.state.location.description}
                     </Typography>
-
+                    <br/>
                     <JoinCleanUpForm locationId={this.state.location.id}/>
 
                 </CardContent>

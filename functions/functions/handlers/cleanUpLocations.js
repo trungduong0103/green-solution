@@ -8,7 +8,6 @@ exports.createNewLocation = (req, res) => {
     const creationTime = new Date().toISOString();
     return db.collection("cleanUpLocations")
         .add({
-            // newLocation
             name: req.body.name,
             lat: req.body.lat,
             lng: req.body.lng,

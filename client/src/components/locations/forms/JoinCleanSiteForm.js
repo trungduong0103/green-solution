@@ -8,13 +8,36 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 import {joinLocation} from "../../../redux/actions/LocationActions";
 import Button from "@material-ui/core/Button";
+import {CircularProgress} from "@material-ui/core";
 
 const styles = {
     form: {
         padding: "0",
         textAlign: "left"
     },
-    textField: {}
+    textField: {},
+    customBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        outline: "none",
+        borderRadius: 20,
+        border: "1px solid #DDDDDD",
+        backgroundColor: "white",
+        padding: "10px 30px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "black",
+            color: "white",
+            border: "1px solid black",
+            outline: "none"
+        }
+    },
+    progress: {
+        marginLeft: "25%"
+    }
 };
 
 class JoinCleanSiteForm extends Component {
@@ -38,7 +61,6 @@ class JoinCleanSiteForm extends Component {
             email: this.state.email,
             phoneNumber: this.state.phoneNumber
         };
-
         if (this.handleDataBeforeSubmit(data)) {
             this.props.joinLocation({
                 email: this.state.email,
@@ -76,11 +98,11 @@ class JoinCleanSiteForm extends Component {
 
 
     render() {
-        const {classes} = this.props;
+        const {classes, loading} = this.props;
         const {errors} = this.state;
         return (
             <form className={classes.form}>
-                <Grid container>
+                <Grid container spacing={1}>
                     <Grid item sm={6}>
                         <TextField
                             id="outlined-basic"
@@ -93,6 +115,7 @@ class JoinCleanSiteForm extends Component {
                             onChange={this.handleChange}
                             margin="normal"
                             variant="outlined"
+                            fullWidth
                         />
                     </Grid>
                     <Grid item sm={6}>
@@ -107,6 +130,7 @@ class JoinCleanSiteForm extends Component {
                             onChange={this.handleChange}
                             margin="normal"
                             variant="outlined"
+                            fullWidth
                         />
                     </Grid>
                 </Grid>
@@ -114,11 +138,21 @@ class JoinCleanSiteForm extends Component {
                 <Grid container>
                     <Grid item sm={4}/>
                     <Grid item sm={4}>
-                        <Button
-                            className={classes.joinButton}
+                        {loading ? (
+                            <CircularProgress
+                                variant="indeterminate"
+                                size={35}
+                                className={classes.progress}
+                                />
+                            )
+                                :
+                            (
+                                <Button
+                            className={classes.customBtn}
                             onClick={this.handleJoinLocation}>
                             Đăng Kí
-                        </Button>
+                        </Button>)
+                        }
                     </Grid>
                     <Grid item sm={4}/>
                 </Grid>
@@ -129,8 +163,12 @@ class JoinCleanSiteForm extends Component {
 
 JoinCleanSiteForm.propTypes = {};
 
+const mapStateToProps = (state) => ({
+    loading: state.UI.loading
+});
+
 const mapDispatchToProps = {
     joinLocation
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(JoinCleanSiteForm));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(JoinCleanSiteForm));

@@ -20,8 +20,7 @@ import {createNewLocation} from "../../redux/actions/LocationActions";
 //React router
 
 
-
-var today = new Date();
+const today = new Date();
 const styles = {
     mapWrapper: {
         position: "absolute",
@@ -40,7 +39,6 @@ const styles = {
         top: "20%",
 
     },
-
     mapContainer: {
         position: "absolute",
         top: "30%",
@@ -77,7 +75,6 @@ const styles = {
     form: {
         backgroundColor: "#63a95a"
     },
-
     formInput: {
         margin: 10,
         color: "white"
@@ -99,7 +96,7 @@ const styles = {
                 color: "white",
                 border: "1px solid black",
                 outline: "none"
-            },
+            }
     },
     progress: {
         position: "absolute",
@@ -398,7 +395,6 @@ class CreateCleanUp extends Component {
                                 </Grid>
                             </CardContent>
                         </Card>
-
                     </Grid>
                 </Grid>
             </div>
