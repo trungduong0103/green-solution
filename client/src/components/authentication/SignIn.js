@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 //Material UI Icons
 import CheckIcon from "@material-ui/icons/Check";
+import {KeyboardTimePicker} from "@material-ui/pickers";
 
 
 const styles = {
@@ -81,13 +82,14 @@ const styles = {
             outline: "none"
         }
     },
-    inputPlaceholder: {
+    input: {
         fontFamily: "'Quicksand', sans-serif;",
     },
     customError: {
         color: "red",
 
-    }
+    },
+
 };
 
 class SignIn extends Component {
@@ -155,14 +157,12 @@ class SignIn extends Component {
                                id="loginEmail"
                                onChange={this.handleChange}
                                value={this.state.loginEmail}
+
+                               InputLabelProps={{className: classes.input}}
                                InputProps={
                                    {
                                        disableUnderline: true,
-                                       inputProps: {
-                                           fontFamily: "'Montserrat', sans-serif'"
-                                       }
-                                   }
-                               }
+                                       className: classes.input}}
                     />
                     <TextField
                         type="password"
@@ -174,14 +174,11 @@ class SignIn extends Component {
                         id="loginPassword"
                         onChange={this.handleChange}
                         value={this.state.loginPassword}
+                        InputLabelProps={{className: classes.input}}
                         InputProps={
                             {
                                 disableUnderline: true,
-                                inputProps: {
-                                    fontFamily: "'Montserrat', sans-serif'"
-                                }
-                            }
-                        }
+                                className: classes.input}}
                     />
                     <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
                     {/*<br/>*/}

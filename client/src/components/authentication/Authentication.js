@@ -85,7 +85,7 @@ class Authentication extends Component {
                                 </button>
                             </div>
                             <div className="overlay-panel overlay-right">
-                                <h1>Chào Bạn!</h1>
+                                <h1>Chào Bạn !</h1>
                                 <p>Nhập thông tin cá nhân và bắt đầu cuộc hành trình với chúng tôi</p>
                                 <button className="custom-btn ghost" id="signUp" onClick={() => this.handleAnimation()}>
                                     Đăng ký

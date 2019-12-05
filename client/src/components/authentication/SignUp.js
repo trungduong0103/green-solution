@@ -76,6 +76,9 @@ const styles = {
             outline: "none"
         }
     },
+    input: {
+        fontFamily: "'Quicksand', sans-serif;",
+    },
 
 
 };
@@ -152,7 +155,11 @@ class SignUp extends Component {
                         onChange={this.handleChange}
                         value={this.state.signUpEmail}
                         fullWidth
-                        InputProps={{disableUnderline: true}}
+                        InputLabelProps={{className: classes.input}}
+                        InputProps={
+                            {
+                                disableUnderline: true,
+                                className: classes.input}}
                     >
                     </TextField>
                     <TextField
@@ -166,7 +173,11 @@ class SignUp extends Component {
                         onChange={this.handleChange}
                         value={this.state.signUpPassword}
                         fullWidth
-                        InputProps={{disableUnderline: true}}
+                        InputLabelProps={{className: classes.input}}
+                        InputProps={
+                            {
+                                disableUnderline: true,
+                                className: classes.input}}
                     >
                     </TextField>
                     <TextField
@@ -180,7 +191,11 @@ class SignUp extends Component {
                         onChange={this.handleChange}
                         value={this.state.signUpConfirmPassword}
                         fullWidth
-                        InputProps={{disableUnderline: true}}
+                        InputLabelProps={{className: classes.input}}
+                        InputProps={
+                            {
+                                disableUnderline: true,
+                                className: classes.input}}
                     >
                     </TextField>
 
