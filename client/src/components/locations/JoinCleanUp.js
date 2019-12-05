@@ -84,7 +84,7 @@ class JoinCleanUp extends Component {
                                 className={classes.progress} />
                         ) : (
                             <Collapse in={open} className={classes.detailContainer}>
-                                <CleanUpDetail id={locationId}/>
+                                <CleanUpDetail />
                             </Collapse>
                         )}
                     </Grid>

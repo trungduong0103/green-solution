@@ -6,7 +6,7 @@ app.use(cors());
 
 const {signUp, signIn, onUserCreateInAuth, onUserDeleteInAuth} = require("./handlers/users");
 const {createNewTopic, publishMessageToTopic, sendEmailToUser} = require("./handlers/topics");
-const {createNewLocation, updateCleanUpLocation, deleteCleanUpLocation, getCleanUpLocation, getAllCleanUpLocations} = require("./handlers/cleanUpLocations");
+const {createNewLocation, updateCleanUpLocation, deleteCleanUpLocation, getCleanUpLocation, getAllCleanUpLocations, joinCleanUpLocation} = require("./handlers/cleanUpLocations");
 
 //User routes
 app.post("/signup", signUp);
@@ -18,6 +18,7 @@ app.get("/get_location/:locationId", getCleanUpLocation);
 app.get("/get_all_locations", getAllCleanUpLocations);
 app.put("/update_location", updateCleanUpLocation);
 app.delete("/delete_location/:locationId", deleteCleanUpLocation);
+app.post("/join_clean_site", joinCleanUpLocation);
 
 //register
 // app.post("/register_clean_site");

@@ -23,7 +23,7 @@ function deleteUserRecordInFirestore(record) {
 }
 
 function sendGreetingEmail(email) {
-    return sendEmailToUser( WELCOME_MESSAGE, email);
+    return sendEmailToUser(WELCOME_MESSAGE, email);
 }
 
 function checkUserRecordInFirestore(recordId) {
@@ -38,7 +38,8 @@ function createRecordInFirestore(record) {
         .doc(record.uid)
         .set({
             email: record.email,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            verified: 1
         })
         .then(() => {
             console.log("user with email: ", record.email, " created successfully");
@@ -131,4 +132,17 @@ exports.getAuthenticatedUser = (req, res) => {
             console.log(err);
             return res.json({error: err.code});
         })
+};
+
+exports.checkUserRecord = (userId) => {
+    return db
+        .collection("users")
+        .doc(userId)
+        .get()
+        .then((snapshot) => {
+            return snapshot.exists
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 };

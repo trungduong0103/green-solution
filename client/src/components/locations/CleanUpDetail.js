@@ -9,9 +9,10 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import JoinCleanUpForm from "./forms/JoinCleanSiteForm";
+import Grid from "@material-ui/core/Grid";
 
 const styles = {
-    cardActions: {
+    joinButton: {
         textAlign: "center"
     }
 };
@@ -59,15 +60,20 @@ class CleanUpDetail extends React.Component {
                         {this.state.location.description}
                     </Typography>
 
-                    <JoinCleanUpForm/>
+                    <JoinCleanUpForm locationId={this.state.location.id}/>
+                    <br/>
+                    <Grid container justify="center" alignItems="center">
+                        <Grid item sm={4}/>
+                        <Grid item sm={4}>
+                            <Button className={classes.joinButton}>
+                                Đăng Kí
+                            </Button>
+                        </Grid>
+                        <Grid item sm={4}/>
+                    </Grid>
+
                 </CardContent>
-                <CardActions className={classes.cardActions}>
-                    <Button
-                        className={classes.joinButton}
-                    >
-                        Tham Gia
-                    </Button>
-                </CardActions>
+
             </Card>
         )
     }

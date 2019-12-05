@@ -1,5 +1,6 @@
 const {db} = require("../utils/admin");
 const {firebase} = require("../environments/config");
+const {admin} = require("../utils/admin");
 
 exports.createNewLocation = (req, res) => {
     const creationTime = new Date().toISOString();
@@ -66,7 +67,17 @@ exports.getCleanUpLocation = (req, res) => {
         .get()
         .then((doc) => {
             if (doc.exists) {
-                return res.json(doc.data());
+                return res.json({
+                    id: doc.id,
+                    name: doc.data().name,
+                    lat: parseFloat(doc.data().lat),
+                    lng: parseFloat(doc.data().lng),
+                    address: doc.data().address,
+                    description: doc.data().description,
+                    startDate: doc.data().startDate,
+                    startTime: doc.data().startTime,
+                    createdAt: doc.data().createdAt
+                });
             }
             return res.json({message: "clean up location not found."});
         })
@@ -109,8 +120,82 @@ exports.deleteCleanUpLocation = (req, res) => {
             console.log(err);
         });
 };
-//
-// exports.joinCleanUpLocation = (req, res) => {
-//
-// }
 
+exports.joinCleanUpLocation = (req, res) => {
+    handleJoinLocation("email", req.body.email, req.body.id)
+        .then(() => {
+            return res.json({message: "joined"});
+        })
+        .catch((err) => {
+            return res.json({error: err});
+        });
+    return addEmailToRegisteredUsersArray(req.body.id, req.body.email);
+};
+
+function handleJoinLocation(field, value, locationId) {
+    const documents = [];
+    return db
+        .collection("users")
+        .where(field, "==", value)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((snap) => {
+                documents.push({id: snap.id});
+            });
+            if (documents.length !== 0) {
+                console.log("found in database");
+                addLocationIdToRegisteredLocationsArray(documents[0].id, locationId);
+                return true;
+            } else {
+                console.log("not found in database");
+                createUserAndAddLocationId(value, locationId);
+                return false;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+function createUserAndAddLocationId(email, locationId) {
+    return db
+        .collection("users")
+        .add({
+            email: email,
+            createdAt: new Date().toISOString(),
+            verified: 0,
+            registeredLocations: admin.firestore.FieldValue.arrayUnion(locationId)
+        });
+}
+
+function addLocationIdToRegisteredLocationsArray(refId, locationId) {
+    return db
+        .collection("users")
+        .doc(refId)
+        .update({
+            registeredLocations: admin.firestore.FieldValue.arrayUnion(locationId)
+        })
+        .then(() => {
+            return true;
+        })
+        .catch((err) => {
+            console.log(err);
+            return err;
+        })
+}
+
+function addEmailToRegisteredUsersArray(locationId, email) {
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationId)
+        .update({
+            registeredUsers: admin.firestore.FieldValue.arrayUnion(email)
+        })
+        .then(() => {
+            return true;
+        })
+        .catch((err) => {
+            console.log(err);
+            return err;
+        });
+}

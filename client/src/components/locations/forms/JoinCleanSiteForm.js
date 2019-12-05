@@ -9,12 +9,24 @@ const styles = {
         padding: "0",
         textAlign: "left"
     },
-    textField: {
-
-    }
+    textField: {}
 };
 
 class JoinCleanSiteForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            phoneNumber: ""
+        }
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    };
+
 
     render() {
         const {classes} = this.props;
@@ -26,6 +38,7 @@ class JoinCleanSiteForm extends Component {
                             id="outlined-basic"
                             className={classes.textField}
                             label="Email"
+                            onChange={this.handleChange}
                             margin="normal"
                             variant="outlined"
                         />
@@ -35,6 +48,7 @@ class JoinCleanSiteForm extends Component {
                             id="outlined-basic"
                             className={classes.textField}
                             label="Số điện thoại"
+                            onChange={this.handleChange}
                             margin="normal"
                             variant="outlined"
                         />
