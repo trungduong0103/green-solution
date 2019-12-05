@@ -30,7 +30,7 @@ const styles = {
         padding: 20,
         height: 200,
         width: "100%",
-        backgroundColor: "#F6EDD9"
+        backgroundColor: "#F6FBF2"
     },
     icon: {
         width: 50,

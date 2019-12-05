@@ -17,6 +17,7 @@ import CheckIcon from "@material-ui/core/SvgIcon/SvgIcon";
 //React-redux
 import {connect} from "react-redux";
 import {createNewLocation} from "../../redux/actions/LocationActions";
+import Footer from "../Footer";
 //React router
 
 
@@ -51,13 +52,11 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 35,
         textAlign: "center",
-        color: "white"
     },
     helpTitle: {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 14,
         textAlign: "center",
-        color: "white"
     },
     text: {
         position: "absolute",
@@ -69,11 +68,11 @@ const styles = {
 
     cardForm: {
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
-        backgroundColor: "#63a95a",
+        backgroundColor: "#F6EDD9",
         borderRadius: "10px 50px"
     },
     form: {
-        backgroundColor: "#63a95a"
+        backgroundColor: "#F6EDD9"
     },
     formInput: {
         margin: 10,
@@ -111,12 +110,12 @@ const styles = {
 
     },
     input: {
-        color: "white",
+
         fontFamily: "'Quicksand', sans-serif;",
     },
-    notchedOutline: {
-        borderColor: "white"
-    },
+    // notchedOutline: {
+    //     borderColor: "white"
+    // },
     successBtn: {
         outline: "none",
         // fontFamily: "inherit",
@@ -135,6 +134,9 @@ const styles = {
     customError: {
         color: "red",
     },
+    wrapper: {
+        height: "750px"
+    }
 };
 
 
@@ -246,19 +248,19 @@ class CreateCleanUp extends Component {
         return true;
     }
 
-    printSomething = (event) => {
-        event.preventDefault();
-        console.log(`
-            "Name": ${this.state.eventName},
-            "Lat": ${this.state.eventLat},
-            "Lng": ${this.state.eventLng},
-            "Address": ${this.state.eventAddress},
-            "Description": ${this.state.eventDescription},
-            "StartDate": ${this.state.eventStartDate},
-            "StartTime": ${this.state.eventStartTime}
-        
-        `)
-    };
+    // printSomething = (event) => {
+    //     event.preventDefault();
+    //     console.log(`
+    //         "Name": ${this.state.eventName},
+    //         "Lat": ${this.state.eventLat},
+    //         "Lng": ${this.state.eventLng},
+    //         "Address": ${this.state.eventAddress},
+    //         "Description": ${this.state.eventDescription},
+    //         "StartDate": ${this.state.eventStartDate},
+    //         "StartTime": ${this.state.eventStartTime}
+    //
+    //     `)
+    // };
 
     componentDidMount() {
         const auth = localStorage.getItem("FBIdToken");
@@ -268,13 +270,12 @@ class CreateCleanUp extends Component {
     }
 
     render() {
-        // const {classes} = this.props;
         const {classes, UI: {loading, doneCreateLocation}} = this.props;
         const {errors} = this.state;
         return (
             <div>
                 <NavBar/>
-                <Grid container>
+                <Grid container className={classes.wrapper}>
                     <Grid item sm={7} className={classes.mapWrapper}>
                         <CreateCleanUpMap handleCall={this.getLocation}/>
                     </Grid>
@@ -396,6 +397,7 @@ class CreateCleanUp extends Component {
                         </Card>
                     </Grid>
                 </Grid>
+                <Footer/>
             </div>
         )
     }

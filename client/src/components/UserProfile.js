@@ -34,6 +34,9 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 15
     },
+    wrapper: {
+        height: "650px"
+    }
 };
 
 class Home extends Component {
@@ -78,8 +81,8 @@ class Home extends Component {
 
             <div>
                 <NavBar/>
-                <div className={classes.outerContainer}>
-                    <Grid container spacing={5}>
+                <div className={classes.wrapper}>
+                    <Grid container spacing={5} className={classes.wrapper}>
                         <Grid item xs={4}>
                             <Typography className={classes.title}>Danh sách sự kiện đã tham gia</Typography>
                             <Paper>
@@ -142,8 +145,6 @@ class Home extends Component {
                                 </Table>
                             </Paper>
                         </Grid>
-
-
                     </Grid>
                     <Footer/>
                 </div>
