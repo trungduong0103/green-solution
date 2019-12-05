@@ -2,15 +2,13 @@ import {
     CLOSE_JOIN_CLEAN_UP_FORM,
     LOADING_FORM,
     OPEN_JOIN_CLEAN_UP_FORM,
-    STOP_LOADING_FORM
+    STOP_LOADING_FORM,
 } from "../types";
 
 const initialState = {
     open: false,
     locationId: "",
     loading: false,
-
-
 };
 
 export default function (state = initialState, action) {
@@ -36,6 +34,7 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: false
             };
+
         default:
             return state;
     }

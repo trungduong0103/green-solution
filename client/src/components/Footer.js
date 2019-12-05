@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {Typography} from "@material-ui/core";
-import logo from "../assets/imgs/my_logo.png"
+import logo from "../assets/imgs/website_logo.png"
 import Grid from "@material-ui/core/Grid"
 import Icon from "@material-ui/core/Icon"
 import IconButton from "@material-ui/core/IconButton"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button";
-
 const styles = {
     logo: {
         maxWidth: "100%",
@@ -101,22 +98,28 @@ class Footer extends Component {
 
         return (
             <div>
-                <Grid container className={classes.footer_wrapper}>
+                <Grid
+                    container
+                    className={classes.footer_wrapper}
+                    justify="center"
+                    // alignItems="center"
+                >
+                    <Grid item sm={1}></Grid>
                     <Grid item sm={3}>
                         <Grid container className={classes.logo_wrapper}>
                             <img src={logo} className={classes.logo} alt="logo"/>
                             <Typography variant="h6" className={classes.copyright}>
-                                © 2019 Green Solution
+                                © 2019 Vietnam Sạch và Xanh
                             </Typography>
                         </Grid>
                     </Grid>
 
-                    <Grid item sm={3}>
+                    <Grid item sm={4}>
                         <Grid container className={classes.info_wrapper}>
-                            <Typography className={classes.typo_title}>Green Solution HQ</Typography>
-                            <Typography className={classes.typo_txt}>702 Nguyen Van Linh St, Ward 7</Typography>
-                            <Typography className={classes.typo_txt}>Ho Chi Minh City, Vietnam</Typography>
-                            <Typography className={classes.typo_txt}>Tel: +84 93412788</Typography>
+                            <Typography className={classes.typo_title}>Address</Typography>
+                            <Typography className={classes.typo_txt}>101/66/26 Le Van Luong Street</Typography>
+                            <Typography className={classes.typo_txt}>Nha Be District, Ho Chi Minh City, Vietnam</Typography>
+                            <Typography className={classes.typo_txt}>Email: tam@vietnamsachvaxanh.org</Typography>
                         </Grid>
 
                     </Grid>
@@ -139,38 +142,7 @@ class Footer extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-
-                    <Grid item sm={3}>
-                        <Grid container className={classes.subscribe_wrapper}>
-                            <Grid item sm={12}>
-                                <Typography className={classes.typo_title}>Stay in touch with us </Typography>
-                            </Grid>
-                            <Grid item>
-                                <form className={classes.container} noValidate autoComplete="off">
-                                    <div>
-                                        <TextField
-                                            id="standard-basic"
-                                            className={classes.textField}
-                                            label="Your Email"
-                                            InputLabelProps={{
-                                                className: classes.input
-                                            }}
-                                            InputProps={{
-                                                className: classes.input
-                                            }}
-                                        />
-                                    </div>
-                                </form>
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    variant="outlined"
-                                    className={classes.subscribeBtn}>
-                                    Subscribe
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                    <Grid item sm={1}></Grid>
 
                 </Grid>
 

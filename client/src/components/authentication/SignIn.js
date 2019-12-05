@@ -87,7 +87,6 @@ const styles = {
     },
     customError: {
         color: "red",
-
     },
 
 };
@@ -157,7 +156,6 @@ class SignIn extends Component {
                                id="loginEmail"
                                onChange={this.handleChange}
                                value={this.state.loginEmail}
-
                                InputLabelProps={{className: classes.input}}
                                InputProps={
                                    {

@@ -4,7 +4,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import banner from "../assets/imgs/img1.jpg"
 import {Link} from "react-router-dom";
 import NavBar from "./NavBar";
-
+import Footer from "./Footer"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -113,12 +113,7 @@ class Home extends Component {
                 </GridList>
 
 
-                <Grid container>
-
-                </Grid>
-
-
-                {/*<Footer/>*/}
+                <Footer/>
 
             </div>
         );

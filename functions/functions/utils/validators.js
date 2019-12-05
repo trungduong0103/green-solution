@@ -48,6 +48,18 @@ exports.validateLoginData = data => {
     };
 };
 
+// exports.validateCreateCleanUp = data => {
+//     let errors = {};
+//     if (isEmpty(data.name)) errors.name = CANNOT_EMPTY;
+//     if (isEmpty(data.address)) errors.address = CANNOT_EMPTY;
+//     if (isEmpty(data.description)) errors.description = CANNOT_EMPTY;
+//
+//     return {
+//         errors,
+//         valid: Object.keys(error).length === 0
+//     }
+// };
+
 // exports.reduceUserDetails = data => {
 //     let userDetails = {};
 //     if (!isEmpty(data.bio.trim())) userDetails.bio = data.bio;

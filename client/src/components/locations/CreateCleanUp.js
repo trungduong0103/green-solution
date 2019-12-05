@@ -10,14 +10,16 @@ import Button from "@material-ui/core/Button"
 import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
-
+import NavBar from "../NavBar";
+import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/core/SvgIcon/SvgIcon";
 //React-redux
 import {connect} from "react-redux";
 import {createNewLocation} from "../../redux/actions/LocationActions";
 //React router
 
-import NavBar from "../NavBar";
-import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
+
 
 var today = new Date();
 const styles = {
@@ -99,6 +101,13 @@ const styles = {
                 outline: "none"
             },
     },
+    progress: {
+        position: "absolute",
+    },
+    icon: {
+        color: "black"
+    },
+
     picker: {
         margin: "10px 5px",
         color: "white"
@@ -110,7 +119,25 @@ const styles = {
     },
     notchedOutline: {
         borderColor: "white"
-    }
+    },
+    successBtn: {
+        outline: "none",
+        // fontFamily: "inherit",
+        borderRadius: 20,
+        color: "black",
+        fontSize: 13,
+        padding: "10px 30px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        margin: "10px 0",
+        backgroundColor: "rgb(99,151,68)",
+        "&:focus": {
+            outline: "none"
+        }
+    },
+    customError: {
+        color: "red",
+    },
 };
 
 
@@ -168,17 +195,61 @@ class CreateCleanUp extends Component {
     };
 
     addNewLocation = (event) => {
-        event.preventDefault();
-        this.props.createNewLocation({
-            "name": this.state.eventName,
-            "lat": this.state.eventLat,
-            "lng": this.state.eventLng,
-            "address": this.state.eventAddress,
-            "description": this.state.eventDescription,
-            "startDate": this.state.eventStartDate,
-            "startTime": this.state.eventStartTime
-        })
+        const data = {
+            name: this.state.eventName,
+            description: this.state.eventDescription,
+            address: this.state.eventAddress,
+            startDate: this.state.eventStartDate,
+            startTime: this.state.eventStartTime
+        };
+        if (this.validateDataBeforeSubmit(data)) {
+            console.log("called");
+            event.preventDefault();
+            this.props.createNewLocation({
+                "name": this.state.eventName,
+                "lat": this.state.eventLat,
+                "lng": this.state.eventLng,
+                "address": this.state.eventAddress,
+                "description": this.state.eventDescription,
+                "startDate": this.state.eventStartDate,
+                "startTime": this.state.eventStartTime
+            })
+        }
+        else {
+            console.log("false")
+        }
+
+
     };
+
+    clearFormAndError() {
+        this.setState({
+            errors: {},
+
+        })
+    }
+
+    validateDataBeforeSubmit(data) {
+        const errors ={};
+        if (data.name === "") {
+            errors.name = "Không được để trống"
+        }
+        if (data.description === "") {
+            errors.description = "Không được để trống"
+        }
+        if (data.address === "") {
+            errors.address = "Vui lòng chọn địa điểm"
+        }
+
+        if (Object.keys(errors).length !== 0) {
+            this.setState({
+                errors: errors
+            });
+            return false
+        }
+
+        return true;
+    }
 
     printSomething = (event) => {
         event.preventDefault();
@@ -201,10 +272,10 @@ class CreateCleanUp extends Component {
         }
     }
 
-
     render() {
-        const {classes} = this.props;
-
+        // const {classes} = this.props;
+        const {classes, UI: {loading, doneCreateLocation}} = this.props;
+        const {errors} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -233,7 +304,8 @@ class CreateCleanUp extends Component {
                                                 label="Tên sự kiện"
                                                 onChange={this.handleChange}
                                                 value={this.state.eventName}
-                                                helperText={this.errors}
+                                                helperText={errors.name}
+                                                error={!!errors.name}
                                                 fullWidth
                                                 InputLabelProps={{className: classes.input}}
                                                 InputProps={{className: classes.input}}
@@ -276,9 +348,10 @@ class CreateCleanUp extends Component {
                                                 rows="3"
                                                 type="text"
                                                 label="Địa chỉ sự kiện"
+                                                helperText={errors.address}
+                                                error={!!errors.address}
                                                 onChange={this.handleChange}
                                                 value={this.state.eventAddress}
-                                                helperText={this.errors}
                                                 fullWidth
                                                 variant="outlined"
                                                 InputLabelProps={{className: classes.input}}
@@ -300,7 +373,8 @@ class CreateCleanUp extends Component {
                                                 value={this.state.eventDescription}
                                                 multiline
                                                 rows="4"
-                                                helperText={this.errors}
+                                                helperText={errors.description}
+                                                error={!!errors.description}
                                                 fullWidth
                                                 InputLabelProps={{className: classes.input}}
                                                 InputProps={
@@ -312,9 +386,13 @@ class CreateCleanUp extends Component {
                                             <Button
                                                 variant="contained"
                                                 onClick={this.addNewLocation}
-                                                className={classes.customBtn}
+                                                disabled={loading}
+                                                className={doneCreateLocation ? classes.successBtn : classes.customBtn}
                                             >
-                                                Xác nhận
+                                                {loading ? (
+                                                    <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
+                                                ) : "" }
+                                                {doneCreateLocation ? (<CheckIcon color="primary"/>) : "Xác nhận"}
                                             </Button>
                                         </form>
                                     </Grid>
@@ -330,7 +408,8 @@ class CreateCleanUp extends Component {
 }
 
 const mapStateToProps = state => ({
-    UI: state.UI
+    UI: state.UI,
+
 });
 
 const mapDispatchToProps = {

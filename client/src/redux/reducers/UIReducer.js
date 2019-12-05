@@ -5,10 +5,16 @@ import {
     SIGN_IN_COMPLETE,
     SIGN_UP_COMPLETE,
     SIGNING_IN,
-    SIGNING_UP
+    SIGNING_UP,
+
+    CREATING_LOCATION,
+    CREATING_LOCATION_COMPLETE
+
+
 } from "../types";
 
 const initialState = {
+    doneCreateLocation: false,
     loading: false,
     doneSignUp: false,
     doneSignIn: false,
@@ -50,6 +56,17 @@ export default function (state = initialState, action) {
                 loading: false,
                 doneSignIn: true
             };
+        case CREATING_LOCATION:
+            return {
+                ...state,
+                loading: true,
+            };
+        case CREATING_LOCATION_COMPLETE:
+            return {
+                ...state,
+                loading: false,
+                doneCreateLocation: true
+            };
         case SET_ERRORS:
             return {
                 ...state,
@@ -62,6 +79,7 @@ export default function (state = initialState, action) {
                 loading: false,
                 doneSignUp: false,
                 doneSignIn: false,
+                doneCreateLocation: false,
                 errors: {}
             };
         default:

@@ -131,9 +131,9 @@ class NavBar extends Component {
                                 <Grid item>
                                     <Button
                                         component={Link}
-                                        to="/home"
+                                        to="/profile"
                                         className={classes.navBtn}>
-                                        Trang chủ
+                                        Hồ sơ
                                     </Button>
                                 </Grid>
 

@@ -1,9 +1,10 @@
 import {
-    CREATE_NEW_LOCATION,
+    CLEAR_ERRORS,
+    CREATE_NEW_LOCATION, CREATING_LOCATION, CREATING_LOCATION_COMPLETE,
     DEFAULT_URL,
     DELETE_LOCATION,
     GET_ALL_LOCATIONS,
-    GET_LOCATION, LOADING_FORM, STOP_LOADING_FORM,
+    GET_LOCATION, LOADING_FORM, SET_ERRORS, STOP_LOADING_FORM,
     UPDATE_LOCATION
 } from "../types";
 import axios from "axios";
@@ -66,23 +67,59 @@ export function deleteLocation(locationId) {
     };
 }
 
+
 export function createNewLocation(location) {
     return function (dispatch) {
+        dispatch({type: CREATING_LOCATION});
         axios
-            .post(`${DEFAULT_URL}/create_location`, location)
+            .post(`${DEFAULT_URL}/create_location`,location)
             .then((res) => {
                 console.log(res.data);
                 dispatch({
                     type: CREATE_NEW_LOCATION,
                     payload: res.data
                 });
+                dispatch({type: CREATING_LOCATION_COMPLETE});
 
+            })
+            .then(() => {
+                setTimeout(() => {
+                    dispatch({type: CLEAR_ERRORS});
+                }, 1000);
             })
             .catch((err) => {
                 console.log(err);
             });
     };
 }
+
+//
+// export function createNewLocation(location) {
+//     return function (dispatch) {
+//         dispatch({type: CREATING_LOCATION});
+//         axios
+//             .post(`${DEFAULT_URL}/create_location`, location)
+//             .then((res) => {
+//                 console.log(res.data);
+//                 dispatch({
+//                     type: CREATE_NEW_LOCATION,
+//                     payload: res.data
+//                 });
+//                 dispatch({type: CREATING_LOCATION_COMPLETE});
+//             })
+//             .then(() => {
+//                 setTimeout(() => {
+//                     dispatch({type: CLEAR_ERRORS});
+//                 }, 1000);
+//             })
+//             .catch((err) => {
+//                 dispatch({
+//                     type: SET_ERRORS,
+//                     payload: err.response.data
+//                 });
+//             });
+//     };
+// }
 
 
 

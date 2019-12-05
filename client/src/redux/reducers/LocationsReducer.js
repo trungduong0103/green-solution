@@ -1,8 +1,14 @@
-import {GET_ALL_LOCATIONS, CREATE_NEW_LOCATION, GET_LOCATION, UPDATE_LOCATION, DELETE_LOCATION} from "../types";
+import {
+    GET_ALL_LOCATIONS,
+    CREATE_NEW_LOCATION,
+    GET_LOCATION,
+    UPDATE_LOCATION,
+    DELETE_LOCATION
+} from "../types";
 
 const initialState = {
     locations: [],
-    location: {}
+    location: {},
 };
 
 

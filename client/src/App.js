@@ -7,7 +7,7 @@ import JoinCleanUp from "./components/locations/JoinCleanUp"
 import CreateCleanUp from "./components/locations/CreateCleanUp"
 import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
-
+import UserProfile from "./components/UserProfile"
 function App() {
     return (
 
@@ -20,6 +20,7 @@ function App() {
                     <Route exact path="/join-cleanup" component={JoinCleanUp}/>
                     <Route exact path="/create-cleanup" component={CreateCleanUp}/>
                     <Route exact path="/cleanup-detail/:id" component={CleanUpDetail}/>
+                    <Route exact path="/profile" component={UserProfile}/>
                     <Redirect exact from="/" to="home"/>
                 </Switch>
             </Router>
