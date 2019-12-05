@@ -5,11 +5,8 @@ import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../.
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import CardActions from "@material-ui/core/CardActions";
-import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import JoinCleanUpForm from "./forms/JoinCleanSiteForm";
-import Grid from "@material-ui/core/Grid";
 
 const styles = {
     joinButton: {
@@ -48,7 +45,7 @@ class CleanUpDetail extends React.Component {
     }
 
     render() {
-        const {classes} = this.props;
+        // const {classes} = this.props;
         return (
             <Card>
                 <CardContent>
@@ -61,16 +58,6 @@ class CleanUpDetail extends React.Component {
                     </Typography>
 
                     <JoinCleanUpForm locationId={this.state.location.id}/>
-                    <br/>
-                    <Grid container justify="center" alignItems="center">
-                        <Grid item sm={4}/>
-                        <Grid item sm={4}>
-                            <Button className={classes.joinButton}>
-                                Đăng Kí
-                            </Button>
-                        </Grid>
-                        <Grid item sm={4}/>
-                    </Grid>
 
                 </CardContent>
 

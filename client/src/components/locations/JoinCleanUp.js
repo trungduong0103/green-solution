@@ -63,7 +63,7 @@ class JoinCleanUp extends Component {
     }
 
     render() {
-        const {classes, formState: {open, locationId, loading}} = this.props;
+        const {classes, formState: {open, loading}} = this.props;
         return (
             <div>
                 <NavBar/>

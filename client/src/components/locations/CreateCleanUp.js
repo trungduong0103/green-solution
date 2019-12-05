@@ -169,7 +169,6 @@ class CreateCleanUp extends Component {
 
     handleDateChange = (date) => {
         const startDate  = dayjs(date).format("YYYY-MM-DD");
-        // console.log(typeof time);
         this.setState({
             startDate: startDate,
             eventStartDate: startDate

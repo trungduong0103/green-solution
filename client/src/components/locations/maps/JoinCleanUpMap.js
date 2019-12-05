@@ -6,7 +6,6 @@ import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
-import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 export const JoinCleanUpMap = compose(
