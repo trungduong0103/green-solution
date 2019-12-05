@@ -199,7 +199,6 @@ class CreateCleanUp extends Component {
             startTime: this.state.eventStartTime
         };
         if (this.validateDataBeforeSubmit(data)) {
-            console.log("called");
             event.preventDefault();
             this.props.createNewLocation({
                 "name": this.state.eventName,

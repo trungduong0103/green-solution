@@ -1,9 +1,10 @@
 import {
-    CREATE_NEW_LOCATION,
+    CREATE_LOCATION_COMPLETE,
+    CREATE_NEW_LOCATION, CREATING_LOCATION,
     DEFAULT_URL,
     DELETE_LOCATION,
     GET_ALL_LOCATIONS,
-    GET_LOCATION, JOINED_CLEAN_SITE, JOINING_CLEAN_SITE, LOADING_FORM, STOP_LOADING_FORM,
+    GET_LOCATION, JOINED_CLEAN_SITE, JOINING_CLEAN_SITE, LOADING_FORM, RESET_UI_STATE, STOP_LOADING_FORM,
     UPDATE_LOCATION
 } from "../types";
 import axios from "axios";
@@ -68,6 +69,7 @@ export function deleteLocation(locationId) {
 
 export function createNewLocation(location) {
     return function (dispatch) {
+        dispatch({type: CREATING_LOCATION});
         axios
             .post(`${DEFAULT_URL}/create_location`, location)
             .then((res) => {
@@ -75,6 +77,12 @@ export function createNewLocation(location) {
                     type: CREATE_NEW_LOCATION,
                     payload: res.data
                 });
+                dispatch({type: CREATE_LOCATION_COMPLETE});
+            })
+            .then(() => {
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE})
+                }, 1000);
             })
             .catch((err) => {
                 console.log(err);

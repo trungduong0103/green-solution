@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-    CLEAR_ERRORS,
+    RESET_UI_STATE,
     DEFAULT_URL,
     FETCHING_USER, SET_AUTHENTICATED,
     SET_ERRORS,
@@ -33,7 +33,7 @@ export function signUp(userData, history) {
             .post(`${DEFAULT_URL}/signup`, userData)
             .then((res) => {
                 setAuthorizationHeader(res.data.token);
-                dispatch({type: CLEAR_ERRORS});
+                dispatch({type: RESET_UI_STATE});
                 setTimeout(() => {
                     history.push("/home")
                 }, 1500);
@@ -43,7 +43,7 @@ export function signUp(userData, history) {
             })
             .then(() => {
                 setTimeout(() => {
-                    dispatch({type: CLEAR_ERRORS});
+                    dispatch({type: RESET_UI_STATE});
                 }, 1500);
             })
             .catch((err) => {
@@ -62,7 +62,7 @@ export function signInWithEmail(userData, history) {
             .post(`${DEFAULT_URL}/signin`, userData)
             .then((res) => {
                 setAuthorizationHeader(res.data.token);
-                dispatch({type: CLEAR_ERRORS});
+                dispatch({type: RESET_UI_STATE});
                 setTimeout(() => {
                     history.push("/home")
                 }, 1500);
@@ -73,7 +73,7 @@ export function signInWithEmail(userData, history) {
             })
             .then(() => {
                 setTimeout(() => {
-                    dispatch({type: CLEAR_ERRORS});
+                    dispatch({type: RESET_UI_STATE});
                 }, 1500);
             })
             .catch((err) => {

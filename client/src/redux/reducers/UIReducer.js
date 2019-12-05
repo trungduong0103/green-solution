@@ -1,5 +1,5 @@
 import {
-    CLEAR_ERRORS,
+    RESET_UI_STATE,
     CLOSE_AUTHENTICATION_SNACKBAR,
     OPEN_AUTHENTICATION_SNACKBAR,
     SET_ERRORS,
@@ -52,7 +52,7 @@ export default function (state = initialState, action) {
             return {...state, loading: false};
         case SET_ERRORS:
             return {...state, loading: false, errors: action.payload};
-        case CLEAR_ERRORS:
+        case RESET_UI_STATE:
             return {
                 ...state,
                 loading: false,

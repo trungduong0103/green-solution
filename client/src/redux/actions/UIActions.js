@@ -1,8 +1,8 @@
-import {CLEAR_ERRORS, CLOSE_AUTHENTICATION_SNACKBAR, OPEN_AUTHENTICATION_SNACKBAR} from "../types";
+import {RESET_UI_STATE, CLOSE_AUTHENTICATION_SNACKBAR, OPEN_AUTHENTICATION_SNACKBAR} from "../types";
 
 export function clearAuthenticationErrors() {
     return function (dispatch) {
-        dispatch({type: CLEAR_ERRORS});
+        dispatch({type: RESET_UI_STATE});
     }
 }
 
