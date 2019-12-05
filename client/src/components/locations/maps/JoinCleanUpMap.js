@@ -16,14 +16,6 @@ export const JoinCleanUpMap = compose(
         containerElement: <div style={{height: `100%`}}/>,
         mapElement: <div style={{height: `100%`}}/>
     }),
-
-    // withHandlers({
-    //     onMarkerClusterClick: () => (markerClusterer) => {
-    //         const clickedMarkers = markerClusterer.getMarkers();
-    //     },
-    //
-    // }),
-
     withStateHandlers(() => ({
         isOpen: false,
         markerIndex: 0
@@ -123,8 +115,9 @@ export const JoinCleanUpMap = compose(
                         <div style={{
                             textAlign: "center"
                         }}>
-                            <h5>{marker.name}</h5>
+                            <h2>{marker.name}</h2>
                             <Button
+                                variant="outlined"
                                 onClick={() => props.openCleanUpForm(marker.id)}
                             >
                                 Tham Gia

@@ -3,6 +3,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 //Material-UI
 import {Link} from "react-router-dom";
+import Footer from "./Footer"
 import NavBar from "./NavBar";
 import Table from "@material-ui/core/Table"
 import IconButton from "@material-ui/core/IconButton"
@@ -21,8 +22,18 @@ import TextField from "@material-ui/core/TextField";
 
 const styles = {
     outerContainer: {
-        margin: "20px"
-    }
+        margin: "20px",
+    },
+    title: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: 25,
+        padding: 10,
+        textAlign: "center"
+    },
+    table: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: 15
+    },
 };
 
 class Home extends Component {
@@ -69,23 +80,23 @@ class Home extends Component {
                 <NavBar/>
                 <div className={classes.outerContainer}>
                     <Grid container spacing={5}>
-                        <Grid item xs={4} className={classes.dataForm}>
-                            <Typography>Danh sách sự kiện đã tham gia</Typography>
-                            <Paper className={classes.root}>
-                                <Table className={classes.table} aria-label="simple table">
+                        <Grid item xs={4}>
+                            <Typography className={classes.title}>Danh sách sự kiện đã tham gia</Typography>
+                            <Paper>
+                                <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center">Số thứ tự</TableCell>
-                                            <TableCell align="center">Tên sự kiện</TableCell>
+                                            <TableCell align="center"  className={classes.table}>Số thứ tự</TableCell>
+                                            <TableCell align="center"  className={classes.table}>Tên sự kiện</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {this.state.participatedLocations.map(location => (
                                             <TableRow key={location.id}>
-                                                <TableCell component="th" scope="row" align="center">
+                                                <TableCell component="th" scope="row" align="center" className={classes.table}>
                                                     {location.id}
                                                 </TableCell>
-                                                <TableCell align="center">{location.name}</TableCell>
+                                                <TableCell align="center" className={classes.table}>{location.name}</TableCell>
 
                                             </TableRow>
                                         ))}
@@ -95,28 +106,32 @@ class Home extends Component {
                         </Grid>
 
                         <Grid item xs={8}>
-                            <Typography>Danh sách sự kiện đã tạo</Typography>
+                            <Typography className={classes.title}>Danh sách sự kiện đã tạo</Typography>
                             <Paper className={classes.root}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center">Số thứ tự</TableCell>
-                                            <TableCell align="center">Tên sự kiện</TableCell>
-                                            <TableCell align="center">Thay đổi</TableCell>
+                                            <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
+                                            <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
+                                            <TableCell align="center" className={classes.table}>Thay đổi</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {this.state.createdLocations.map(location => (
                                             <TableRow key={location.id}>
-                                                <TableCell component="th" scope="row" align="center">
+                                                <TableCell component="th" scope="row" align="center" className={classes.table}>
                                                     {location.id}
                                                 </TableCell>
-                                                <TableCell align="center">{location.name}</TableCell>
-                                                <TableCell align="center" omponent="th" scope="row">
-                                                    <IconButton onClick={console.log("delete")}>
+                                                <TableCell align="center" className={classes.table}>{location.name}</TableCell>
+                                                <TableCell align="center" omponent="th" scope="row" className={classes.table}>
+                                                    <IconButton
+                                                        className={classes.button}
+                                                        onClick={console.log("delete")} >
                                                         <DeleteIcon color="secondary" />
                                                     </IconButton>
-                                                    <IconButton onClick={console.log("edit")}>
+                                                    <IconButton
+                                                        className={classes.button}
+                                                        onClick={console.log("edit")}>
                                                         <EditIcon color="primary" />
                                                     </IconButton>
 
@@ -130,6 +145,7 @@ class Home extends Component {
 
 
                     </Grid>
+                    <Footer/>
                 </div>
 
 

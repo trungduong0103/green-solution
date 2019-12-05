@@ -5,17 +5,20 @@ import logo from "../assets/imgs/website_logo.png"
 import Grid from "@material-ui/core/Grid"
 import Icon from "@material-ui/core/Icon"
 import IconButton from "@material-ui/core/IconButton"
+import {Link} from "react-router-dom";
+import Button from "@material-ui/core/Button";
+
 const styles = {
     logo: {
         maxWidth: "100%",
         maxHeight: "100%"
     },
-    logo_wrapper: {
-        width: 200,
+    logoWrapper: {
+        width: 220,
         height: 120,
         padding: "20px"
     },
-    info_wrapper: {
+    infoWrapper: {
         width: 200,
         height: 120
     },
@@ -23,23 +26,26 @@ const styles = {
         fontFamily:"'Quicksand', sans-serif;",
         fontSize: 11
     },
-    footer_wrapper: {
-        padding: 30,
+    footerWrapper: {
+        padding: 20,
         height: 200,
-        width: "100%"
+        width: "100%",
+        backgroundColor: "#F6EDD9"
     },
     icon: {
         width: 50,
         height: 50
     },
-    typo_txt: {
+    typoText: {
         fontFamily:"'Quicksand', sans-serif;",
         fontSize: 15
     },
-    typo_title: {
+    typoTitle: {
         fontFamily:"'Quicksand', sans-serif;",
         fontSize: 17,
-        fontWeight: "fontWeightMedium"
+        // fontWeight: "fontWeightMedium",
+        textTransform: "uppercase",
+        padding: "0 0 10px 0"
     },
     iconBtn: {
         color: "black",
@@ -53,37 +59,24 @@ const styles = {
             border: "none"
         },
     },
-    textField: {
-        // height: "100px",
-        width: "300px"
-    },
-    input: {
-        fontFamily:"'Quicksand', sans-serif;",
-        fontSize: 15,
+    navBtn: {
+        outline: "none",
+        textDecoration: "none",
+        fontSize: 17,
+        fontFamily: "'Quicksand', sans-serif;",
+        textTransform: "none",
         border: "none",
-        '&::placeholder': {
-            fontFamily:"'Quicksand', sans-serif;",
-            fontSize: 15,
+
+        "&:hover": {
+            backgroundColor: "transparent",
+            color: "#4c7037"
         },
         "&:focus": {
             outline: "none",
             border: "none"
         },
     },
-    subscribeBtn: {
-        width: "120px",
-        fontSize: 17,
-        textTransform: "none",
-        fontFamily:"'Quicksand', sans-serif;",
-        color: "black",
-        "&:hover": {
-            backgroundColor: "black",
-            color: "white",
-            transition: "all 350ms ease-in-out",
-        },
-        marginTop: 20,
-        border: "1px solid black",
-    }
+
 
 };
 
@@ -100,13 +93,11 @@ class Footer extends Component {
             <div>
                 <Grid
                     container
-                    className={classes.footer_wrapper}
-                    justify="center"
-                    // alignItems="center"
+                    className={classes.footerWrapper}
                 >
-                    <Grid item sm={1}></Grid>
+
                     <Grid item sm={3}>
-                        <Grid container className={classes.logo_wrapper}>
+                        <Grid container className={classes.logoWrapper}>
                             <img src={logo} className={classes.logo} alt="logo"/>
                             <Typography variant="h6" className={classes.copyright}>
                                 © 2019 Vietnam Sạch và Xanh
@@ -114,20 +105,53 @@ class Footer extends Component {
                         </Grid>
                     </Grid>
 
-                    <Grid item sm={4}>
-                        <Grid container className={classes.info_wrapper}>
-                            <Typography className={classes.typo_title}>Address</Typography>
-                            <Typography className={classes.typo_txt}>101/66/26 Le Van Luong Street</Typography>
-                            <Typography className={classes.typo_txt}>Nha Be District, Ho Chi Minh City, Vietnam</Typography>
-                            <Typography className={classes.typo_txt}>Email: tam@vietnamsachvaxanh.org</Typography>
+                    <Grid item sm={3}>
+                        <Grid container className={classes.infoWrapper} direction="row">
+                            <Typography className={classes.typoTitle}>Navigation</Typography>
+                            <Grid item sm={12}>
+                                <Button
+                                    component={Link}
+                                    to="/"
+                                    className={classes.navBtn}>
+                                    Home
+                                </Button>
+                                <Button
+                                    component={Link}
+                                    to="/profile"
+                                    className={classes.navBtn}>
+                                    Profile
+                                </Button>
+                                <Button
+                                    component={Link}
+                                    to="/create-cleanup"
+                                    className={classes.navBtn}>
+                                    Create Clean Up
+                                </Button>
+                                <Button
+                                    component={Link}
+                                    to="/join-cleanup"
+                                    className={classes.navBtn}>
+                                    Join Clean Up
+                                </Button>
+                            </Grid>
                         </Grid>
 
                     </Grid>
 
                     <Grid item sm={3}>
-                        <Grid container className={classes.social_wrapper}>
+                        <Grid container className={classes.infoWrapper}>
+                            <Typography className={classes.typoTitle}>Address</Typography>
+                            <Typography className={classes.typoText}>101/66/26 Le Van Luong Street</Typography>
+                            <Typography className={classes.typoText}>Nha Be District, Ho Chi Minh City, Vietnam</Typography>
+                            <Typography className={classes.typoText}>Email: tam@vietnamsachvaxanh.org</Typography>
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid item sm={3}>
+                        <Grid container>
                             <Grid item sm={12}>
-                                <Typography  className={classes.typo_title} >Connect with us</Typography>
+                                <Typography  className={classes.typoTitle} >Connect with us</Typography>
                             </Grid>
                             <Grid item>
                                 <IconButton className={classes.iconBtn}>
@@ -142,7 +166,6 @@ class Footer extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item sm={1}></Grid>
 
                 </Grid>
 

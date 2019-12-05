@@ -16,6 +16,7 @@ import {openCleanUpDetail} from "../../redux/actions/FormActions";
 
 import CleanUpDetail from "./CleanUpDetail";
 import {CircularProgress} from "@material-ui/core";
+import Footer from "../Footer";
 
 const styles = {
     mapContainer: {
@@ -48,6 +49,9 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
     },
+    wrapper: {
+        height: "700px"
+    }
 };
 
 class JoinCleanUp extends Component {
@@ -67,7 +71,7 @@ class JoinCleanUp extends Component {
         return (
             <div>
                 <NavBar/>
-                <Grid container>
+                <Grid container className={classes.wrapper}>
                     <Grid item sm={7} >
                         <Grid className={classes.mapContainer}>
                             <JoinCleanUpMap
@@ -89,6 +93,7 @@ class JoinCleanUp extends Component {
                         )}
                     </Grid>
                 </Grid>
+                <Footer/>
             </div>
 
         )

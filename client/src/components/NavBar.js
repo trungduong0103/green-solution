@@ -44,7 +44,6 @@ const styles = {
         marginTop: 35
     },
     logo: {
-        // padding: 25,
         width: 200,
         height: 60
     },
@@ -79,8 +78,6 @@ const styles = {
 
         },
         marginTop: 35,
-        // border: "1px solid white",
-
     },
     signInBtn: {
 
