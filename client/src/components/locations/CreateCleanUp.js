@@ -20,25 +20,22 @@ import {createNewLocation} from "../../redux/actions/LocationActions";
 import Footer from "../Footer";
 //React router
 
-
 const today = new Date();
 const styles = {
     mapWrapper: {
         position: "absolute",
         width: "50vw",
         height: "50vh",
-        top: "18%",
+        top: "20%",
         left: "2%",
         padding: 15
     },
-
     formWrapper: {
         position: "absolute",
         width: "50vw",
         height: "30vh",
         left: "55%",
         top: "20%",
-
     },
     mapContainer: {
         position: "absolute",
@@ -65,7 +62,6 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 30,
     },
-
     cardForm: {
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
         backgroundColor: "#F6EDD9",
@@ -89,33 +85,25 @@ const styles = {
         textTransform: "uppercase",
         transition: "all 350mx ease-in-out",
         margin: "20px 0",
-            "&:hover": {
-                transition: "all 350ms ease-in-out",
-                backgroundColor: "black",
-                color: "white",
-                border: "1px solid black",
-                outline: "none"
-            }
-    },
-    progress: {
-        position: "absolute",
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "black",
+            color: "white",
+            border: "1px solid black",
+            outline: "none"
+        }
     },
     icon: {
         color: "black"
     },
-
     picker: {
         margin: "10px 5px",
         color: "white"
 
     },
     input: {
-
         fontFamily: "'Quicksand', sans-serif;",
     },
-    // notchedOutline: {
-    //     borderColor: "white"
-    // },
     successBtn: {
         outline: "none",
         // fontFamily: "inherit",
@@ -136,6 +124,10 @@ const styles = {
     },
     wrapper: {
         height: "750px"
+    },
+    tickIcon: {
+        width: 35,
+        height: 35
     }
 };
 
@@ -144,19 +136,14 @@ class CreateCleanUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            locations: [],
-
             eventLat: 0,
             eventLng: 0,
             eventAddress: "",
             eventName: "",
-            eventDescription:"",
-
-            eventStartDate: (today.getFullYear() + "-" + (today.getMonth() + 1)+ "-"+ today.getDate()),
+            eventDescription: "",
+            eventStartDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
             eventStartTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-
-            errors: {},
-
+            errors: {}
         }
     };
 
@@ -167,7 +154,7 @@ class CreateCleanUp extends Component {
     };
 
     handleDateChange = (date) => {
-        const startDate  = dayjs(date).format("YYYY-MM-DD");
+        const startDate = dayjs(date).format("YYYY-MM-DD");
         this.setState({
             startDate: startDate,
             eventStartDate: startDate
@@ -203,30 +190,36 @@ class CreateCleanUp extends Component {
         if (this.validateDataBeforeSubmit(data)) {
             event.preventDefault();
             this.props.createNewLocation({
-                "name": this.state.eventName,
-                "lat": this.state.eventLat,
-                "lng": this.state.eventLng,
-                "address": this.state.eventAddress,
-                "description": this.state.eventDescription,
-                "startDate": this.state.eventStartDate,
-                "startTime": this.state.eventStartTime
-            })
-        }
-        else {
+                name: this.state.eventName,
+                lat: this.state.eventLat,
+                lng: this.state.eventLng,
+                address: this.state.eventAddress,
+                description: this.state.eventDescription,
+                startDate: this.state.eventStartDate,
+                startTime: this.state.eventStartTime,
+                creator: "trungduong0103@gmail.com"
+            });
+            this.clearFormAndError();
+        } else {
             console.log("false")
         }
-
-
     };
 
     clearFormAndError() {
         this.setState({
+            eventLat: 0,
+            eventLng: 0,
+            eventAddress: "",
+            eventName: "",
+            eventDescription: "",
+            eventStartDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
+            eventStartTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
             errors: {}
         })
     }
 
     validateDataBeforeSubmit(data) {
-        const errors ={};
+        const errors = {};
         if (data.name === "") {
             errors.name = "Không được để trống"
         }
@@ -285,7 +278,8 @@ class CreateCleanUp extends Component {
                                 <Grid container>
                                     <Grid item sm={12}>
                                         <Typography className={classes.title}>Đơn tạo sự kiện</Typography>
-                                        <Typography className={classes.helpTitle}>* Nhập địa chỉ bạn muốn chọn vảo bản đồ và
+                                        <Typography className={classes.helpTitle}>* Nhập địa chỉ bạn muốn chọn vảo bản
+                                            đồ và
                                             hoàn thành đơn tạo sự kiện</Typography>
                                     </Grid>
 
@@ -379,21 +373,23 @@ class CreateCleanUp extends Component {
                                                 }
                                             />
 
-                                            {doneCreateLocation ? (
-
-                                                <CheckIcon className={classes.check} />
-                                            ):
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={this.addNewLocation}
-                                                    disabled={loading}
-
-                                                    className={doneCreateLocation ? classes.successBtn : classes.customBtn}
-                                                > Xác Nhận
-                                                    {loading ? (
-                                                        <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
-                                                    ) : "" }
-                                                </Button>
+                                            {doneCreateLocation ?
+                                                (
+                                                    <CheckIcon className={classes.tickIcon} />
+                                                ) :
+                                                (loading ? (
+                                                        <CircularProgress variant="indeterminate" size={40} />
+                                                ) :
+                                                    (
+                                                        <Button
+                                                            variant="contained"
+                                                            onClick={this.addNewLocation}
+                                                            disabled={loading}
+                                                            className={doneCreateLocation ? classes.successBtn : classes.customBtn}
+                                                        >Xác Nhận
+                                                        </Button>
+                                                    )
+                                                )
                                             }
 
                                         </form>

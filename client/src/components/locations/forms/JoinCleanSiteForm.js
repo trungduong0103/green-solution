@@ -9,6 +9,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {joinLocation} from "../../../redux/actions/LocationActions";
 import Button from "@material-ui/core/Button";
 import {CircularProgress} from "@material-ui/core";
+import CheckIcon from "@material-ui/icons/Check";
 
 const styles = {
     form: {
@@ -36,7 +37,12 @@ const styles = {
         }
     },
     progress: {
-        marginLeft: "25%"
+        marginLeft: "40%"
+    },
+    tickIcon: {
+        marginLeft: "45%",
+        width: 35,
+        height: 35
     }
 };
 
@@ -98,7 +104,7 @@ class JoinCleanSiteForm extends Component {
 
 
     render() {
-        const {classes, loading} = this.props;
+        const {classes, loading, doneJoinLocation} = this.props;
         const {errors} = this.state;
         return (
             <form className={classes.form}>
@@ -138,21 +144,25 @@ class JoinCleanSiteForm extends Component {
                 <Grid container>
                     <Grid item sm={4}/>
                     <Grid item sm={4}>
-                        {loading ? (
-                            <CircularProgress
-                                variant="indeterminate"
-                                size={35}
-                                className={classes.progress}
-                                />
-                            )
-                                :
+                        {doneJoinLocation ?
                             (
-                                <Button
-                            className={classes.customBtn}
-                            onClick={this.handleJoinLocation}>
-                            Đăng Kí
-                        </Button>)
-                        }
+                                <CheckIcon className={classes.tickIcon}/>
+                            ) :
+                            (
+                                loading ? (
+                                    <CircularProgress
+                                        variant="indeterminate"
+                                        size={40}
+                                        className={classes.progress}
+                                    />
+                                ) : (
+                                    <Button
+                                        className={classes.customBtn}
+                                        onClick={this.handleJoinLocation}>
+                                        Đăng Kí
+                                    </Button>
+                                )
+                            )}
                     </Grid>
                     <Grid item sm={4}/>
                 </Grid>
@@ -164,7 +174,8 @@ class JoinCleanSiteForm extends Component {
 JoinCleanSiteForm.propTypes = {};
 
 const mapStateToProps = (state) => ({
-    loading: state.UI.loading
+    loading: state.UI.loading,
+    doneJoinLocation: state.UI.doneJoinLocation
 });
 
 const mapDispatchToProps = {

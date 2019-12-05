@@ -10,12 +10,18 @@ import {
     CREATING_LOCATION,
     CREATE_LOCATION_COMPLETE,
     JOINING_CLEAN_SITE,
-    JOINED_CLEAN_SITE
+    JOINED_CLEAN_SITE,
+    GETTING_REGISTERED_LOCATIONS,
+    GOT_REGISTERED_LOCATIONS,
+    GETTING_CREATED_LOCATIONS,
+    GOT_CREATED_LOCATIONS
 } from "../types";
 
 const initialState = {
     doneCreateLocation: false,
     doneJoinLocation: false,
+    loadRegisteredLocations: false,
+    loadCreatedLocations: false,
     loading: false,
     doneSignUp: false,
     doneSignIn: false,
@@ -50,16 +56,28 @@ export default function (state = initialState, action) {
         case JOINING_CLEAN_SITE:
             return {...state, loading: true};
         case JOINED_CLEAN_SITE:
-            return {...state, loading: false};
+            return {...state, loading: false, doneJoinLocation: true};
+        case GETTING_REGISTERED_LOCATIONS:
+            return {...state, loadRegisteredLocations: true};
+        case GOT_REGISTERED_LOCATIONS:
+            return {...state, loadRegisteredLocations: false};
+        case GETTING_CREATED_LOCATIONS:
+            return {...state, loadCreatedLocations: true};
+        case GOT_CREATED_LOCATIONS:
+            return {...state, loadCreatedLocations: false};
         case SET_ERRORS:
             return {...state, loading: false, errors: action.payload};
         case RESET_UI_STATE:
             return {
                 ...state,
+                doneCreateLocation: false,
+                doneJoinLocation: false,
+                loadRegisteredLocations: false,
+                loadCreatedLocations: false,
                 loading: false,
                 doneSignUp: false,
                 doneSignIn: false,
-                doneCreateLocation: false,
+                openAuthenticationSnackbar: false,
                 errors: {}
             };
         default:

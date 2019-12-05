@@ -15,7 +15,8 @@ exports.createNewLocation = (req, res) => {
             description: req.body.description,
             startDate: req.body.startDate,
             startTime: req.body.startTime,
-            createdAt: creationTime
+            createdAt: creationTime,
+            creator: req.body.creator
         })
         .then((ref) => {
             console.log("Clean up location ", ref.id, " created.");
@@ -28,7 +29,8 @@ exports.createNewLocation = (req, res) => {
                 description: req.body.description,
                 startDate: req.body.startDate,
                 startTime: req.body.startTime,
-                createdAt: creationTime
+                createdAt: creationTime,
+                creator: req.body.creator
             });
         })
         .catch((err) => {
@@ -51,7 +53,8 @@ exports.getAllCleanUpLocations = (req, res) => {
                     description: doc.data().description,
                     startDate: doc.data().startDate,
                     startTime: doc.data().startTime,
-                    createdAt: doc.data().createdAt
+                    createdAt: doc.data().createdAt,
+                    creator: doc.data().creator
                 });
             });
             return res.json(documents);
@@ -78,7 +81,8 @@ exports.getCleanUpLocation = (req, res) => {
                     description: doc.data().description,
                     startDate: doc.data().startDate,
                     startTime: doc.data().startTime,
-                    createdAt: doc.data().createdAt
+                    createdAt: doc.data().createdAt,
+                    creator: doc.data().creator
                 });
             }
             return res.json({message: "clean up location not found."});
@@ -134,6 +138,64 @@ exports.joinCleanUpLocation = (req, res) => {
     sendConfirmationEmailToUsers(req.body.id, req.body.email);
     return addEmailToRegisteredUsersArray(req.body.id, req.body.email);
 };
+
+exports.getUserRegisteredLocations = (req, res) => {
+    return getRegisteredLocationsFromUserEmail(req.body.email)
+        .then((data) => {
+            return res.json(data);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+};
+
+exports.getCreatedLocations = (req, res) => {
+    return getCreatedLocationsFromEmail(req.body.email)
+        .then((data) => {
+            return res.json(data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+function getCreatedLocationsFromEmail(email) {
+    const documents = [];
+    return db
+        .collection("cleanUpLocations")
+        .where("creator", "==", email)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((snap) => {
+                const created = snap.data();
+                created.id = snap.id;
+                documents.push(created);
+            });
+            return documents;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+function getRegisteredLocationsFromUserEmail(email) {
+    const documents = [];
+    return db
+        .collection("cleanUpLocations")
+        .where("registeredUsers", "array-contains",email)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((snap) => {
+                const registered = snap.data();
+                registered.id = snap.id;
+                documents.push(registered);
+            });
+            return documents;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
 function handleJoinLocation(field, value, locationId) {
     const documents = [];

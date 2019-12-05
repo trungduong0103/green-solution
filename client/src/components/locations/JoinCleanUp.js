@@ -22,7 +22,7 @@ const styles = {
     mapContainer: {
         position: "absolute",
         width: "50vw",
-        height: "60vh",
+        height: "50vh",
         top:"20%",
         left: "5%",
         boxShadow: "0 10px 20px rgba(0,0,0,0.25)"

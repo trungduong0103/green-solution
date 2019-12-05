@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
+import {connect} from "react-redux";
 
 //Material-UI
 import {Link} from "react-router-dom";
 import Footer from "./Footer"
 import NavBar from "./NavBar";
+
 import Table from "@material-ui/core/Table"
 import IconButton from "@material-ui/core/IconButton"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
-import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper"
@@ -17,7 +16,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
-import TextField from "@material-ui/core/TextField";
+import DeleteIcon from "@material-ui/icons/Delete"
+import EditIcon from "@material-ui/icons/Edit"
+
+import {
+    getAllRegisteredLocationsWithEmail,
+    getAllCreatedLocationsWithEmail, deleteLocation
+} from "../redux/actions/LocationActions";
 
 
 const styles = {
@@ -43,42 +48,41 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            participatedLocations: [
-                {
-                    "id": 1,
-                    "name": "RMIT Uni #1",
-                },
-                {
-                    "id": 2,
-                    "name": "Ton Duc Thang Uni #1",
-                },
-                {
-                    "id": 3,
-                    "name": "Kinh Te Uni #1",
-                },
-            ],
-            createdLocations: [
-                {
-                    "id": 1,
-                    "name": "Bien Hoa Event #1",
-                },
-                {
-                    "id": 2,
-                    "name": "Dong Nai Event #1",
-                },
-                {
-                    "id": 3,
-                    "name": "Ha Noi Event #1",
-                },
-            ]
+            registeredLocations: [],
+            createdLocations: []
         }
     }
 
+    componentDidMount() {
+        this.props.getAllCreatedLocationsWithEmail({email: "trungduong0103@gmail.com"});
+        this.props.getAllRegisteredLocationsWithEmail({email: "trungduong0103@gmail.com"});
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.createdLocations !== state.createdLocations) {
+            return {
+                createdLocations: props.createdLocations
+            }
+        }
+        if (props.registeredLocations !== state.registeredLocations) {
+            return {
+                registeredLocations: props.registeredLocations
+            }
+        }
+        return null;
+    }
+
+    handleDeleteLocation = (locationId) => {
+        console.log(locationId, "trungduong0103@gmail.com");
+        this.props.deleteLocation(locationId, "trungduong0103@gmail.com");
+    };
+
     render() {
         const {classes} = this.props;
+        const {registeredLocations, createdLocations} = this.state;
+        console.log(this.state);
 
         return (
-
             <div>
                 <NavBar/>
                 <div className={classes.wrapper}>
@@ -89,17 +93,19 @@ class Home extends Component {
                                 <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center"  className={classes.table}>Số thứ tự</TableCell>
-                                            <TableCell align="center"  className={classes.table}>Tên sự kiện</TableCell>
+                                            <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
+                                            <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {this.state.participatedLocations.map(location => (
+                                        {registeredLocations.map(location => (
                                             <TableRow key={location.id}>
-                                                <TableCell component="th" scope="row" align="center" className={classes.table}>
+                                                <TableCell component="th" scope="row" align="center"
+                                                           className={classes.table}>
                                                     {location.id}
                                                 </TableCell>
-                                                <TableCell align="center" className={classes.table}>{location.name}</TableCell>
+                                                <TableCell align="center"
+                                                           className={classes.table}>{location.name}</TableCell>
 
                                             </TableRow>
                                         ))}
@@ -120,22 +126,25 @@ class Home extends Component {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {this.state.createdLocations.map(location => (
+                                        {createdLocations.map(location => (
                                             <TableRow key={location.id}>
-                                                <TableCell component="th" scope="row" align="center" className={classes.table}>
+                                                <TableCell component="th" scope="row" align="center"
+                                                           className={classes.table}>
                                                     {location.id}
                                                 </TableCell>
-                                                <TableCell align="center" className={classes.table}>{location.name}</TableCell>
-                                                <TableCell align="center" omponent="th" scope="row" className={classes.table}>
+                                                <TableCell align="center"
+                                                           className={classes.table}>{location.name}</TableCell>
+                                                <TableCell align="center" omponent="th" scope="row"
+                                                           className={classes.table}>
                                                     <IconButton
                                                         className={classes.button}
-                                                        onClick={console.log("delete")} >
-                                                        <DeleteIcon color="secondary" />
+                                                        onClick={() => this.handleDeleteLocation(location.id)}>
+                                                        <DeleteIcon color="secondary"/>
                                                     </IconButton>
                                                     <IconButton
                                                         className={classes.button}
                                                         onClick={console.log("edit")}>
-                                                        <EditIcon color="primary" />
+                                                        <EditIcon color="primary"/>
                                                     </IconButton>
 
                                                 </TableCell>
@@ -150,8 +159,6 @@ class Home extends Component {
                 </div>
 
 
-
-
                 {/*<Footer/>*/}
 
             </div>
@@ -159,4 +166,15 @@ class Home extends Component {
     }
 }
 
-export default withStyles(styles)(Home);
+const mapStateToProps = (state) => ({
+    createdLocations: state.locationsData.createdLocations,
+    registeredLocations: state.locationsData.registeredLocations
+});
+
+const mapDispatchToProps = {
+    getAllCreatedLocationsWithEmail,
+    getAllRegisteredLocationsWithEmail,
+    deleteLocation
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));

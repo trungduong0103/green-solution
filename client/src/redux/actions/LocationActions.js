@@ -1,10 +1,17 @@
 import {
     CREATE_LOCATION_COMPLETE,
-    CREATE_NEW_LOCATION, CREATING_LOCATION,
+    CREATE_NEW_LOCATION,
+    CREATING_LOCATION,
     DEFAULT_URL,
     DELETE_LOCATION,
     GET_ALL_LOCATIONS,
-    GET_LOCATION, JOINED_CLEAN_SITE, JOINING_CLEAN_SITE, LOADING_FORM, RESET_UI_STATE, STOP_LOADING_FORM,
+    GET_LOCATION,
+    GETTING_CREATED_LOCATIONS, GETTING_REGISTERED_LOCATIONS, GOT_CREATED_LOCATIONS, GOT_REGISTERED_LOCATIONS,
+    JOINED_CLEAN_SITE,
+    JOINING_CLEAN_SITE,
+    LOADING_FORM,
+    RESET_UI_STATE,
+    STOP_LOADING_FORM,
     UPDATE_LOCATION
 } from "../types";
 import axios from "axios";
@@ -54,7 +61,7 @@ export function updateLocation(locationData) {
     }
 }
 
-export function deleteLocation(locationId) {
+export function deleteLocation(locationId, email) {
     return function (dispatch) {
         axios
             .delete(`${DEFAULT_URL}/delete_location/${locationId}`)
@@ -63,6 +70,9 @@ export function deleteLocation(locationId) {
                     type: DELETE_LOCATION,
                     payload: res.data
                 })
+            })
+            .then(() => {
+                dispatch(getAllRegisteredLocationsWithEmail({email: email}))
             });
     };
 }
@@ -95,7 +105,6 @@ export function joinLocation(info) {
         dispatch({type: JOINING_CLEAN_SITE});
         axios.post(`${DEFAULT_URL}/join_clean_site`, info)
             .then((res) => {
-                console.log(res.data);
                 dispatch({type: JOINED_CLEAN_SITE})
             })
             .then(() => {
@@ -107,4 +116,33 @@ export function joinLocation(info) {
                 console.log(err);
             });
     }
+}
+
+export function getAllCreatedLocationsWithEmail(email) {
+    return function (dispatch) {
+        dispatch({type: GETTING_CREATED_LOCATIONS});
+        axios.post(`${DEFAULT_URL}/get_created_locations`, email)
+            .then((res) => {
+                console.log(res.data);
+                dispatch({type: GOT_CREATED_LOCATIONS, payload: res.data});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+}
+
+export function getAllRegisteredLocationsWithEmail(email) {
+    return function (dispatch) {
+        dispatch({type: GETTING_REGISTERED_LOCATIONS});
+        axios.post(`${DEFAULT_URL}/get_registered_locations`, email)
+            .then((res) => {
+                console.log(res.data);
+                dispatch({type: GOT_REGISTERED_LOCATIONS, payload: res.data});
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
 }

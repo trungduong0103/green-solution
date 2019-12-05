@@ -23,16 +23,7 @@ class CleanUpDetail extends React.Component {
     }
 
     componentDidMount() {
-        // const locationId = this.props.match.params.id;
-        // this.props.getAllLocations();
-        // this.props.deleteLocation("LVpPAv3vRZpUDVRNkc3Z");
-        // this.props.getLocation(locationId);
-        // this.props.updateLocation({
-        //     "id":"NVtV1ynTg4yxDEeIoCMf",
-        //     "name":"RMIT Dirty #1",
-        //     "lat":10.7295612,
-        //     "lng":106.69377020000002
-        // })
+
     }
 
     static getDerivedStateFromProps(props, state) {
