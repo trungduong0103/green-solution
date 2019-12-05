@@ -6,7 +6,6 @@ import {Link} from "react-router-dom";
 import NavBar from "./NavBar";
 import Footer from "./Footer"
 import Button from "@material-ui/core/Button"
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -104,7 +103,7 @@ class Home extends Component {
                                     variant="outlined"
                                     className={classes.signUpBtn}
                                     component={Link}
-                                    to="/register">
+                                    to="/about-us">
                                     Xem thêm
                                 </Button>
                             </CardActions>

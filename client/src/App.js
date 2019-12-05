@@ -8,15 +8,16 @@ import CreateCleanUp from "./components/locations/CreateCleanUp"
 import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/UserProfile"
+import AboutUs from "./components/AboutUs"
 function App() {
     return (
 
         <Provider store={store}>
             <Router>
-                {/*<NavBar/>*/}
                 <Switch>
                     <Route exact path="/authentication" component={Authentication}/>
                     <Route exact path="/home" component={Home}/>
+                    <Route exact path="/about-us" component={AboutUs}/>
                     <Route exact path="/join-cleanup" component={JoinCleanUp}/>
                     <Route exact path="/create-cleanup" component={CreateCleanUp}/>
                     <Route exact path="/cleanup-detail/:id" component={CleanUpDetail}/>

@@ -28,7 +28,7 @@ const styles = {
     },
     footerWrapper: {
         padding: 20,
-        height: 200,
+        height: 220,
         width: "100%",
         backgroundColor: "#F6FBF2"
     },
@@ -120,6 +120,12 @@ class Footer extends Component {
                                     to="/profile"
                                     className={classes.navBtn}>
                                     Profile
+                                </Button>
+                                <Button
+                                    component={Link}
+                                    to="/about-us"
+                                    className={classes.navBtn}>
+                                    About Us
                                 </Button>
                                 <Button
                                     component={Link}

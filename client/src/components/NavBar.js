@@ -135,7 +135,10 @@ class NavBar extends Component {
                                 </Grid>
 
                                 <Grid item>
-                                    <Button className={classes.navBtn}>
+                                    <Button
+                                        component={Link}
+                                        to="/about-us"
+                                        className={classes.navBtn}>
                                         Về chúng tôi
                                     </Button>
                                 </Grid>
