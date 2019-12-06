@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button"
 import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
+
 import NavBar from "../NavBar";
 import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -240,20 +241,6 @@ class CreateCleanUp extends Component {
         return true;
     }
 
-    // printSomething = (event) => {
-    //     event.preventDefault();
-    //     console.log(`
-    //         "Name": ${this.state.eventName},
-    //         "Lat": ${this.state.eventLat},
-    //         "Lng": ${this.state.eventLng},
-    //         "Address": ${this.state.eventAddress},
-    //         "Description": ${this.state.eventDescription},
-    //         "StartDate": ${this.state.eventStartDate},
-    //         "StartTime": ${this.state.eventStartTime}
-    //
-    //     `)
-    // };
-
     componentDidMount() {
         const auth = localStorage.getItem("FBIdToken");
         if (!auth) {
@@ -398,6 +385,7 @@ class CreateCleanUp extends Component {
                             </CardContent>
                         </Card>
                     </Grid>
+
                 </Grid>
                 <Footer/>
             </div>

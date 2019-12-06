@@ -11,7 +11,22 @@ import JoinCleanUpForm from "./forms/JoinCleanSiteForm";
 const styles = {
     joinButton: {
         textAlign: "center"
-    }
+    },
+    cardForm: {
+        boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
+        backgroundColor: "#F6EDD9",
+        borderRadius: "10px 50px"
+    },
+    title: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: 35,
+        textAlign: "center",
+    },
+    helpTitle: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: 14,
+        textAlign: "center",
+    },
 };
 
 class CleanUpDetail extends React.Component {
@@ -36,15 +51,15 @@ class CleanUpDetail extends React.Component {
     }
 
     render() {
-        // const {classes} = this.props;
+        const {classes} = this.props;
         return (
-            <Card>
+            <Card className={classes.cardForm}>
                 <CardContent>
-                    <Typography gutterBottom variant="h4" component="h2">
+                    <Typography gutterBottom variant="h4" component="h2" className={classes.title}>
                         {this.state.location.name}
                     </Typography>
                     <br/>
-                    <Typography variant="body2" component="p">
+                    <Typography variant="body2" component="p" className={classes.helperText}>
                         {this.state.location.description}
                     </Typography>
                     <br/>

@@ -11,12 +11,16 @@ import Button from "@material-ui/core/Button";
 import {CircularProgress} from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 
+
 const styles = {
     form: {
         padding: "0",
-        textAlign: "left"
+        textAlign: "left",
+        backgroundColor: "#F6EDD9",
     },
-    textField: {},
+    textField: {
+
+    },
     customBtn: {
         fontFamily: "'Quicksand', sans-serif;",
         outline: "none",
@@ -27,7 +31,7 @@ const styles = {
         letterSpacing: 1,
         textTransform: "uppercase",
         transition: "all 350mx ease-in-out",
-
+        margin: "20px 0",
         "&:hover": {
             transition: "all 350ms ease-in-out",
             backgroundColor: "black",
@@ -43,6 +47,9 @@ const styles = {
         marginLeft: "45%",
         width: 35,
         height: 35
+    },
+    input: {
+        fontFamily: "'Quicksand', sans-serif;",
     }
 };
 
@@ -87,10 +94,10 @@ class JoinCleanSiteForm extends Component {
     handleDataBeforeSubmit(data) {
         const errors = {};
         if (data.email === "") {
-            errors.email = "Cannot be empty";
+            errors.email = "Không được để trống";
         }
         if (data.phoneNumber === "") {
-            errors.phoneNumber = "Cannot be empty";
+            errors.phoneNumber = "Không được để trống";
         }
 
         if (Object.keys(errors).length !== 0) {
@@ -122,6 +129,12 @@ class JoinCleanSiteForm extends Component {
                             margin="normal"
                             variant="outlined"
                             fullWidth
+                            InputLabelProps={{className: classes.input}}
+                            InputProps={
+                                {
+                                    className: classes.input
+                                }
+                            }
                         />
                     </Grid>
                     <Grid item sm={6}>
@@ -137,6 +150,12 @@ class JoinCleanSiteForm extends Component {
                             margin="normal"
                             variant="outlined"
                             fullWidth
+                            InputLabelProps={{className: classes.input}}
+                            InputProps={
+                                {
+                                    className: classes.input
+                                }
+                            }
                         />
                     </Grid>
                 </Grid>
@@ -157,6 +176,7 @@ class JoinCleanSiteForm extends Component {
                                     />
                                 ) : (
                                     <Button
+                                        variant="contained"
                                         className={classes.customBtn}
                                         onClick={this.handleJoinLocation}>
                                         Đăng Kí
