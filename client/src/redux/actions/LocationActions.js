@@ -15,6 +15,7 @@ import {
     UPDATE_LOCATION
 } from "../types";
 import axios from "axios";
+import {closeUpdateSiteForm} from "./FormActions";
 
 
 export function getAllLocations() {
@@ -48,7 +49,7 @@ export function getLocation(locationId) {
     }
 }
 
-export function updateLocation(locationData) {
+export function updateLocation(locationData, email) {
     return function (dispatch) {
         axios
             .put(`${DEFAULT_URL}/update_location`, locationData)
@@ -57,6 +58,12 @@ export function updateLocation(locationData) {
                     type: UPDATE_LOCATION,
                     payload: res.data.updateData
                 });
+            })
+            .then(() => {
+               dispatch(closeUpdateSiteForm());
+            })
+            .then(() => {
+                dispatch(getAllRegisteredLocationsWithEmail({email: email}))
             });
     }
 }

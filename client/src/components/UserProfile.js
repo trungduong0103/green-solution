@@ -51,14 +51,22 @@ const styles = {
     },
     wrapper: {
         height: "auto",
-        marginBottom: "300px",
         padding: "20px 20px"
     },
-
     progress: {
         position: "absolute",
         top: "45%",
         marginLeft: "20%"
+    },
+    locationsProgress1 : {
+        position: "absolute",
+        marginLeft: "15%",
+        top: "30%"
+    },
+    locationProgress2: {
+        position: "absolute",
+        top: "40%",
+        marginLeft: "30%"
     }
 };
 
@@ -109,7 +117,7 @@ class Home extends Component {
     };
 
     render() {
-        const {classes, openUpdateSite, loading} = this.props;
+        const {classes, openUpdateSite, loading, loadRegisteredLocations, loadCreatedLocations} = this.props;
         const {registeredLocations, createdLocations} = this.state;
         return (
             <div>
@@ -117,64 +125,77 @@ class Home extends Component {
                 <Grid container spacing={5} className={classes.wrapper}>
                     <Grid item xs={4} className={classes.gridForm}>
                         <Typography className={classes.title}>Danh sách sự kiện đã tham gia</Typography>
-                        <Paper>
-                            <Table aria-label="simple table" className={classes.tableForm}>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
-                                        <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {registeredLocations.map(location => (
-                                        <TableRow key={location.id}>
-                                            <TableCell component="th" scope="row" align="center"
-                                                       className={classes.table}>
-                                                {location.id}
-                                            </TableCell>
-                                            <TableCell align="center"
-                                                       className={classes.table}>{location.name}</TableCell>
-
+                        {loadRegisteredLocations ? (
+                            <CircularProgress variant="indeterminate" size={50} className={classes.locationsProgress1} />
+                        ): (
+                            <Paper>
+                                <Table aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
+                                            <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Paper>
+                                    </TableHead>
+                                    <TableBody>
+                                        {registeredLocations.map(location => (
+                                            <TableRow key={location.id}>
+                                                <TableCell component="th" scope="row" align="center"
+                                                           className={classes.table}>
+                                                    {location.id}
+                                                </TableCell>
+                                                <TableCell align="center"
+                                                           className={classes.table}>{location.name}</TableCell>
+
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Paper>
+                        )}
                     </Grid>
 
                     <Grid item xs={8} className={classes.gridForm}>
                         <Typography className={classes.title}>Danh sách sự kiện đã tạo</Typography>
-                        <Paper>
-                            <Table className={classes.table} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
-                                        <TableCell align="center" className={classes.table}>Thay đổi</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {createdLocations.map(location => (
-                                        <TableRow key={location.id}>
-                                            <TableCell align="center"
-                                                       className={classes.table}>{location.name}</TableCell>
-                                            <TableCell align="center" omponent="th" scope="row"
-                                                       className={classes.table}>
-                                                <IconButton
-                                                    className={classes.button}
-                                                    onClick={() => this.handleDeleteLocation(location.id)}>
-                                                    <DeleteIcon color="secondary"/>
-                                                </IconButton>
-                                                <IconButton
-                                                    className={classes.button}
-                                                    onClick={() => this.handleEditLocation(location.id)}>
-                                                    <EditIcon color="primary"/>
-                                                </IconButton>
-                                            </TableCell>
+                        {loadCreatedLocations ? (
+                            <CircularProgress variant="indeterminate" className={classes.locationProgress2} />
+                        ) : (
+                            <Paper className={classes.root}>
+                                <Table className={classes.table} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
+                                            <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
+                                            <TableCell align="center" className={classes.table}>Thay đổi</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Paper>
+                                    </TableHead>
+                                    <TableBody>
+                                        {createdLocations.map(location => (
+                                            <TableRow key={location.id}>
+                                                <TableCell component="th" scope="row" align="center"
+                                                           className={classes.table}>
+                                                    {location.id}
+                                                </TableCell>
+                                                <TableCell align="center"
+                                                           className={classes.table}>{location.name}</TableCell>
+                                                <TableCell align="center" omponent="th" scope="row"
+                                                           className={classes.table}>
+                                                    <IconButton
+                                                        className={classes.button}
+                                                        onClick={() => this.handleDeleteLocation(location.id)}>
+                                                        <DeleteIcon color="secondary"/>
+                                                    </IconButton>
+                                                    <IconButton
+                                                        className={classes.button}
+                                                        onClick={() => this.handleEditLocation(location.id)}>
+                                                        <EditIcon color="primary"/>
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Paper>
+                        )}
                     </Grid>
                 </Grid>
                 <br/>
@@ -192,7 +213,7 @@ class Home extends Component {
                                     <CardContent>
                                         <Typography className={classes.formTitle} align="center">Cập nhật thông tin sự kiện</Typography>
                                         <br/>
-                                        <UpdateCleanSiteForm />
+                                        <UpdateCleanSiteForm email={this.state.email} />
                                     </CardContent>
                                 </Card>
                             </Collapse>
@@ -200,7 +221,6 @@ class Home extends Component {
                     </Grid>
                     <Grid item sm={3}/>
                 </Grid>
-                <Footer/>
             </div>
         );
     }
@@ -210,7 +230,9 @@ const mapStateToProps = (state) => ({
     createdLocations: state.locationsData.createdLocations,
     registeredLocations: state.locationsData.registeredLocations,
     openUpdateSite: state.formState.openUpdateSite,
-    loading: state.formState.loading
+    loading: state.formState.loading,
+    loadCreatedLocations: state.UI.loadCreatedLocations,
+    loadRegisteredLocations: state.UI.loadRegisteredLocations
 });
 
 const mapDispatchToProps = {

@@ -3,7 +3,9 @@ import {
     CREATE_NEW_LOCATION,
     GET_LOCATION,
     UPDATE_LOCATION,
-    DELETE_LOCATION, GOT_CREATED_LOCATIONS, GOT_REGISTERED_LOCATIONS
+    DELETE_LOCATION,
+    GOT_CREATED_LOCATIONS,
+    GOT_REGISTERED_LOCATIONS
 } from "../types";
 
 const initialState = {
@@ -27,8 +29,8 @@ export default function (state = initialState, action) {
         case CREATE_NEW_LOCATION:
             return {...state, locations: [...state.locations, action.payload]};
         case UPDATE_LOCATION:
-            const index = state.locations.findIndex((location) => location.id === action.payload.id);
-            state.locations[index] = action.payload;
+            const index = state.createdLocations.findIndex((location) => location.id === action.payload.id);
+            state.createdLocations[index] = action.payload;
             return {...state, locations: [...state.locations]};
         case DELETE_LOCATION:
             const updatedLocations = state.createdLocations.filter((location) => location.id !== action.payload);

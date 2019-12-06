@@ -1,4 +1,9 @@
-import {CLOSE_JOIN_CLEAN_UP_FORM, OPEN_JOIN_CLEAN_UP_FORM, OPEN_UPDATE_SITE_FORM} from "../types";
+import {
+    CLOSE_JOIN_CLEAN_UP_FORM,
+    CLOSE_UPDATE_SITE_FORM,
+    OPEN_JOIN_CLEAN_UP_FORM,
+    OPEN_UPDATE_SITE_FORM
+} from "../types";
 import {getLocation} from "./LocationActions";
 
 export function openCleanUpDetail(locationId) {
@@ -23,5 +28,11 @@ export function openUpdateSiteForm(locationId) {
     return function (dispatch) {
         dispatch({type: OPEN_UPDATE_SITE_FORM});
         dispatch(getLocation(locationId));
+    }
+}
+
+export function closeUpdateSiteForm() {
+    return function (dispatch) {
+        dispatch({type: CLOSE_UPDATE_SITE_FORM});
     }
 }

@@ -8,6 +8,8 @@ import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
+import {closeUpdateSiteForm} from "../../../redux/actions/FormActions";
+import {updateLocation} from "../../../redux/actions/LocationActions";
 
 const styles = {
     customBtn: {
@@ -35,20 +37,44 @@ class UpdateCleanSiteForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
+            location: {},
             errors: {}
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.location !== state.location) {
+            return {
+                location: props.location
+            }
+        }
+        return null;
+    }
+
     handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
+        let location = this.state.location;
+        location[event.target.name] = event.target.value;
+        this.setState({location})
+    };
+
+    handleUpdateLocation = (event) => {
+        event.preventDefault();
+        this.props.updateLocation(this.state.location, this.props.email);
+    };
+
+    handleCloseForm = () => {
+        this.clearForm();
+        this.props.closeUpdateSiteForm();
+    };
+
+    clearForm = () => {
+        this.setState({location: {}, errors: {}});
     };
 
     render() {
-        const {errors} = this.state;
+        const {errors, location} = this.state;
         const {classes} = this.props;
+        console.log(location);
         return (
             <div>
                 <form>
@@ -60,7 +86,7 @@ class UpdateCleanSiteForm extends Component {
                                 type="text"
                                 label="Tên sự kiện"
                                 onChange={this.handleChange}
-                                value={this.state.name}
+                                value={location.name}
                                 helperText={errors.name}
                                 error={!!errors.name}
                                 fullWidth
@@ -74,7 +100,7 @@ class UpdateCleanSiteForm extends Component {
                                 type="text"
                                 label="Mô tả"
                                 onChange={this.handleChange}
-                                value={this.state.description}
+                                value={location.description}
                                 helperText={errors.description}
                                 error={!!errors.description}
                                 fullWidth
@@ -118,12 +144,16 @@ class UpdateCleanSiteForm extends Component {
                     <Grid container>
                         <Grid item sm={3}/>
                         <Grid item sm={3}>
-                            <Button variant="contained" className={classes.customBtn}>
+                            <Button variant="contained"
+                                    className={classes.customBtn}
+                                    onClick={this.handleUpdateLocation}>
                                 Lưu
                             </Button>
                         </Grid>
                         <Grid item sm={3}>
-                            <Button variant="contained" className={classes.customBtn}>
+                            <Button variant="contained"
+                                    className={classes.customBtn}
+                                    onClick={this.handleCloseForm}>
                                 Huỷ
                             </Button>
                         </Grid>
@@ -137,9 +167,13 @@ class UpdateCleanSiteForm extends Component {
 
 UpdateCleanSiteForm.propTypes = {};
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    location: state.locationsData.location
+});
 
 const mapDisPatchToProps = {
+    closeUpdateSiteForm,
+    updateLocation
 };
 
 export default connect(mapStateToProps, mapDisPatchToProps)(withStyles(styles)(UpdateCleanSiteForm));

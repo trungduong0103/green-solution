@@ -8,8 +8,6 @@ import {TextField} from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
 
-
-
 const styles = {
     textField: {
         border: "none",

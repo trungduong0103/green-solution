@@ -11,13 +11,13 @@ import logo from "../assets/imgs/website_logo.png"
 
 //Material UI
 import Button from "@material-ui/core/Button";
-import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
+import AppBar from "@material-ui/core/AppBar";
+// import PropTypes from 'prop-types';
 
 import {openAuthenticationSnackbar} from "../redux/actions/UIActions";
 import {signUserOut} from "../redux/actions/UserActions";
-// import PropTypes from 'prop-types';
 
 const styles = {
     appBar: {
@@ -129,7 +129,6 @@ class NavBar extends Component {
                                     </Button>
                                 </Grid>
 
-
                                 <Grid item>
                                     <Button
                                         to="/join-cleanup"
@@ -181,6 +180,5 @@ const mapDispatchToProps = {
     openAuthenticationSnackbar,
     signUserOut
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NavBar));
