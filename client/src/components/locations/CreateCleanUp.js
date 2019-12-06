@@ -29,7 +29,7 @@ const styles = {
         position: "absolute",
         width: "50vw",
         height: "50vh",
-        top: "20%",
+        top: "15%",
         left: "2%",
         padding: 15
     },
@@ -38,7 +38,7 @@ const styles = {
         width: "50vw",
         height: "30vh",
         left: "55%",
-        top: "20%",
+        top: "15%",
     },
     mapContainer: {
         position: "absolute",
@@ -109,7 +109,6 @@ const styles = {
     },
     successBtn: {
         outline: "none",
-        // fontFamily: "inherit",
         borderRadius: 20,
         color: "black",
         fontSize: 13,
@@ -126,7 +125,7 @@ const styles = {
         color: "red",
     },
     wrapper: {
-        height: "750px"
+        height: 700,
     },
     tickIcon: {
         width: 35,
@@ -389,7 +388,7 @@ class CreateCleanUp extends Component {
                     </Grid>
 
                 </Grid>
-                <Footer/>
+
             </div>
         )
     }

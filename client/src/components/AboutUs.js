@@ -37,7 +37,7 @@ const styles = {
         color: "black"
     },
     gridList: {
-        padding: "30px 20px"
+        padding: 0
     },
     image: {
         width: 300,
@@ -113,6 +113,7 @@ class AboutUs extends Component {
                             alt="bannerBackground"/>
                     </GridListTile>
                 </GridList>
+                <Footer/>
             </div>
         );
     }

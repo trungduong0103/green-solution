@@ -19,7 +19,7 @@ const styles = {
     registerForm: {
         height: "100%",
         backgroundColor: "rgb(99,151,68)",
-        padding: "60px 40px",
+        padding: "20px 40px",
         borderRadius: 0
     },
     signUpBtn: {
@@ -34,7 +34,6 @@ const styles = {
             color: "white",
             transition: "all 350ms ease-in-out",
         },
-        marginTop: 10,
         border: "1px solid rgb(74,117,58)",
     },
     typoTitle: {
@@ -46,12 +45,11 @@ const styles = {
     typoText: {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 17,
-        color: "white"
+        color: "white",
     },
     cardActions: {
         textAlign: "center"
     },
-
 };
 
 class Home extends Component {
@@ -65,7 +63,7 @@ class Home extends Component {
         return (
             <div>
                 <NavBar/>
-                <GridList cols={2} cellHeight={600} spacing={0}>
+                <GridList cols={2} cellHeight={550} spacing={0}>
                     <GridListTile>
                         <img src={banner} alt="bannerBackground"/>
                     </GridListTile>

@@ -28,10 +28,10 @@ const styles = {
     },
     footerWrapper: {
         padding: 20,
-        height: 150,
+        // height: "auto",
         width: "100%",
         backgroundColor: "#F6FBF2",
-        position: "absolute",
+        position: "relative",
         bottom: 0
     },
     icon: {
@@ -89,14 +89,11 @@ class Footer extends Component {
 
     render() {
         const {classes} = this.props;
-
         return (
-
                 <Grid
                     container
                     className={classes.footerWrapper}
                 >
-
                     <Grid item sm={3}>
                         <Grid container className={classes.logoWrapper}>
                             <img src={logo} className={classes.logo} alt="logo"/>
