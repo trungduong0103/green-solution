@@ -7,7 +7,6 @@ import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Button from "@material-ui/core/Button";
-
 export const JoinCleanUpMap = compose(
     withProps({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${
@@ -103,6 +102,10 @@ export const JoinCleanUpMap = compose(
         >
             {props.locations.map((marker, index) => (
                 <Marker
+                    icon={{
+                        url: require("../../../assets/imgs/marker.png"),
+                        scaledSize: {width: 60, height: 60}
+                    }}
                     key={index}
                     position={{lat: marker.lat, lng: marker.lng}}
                     onClick={() => props.onToggleOpen(index)}

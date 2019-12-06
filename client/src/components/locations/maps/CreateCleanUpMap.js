@@ -4,7 +4,6 @@ import _ from "lodash";
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 import React from "react";
-
 export const CreateCleanUpMap = compose(
     withProps({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${
@@ -110,6 +109,10 @@ export const CreateCleanUpMap = compose(
         </SearchBox>
         {props.markers.map((marker, index) =>
             <Marker
+                icon={{
+                    url: require("../../../assets/imgs/marker.png"),
+                    scaledSize: {width: 60, height: 60}
+                }}
                 key={index}
                 position={marker.position}
             />

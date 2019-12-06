@@ -28,9 +28,6 @@ import {
 
 
 const styles = {
-    outerContainer: {
-        margin: "20px",
-    },
     title: {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 25,
@@ -43,6 +40,9 @@ const styles = {
     },
     wrapper: {
         height: "650px"
+    },
+    tableForm: {
+        padding: "20px 30px"
     }
 };
 
@@ -95,9 +95,9 @@ class Home extends Component {
         return (
             <div>
                 <NavBar/>
-                <div className={classes.wrapper}>
-                    <Grid container spacing={5} className={classes.wrapper}>
-                        <Grid item xs={4}>
+
+                    <Grid container className={classes.wrapper}>
+                        <Grid item xs={4} className={classes.tableForm}>
                             <Typography className={classes.title}>Danh sách sự kiện đã tham gia</Typography>
                             <Paper>
                                 <Table aria-label="simple table">
@@ -124,13 +124,12 @@ class Home extends Component {
                             </Paper>
                         </Grid>
 
-                        <Grid item xs={8}>
+                        <Grid item xs={8}  className={classes.tableForm}>
                             <Typography className={classes.title}>Danh sách sự kiện đã tạo</Typography>
                             <Paper className={classes.root}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
                                             <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
                                             <TableCell align="center" className={classes.table}>Thay đổi</TableCell>
                                         </TableRow>
@@ -138,10 +137,6 @@ class Home extends Component {
                                     <TableBody>
                                         {createdLocations.map(location => (
                                             <TableRow key={location.id}>
-                                                <TableCell component="th" scope="row" align="center"
-                                                           className={classes.table}>
-                                                    {location.id}
-                                                </TableCell>
                                                 <TableCell align="center"
                                                            className={classes.table}>{location.name}</TableCell>
                                                 <TableCell align="center" omponent="th" scope="row"
@@ -166,11 +161,6 @@ class Home extends Component {
                         </Grid>
                     </Grid>
                     <Footer/>
-                </div>
-
-
-                {/*<Footer/>*/}
-
             </div>
         );
     }
