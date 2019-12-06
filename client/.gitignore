@@ -26,3 +26,5 @@ src/environments/Firebase.js
 src/environments/Keys.js
 
 .idea/
+.firebaserc
+firebase.json
