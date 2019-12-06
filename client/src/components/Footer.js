@@ -28,10 +28,11 @@ const styles = {
     },
     footerWrapper: {
         padding: 20,
-        height: 220,
+        height: 150,
         width: "100%",
         backgroundColor: "#F6FBF2",
-        position: "absolute"
+        position: "absolute",
+        // bottom: 0
     },
     icon: {
         width: 50,
@@ -39,14 +40,12 @@ const styles = {
     },
     typoText: {
         fontFamily:"'Quicksand', sans-serif;",
-        fontSize: 15
+        fontSize: 12
     },
     typoTitle: {
         fontFamily:"'Quicksand', sans-serif;",
         fontSize: 17,
-        // fontWeight: "fontWeightMedium",
         textTransform: "uppercase",
-        padding: "0 0 10px 0"
     },
     iconBtn: {
         color: "black",
@@ -61,9 +60,10 @@ const styles = {
         },
     },
     navBtn: {
+        padding: 5,
         outline: "none",
         textDecoration: "none",
-        fontSize: 17,
+        fontSize: 12,
         fontFamily: "'Quicksand', sans-serif;",
         textTransform: "none",
         border: "none",
@@ -161,13 +161,13 @@ class Footer extends Component {
                                 <Typography  className={classes.typoTitle} >Connect with us</Typography>
                             </Grid>
                             <Grid item>
-                                <IconButton className={classes.iconBtn}>
+                                <IconButton className={classes.iconBtn} href="https://www.facebook.com/">
                                     <Icon className="fab fa-facebook-f"/>
                                 </IconButton>
-                                <IconButton className={classes.iconBtn}>
+                                <IconButton className={classes.iconBtn} href="https://twitter.com">
                                     <Icon className="fab fa-twitter"/>
                                 </IconButton>
-                                <IconButton className={classes.iconBtn}>
+                                <IconButton className={classes.iconBtn} href="https://mail.google.com/">
                                     <Icon className="far fa-envelope"/>
                                 </IconButton>
                             </Grid>

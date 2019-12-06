@@ -14,7 +14,6 @@ import CardActions from "@material-ui/core/CardActions";
 import Snackbar from "@material-ui/core/Snackbar";
 import NavBar from "./NavBar";
 import Footer from "./Footer"
-import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
 
 const styles = {
     registerForm: {
@@ -51,7 +50,8 @@ const styles = {
     },
     cardActions: {
         textAlign: "center"
-    }
+    },
+
 };
 
 class Home extends Component {
