@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {connect} from "react-redux";
 
@@ -10,6 +9,7 @@ import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@
 import Button from "@material-ui/core/Button";
 import {closeUpdateSiteForm} from "../../../redux/actions/FormActions";
 import {updateLocation} from "../../../redux/actions/LocationActions";
+import dayjs from "dayjs";
 
 const styles = {
     customBtn: {
@@ -30,6 +30,9 @@ const styles = {
             border: "1px solid black",
             outline: "none"
         }
+    },
+    input: {
+        fontFamily: "'Quicksand', sans-serif;",
     }
 };
 
@@ -38,7 +41,7 @@ class UpdateCleanSiteForm extends Component {
         super(props);
         this.state = {
             location: {},
-            errors: {}
+            errors: {},
         }
     }
 
@@ -51,13 +54,59 @@ class UpdateCleanSiteForm extends Component {
         return null;
     }
 
+    validateDataBeforeSubmit(data) {
+        const errors = {};
+        if (data.name === "") {
+            errors.name = "Không được để trống"
+        }
+        if (data.description === "") {
+            errors.description = "Không được để trống"
+        }
+        if (Object.keys(errors).length !== 0) {
+            this.setState({
+                errors: errors
+            });
+            return false
+        }
+
+        return true;
+    }
+
     handleChange = (event) => {
         let location = this.state.location;
         location[event.target.name] = event.target.value;
         this.setState({location})
     };
 
+    handleDateChange = (date) => {
+        const location = this.state.location;
+        const updateDate = dayjs(date).format("YYYY-MM-DD");
+        location.startDate = updateDate;
+        this.setState({
+            location: location,
+            startDate: updateDate
+        });
+    };
+
+    handleTimeChange = (time) => {
+        const location = this.state.location;
+        const updateTime = dayjs(time).format("HH:mm:ss");
+        console.log(updateTime);
+        location.startTime = updateTime;
+        this.setState({
+            location: location,
+            startTime: time
+        });
+    };
+
     handleUpdateLocation = (event) => {
+        // if (this.validateDataBeforeSubmit(data)) {
+        //     event.preventDefault();
+        //
+        //     this.clearFormAndError();
+        // } else {
+        //     console.log("false")
+        // }
         event.preventDefault();
         this.props.updateLocation(this.state.location, this.props.email);
     };
@@ -75,6 +124,8 @@ class UpdateCleanSiteForm extends Component {
         const {errors, location} = this.state;
         const {classes} = this.props;
         console.log(location);
+        console.log(location.startTime);
+        console.log(location.startDate);
         return (
             <div>
                 <form>
@@ -90,6 +141,8 @@ class UpdateCleanSiteForm extends Component {
                                 helperText={errors.name}
                                 error={!!errors.name}
                                 fullWidth
+                                InputLabelProps={{className: classes.input}}
+                                InputProps={{className: classes.input}}
                             />
                         </Grid>
 
@@ -104,6 +157,8 @@ class UpdateCleanSiteForm extends Component {
                                 helperText={errors.description}
                                 error={!!errors.description}
                                 fullWidth
+                                InputLabelProps={{className: classes.input}}
+                                InputProps={{className: classes.input}}
                             />
                         </Grid>
                     </Grid>
@@ -112,6 +167,7 @@ class UpdateCleanSiteForm extends Component {
                         <Grid item sm={6}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
+                                    label="Ngày bắt đầu sự kiện"
                                     className={classes.picker}
                                     invalidDateMessage="Ngày không hợp lệ"
                                     disablePast
@@ -119,7 +175,6 @@ class UpdateCleanSiteForm extends Component {
                                     id="date-picker-dialog"
                                     value={this.state.startDate}
                                     onChange={this.handleDateChange}
-                                    label="Ngày bắt đầu sự kiện"
                                     InputLabelProps={{className: classes.input}}
                                     InputProps={{className: classes.input}}
                                     fullWidth
@@ -127,6 +182,7 @@ class UpdateCleanSiteForm extends Component {
                             </MuiPickersUtilsProvider>
                         </Grid>
                         <Grid item sm={6}>
+
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardTimePicker
                                     className={classes.picker}
@@ -138,6 +194,7 @@ class UpdateCleanSiteForm extends Component {
                                     fullWidth
                                 />
                             </MuiPickersUtilsProvider>
+
                         </Grid>
                     </Grid>
                     <br/>

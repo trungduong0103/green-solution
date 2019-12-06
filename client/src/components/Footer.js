@@ -14,7 +14,7 @@ const styles = {
         maxHeight: "100%"
     },
     logoWrapper: {
-        width: 220,
+        width: 240,
         height: 120,
         padding: "20px"
     },
