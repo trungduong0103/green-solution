@@ -14,7 +14,7 @@ import {
     GETTING_REGISTERED_LOCATIONS,
     GOT_REGISTERED_LOCATIONS,
     GETTING_CREATED_LOCATIONS,
-    GOT_CREATED_LOCATIONS
+    GOT_CREATED_LOCATIONS, CLEAR_ERRORS, OPEN_SIGN_OUT_SNACKBAR, CLOSE_SIGN_OUT_SNACKBAR
 } from "../types";
 
 const initialState = {
@@ -26,21 +26,20 @@ const initialState = {
     doneSignUp: false,
     doneSignIn: false,
     openAuthenticationSnackbar: false,
+    openSignOutSnackbar: false,
     errors: {}
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case OPEN_AUTHENTICATION_SNACKBAR:
-            return {
-                ...state,
-                openAuthenticationSnackbar: true
-            };
+            return {...state, openAuthenticationSnackbar: true};
         case CLOSE_AUTHENTICATION_SNACKBAR:
-            return {
-                ...state,
-                openAuthenticationSnackbar: false
-            };
+            return {...state, openAuthenticationSnackbar: false};
+        case OPEN_SIGN_OUT_SNACKBAR:
+            return {...state, openSignOutSnackbar: true};
+        case CLOSE_SIGN_OUT_SNACKBAR:
+            return {...state, openSignOutSnackbar: false};
         case SIGNING_UP:
             return {...state, loading: true};
         case SIGN_UP_COMPLETE:
@@ -67,6 +66,9 @@ export default function (state = initialState, action) {
             return {...state, loadCreatedLocations: false};
         case SET_ERRORS:
             return {...state, loading: false, errors: action.payload};
+        case CLEAR_ERRORS: {
+            return {...state, errors: {}}
+        }
         case RESET_UI_STATE:
             return {
                 ...state,

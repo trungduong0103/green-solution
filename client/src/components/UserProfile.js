@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {connect} from "react-redux";
+import jwtDecode from "jwt-decode";
 
 //Material-UI
 import {Link} from "react-router-dom";
@@ -16,6 +17,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
+
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 
@@ -49,13 +51,23 @@ class Home extends Component {
         super(props);
         this.state = {
             registeredLocations: [],
-            createdLocations: []
+            createdLocations: [],
+            email: ""
         }
     }
 
     componentDidMount() {
-        this.props.getAllCreatedLocationsWithEmail({email: "trungduong0103@gmail.com"});
-        this.props.getAllRegisteredLocationsWithEmail({email: "trungduong0103@gmail.com"});
+        const auth = localStorage.getItem("FBIdToken");
+        if (!auth) {
+            alert("Bạn phải đăng nhập trước.");
+            window.location.href = "/authentication";
+        }
+        const decodedToken = jwtDecode(auth);
+        this.setState({
+            email: decodedToken.email
+        });
+        this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
+        this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -73,15 +85,13 @@ class Home extends Component {
     }
 
     handleDeleteLocation = (locationId) => {
-        console.log(locationId, "trungduong0103@gmail.com");
-        this.props.deleteLocation(locationId, "trungduong0103@gmail.com");
+        this.props.deleteLocation(locationId, this.state.email);
     };
 
     render() {
         const {classes} = this.props;
         const {registeredLocations, createdLocations} = this.state;
         console.log(this.state);
-
         return (
             <div>
                 <NavBar/>

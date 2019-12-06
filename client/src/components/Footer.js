@@ -30,7 +30,8 @@ const styles = {
         padding: 20,
         height: 220,
         width: "100%",
-        backgroundColor: "#F6FBF2"
+        backgroundColor: "#F6FBF2",
+        position: "absolute"
     },
     icon: {
         width: 50,
@@ -90,7 +91,7 @@ class Footer extends Component {
         const {classes} = this.props;
 
         return (
-            <div>
+
                 <Grid
                     container
                     className={classes.footerWrapper}
@@ -172,10 +173,8 @@ class Footer extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-
                 </Grid>
 
-            </div>
         );
     }
 }

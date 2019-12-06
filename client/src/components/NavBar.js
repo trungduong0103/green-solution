@@ -16,6 +16,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
 
 import {openAuthenticationSnackbar} from "../redux/actions/UIActions";
+import {signUserOut} from "../redux/actions/UserActions";
 // import PropTypes from 'prop-types';
 
 const styles = {
@@ -74,32 +75,12 @@ const styles = {
         transition: "all 350ms ease-in-out",
         "&:hover": {
             backgroundColor: "#7F986F",
-            color: "black",
-
         },
         marginTop: 35,
-    },
-    signInBtn: {
-
-        fontSize: 15,
-        borderRadius: 20,
-        textTransform: "none",
-        fontFamily: "'Quicksand', sans-serif;",
-        backgroundColor: "#7da968",
-        color: "black",
-        "&:hover": {
-            backgroundColor: "#4c7037",
-            color: "black",
-            transition: "all 350ms ease-in-out",
-        },
-        marginTop: 35,
-        border: "1px solid black",
     }
 };
 
 class NavBar extends Component {
-
-
     render() {
         const {classes} = this.props;
         const auth = localStorage.getItem("FBIdToken");
@@ -107,7 +88,6 @@ class NavBar extends Component {
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Grid container>
-
                         <Grid item sm={3} md={3}>
                             <Button
                                 component={Link}
@@ -116,15 +96,11 @@ class NavBar extends Component {
                             >
                                 <img src={logo} className={classes.logo} alt="logo"/>
                             </Button>
-
-
                         </Grid>
 
 
                         <Grid item sm={7} md={7}>
-
                             <Grid container spacing={5} justify="center">
-
                                 <Grid item>
                                     <Button
                                         component={Link}
@@ -168,20 +144,26 @@ class NavBar extends Component {
                         <Grid item sm={2} md={2}>
                             <Grid container spacing={1}>
                                 <Grid item>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.signUpBtn}
-                                        component={Link}
-                                        disabled = {!!auth}
-                                        to="/authentication">
-                                        {auth ? "LOGGED IN" : "Tham gia ngay"}
+                                    {auth ? (
+                                        <Button variant="contained"
+                                                className={classes.signUpBtn}
+                                                onClick={() => this.props.signUserOut()}>
+                                            Đăng Xuất
+                                        </Button>
+                                    ): (
+                                        <Button
+                                            variant="contained"
+                                            className={classes.signUpBtn}
+                                            component={Link}
+                                            disabled = {!!auth}
+                                            to="/authentication">
+                                            Tham gia ngay
+                                        </Button>
+                                    )}
 
-                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>
-
-
                     </Grid>
                 </Toolbar>
             </AppBar>
@@ -196,7 +178,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    openAuthenticationSnackbar
+    openAuthenticationSnackbar,
+    signUserOut
 };
 
 

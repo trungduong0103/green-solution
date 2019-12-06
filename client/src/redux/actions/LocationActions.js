@@ -123,7 +123,6 @@ export function getAllCreatedLocationsWithEmail(email) {
         dispatch({type: GETTING_CREATED_LOCATIONS});
         axios.post(`${DEFAULT_URL}/get_created_locations`, email)
             .then((res) => {
-                console.log(res.data);
                 dispatch({type: GOT_CREATED_LOCATIONS, payload: res.data});
             })
             .catch((err) => {
@@ -137,7 +136,6 @@ export function getAllRegisteredLocationsWithEmail(email) {
         dispatch({type: GETTING_REGISTERED_LOCATIONS});
         axios.post(`${DEFAULT_URL}/get_registered_locations`, email)
             .then((res) => {
-                console.log(res.data);
                 dispatch({type: GOT_REGISTERED_LOCATIONS, payload: res.data});
             })
             .catch((err) => {

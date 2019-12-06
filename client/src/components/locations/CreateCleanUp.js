@@ -1,23 +1,25 @@
 import React, {Component} from 'react';
 import DateFnsUtils from "@date-io/date-fns"
 import dayjs from "dayjs";
+import jwtDecode from "jwt-decode";
+
 //Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
-import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button"
-import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers"
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 
 import NavBar from "../NavBar";
-import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
+import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers"
 //React-redux
 import {connect} from "react-redux";
 import {createNewLocation} from "../../redux/actions/LocationActions";
+import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
 import Footer from "../Footer";
 //React router
 
@@ -144,6 +146,7 @@ class CreateCleanUp extends Component {
             eventDescription: "",
             eventStartDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
             eventStartTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+            email: "",
             errors: {}
         }
     };
@@ -198,7 +201,7 @@ class CreateCleanUp extends Component {
                 description: this.state.eventDescription,
                 startDate: this.state.eventStartDate,
                 startTime: this.state.eventStartTime,
-                creator: "trungduong0103@gmail.com"
+                creator: this.state.email
             });
             this.clearFormAndError();
         } else {
@@ -246,9 +249,14 @@ class CreateCleanUp extends Component {
         if (!auth) {
             window.location.href = "/authentication";
         }
+        const decodedToken = jwtDecode(auth);
+        this.setState({
+            email: decodedToken.email
+        });
     }
 
     render() {
+        console.log(this.state);
         const {classes, UI: {loading, doneCreateLocation}} = this.props;
         const {errors} = this.state;
         return (
@@ -353,13 +361,8 @@ class CreateCleanUp extends Component {
                                                 error={!!errors.description}
                                                 fullWidth
                                                 InputLabelProps={{className: classes.input}}
-                                                InputProps={
-                                                    {
-                                                        className: classes.input
-                                                    }
-                                                }
+                                                InputProps={{className: classes.input}}
                                             />
-
                                             {doneCreateLocation ?
                                                 (
                                                     <CheckIcon className={classes.tickIcon} />
@@ -378,7 +381,6 @@ class CreateCleanUp extends Component {
                                                     )
                                                 )
                                             }
-
                                         </form>
                                     </Grid>
                                 </Grid>

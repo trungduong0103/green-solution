@@ -9,7 +9,7 @@ import {
     SIGN_UP_COMPLETE,
     SIGNING_IN,
     SIGNING_UP,
-    SIGNING_UP_SOCIAL_MEDIA
+    SIGNING_UP_SOCIAL_MEDIA, OPEN_SIGN_OUT_SNACKBAR, CLOSE_SIGN_OUT_SNACKBAR
 } from "../types";
 
 import firebase from "../../environments/Firebase";
@@ -193,29 +193,24 @@ export function signedIn() {
     }
 }
 
-export function signOut() {
+export function signUserOut() {
     return function (dispatch) {
-        const user = firebase.auth().currentUser;
-        const token = localStorage.getItem("FBIdToken");
-        if (token) {
-            localStorage.clear();
-        }
-        else {
-            console.log("no token");
-        }
-        if (user !== null) {
-            firebase.auth().signOut()
-                .then(() => {
-                    localStorage.clear();
-                    alert("signed out.")
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }else {
-            console.log("no user");
-        }
-
+        firebase.auth().signOut()
+            .then(() => {
+                localStorage.clear();
+            })
+            .then(() => {
+                dispatch({type: OPEN_SIGN_OUT_SNACKBAR});
+                window.location.href = "/home";
+            })
+            .then(() => {
+                setTimeout(() => {
+                    dispatch({type: CLOSE_SIGN_OUT_SNACKBAR})
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 }
 

@@ -72,7 +72,6 @@ class Authentication extends Component {
                 <div className="container" id="container">
                     <SignUp history={this.props.history}/>
                     <SignIn history={this.props.history}/>
-
                     <div className="overlay-container">
                         <div className="overlay">
                             <div className="overlay-panel overlay-left">

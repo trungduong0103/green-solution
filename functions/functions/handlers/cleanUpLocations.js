@@ -44,18 +44,11 @@ exports.getAllCleanUpLocations = (req, res) => {
     return db.collection("cleanUpLocations").get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                documents.push({
-                    id: doc.id,
-                    name: doc.data().name,
-                    lat: parseFloat(doc.data().lat),
-                    lng: parseFloat(doc.data().lng),
-                    address: doc.data().address,
-                    description: doc.data().description,
-                    startDate: doc.data().startDate,
-                    startTime: doc.data().startTime,
-                    createdAt: doc.data().createdAt,
-                    creator: doc.data().creator
-                });
+                const cleanUpData = doc.data();
+                cleanUpData.id = doc.id;
+                cleanUpData.lat = parseFloat(doc.data().lat);
+                cleanUpData.lng = parseFloat(doc.data().lng);
+                documents.push(cleanUpData);
             });
             return res.json(documents);
         })
@@ -72,18 +65,11 @@ exports.getCleanUpLocation = (req, res) => {
         .get()
         .then((doc) => {
             if (doc.exists) {
-                return res.json({
-                    id: doc.id,
-                    name: doc.data().name,
-                    lat: parseFloat(doc.data().lat),
-                    lng: parseFloat(doc.data().lng),
-                    address: doc.data().address,
-                    description: doc.data().description,
-                    startDate: doc.data().startDate,
-                    startTime: doc.data().startTime,
-                    createdAt: doc.data().createdAt,
-                    creator: doc.data().creator
-                });
+                const cleanUpData = doc.data();
+                cleanUpData.id = doc.id;
+                cleanUpData.lat = parseFloat(doc.data().lat);
+                cleanUpData.lng = parseFloat(doc.data().lng);
+                return res.json(cleanUpData);
             }
             return res.json({message: "clean up location not found."});
         })

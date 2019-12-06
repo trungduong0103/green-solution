@@ -11,7 +11,6 @@ import UserProfile from "./components/UserProfile"
 import AboutUs from "./components/AboutUs"
 function App() {
     return (
-
         <Provider store={store}>
             <Router>
                 <Switch>

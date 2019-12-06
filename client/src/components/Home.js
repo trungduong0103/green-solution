@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import withStyles from "@material-ui/core/styles/withStyles";
-
 import banner from "../assets/imgs/img1.jpg"
 import {Link} from "react-router-dom";
-import NavBar from "./NavBar";
-import Footer from "./Footer"
+import {connect} from "react-redux";
+
+import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography";
 import GridList from "@material-ui/core/GridList";
@@ -12,6 +11,10 @@ import GridListTile from "@material-ui/core/GridListTile";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
+import Snackbar from "@material-ui/core/Snackbar";
+import NavBar from "./NavBar";
+import Footer from "./Footer"
+import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
 
 const styles = {
     registerForm: {
@@ -58,10 +61,8 @@ class Home extends Component {
     }
 
     render() {
-        const {classes} = this.props;
-
+        const {classes, openSignOutSnackbar} = this.props;
         return (
-
             <div>
                 <NavBar/>
                 <GridList cols={2} cellHeight={600} spacing={0}>
@@ -110,13 +111,17 @@ class Home extends Component {
                         </Card>
                     </GridListTile>
                 </GridList>
-
-
                 <Footer/>
-
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                          open={openSignOutSnackbar}
+                          message={"Bạn đã đăng xuất."}/>
             </div>
         );
     }
 }
 
-export default withStyles(styles)(Home);
+const mapStateToProps = (state) => ({
+    openSignOutSnackbar: state.UI.openSignOutSnackbar
+});
+
+export default connect(mapStateToProps, null)(withStyles(styles)(Home));
