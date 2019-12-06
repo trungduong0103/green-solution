@@ -23,11 +23,14 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import {
     getAllRegisteredLocationsWithEmail,
-    getAllCreatedLocationsWithEmail, deleteLocation
+    getAllCreatedLocationsWithEmail, deleteLocation, getLocation
 } from "../redux/actions/LocationActions";
 import UpdateCleanSiteForm from "./locations/forms/UpdateCleanSiteForm";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import {openUpdateSiteForm} from "../redux/actions/FormActions";
+import {CircularProgress} from "@material-ui/core";
+import Collapse from "@material-ui/core/Collapse";
 
 
 const styles = {
@@ -47,10 +50,15 @@ const styles = {
         fontSize: 15
     },
     wrapper: {
-        height: "650px"
+        height: "auto"
     },
     tableForm: {
         padding: "20px 30px"
+    },
+    progress: {
+        position: "absolute",
+        top: "45%",
+        marginLeft: "20%"
     }
 };
 
@@ -96,8 +104,12 @@ class Home extends Component {
         this.props.deleteLocation(locationId, this.state.email);
     };
 
+    handleEditLocation = (locationId) => {
+        this.props.openUpdateSiteForm(locationId);
+    };
+
     render() {
-        const {classes} = this.props;
+        const {classes, openUpdateSite, loading} = this.props;
         const {registeredLocations, createdLocations} = this.state;
         return (
             <div>
@@ -159,7 +171,7 @@ class Home extends Component {
                                                 </IconButton>
                                                 <IconButton
                                                     className={classes.button}
-                                                    onClick={console.log("edit")}>
+                                                    onClick={() => this.handleEditLocation(location.id)}>
                                                     <EditIcon color="primary"/>
                                                 </IconButton>
                                             </TableCell>
@@ -174,13 +186,22 @@ class Home extends Component {
                 <Grid container>
                     <Grid item sm={3}/>
                     <Grid item sm={6}>
-                        <Card>
-                            <CardContent>
-                                <Typography className={classes.formTitle} align="center">Cập nhật thông tin sự kiện</Typography>
-                                <br/>
-                                <UpdateCleanSiteForm />
-                            </CardContent>
-                        </Card>
+                        {loading ? (
+                            <CircularProgress
+                                variant="indeterminate"
+                                size={50}
+                                className={classes.progress} />
+                        ): (
+                            <Collapse in={openUpdateSite}>
+                                <Card>
+                                    <CardContent>
+                                        <Typography className={classes.formTitle} align="center">Cập nhật thông tin sự kiện</Typography>
+                                        <br/>
+                                        <UpdateCleanSiteForm />
+                                    </CardContent>
+                                </Card>
+                            </Collapse>
+                        )}
                     </Grid>
                     <Grid item sm={3}/>
                 </Grid>
@@ -192,13 +213,16 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
     createdLocations: state.locationsData.createdLocations,
-    registeredLocations: state.locationsData.registeredLocations
+    registeredLocations: state.locationsData.registeredLocations,
+    openUpdateSite: state.formState.openUpdateSite,
+    loading: state.formState.loading
 });
 
 const mapDispatchToProps = {
     getAllCreatedLocationsWithEmail,
     getAllRegisteredLocationsWithEmail,
-    deleteLocation
+    deleteLocation,
+    openUpdateSiteForm
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));

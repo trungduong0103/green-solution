@@ -140,7 +140,6 @@ UpdateCleanSiteForm.propTypes = {};
 const mapStateToProps = (state) => ({});
 
 const mapDisPatchToProps = {
-    getLocation
 };
 
 export default connect(mapStateToProps, mapDisPatchToProps)(withStyles(styles)(UpdateCleanSiteForm));

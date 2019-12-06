@@ -60,7 +60,7 @@ class AboutUs extends Component {
             <div>
                 <NavBar/>
 
-                <GridList cols={2} cellHeight={800} spacing={0}>
+                <GridList cols={2} cellHeight={800}  spacing={0}>
                     <GridListTile>
                         <img src={banner}  alt="bannerBackground"/>
                     </GridListTile>
@@ -113,10 +113,6 @@ class AboutUs extends Component {
                             alt="bannerBackground"/>
                     </GridListTile>
                 </GridList>
-
-
-                <Footer/>
-
             </div>
         );
     }

@@ -50,7 +50,7 @@ const styles = {
         justifyContent: 'center',
     },
     wrapper: {
-        height: "700px"
+        height: "75vh"
     }
 };
 
@@ -67,7 +67,7 @@ class JoinCleanUp extends Component {
     }
 
     render() {
-        const {classes, formState: {open, loading}} = this.props;
+        const {classes, formState: {openJoinSite, loading}} = this.props;
         return (
             <div>
                 <NavBar/>
@@ -87,7 +87,7 @@ class JoinCleanUp extends Component {
                                 size={50}
                                 className={classes.progress} />
                         ) : (
-                            <Collapse in={open} className={classes.detailContainer}>
+                            <Collapse in={openJoinSite} className={classes.detailContainer}>
                                 <CleanUpDetail />
                             </Collapse>
                         )}

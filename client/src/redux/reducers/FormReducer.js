@@ -1,12 +1,13 @@
 import {
-    CLOSE_JOIN_CLEAN_UP_FORM,
+    CLOSE_JOIN_CLEAN_UP_FORM, CLOSE_UPDATE_SITE_FORM,
     LOADING_FORM,
-    OPEN_JOIN_CLEAN_UP_FORM,
+    OPEN_JOIN_CLEAN_UP_FORM, OPEN_UPDATE_SITE_FORM,
     STOP_LOADING_FORM,
 } from "../types";
 
 const initialState = {
-    open: false,
+    openJoinSite: false,
+    openUpdateSite: false,
     locationId: "",
     loading: false,
 };
@@ -16,13 +17,23 @@ export default function (state = initialState, action) {
         case OPEN_JOIN_CLEAN_UP_FORM:
             return {
                 ...state,
-                open: true,
+                openJoinSite: true,
                 locationId: action.payload
             };
         case CLOSE_JOIN_CLEAN_UP_FORM:
             return {
                 ...state,
-                open: false
+                openJoinSite: false
+            };
+        case OPEN_UPDATE_SITE_FORM:
+            return {
+                ...state,
+                openUpdateSite: true
+            };
+        case CLOSE_UPDATE_SITE_FORM:
+            return {
+                ...state,
+                openUpdateSite: false
             };
         case LOADING_FORM:
             return {
