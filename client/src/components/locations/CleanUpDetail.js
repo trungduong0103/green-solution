@@ -37,10 +37,6 @@ class CleanUpDetail extends React.Component {
         }
     }
 
-    componentDidMount() {
-
-    }
-
     static getDerivedStateFromProps(props, state) {
         if (props.location !== state.location) {
             return {
@@ -64,9 +60,7 @@ class CleanUpDetail extends React.Component {
                     </Typography>
                     <br/>
                     <JoinCleanUpForm locationId={this.state.location.id}/>
-
                 </CardContent>
-
             </Card>
         )
     }

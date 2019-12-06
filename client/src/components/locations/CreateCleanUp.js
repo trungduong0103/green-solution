@@ -51,7 +51,7 @@ const styles = {
     title: {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 35,
-        textAlign: "center",
+        textAlign: "center"
     },
     helpTitle: {
         fontFamily: "'Quicksand', sans-serif;",
@@ -256,7 +256,6 @@ class CreateCleanUp extends Component {
     }
 
     render() {
-        console.log(this.state);
         const {classes, UI: {loading, doneCreateLocation}} = this.props;
         const {errors} = this.state;
         return (
@@ -274,8 +273,7 @@ class CreateCleanUp extends Component {
                                     <Grid item sm={12}>
                                         <Typography className={classes.title}>Đơn tạo sự kiện</Typography>
                                         <Typography className={classes.helpTitle}>* Nhập địa chỉ bạn muốn chọn vảo bản
-                                            đồ và
-                                            hoàn thành đơn tạo sự kiện</Typography>
+                                            đồ và hoàn thành đơn tạo sự kiện</Typography>
                                     </Grid>
 
                                     <Grid item sm={12}>
@@ -295,33 +293,35 @@ class CreateCleanUp extends Component {
                                                 InputProps={{className: classes.input}}
                                             />
 
-                                            <Grid item sm={12}>
-                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                    <KeyboardDatePicker
-                                                        className={classes.picker}
-                                                        invalidDateMessage="Ngày không hợp lệ"
-                                                        disablePast
-                                                        format="dd/MM/yyyy"
-                                                        id="date-picker-dialog"
-                                                        value={this.state.startDate}
-                                                        onChange={this.handleDateChange}
-                                                        label="Ngày bắt đầu sự kiện"
-                                                        InputLabelProps={{className: classes.input}}
-                                                        InputProps={{className: classes.input}}
-                                                    />
-                                                </MuiPickersUtilsProvider>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    className={classes.picker}
+                                                    invalidDateMessage="Ngày không hợp lệ"
+                                                    disablePast
+                                                    format="dd/MM/yyyy"
+                                                    id="date-picker-dialog"
+                                                    value={this.state.startDate}
+                                                    onChange={this.handleDateChange}
+                                                    label="Ngày bắt đầu sự kiện"
+                                                    InputLabelProps={{className: classes.input}}
+                                                    InputProps={{className: classes.input}}
+                                                    fullWidth
+                                                />
+                                            </MuiPickersUtilsProvider>
 
-                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                    <KeyboardTimePicker
-                                                        className={classes.picker}
-                                                        label="Thời gian bắt đầu sự kiện"
-                                                        value={this.state.startTime}
-                                                        onChange={this.handleTimeChange}
-                                                        InputLabelProps={{className: classes.input}}
-                                                        InputProps={{className: classes.input}}
-                                                    />
-                                                </MuiPickersUtilsProvider>
-                                            </Grid>
+
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardTimePicker
+                                                    className={classes.picker}
+                                                    label="Thời gian bắt đầu sự kiện"
+                                                    value={this.state.startTime}
+                                                    onChange={this.handleTimeChange}
+                                                    InputLabelProps={{className: classes.input}}
+                                                    InputProps={{className: classes.input}}
+                                                    fullWidth
+                                                />
+                                            </MuiPickersUtilsProvider>
+
 
                                             <TextField
                                                 className={classes.formInput}
@@ -365,20 +365,20 @@ class CreateCleanUp extends Component {
                                             />
                                             {doneCreateLocation ?
                                                 (
-                                                    <CheckIcon className={classes.tickIcon} />
+                                                    <CheckIcon className={classes.tickIcon}/>
                                                 ) :
                                                 (loading ? (
-                                                        <CircularProgress variant="indeterminate" size={40} />
-                                                ) :
-                                                    (
-                                                        <Button
-                                                            variant="contained"
-                                                            onClick={this.addNewLocation}
-                                                            disabled={loading}
-                                                            className={doneCreateLocation ? classes.successBtn : classes.customBtn}
-                                                        >Xác Nhận
-                                                        </Button>
-                                                    )
+                                                            <CircularProgress variant="indeterminate" size={40}/>
+                                                        ) :
+                                                        (
+                                                            <Button
+                                                                variant="contained"
+                                                                onClick={this.addNewLocation}
+                                                                disabled={loading}
+                                                                className={classes.customBtn}
+                                                            >Xác Nhận
+                                                            </Button>
+                                                        )
                                                 )
                                             }
                                         </form>

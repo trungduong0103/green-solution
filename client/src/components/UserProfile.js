@@ -25,6 +25,9 @@ import {
     getAllRegisteredLocationsWithEmail,
     getAllCreatedLocationsWithEmail, deleteLocation
 } from "../redux/actions/LocationActions";
+import UpdateCleanSiteForm from "./locations/forms/UpdateCleanSiteForm";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 
 
 const styles = {
@@ -32,6 +35,11 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 25,
         padding: 10,
+        textAlign: "center"
+    },
+    formTitle: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: 35,
         textAlign: "center"
     },
     table: {
@@ -91,76 +99,92 @@ class Home extends Component {
     render() {
         const {classes} = this.props;
         const {registeredLocations, createdLocations} = this.state;
-        console.log(this.state);
         return (
             <div>
                 <NavBar/>
+                <Grid container spacing={1} className={classes.wrapper}>
+                    <Grid item xs={4}>
+                        <Typography className={classes.title}>Danh sách sự kiện đã tham gia</Typography>
+                        <Paper>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
+                                        <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {registeredLocations.map(location => (
+                                        <TableRow key={location.id}>
+                                            <TableCell component="th" scope="row" align="center"
+                                                       className={classes.table}>
+                                                {location.id}
+                                            </TableCell>
+                                            <TableCell align="center"
+                                                       className={classes.table}>{location.name}</TableCell>
 
-                    <Grid container className={classes.wrapper}>
-                        <Grid item xs={4} className={classes.tableForm}>
-                            <Typography className={classes.title}>Danh sách sự kiện đã tham gia</Typography>
-                            <Paper>
-                                <Table aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
-                                            <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {registeredLocations.map(location => (
-                                            <TableRow key={location.id}>
-                                                <TableCell component="th" scope="row" align="center"
-                                                           className={classes.table}>
-                                                    {location.id}
-                                                </TableCell>
-                                                <TableCell align="center"
-                                                           className={classes.table}>{location.name}</TableCell>
-
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </Paper>
-                        </Grid>
-
-                        <Grid item xs={8}  className={classes.tableForm}>
-                            <Typography className={classes.title}>Danh sách sự kiện đã tạo</Typography>
-                            <Paper className={classes.root}>
-                                <Table className={classes.table} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
-                                            <TableCell align="center" className={classes.table}>Thay đổi</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {createdLocations.map(location => (
-                                            <TableRow key={location.id}>
-                                                <TableCell align="center"
-                                                           className={classes.table}>{location.name}</TableCell>
-                                                <TableCell align="center" omponent="th" scope="row"
-                                                           className={classes.table}>
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.handleDeleteLocation(location.id)}>
-                                                        <DeleteIcon color="secondary"/>
-                                                    </IconButton>
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={console.log("edit")}>
-                                                        <EditIcon color="primary"/>
-                                                    </IconButton>
-
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </Paper>
-                        </Grid>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Paper>
                     </Grid>
-                    <Footer/>
+
+                    <Grid item xs={8}>
+                        <Typography className={classes.title}>Danh sách sự kiện đã tạo</Typography>
+                        <Paper className={classes.root}>
+                            <Table className={classes.table} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center" className={classes.table}>Số thứ tự</TableCell>
+                                        <TableCell align="center" className={classes.table}>Tên sự kiện</TableCell>
+                                        <TableCell align="center" className={classes.table}>Thay đổi</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {createdLocations.map(location => (
+                                        <TableRow key={location.id}>
+                                            <TableCell component="th" scope="row" align="center"
+                                                       className={classes.table}>
+                                                {location.id}
+                                            </TableCell>
+                                            <TableCell align="center"
+                                                       className={classes.table}>{location.name}</TableCell>
+                                            <TableCell align="center" omponent="th" scope="row"
+                                                       className={classes.table}>
+                                                <IconButton
+                                                    className={classes.button}
+                                                    onClick={() => this.handleDeleteLocation(location.id)}>
+                                                    <DeleteIcon color="secondary"/>
+                                                </IconButton>
+                                                <IconButton
+                                                    className={classes.button}
+                                                    onClick={console.log("edit")}>
+                                                    <EditIcon color="primary"/>
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Paper>
+                    </Grid>
+                </Grid>
+                <br/>
+                <Grid container>
+                    <Grid item sm={3}/>
+                    <Grid item sm={6}>
+                        <Card>
+                            <CardContent>
+                                <Typography className={classes.formTitle} align="center">Cập nhật thông tin sự kiện</Typography>
+                                <br/>
+                                <UpdateCleanSiteForm />
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item sm={3}/>
+                </Grid>
+                <Footer/>
             </div>
         );
     }

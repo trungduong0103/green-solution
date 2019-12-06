@@ -130,11 +130,7 @@ class JoinCleanSiteForm extends Component {
                             variant="outlined"
                             fullWidth
                             InputLabelProps={{className: classes.input}}
-                            InputProps={
-                                {
-                                    className: classes.input
-                                }
-                            }
+                            InputProps={{className: classes.input}}
                         />
                     </Grid>
                     <Grid item sm={6}>
@@ -151,11 +147,7 @@ class JoinCleanSiteForm extends Component {
                             variant="outlined"
                             fullWidth
                             InputLabelProps={{className: classes.input}}
-                            InputProps={
-                                {
-                                    className: classes.input
-                                }
-                            }
+                            InputProps={{className: classes.input}}
                         />
                     </Grid>
                 </Grid>

@@ -32,7 +32,7 @@ const styles = {
         width: "100%",
         backgroundColor: "#F6FBF2",
         position: "absolute",
-        // bottom: 0
+        bottom: 0
     },
     icon: {
         width: 50,
