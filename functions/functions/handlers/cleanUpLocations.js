@@ -95,10 +95,18 @@ exports.joinCleanUpLocation = (req, res) => {
     const locationId = req.body.location_id;
     const email = req.body.email;
 
-    if (checkUserAlreadyCreatedInFirestore(email)) {
-        console.log(`no email found in database while joining, creating new record with email ${email}`);
-        createUserUsingEmail(email);
-    }
+    checkUserAlreadyCreatedInFirestore(email)
+        .then((value) => {
+            if (value === false) {
+                console.log("no record found while joining, creating new record...");
+                return createUserUsingEmail(email);
+            }
+            return null;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
     return Promise.all([
         registerUserToCleanSite(email, locationId),
         sendConfirmationToUserEmail(email, locationId)])
@@ -135,13 +143,7 @@ function checkUserAlreadyCreatedInFirestore(email) {
             querySnapshot.forEach((snap) => {
                 documents.push(snap.id);
             });
-            if (documents.length > 0) {
-                console.log("already created");
-                return true;
-            } else {
-                console.log("no record yet");
-                return false;
-            }
+            return documents.length > 0;
         })
         .catch((err) => {
             console.log(err);
@@ -150,26 +152,25 @@ function checkUserAlreadyCreatedInFirestore(email) {
 
 //GET REGISTERED CLEAN SITES
 exports.getUserRegisteredLocations = (req, res) => {
-
-
-};
-
-
-function getLocationDocumentsByEmail(email) {
+    const email = req.body.email;
     const documents = [];
-    return db.collection("locationRegistrations")
-        .where("email", "==", email)
+    return db
+        .collection("cleanUpLocations")
+        .where("registeredUsers", "array-contains", email)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((snap) => {
-                documents.push(snap.data().locationId);
+                const location = snap.data();
+                location.id = snap.id;
+                documents.push(location)
             });
             return documents;
         })
         .catch((err) => {
             console.log(err);
-        });
-}
+        })
+
+};
 
 //GET CREATED CLEAN SITES
 exports.getCreatedLocations = (req, res) => {
