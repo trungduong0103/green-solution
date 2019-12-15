@@ -77,7 +77,7 @@ class JoinCleanSiteForm extends Component {
         if (this.handleDataBeforeSubmit(data)) {
             this.props.joinLocation({
                 email: this.state.email,
-                id: this.props.locationId
+                location_id: this.props.locationId
             });
             this.clearForm();
         }

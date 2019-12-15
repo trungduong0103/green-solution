@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import withStyles from "@material-ui/core/styles/withStyles";
-import {Typography} from "@material-ui/core";
+import {Link} from "react-router-dom";
 import logo from "../assets/imgs/website_logo.png"
+import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid"
 import Icon from "@material-ui/core/Icon"
 import IconButton from "@material-ui/core/IconButton"
-import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 const styles = {

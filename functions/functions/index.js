@@ -24,10 +24,10 @@ app.post("/get_created_locations", getCreatedLocations);
 
 //clean up locations
 app.post("/create_location", createNewLocation);
-app.get("/get_location/:locationId", getCleanUpLocation);
+app.get("/get_location/:location_id", getCleanUpLocation);
 app.get("/get_all_locations", getAllCleanUpLocations);
-app.put("/update_location", updateCleanUpLocation);
-app.delete("/delete_location/:locationId", deleteCleanUpLocation);
+app.put("/update_location/:location_id", updateCleanUpLocation);
+app.delete("/delete_location/:location_id", deleteCleanUpLocation);
 app.post("/join_clean_site", joinCleanUpLocation);
 
 //register
