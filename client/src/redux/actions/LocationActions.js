@@ -88,7 +88,7 @@ export function createNewLocation(location) {
     return function (dispatch) {
         dispatch({type: CREATING_LOCATION});
         axios
-            .post(`${DEFAULT_URL}/create_location`, location)
+            .post(`${DEFAULT_URL}/create_clean_site`, location)
             .then((res) => {
                 dispatch({
                     type: CREATE_NEW_LOCATION,

@@ -90,9 +90,7 @@ class UpdateCleanSiteForm extends Component {
 
     handleTimeChange = (time) => {
         const location = this.state.location;
-        const updateTime = dayjs(time).format("HH:mm:ss");
-        console.log(updateTime);
-        location.startTime = updateTime;
+        location.startTime = dayjs(time).format("HH:mm:ss");
         this.setState({
             location: location,
             startTime: time
@@ -100,13 +98,6 @@ class UpdateCleanSiteForm extends Component {
     };
 
     handleUpdateLocation = (event) => {
-        // if (this.validateDataBeforeSubmit(data)) {
-        //     event.preventDefault();
-        //
-        //     this.clearFormAndError();
-        // } else {
-        //     console.log("false")
-        // }
         event.preventDefault();
         this.props.updateLocation(this.state.location, this.props.email);
     };
@@ -123,9 +114,6 @@ class UpdateCleanSiteForm extends Component {
     render() {
         const {errors, location} = this.state;
         const {classes} = this.props;
-        console.log(location);
-        console.log(location.startTime);
-        console.log(location.startDate);
         return (
             <div>
                 <form>

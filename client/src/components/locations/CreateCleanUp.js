@@ -20,8 +20,6 @@ import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@
 import {connect} from "react-redux";
 import {createNewLocation} from "../../redux/actions/LocationActions";
 import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
-import Footer from "../Footer";
-//React router
 
 const today = new Date();
 const styles = {
@@ -388,7 +386,6 @@ class CreateCleanUp extends Component {
                     </Grid>
 
                 </Grid>
-
             </div>
         )
     }

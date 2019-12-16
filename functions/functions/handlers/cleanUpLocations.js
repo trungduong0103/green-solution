@@ -164,7 +164,7 @@ exports.getUserRegisteredLocations = (req, res) => {
                 location.id = snap.id;
                 documents.push(location)
             });
-            return documents;
+            return res.json(documents);
         })
         .catch((err) => {
             console.log(err);

@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import jwtDecode from "jwt-decode";
 
 //Material-UI
-import {Link} from "react-router-dom";
-import Footer from "./Footer"
 import NavBar from "./NavBar";
 
 import Table from "@material-ui/core/Table"
@@ -23,7 +21,7 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import {
     getAllRegisteredLocationsWithEmail,
-    getAllCreatedLocationsWithEmail, deleteLocation, getLocation
+    getAllCreatedLocationsWithEmail, deleteLocation
 } from "../redux/actions/LocationActions";
 import UpdateCleanSiteForm from "./locations/forms/UpdateCleanSiteForm";
 import Card from "@material-ui/core/Card";
@@ -87,6 +85,7 @@ class Home extends Component {
             window.location.href = "/authentication";
         }
         const decodedToken = jwtDecode(auth);
+        console.log(decodedToken);
         this.setState({
             email: decodedToken.email
         });

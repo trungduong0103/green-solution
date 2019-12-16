@@ -20,12 +20,12 @@ module.exports = (req, res, next) => {
             req.user = decodedToken;
             return db
                 .collection("users")
-                .where("userId", "==", req.user.uid)
+                .where("email", "==", req.user.email)
                 .limit(1)
                 .get();
         })
         .then(data => {
-            req.user.username = data.docs[0].data().username;
+            req.user.email = data.docs[0].data().email;
             return next();
         })
         .catch(err => {

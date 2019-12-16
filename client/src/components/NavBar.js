@@ -18,6 +18,7 @@ import AppBar from "@material-ui/core/AppBar";
 
 import {openAuthenticationSnackbar} from "../redux/actions/UIActions";
 import {signUserOut} from "../redux/actions/UserActions";
+import jwtDecode from "jwt-decode";
 
 const styles = {
     appBar: {
@@ -84,6 +85,12 @@ class NavBar extends Component {
     render() {
         const {classes} = this.props;
         const auth = localStorage.getItem("FBIdToken");
+        let email = "";
+        if (auth) {
+            const decodedIdToken = jwtDecode(auth);
+            email = decodedIdToken.email;
+        }
+
         return (
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
@@ -147,7 +154,7 @@ class NavBar extends Component {
                                         <Button variant="contained"
                                                 className={classes.signUpBtn}
                                                 onClick={() => this.props.signUserOut()}>
-                                            Đăng Xuất
+                                            {`${email}`}
                                         </Button>
                                     ): (
                                         <Button
