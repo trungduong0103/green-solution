@@ -202,6 +202,18 @@ function getCreatedLocationsFromEmail(email) {
         });
 }
 
+//GET REGISTERED USERS
+exports.getRegisteredUsersOfLocation = (req, res) => {
+    const locationId = req.params.location_id;
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationId)
+        .get()
+        .then((documentSnapshot) => {
+            return res.json(documentSnapshot.data().registeredUsers);
+        });
+};
+
 function sendConfirmationToUserEmail(email, locationId) {
     return db.collection("cleanUpLocations")
         .doc(locationId)

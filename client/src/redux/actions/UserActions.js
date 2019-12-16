@@ -30,7 +30,7 @@ export function signUp(userData, history) {
     return function (dispatch) {
         dispatch({type: SIGNING_UP});
         axios
-            .post(`${DEFAULT_URL}/signup`, userData)
+            .post(`${DEFAULT_URL}/sign_up`, userData)
             .then((res) => {
                 setAuthorizationHeader(res.data.token);
                 dispatch({type: RESET_UI_STATE});
@@ -59,7 +59,7 @@ export function signInWithEmail(userData, history) {
     return function (dispatch) {
         dispatch({type: SIGNING_IN});
         axios
-            .post(`${DEFAULT_URL}/signin`, userData)
+            .post(`${DEFAULT_URL}/sign_in`, userData)
             .then((res) => {
                 setAuthorizationHeader(res.data.token);
                 dispatch({type: RESET_UI_STATE});

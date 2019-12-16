@@ -14,11 +14,12 @@ const {
     getAllCleanUpLocations,
     joinCleanUpLocation,
     getUserRegisteredLocations,
-    getCreatedLocations} = require("./handlers/cleanUpLocations");
+    getCreatedLocations,
+    getRegisteredUsersOfLocation} = require("./handlers/cleanUpLocations");
 
 //User routes
-app.post("/signup", signUp);
-app.post("/signin", signIn);
+app.post("/sign_up", signUp);
+app.post("/sign_in", signIn);
 app.post("/get_registered_locations", getUserRegisteredLocations);
 app.post("/get_created_locations", getCreatedLocations);
 
@@ -26,6 +27,7 @@ app.post("/get_created_locations", getCreatedLocations);
 app.post("/create_location", createNewLocation);
 app.get("/get_location/:location_id", getCleanUpLocation);
 app.get("/get_all_locations", getAllCleanUpLocations);
+app.get("/get_registered_users/:location_id", getRegisteredUsersOfLocation)
 app.put("/update_location/:location_id", updateCleanUpLocation);
 app.delete("/delete_location/:location_id", deleteCleanUpLocation);
 app.post("/join_clean_site", joinCleanUpLocation);
