@@ -22,10 +22,10 @@ const styles = {
         fontSize: 11
     },
     footerWrapper: {
-        padding: 5,
+        padding: 20,
         height: "auto",
         width: "100%",
-        backgroundColor: "#F6FBF2",
+        backgroundColor: "white",
         position: "fixed",
         bottom: 0
     },

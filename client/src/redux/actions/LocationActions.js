@@ -71,7 +71,7 @@ export function updateLocation(locationData, email) {
 export function deleteLocation(locationId, email) {
     return function (dispatch) {
         axios
-            .delete(`${DEFAULT_URL}/delete_location/${locationId}`)
+            .delete(`${DEFAULT_URL}/delete_clean_site/${locationId}`)
             .then((res) => {
                 dispatch({
                     type: DELETE_LOCATION,

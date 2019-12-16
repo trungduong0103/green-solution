@@ -9,6 +9,10 @@ import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/UserProfile"
 import AboutUs from "./components/AboutUs"
+
+//TODO
+//session expired using token
+
 function App() {
     return (
         <Provider store={store}>

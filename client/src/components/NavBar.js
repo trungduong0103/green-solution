@@ -89,6 +89,7 @@ class NavBar extends Component {
         if (auth) {
             const decodedIdToken = jwtDecode(auth);
             email = decodedIdToken.email;
+            console.log(decodedIdToken);
         }
 
         return (

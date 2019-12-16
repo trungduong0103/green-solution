@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import banner from "../assets/imgs/img1.jpg"
+import banner from "../assets/imgs/home_page_img.jpg"
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
@@ -63,7 +63,7 @@ class Home extends Component {
         return (
             <div>
                 <NavBar/>
-                <GridList cols={2} cellHeight={735} spacing={0}>
+                <GridList cols={2} cellHeight={700} spacing={0}>
                     <GridListTile>
                         <img src={banner} alt="bannerBackground"/>
                     </GridListTile>

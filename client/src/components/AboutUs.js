@@ -15,7 +15,6 @@ import GridListTile from "@material-ui/core/GridListTile";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
-
 const styles = {
     aboutContent: {
         height: "100%",
@@ -43,7 +42,6 @@ const styles = {
         width: 300,
         height: 200
     }
-
 };
 
 class AboutUs extends Component {
@@ -56,10 +54,8 @@ class AboutUs extends Component {
         const {classes} = this.props;
 
         return (
-
             <div>
                 <NavBar/>
-
                 <GridList cols={2} cellHeight={800} spacing={0}>
                     <GridListTile>
                         <img src={banner} alt="bannerBackground"/>
@@ -107,7 +103,7 @@ class AboutUs extends Component {
                     </GridListTile>
                 </GridList>
                 <Typography className={classes.typoTitle}>Nguồn cảm hứng</Typography>
-                <GridList cols={4} cellHeight={300} spacing={5} className={classes.gridList}>
+                <GridList cols={4} cellHeight={400} spacing={5} className={classes.gridList}>
                     <GridListTile>
                         <img
                             className={classes.image}
