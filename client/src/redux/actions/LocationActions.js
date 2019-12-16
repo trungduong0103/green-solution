@@ -21,7 +21,7 @@ import {closeUpdateSiteForm} from "./FormActions";
 export function getAllLocations() {
     return function (dispatch) {
         axios
-            .get(`${DEFAULT_URL}/get_all_locations`)
+            .get(`${DEFAULT_URL}/get_all_clean_sites`)
             .then((res) => {
                 dispatch({
                     type: GET_ALL_LOCATIONS,
@@ -38,7 +38,7 @@ export function getLocation(locationId) {
     return function (dispatch) {
         dispatch({type: LOADING_FORM});
         axios
-            .get(`${DEFAULT_URL}/get_location/${locationId}`)
+            .get(`${DEFAULT_URL}/get_clean_site/${locationId}`)
             .then((res) => {
                 dispatch({
                     type: GET_LOCATION,
@@ -51,8 +51,9 @@ export function getLocation(locationId) {
 
 export function updateLocation(locationData, email) {
     return function (dispatch) {
+        console.log(locationData);
         axios
-            .put(`${DEFAULT_URL}/update_location`, locationData)
+            .put(`${DEFAULT_URL}/update_clean_site/${locationData.id}`, locationData)
             .then((res) => {
                 dispatch({
                     type: UPDATE_LOCATION,
@@ -149,5 +150,4 @@ export function getAllRegisteredLocationsWithEmail(email) {
                 console.log(err);
             })
     }
-
 }
