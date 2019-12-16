@@ -110,8 +110,9 @@ class NavBar extends Component {
                             <Grid container spacing={5} justify="center">
                                 <Grid item>
                                     <Button
+                                        onClick={!auth ? () => this.props.openAuthenticationSnackbar() : () => console.log("logged in")}
                                         component={Link}
-                                        to="/profile"
+                                        to={auth ? "/profile" : "/authentication"}
                                         className={classes.navBtn}>
                                         Hồ sơ
                                     </Button>

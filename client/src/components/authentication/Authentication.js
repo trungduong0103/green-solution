@@ -95,7 +95,7 @@ class Authentication extends Component {
                 </div>
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                           open={openAuthenticationSnackbar}
-                          message={"Vui lòng đăng nhập trước khi tạo sự kiện."}/>
+                          message={"Vui lòng đăng nhập trước."}/>
             </div>
         );
     }

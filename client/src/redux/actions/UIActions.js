@@ -5,6 +5,7 @@ export function clearAuthenticationErrors() {
         dispatch({type: CLEAR_ERRORS});
     }
 }
+
 export function openAuthenticationSnackbar() {
     return function (dispatch) {
         dispatch({type: OPEN_AUTHENTICATION_SNACKBAR});

@@ -81,7 +81,6 @@ class Home extends Component {
     componentDidMount() {
         const auth = localStorage.getItem("FBIdToken");
         if (!auth) {
-            alert("Bạn phải đăng nhập trước.");
             window.location.href = "/authentication";
         }
         const decodedToken = jwtDecode(auth);
