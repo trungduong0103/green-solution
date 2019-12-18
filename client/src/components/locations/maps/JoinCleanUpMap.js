@@ -4,15 +4,28 @@ import {REACT_APP_GOOGLE_KEY} from "../../../environments/Keys";
 import _ from "lodash";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
+
 import markerLogo from "../../../assets/imgs/marker.png";
+import locationAvatar from "../../../assets/imgs/download.jpeg";
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import {Typography} from "@material-ui/core";
 
 export const JoinCleanUpMap = compose(
     withProps({
         googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
         loadingElement: <div style={{height: `100%`}}/>,
         containerElement: <div style={{height: `100%`}}/>,
-        mapElement: <div style={{height: `100%`}}/>
+        mapElement: <div style={{height: `100%`}}/>,
+        locationAvatar: {
+            height: "150px",
+            width: "150px",
+            marginRight: "auto",
+            marginLeft: "auto"
+        }
     }),
     withStateHandlers(() => ({
         isOpen: false,
@@ -60,6 +73,9 @@ export const JoinCleanUpMap = compose(
                         markers: nextMarkers,
                     });
 
+                },
+                onInfoWindowClick: () => {
+                    window.location.href=("/home");
                 }
             })
         }
@@ -92,33 +108,34 @@ export const JoinCleanUpMap = compose(
                 }}
             />
         </SearchBox>
-            {props.locations.map((marker, index) => (
-                <Marker
-                    icon={{
-                        url: markerLogo,
-                        scaledSize: {width: 45, height: 45}
-                    }}
-                    onMouseOver={() => props.onToggleOpen(index)}
-                    key={index}
-                    position={{lat: marker.lat, lng: marker.lng}}
-                >
-                    {(props.isOpen && props.markerIndex === index) &&
-                    <InfoWindow
-                        onCloseClick={props.onToggleOpen}
-                        key={index}
-                    >
-                        <div style={{
-                            textAlign: "center"
-                        }}>
-                            <h2>{marker.name}</h2>
-                            <Button
-                                variant="outlined"
-                            >
-                                Tham Gia
-                            </Button>
-                        </div>
-                    </InfoWindow>}
-                </Marker>
-            ))}
+        {props.locations.map((marker, index) => (
+            <Marker
+                icon={{
+                    url: markerLogo,
+                    scaledSize: {width: 45, height: 45}
+                }}
+                onClick={() => props.onToggleOpen(index)}
+                key={marker.id}
+                position={{lat: marker.lat, lng: marker.lng}}
+            >
+                {(props.isOpen && props.markerIndex === index) &&
+                <InfoWindow onCloseClick={props.onToggleOpen} onClick={props.onInfoWindowClick}>
+                    <div onClick={props.onInfoWindowClick}>
+                        <Card style={{maxWidth: "400px"}}>
+                            <CardMedia style={props.locationAvatar} component="img" src={locationAvatar}/>
+                            <CardContent>
+                                <Typography gutterBottom variant="h4" component="h2">{marker.name}</Typography>
+                                <Typography noWrap variant="body1" color="textSecondary" component="h3"
+                                            paragraph>{marker.address}</Typography>
+                                <Typography variant="body2" color="textSecondary"
+                                            component="h5">From {marker.startDate}</Typography>
+                                <Typography variant="body2" color="textSecondary"
+                                            component="h5">Description {marker.description}</Typography>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </InfoWindow>}
+            </Marker>
+        ))}
     </GoogleMap>
 );
