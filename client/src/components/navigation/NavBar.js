@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 import withStyles from "@material-ui/core/styles/withStyles";
-import logo from "../assets/imgs/website_logo.png"
+import logo from "../../assets/imgs/website_logo.png"
 
 //Material UI
 import Button from "@material-ui/core/Button";
@@ -16,8 +16,8 @@ import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
 // import PropTypes from 'prop-types';
 
-import {openAuthenticationSnackbar} from "../redux/actions/UIActions";
-import {signUserOut} from "../redux/actions/UserActions";
+import {openAuthenticationSnackbar} from "../../redux/actions/UIActions";
+import {signUserOut} from "../../redux/actions/UserActions";
 import jwtDecode from "jwt-decode";
 
 const styles = {
@@ -54,7 +54,6 @@ const styles = {
         textDecoration: "none",
         textTransform: "none",
         border: "none",
-
         "&:hover": {
             backgroundColor: "transparent",
         },
@@ -96,7 +95,7 @@ class NavBar extends Component {
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Grid container>
-                        <Grid item sm={3} md={3}>
+                        <Grid item sm={2}>
                             <Button
                                 component={Link}
                                 to="/home"
@@ -107,7 +106,7 @@ class NavBar extends Component {
                         </Grid>
 
 
-                        <Grid item sm={7} md={7}>
+                        <Grid item sm={6}>
                             <Grid container spacing={5} justify="center">
                                 <Grid item>
                                     <Button
@@ -149,26 +148,26 @@ class NavBar extends Component {
                             </Grid>
                         </Grid>
 
-                        <Grid item sm={2} md={2}>
-                            <Grid container spacing={1}>
-                                <Grid item>
+                        <Grid item sm={4}>
+                            <Grid container>
+                                <Grid item sm={5}/>
+                                <Grid item sm={7} >
                                     {auth ? (
                                         <Button variant="contained"
                                                 className={classes.signUpBtn}
                                                 onClick={() => this.props.signUserOut()}>
                                             {`${email}`}
                                         </Button>
-                                    ): (
+                                    ) : (
                                         <Button
                                             variant="contained"
                                             className={classes.signUpBtn}
                                             component={Link}
-                                            disabled = {!!auth}
+                                            disabled={!!auth}
                                             to="/authentication">
                                             Tham gia ngay
                                         </Button>
                                     )}
-
                                 </Grid>
                             </Grid>
                         </Grid>

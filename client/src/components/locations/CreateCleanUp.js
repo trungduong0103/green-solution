@@ -13,7 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 
-import NavBar from "../NavBar";
+import NavBar from "../navigation/NavBar";
 import CheckIcon from "@material-ui/icons/Check";
 import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers"
 //React-redux
@@ -336,11 +336,7 @@ class CreateCleanUp extends Component {
                                                 fullWidth
                                                 variant="outlined"
                                                 InputLabelProps={{className: classes.input}}
-                                                InputProps={
-                                                    {
-                                                        className: classes.input
-                                                    }
-                                                }
+                                                InputProps={{className: classes.input}}
                                             />
 
                                             <TextField

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import jwtDecode from "jwt-decode";
 
 //Material-UI
-import NavBar from "./NavBar";
+import NavBar from "../navigation/NavBar";
 
 import Table from "@material-ui/core/Table"
 import IconButton from "@material-ui/core/IconButton"
@@ -22,11 +22,11 @@ import EditIcon from "@material-ui/icons/Edit"
 import {
     getAllRegisteredLocationsWithEmail,
     getAllCreatedLocationsWithEmail, deleteLocation
-} from "../redux/actions/LocationActions";
-import UpdateCleanSiteForm from "./locations/forms/UpdateCleanSiteForm";
+} from "../../redux/actions/LocationActions";
+import UpdateCleanSiteForm from "../locations/forms/UpdateCleanSiteForm";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {openUpdateSiteForm} from "../redux/actions/FormActions";
+import {openUpdateSiteForm} from "../../redux/actions/FormActions";
 import {CircularProgress} from "@material-ui/core";
 import Collapse from "@material-ui/core/Collapse";
 

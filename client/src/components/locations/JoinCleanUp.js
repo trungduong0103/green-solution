@@ -10,13 +10,13 @@ import {connect} from "react-redux";
 import {getAllLocations} from "../../redux/actions/LocationActions";
 
 //React router
-import NavBar from "../NavBar";
+import NavBar from "../navigation/NavBar";
 import {JoinCleanUpMap} from "./maps/JoinCleanUpMap";
 import {openCleanUpDetail} from "../../redux/actions/FormActions";
 
 import CleanUpDetail from "./CleanUpDetail";
 import {CircularProgress} from "@material-ui/core";
-import Footer from "../Footer";
+import Footer from "../pages/Footer";
 
 const styles = {
     mapContainer: {

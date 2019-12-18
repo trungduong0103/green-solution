@@ -6,8 +6,7 @@ import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 import React from "react";
 export const CreateCleanUpMap = compose(
     withProps({
-        googleMapURL: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${
-            REACT_APP_GOOGLE_KEY}`,
+        googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
         loadingElement: <div style={{height: `100%`}}/>,
         containerElement: <div style={{height: `100%`}}/>,
         mapElement: <div style={{height: `100%`}}/>
@@ -82,7 +81,6 @@ export const CreateCleanUpMap = compose(
         center={props.center}
         onClick={props.onMapClick}
     >
-
         <SearchBox
             ref={props.onSearchBoxMounted}
             bounds={props.bounds}
@@ -111,7 +109,7 @@ export const CreateCleanUpMap = compose(
             <Marker
                 icon={{
                     url: require("../../../assets/imgs/marker.png"),
-                    scaledSize: {width: 60, height: 60}
+                    scaledSize: {width: 50, height: 50}
                 }}
                 key={index}
                 position={marker.position}

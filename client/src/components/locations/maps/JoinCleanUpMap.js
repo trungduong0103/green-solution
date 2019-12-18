@@ -4,13 +4,12 @@ import {REACT_APP_GOOGLE_KEY} from "../../../environments/Keys";
 import _ from "lodash";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
-
-import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
+import markerLogo from "../../../assets/imgs/marker.png";
 import Button from "@material-ui/core/Button";
+
 export const JoinCleanUpMap = compose(
     withProps({
-        googleMapURL: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${
-            REACT_APP_GOOGLE_KEY}`,
+        googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
         loadingElement: <div style={{height: `100%`}}/>,
         containerElement: <div style={{height: `100%`}}/>,
         mapElement: <div style={{height: `100%`}}/>
@@ -23,14 +22,14 @@ export const JoinCleanUpMap = compose(
             isOpen: !isOpen,
             markerIndex: index
         }),
+        onToggleClose: ({}) => () => ({
+            isOpen: false
+        })
     }),
 
     lifecycle({
-
         componentDidMount() {
-
             const refs = {};
-
             this.setState({
                 bounds: null,
                 center: {
@@ -61,14 +60,14 @@ export const JoinCleanUpMap = compose(
                         markers: nextMarkers,
                     });
 
-                },
+                }
             })
         }
     }),
     withScriptjs,
     withGoogleMap,
 )(props =>
-    <GoogleMap defaultZoom={11} center={props.center}>
+    <GoogleMap defaultZoom={11} center={props.center} onClick={props.onToggleClose}>
         <SearchBox
             ref={props.onSearchBoxMounted}
             bounds={props.bounds}
@@ -93,22 +92,15 @@ export const JoinCleanUpMap = compose(
                 }}
             />
         </SearchBox>
-
-        <MarkerClusterer
-            onClick={props.onMarkerClusterClick}
-            averageCenter
-            enableRetinaIcons
-            gridSize={60}
-        >
             {props.locations.map((marker, index) => (
                 <Marker
                     icon={{
-                        url: require("../../../assets/imgs/marker.png"),
-                        scaledSize: {width: 60, height: 60}
+                        url: markerLogo,
+                        scaledSize: {width: 45, height: 45}
                     }}
+                    onMouseOver={() => props.onToggleOpen(index)}
                     key={index}
                     position={{lat: marker.lat, lng: marker.lng}}
-                    onClick={() => props.onToggleOpen(index)}
                 >
                     {(props.isOpen && props.markerIndex === index) &&
                     <InfoWindow
@@ -121,15 +113,12 @@ export const JoinCleanUpMap = compose(
                             <h2>{marker.name}</h2>
                             <Button
                                 variant="outlined"
-                                onClick={() => props.openCleanUpForm(marker.id)}
                             >
                                 Tham Gia
                             </Button>
-                            {/*<Link to={`/cleanup-detail/${marker.id}`}>Detail</Link>*/}
                         </div>
                     </InfoWindow>}
                 </Marker>
             ))}
-        </MarkerClusterer>
     </GoogleMap>
 );
