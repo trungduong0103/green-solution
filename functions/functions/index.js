@@ -16,7 +16,8 @@ const {
     joinCleanUpLocation,
     getUserRegisteredLocations,
     getCreatedLocations,
-    getRegisteredUsersOfLocation} = require("./handlers/cleanUpLocations");
+    getRegisteredUsersOfLocation
+} = require("./handlers/cleanUpLocations");
 
 //User routes
 app.post("/sign_up", signUp);

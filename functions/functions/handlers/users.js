@@ -1,6 +1,7 @@
 const {sendEmailToUser} = require("./topics");
 const {db} = require("../utils/admin");
 const firebase = require("../environments/config");
+const axios = require("axios");
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
 const {WELCOME_MESSAGE} = require("../environments/emailTemplates");
 const {INVALID_CREDENTIALS, EMAIL_ALREADY_IN_USE, UNIDENTIFIED_ERRORS} = require("../environments/errorTemplates");
