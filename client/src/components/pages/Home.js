@@ -32,7 +32,7 @@ class Home extends Component {
 
     render() {
         const {openSignOutSnackbar} = this.props;
-        const {classes, enlargeMarker, minimizeMarker, locations, hoverIndex} = this.props;
+        const {classes, enlargeMarker, minimizeMarker, locations, showInfoWindow, infoWindowIndex} = this.props;
         return (
             <div>
                 <NavBar/>
@@ -50,7 +50,11 @@ class Home extends Component {
                         <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}/>
                     </Grid>
                     <Grid item sm={6}>
-                        <JoinCleanUpMap locations={locations} enlarge={enlargeMarker} hoverIndex={hoverIndex}/>
+                        <JoinCleanUpMap locations={locations}
+                                        enlarge={enlargeMarker}
+                                        minimize={minimizeMarker}
+                                        showInfoWindow={showInfoWindow}
+                                        infoWindowIndex={infoWindowIndex}/>
                     </Grid>
                 </Grid>
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
@@ -64,8 +68,8 @@ class Home extends Component {
 const mapStateToProps = (state) => ({
     locations: state.locationsData.locations,
     openSignOutSnackbar: state.UI.openSignOutSnackbar,
-    enlargeMarker: state.UI.enlargeMarker,
-    hoverIndex: state.UI.hoverIndex
+    showInfoWindow: state.UI.showInfoWindow,
+    infoWindowIndex: state.UI.infoWindowIndex
 });
 
 const mapDispatchToProps = {

@@ -33,9 +33,8 @@ const initialState = {
     openAuthenticationSnackbar: false,
     openSignOutSnackbar: false,
     errors: {},
-    enlargeMarker: true,
-    hoverIndex: -1,
     showInfoWindow: false,
+    infoWindowIndex: 0
 };
 
 export default function (state = initialState, action) {
@@ -80,14 +79,14 @@ export default function (state = initialState, action) {
         case ENLARGE_MARKER:
             return {
                 ...state,
-                enlargeMarker: true,
-                hoverIndex: action.payload
+                showInfoWindow: true,
+                infoWindowIndex: action.payload
             };
         case MINIMIZE_MARKER:
             return {
                 ...state,
-                enlargeMarker: false,
-                hoverIndex: -1
+                showInfoWindow: false,
+                infoWindowIndex: -1
             };
         case RESET_UI_STATE:
             return {

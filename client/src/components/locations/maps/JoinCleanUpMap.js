@@ -1,5 +1,5 @@
 import React from "react";
-import {compose, lifecycle, withProps, withStateHandlers} from "recompose";
+import {compose, lifecycle, withProps} from "recompose";
 import {REACT_APP_GOOGLE_KEY} from "../../../environments/Keys";
 import _ from "lodash";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
@@ -24,28 +24,14 @@ export const JoinCleanUpMap = compose(
                 width: "150px",
                 marginRight: "auto",
                 marginLeft: "auto"
-            },
-            enlarge: props.enlarge,
-            hoverIndex: props.hoverIndex
+            }
         }
     }),
-    withStateHandlers(() => ({
-        isOpen: false,
-        markerIndex: 0,
-        enlargeMarker: false
-    }), {
-        onToggleOpen: ({isOpen, enlargeMarker}) => (index) => ({
-            isOpen: !isOpen,
-            markerIndex: index,
-            enlargeMarker: !enlargeMarker
-        }),
-        onEnlargeMarker: ({enlargeMarker}) => () => ({
-            enlargeMarker: !enlargeMarker
-        })
-    }),
+
 
     lifecycle({
         componentDidMount() {
+            console.log(this.props);
             const refs = {};
             this.setState({
                 bounds: null,
@@ -80,7 +66,7 @@ export const JoinCleanUpMap = compose(
 
                 },
                 onInfoWindowClick: () => {
-                    window.location.href = ("/home");
+
                 }
             })
         }
@@ -88,7 +74,7 @@ export const JoinCleanUpMap = compose(
     withScriptjs,
     withGoogleMap,
 )(props =>
-    <GoogleMap defaultZoom={11} center={props.center} onClick={props.onToggleOpen}>
+    <GoogleMap defaultZoom={11} center={props.center} onClick={props.minimize}>
         <SearchBox
             ref={props.onSearchBoxMounted}
             bounds={props.bounds}
@@ -117,15 +103,15 @@ export const JoinCleanUpMap = compose(
             <Marker
                 icon={{
                     url: markerLogo,
-                    scaledSize: props.enlarge && props.hoverIndex === index ?
+                    scaledSize: props.showInfoWindow && props.infoWindowIndex === index ?
                         {width: 60, height: 60} :
                         {width: 45, height: 45}
                 }}
-                onClick={() => props.onToggleOpen(index)}
+                onClick={() => props.enlarge(index)}
                 key={marker.id}
                 position={{lat: marker.lat, lng: marker.lng}}
             >
-                {(props.isOpen && props.markerIndex === index) &&
+                {(props.showInfoWindow && props.infoWindowIndex === index) &&
                 <InfoWindow onCloseClick={props.onToggleOpen} onClick={props.onInfoWindowClick}>
                     <div onClick={props.onInfoWindowClick}>
                         <Card style={{maxWidth: "400px"}}>
