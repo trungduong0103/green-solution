@@ -14,7 +14,12 @@ import {
     GETTING_REGISTERED_LOCATIONS,
     GOT_REGISTERED_LOCATIONS,
     GETTING_CREATED_LOCATIONS,
-    GOT_CREATED_LOCATIONS, CLEAR_ERRORS, OPEN_SIGN_OUT_SNACKBAR, CLOSE_SIGN_OUT_SNACKBAR
+    GOT_CREATED_LOCATIONS,
+    CLEAR_ERRORS,
+    OPEN_SIGN_OUT_SNACKBAR,
+    CLOSE_SIGN_OUT_SNACKBAR,
+    ENLARGE_MARKER,
+    MINIMIZE_MARKER
 } from "../types";
 
 const initialState = {
@@ -27,7 +32,10 @@ const initialState = {
     doneSignIn: false,
     openAuthenticationSnackbar: false,
     openSignOutSnackbar: false,
-    errors: {}
+    errors: {},
+    enlargeMarker: true,
+    hoverIndex: -1,
+    showInfoWindow: false,
 };
 
 export default function (state = initialState, action) {
@@ -69,6 +77,18 @@ export default function (state = initialState, action) {
         case CLEAR_ERRORS: {
             return {...state, errors: {}}
         }
+        case ENLARGE_MARKER:
+            return {
+                ...state,
+                enlargeMarker: true,
+                hoverIndex: action.payload
+            };
+        case MINIMIZE_MARKER:
+            return {
+                ...state,
+                enlargeMarker: false,
+                hoverIndex: -1
+            };
         case RESET_UI_STATE:
             return {
                 ...state,

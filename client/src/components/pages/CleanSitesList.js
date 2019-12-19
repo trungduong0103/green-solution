@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import locationTemp from "../../assets/imgs/download.jpeg";
@@ -31,8 +30,10 @@ class CleanSitesList extends Component {
         const {locations, classes} = this.props;
         return (
             <List>
-                {locations.map(location =>
-                    <div key={location.id}>
+                {locations.map((location, index) =>
+                    <div key={location.id}
+                         onMouseEnter={() => this.props.enlarge(index)}
+                         onMouseLeave={this.props.minimize}>
                         <ListItem divider className={classes.listItem}>
                             <Grid container>
                                 <Grid item sm={4}>

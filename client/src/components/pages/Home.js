@@ -12,9 +12,10 @@ import Grid from "@material-ui/core/Grid";
 import {getAllLocations} from "../../redux/actions/LocationActions";
 import {JoinCleanUpMap} from "../locations/maps/JoinCleanUpMap";
 import CleanSitesList from "./CleanSitesList";
+import {enlargeMarker, minimizeMarker} from "../../redux/actions/UIActions";
 
 const styles = {
-    homePageMapWrapper:{
+    homePageMapWrapper: {
         height: "75vh"
     }
 };
@@ -31,7 +32,7 @@ class Home extends Component {
 
     render() {
         const {openSignOutSnackbar} = this.props;
-        const {classes} = this.props;
+        const {classes, enlargeMarker, minimizeMarker, locations, hoverIndex} = this.props;
         return (
             <div>
                 <NavBar/>
@@ -40,16 +41,16 @@ class Home extends Component {
                         <img src={banner} alt="bannerBackground"/>
                     </GridListTile>
                     <GridListTile>
-                        <AboutUsContent />
+                        <AboutUsContent/>
                     </GridListTile>
                 </GridList>
-                <h1>Browse clean sites</h1>
-                <Grid container spacing={1} className={classes.homePageMapWrapper}>
+                <h1 align="center">Browse clean sites</h1>
+                <Grid container spacing={2} className={classes.homePageMapWrapper}>
                     <Grid item sm={6}>
-                        <CleanSitesList locations={this.props.locations} />
+                        <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}/>
                     </Grid>
                     <Grid item sm={6}>
-                        <JoinCleanUpMap locations={this.props.locations} />
+                        <JoinCleanUpMap locations={locations} enlarge={enlargeMarker} hoverIndex={hoverIndex}/>
                     </Grid>
                 </Grid>
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
@@ -62,11 +63,15 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
     locations: state.locationsData.locations,
-    openSignOutSnackbar: state.UI.openSignOutSnackbar
+    openSignOutSnackbar: state.UI.openSignOutSnackbar,
+    enlargeMarker: state.UI.enlargeMarker,
+    hoverIndex: state.UI.hoverIndex
 });
 
 const mapDispatchToProps = {
-    getAllLocations
+    getAllLocations,
+    enlargeMarker,
+    minimizeMarker
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));

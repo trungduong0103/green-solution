@@ -7,36 +7,40 @@ import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 
 import markerLogo from "../../../assets/imgs/marker.png";
 import locationAvatar from "../../../assets/imgs/download.jpeg";
-import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import {Typography} from "@material-ui/core";
 
 export const JoinCleanUpMap = compose(
-    withProps({
-        googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
-        loadingElement: <div style={{height: `100%`}}/>,
-        containerElement: <div style={{height: `100%`}}/>,
-        mapElement: <div style={{height: `100%`}}/>,
-        locationAvatar: {
-            height: "150px",
-            width: "150px",
-            marginRight: "auto",
-            marginLeft: "auto"
+    withProps(props => {
+        return {
+            googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
+            loadingElement: <div style={{height: `100%`}}/>,
+            containerElement: <div style={{height: `100%`}}/>,
+            mapElement: <div style={{height: `100%`}}/>,
+            locationAvatar: {
+                height: "150px",
+                width: "150px",
+                marginRight: "auto",
+                marginLeft: "auto"
+            },
+            enlarge: props.enlarge,
+            hoverIndex: props.hoverIndex
         }
     }),
     withStateHandlers(() => ({
         isOpen: false,
-        markerIndex: 0
+        markerIndex: 0,
+        enlargeMarker: false
     }), {
-        onToggleOpen: ({isOpen}) => (index) => ({
+        onToggleOpen: ({isOpen, enlargeMarker}) => (index) => ({
             isOpen: !isOpen,
-            markerIndex: index
+            markerIndex: index,
+            enlargeMarker: !enlargeMarker
         }),
-        onToggleClose: ({}) => () => ({
-            isOpen: false
+        onEnlargeMarker: ({enlargeMarker}) => () => ({
+            enlargeMarker: !enlargeMarker
         })
     }),
 
@@ -52,6 +56,7 @@ export const JoinCleanUpMap = compose(
                 onSearchBoxMounted: ref => {
                     refs.searchBox = ref;
                 },
+
                 onPlacesChanged: () => {
                     const places = refs.searchBox.getPlaces();
                     const bounds = new window.google.maps.LatLngBounds();
@@ -75,7 +80,7 @@ export const JoinCleanUpMap = compose(
 
                 },
                 onInfoWindowClick: () => {
-                    window.location.href=("/home");
+                    window.location.href = ("/home");
                 }
             })
         }
@@ -83,7 +88,7 @@ export const JoinCleanUpMap = compose(
     withScriptjs,
     withGoogleMap,
 )(props =>
-    <GoogleMap defaultZoom={11} center={props.center} onClick={props.onToggleClose}>
+    <GoogleMap defaultZoom={11} center={props.center} onClick={props.onToggleOpen}>
         <SearchBox
             ref={props.onSearchBoxMounted}
             bounds={props.bounds}
@@ -112,7 +117,9 @@ export const JoinCleanUpMap = compose(
             <Marker
                 icon={{
                     url: markerLogo,
-                    scaledSize: {width: 45, height: 45}
+                    scaledSize: props.enlarge && props.hoverIndex === index ?
+                        {width: 60, height: 60} :
+                        {width: 45, height: 45}
                 }}
                 onClick={() => props.onToggleOpen(index)}
                 key={marker.id}

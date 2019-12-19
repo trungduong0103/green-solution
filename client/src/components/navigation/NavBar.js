@@ -95,7 +95,7 @@ class NavBar extends Component {
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Grid container>
-                        <Grid item sm={2}>
+                        <Grid item sm={3}>
                             <Button
                                 component={Link}
                                 to="/home"
@@ -105,9 +105,8 @@ class NavBar extends Component {
                             </Button>
                         </Grid>
 
-
-                        <Grid item sm={6}>
-                            <Grid container spacing={5} justify="center">
+                        <Grid item sm={5}>
+                            <Grid container spacing={2} justify="center">
                                 <Grid item>
                                     <Button
                                         onClick={!auth ? () => this.props.openAuthenticationSnackbar() : () => console.log("logged in")}
