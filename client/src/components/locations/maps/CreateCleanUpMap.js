@@ -34,15 +34,25 @@ export const CreateCleanUpMap = compose(
 
                 markers: [],
 
+                onMarkerMounted: ref => {
+                    refs.marker = ref;
+                },
+
+                onPositionChanged: () => {
+                    const position = refs.marker.getPosition();
+                    return this.props.handleCall({
+                        lat: position.lat(),
+                        lng: position.lng()
+                    })
+                },
+
                 onSearchBoxMounted: ref => {
                     refs.searchBox = ref;
                 },
 
                 onPlacesChanged: () => {
                     const places = refs.searchBox.getPlaces();
-
                     const bounds = new window.google.maps.LatLngBounds();
-
                     places.forEach(place => {
                         if (place.geometry.viewport) {
                             bounds.union(place.geometry.viewport)
@@ -112,6 +122,9 @@ export const CreateCleanUpMap = compose(
                     scaledSize: {width: 50, height: 50}
                 }}
                 key={index}
+                draggable={true}
+                ref={props.onMarkerMounted}
+                onPositionChanged={props.onPositionChanged}
                 position={marker.position}
             />
         )}

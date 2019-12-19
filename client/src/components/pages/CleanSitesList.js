@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import withStyles from "@material-ui/core/styles/withStyles";
-import locationTemp from "../../assets/imgs/download.jpeg";
+
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
@@ -36,10 +36,7 @@ class CleanSitesList extends Component {
                          onMouseLeave={this.props.minimize}>
                         <ListItem divider className={classes.listItem}>
                             <Grid container>
-                                <Grid item sm={4}>
-                                    <img className={classes.locationAvatar}
-                                         src={locationTemp} alt=""/>
-                                </Grid>
+
                                 <Grid item sm={8}>
                                     <Typography variant="h4" component="h4" paragraph>{location.name}</Typography>
                                     <Typography variant="subtitle1">{location.address}</Typography>
