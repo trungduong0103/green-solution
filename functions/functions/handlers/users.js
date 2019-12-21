@@ -3,7 +3,7 @@ const {db} = require("../utils/admin");
 const firebase = require("../environments/config");
 const axios = require("axios");
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
-const {WELCOME_MESSAGE} = require("../environments/emailTemplates");
+const {WELCOME_MESSAGE, WELCOME_SUBJECT} = require("../environments/emailTemplates");
 const {INVALID_CREDENTIALS, EMAIL_ALREADY_IN_USE, UNIDENTIFIED_ERRORS} = require("../environments/errorTemplates");
 
 //executes whenever a new user is created in Firebase Authentication
@@ -24,7 +24,15 @@ function deleteUserRecordInFirestore(record) {
 }
 
 function sendGreetingEmail(email) {
-    return sendEmailToUser(WELCOME_MESSAGE, email);
+    let recipient = {email: [email], subject: WELCOME_SUBJECT, content: WELCOME_MESSAGE};
+    axios.post(`https://gle8q1lhk3.execute-api.ap-southeast-1.amazonaws.com/prod/sendemail`, recipient)
+        .then(() => {
+            console.log("Sent email using AWS.");
+            return null;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 }
 
 function checkUserRecordInFirestore(recordId) {
