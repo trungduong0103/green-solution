@@ -19,23 +19,27 @@ import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@
 //React-redux
 import {connect} from "react-redux";
 import {createNewLocation} from "../../redux/actions/LocationActions";
-import {CreateCleanUpMap} from "./maps/CreateCleanUpMap";
+import ImageDropZone from "../pages/ImageDropZone"
+import {CreateCleanUpMap} from "../locations/maps/CreateCleanUpMap";
+
 
 const today = new Date();
 const styles = {
 
     mapWrapper: {
-        width: "40vw",
-        height: "40vh",
+        width: "50vw",
+        height: "50vh",
         padding: 15,
     },
+
     formWrapper: {
         width: "50vw",
         height: "30vh",
+        padding: "0 30px"
     },
     title: {
         fontFamily: "'Quicksand', sans-serif;",
-        fontSize: 35,
+        fontSize: 30,
         textAlign: "center",
         textTransform: "uppercase"
     },
@@ -70,12 +74,33 @@ const styles = {
         letterSpacing: 1,
         textTransform: "uppercase",
         transition: "all 350mx ease-in-out",
-        margin: "20px 0",
+        marginTop: "20px",
         "&:hover": {
             transition: "all 350ms ease-in-out",
             backgroundColor: "black",
             color: "white",
             border: "1px solid black",
+            outline: "none"
+        }
+    },
+
+    confirmBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        outline: "none",
+        borderRadius: 20,
+        color: "black",
+        border: "1px solid green",
+        backgroundColor: "#63a95a",
+        padding: "10px 30px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+        margin: "20px 0 0 30px",
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "#3b763b",
+            color: "white",
+            // border: "1px solid black",
             outline: "none"
         }
     },
@@ -111,6 +136,7 @@ const styles = {
     },
     wrapper: {
         height: "auto",
+        padding: 20,
 
     },
     tickIcon: {
@@ -124,6 +150,8 @@ class CreateCleanUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            step: 1,
+
             eventLat: 0,
             eventLng: 0,
             eventAddress: "",
@@ -138,6 +166,44 @@ class CreateCleanUp extends Component {
             email: "",
             errors: {}
         }
+    };
+
+    continue = e => {
+        e.preventDefault();
+        const data = {
+            name: this.state.eventName,
+            description: this.state.eventDescription,
+            address: this.state.eventAddress,
+            agenda: this.state.eventAgenda,
+            startDate: this.state.eventStartDate,
+            startTime: this.state.eventStartTime,
+            endDate: this.state.eventEndDate,
+            endTime: this.state.eventEndTime
+        };
+
+        if (this.validateDataBeforeSubmit(data)) {
+            console.log(data);
+            this.nextStep();
+        }
+        else {
+            alert("Vui lòng kiểm tra lại đơn đăng ký !")
+        }
+    };
+
+    // Move forward to next step
+    nextStep = () => {
+        const { step } = this.state;
+        this.setState({
+            step: step + 1
+        });
+    };
+
+    // Go back to prev step
+    prevStep = () => {
+        const { step } = this.state;
+        this.setState({
+            step: step - 1
+        });
     };
 
     handleChange = (event) => {
@@ -190,39 +256,6 @@ class CreateCleanUp extends Component {
 
     addNewLocation = (event) => {
         const data = {
-            name: this.state.eventName,
-            description: this.state.eventDescription,
-            address: this.state.eventAddress,
-            agenda: this.state.eventAgenda,
-            startDate: this.state.eventStartDate,
-            startTime: this.state.eventStartTime,
-            endDate: this.state.eventEndDate,
-            endTime: this.state.eventEndTime
-        };
-        if (this.validateDataBeforeSubmit(data)) {
-            event.preventDefault();
-            this.props.createNewLocation({
-                name: this.state.eventName,
-                lat: this.state.eventLat,
-                lng: this.state.eventLng,
-                address: this.state.eventAddress,
-                description: this.state.eventDescription,
-                agenda: this.state.eventAgenda,
-                startDate: this.state.eventStartDate,
-                startTime: this.state.eventStartTime,
-                endDate: this.state.eventEndDate,
-                endTime: this.state.eventEndTime,
-                creator: this.state.email
-            });
-            this.clearFormAndError();
-        } else {
-            console.log("false")
-        }
-    };
-
-    printSth = (e) => {
-        e.preventDefault();
-        const data = {
             lat: this.state.eventLat,
             lng: this.state.eventLng,
             name: this.state.eventName,
@@ -234,16 +267,27 @@ class CreateCleanUp extends Component {
             endDate: this.state.eventEndDate,
             endTime: this.state.eventEndTime
         };
-
-        console.log(data);
-
         if (this.validateDataBeforeSubmit(data)) {
-            alert("Success")
+            event.preventDefault();
+            console.log(data)
+            // this.props.createNewLocation({
+            //     name: this.state.eventName,
+            //     lat: this.state.eventLat,
+            //     lng: this.state.eventLng,
+            //     address: this.state.eventAddress,
+            //     description: this.state.eventDescription,
+            //     agenda: this.state.eventAgenda,
+            //     startDate: this.state.eventStartDate,
+            //     startTime: this.state.eventStartTime,
+            //     endDate: this.state.eventEndDate,
+            //     endTime: this.state.eventEndTime,
+            //     creator: this.state.email
+            // });
+            // this.clearFormAndError();
+        } else {
+            console.log("false")
         }
-        else {
-            console.log("False")
-        }
-}
+    };
 
     clearFormAndError() {
         this.setState({
@@ -261,19 +305,23 @@ class CreateCleanUp extends Component {
         })
     }
 
-    validateDataBeforeSubmit(data) {
+     validateDataBeforeSubmit(data) {
         const errors = {};
         if (data.name === "") {
-            errors.name = "Không được để trống"
+            errors.name = "Không được để trống";
+
         }
         if (data.description === "") {
-            errors.description = "Không được để trống"
+            errors.description = "Không được để trống";
+
         }
         if (data.address === "") {
-            errors.address = "Vui lòng chọn địa điểm"
+            errors.address = "Vui lòng chọn địa điểm";
+
         }
         if( data.agenda === "") {
-            errors.agenda = "Không được để trống"
+            errors.agenda = "Không được để trống";
+
         }
 
         if (data.startDate > data.endDate) {
@@ -290,7 +338,6 @@ class CreateCleanUp extends Component {
             alert("Bạn chưa chọn địa điểm trên bản đồ");
             return false
         }
-
 
         if (Object.keys(errors).length !== 0) {
             this.setState({
@@ -313,215 +360,260 @@ class CreateCleanUp extends Component {
         });
     }
 
+
+
     render() {
         const {classes, UI: {loading, doneCreateLocation}} = this.props;
-        const {errors} = this.state;
-        return (
-            <div>
-                <NavBar/>
-                <Grid container className={classes.wrapper}>
+        const { errors, step } = this.state;
 
-
-                    <Grid item sm={12} className={classes.formWrapper}>
-                        <Card className={classes.cardForm}>
-                            <CardContent>
-                                <Grid container>
-                                    <Grid item sm={12}>
-                                        <Typography className={classes.title}>Tạo sự kiện</Typography>
-                                    </Grid>
-
-                                    <Grid item sm={6}>
-                                        <form className={classes.form}>
-                                            <TextField
-                                                className={classes.formInput}
-                                                name="eventName"
-                                                required
-                                                type="text"
-                                                label="Tên sự kiện"
-                                                onChange={this.handleChange}
-                                                value={this.state.eventName}
-                                                helperText={errors.name}
-                                                error={!!errors.name}
-                                                fullWidth
-                                                InputLabelProps={{className: classes.input}}
-                                                InputProps={{className: classes.input}}
-                                            />
-
-                                            <Grid container spacing={4}>
-                                                <Grid item xs={6}>
-
-                                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                        <KeyboardDatePicker
-                                                            className={classes.picker}
-                                                            invalidDateMessage="Ngày không hợp lệ"
-                                                            disablePast
-                                                            format="dd/MM/yyyy"
-                                                            id="date-picker-dialog"
-                                                            value={this.state.startDate}
-                                                            onChange={this.handleDateChange}
-                                                            label="Ngày bắt đầu sự kiện"
-                                                            InputLabelProps={{className: classes.input}}
-                                                            InputProps={{className: classes.input}}
-                                                            fullWidth
-                                                        />
-                                                    </MuiPickersUtilsProvider>
-
-                                                </Grid>
-
-                                                <Grid item xs={6}>
-                                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                        <KeyboardTimePicker
-                                                            className={classes.picker}
-                                                            label="Thời gian bắt đầu sự kiện"
-                                                            value={this.state.startTime}
-                                                            onChange={this.handleTimeChange}
-                                                            InputLabelProps={{className: classes.input}}
-                                                            InputProps={{className: classes.input}}
-                                                            fullWidth
-
-                                                        />
-                                                    </MuiPickersUtilsProvider>
-                                                </Grid>
+        // eslint-disable-next-line default-case
+        switch (step){
+            case 1:
+                return (
+                    <div>
+                        <NavBar/>
+                        <Grid container className={classes.wrapper}>
+                            <Grid item sm={2}></Grid>
+                            <Grid item sm={8} className={classes.formWrapper}>
+                                <Card className={classes.cardForm}>
+                                    <CardContent>
+                                        <Grid container>
+                                            <Grid item sm={12}>
+                                                <Typography className={classes.title}>Thông tin sự kiện</Typography>
                                             </Grid>
 
-                                            <Grid container spacing={4}>
-                                                <Grid item xs={6}>
-                                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                        <KeyboardDatePicker
-                                                            className={classes.picker}
-                                                            invalidDateMessage="Ngày không hợp lệ"
-                                                            disablePast
-                                                            minDateMessage="Ngày kết thúc phải sau ngày bắt đầu"
-                                                            minDate={this.state.startDate}
-                                                            format="dd/MM/yyyy"
-                                                            id="end-date-picker-dialog"
-                                                            value={this.state.endDate}
-                                                            onChange={this.handleEndDateChange}
-                                                            label="Ngày kết thúc sự kiện"
-                                                            InputLabelProps={{className: classes.input}}
-                                                            InputProps={{className: classes.input}}
-                                                            fullWidth
-                                                            // helperText={errors.endDate}
-                                                            // error={!!errors.endDate}
-                                                        />
+                                            <Grid item sm={12}>
+                                                <form className={classes.form}>
+                                                    <TextField
+                                                        className={classes.formInput}
+                                                        name="eventName"
+                                                        required
+                                                        type="text"
+                                                        label="Tên sự kiện"
+                                                        onChange={this.handleChange}
+                                                        value={this.state.eventName}
+                                                        helperText={errors.name}
+                                                        error={!!errors.name}
+                                                        fullWidth
+                                                        InputLabelProps={{className: classes.input}}
+                                                        InputProps={{className: classes.input}}
+                                                    />
 
-                                                    </MuiPickersUtilsProvider>
-                                                </Grid>
+                                                    <Grid container spacing={4}>
+                                                        <Grid item xs={6}>
 
-                                                <Grid item xs={6}>
-                                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                        <KeyboardTimePicker
-                                                            className={classes.picker}
-                                                            label="Thời gian kết thúc sự kiện"
-                                                            value={this.state.endTime}
-                                                            onChange={this.handleEndTimeChange}
-                                                            InputLabelProps={{className: classes.input}}
-                                                            InputProps={{className: classes.input}}
-                                                            fullWidth
-                                                            // helperText={errors.endTime}
-                                                            // error={!!errors.endTime}
-                                                        />
-                                                    </MuiPickersUtilsProvider>
-                                                </Grid>
+                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                <KeyboardDatePicker
+                                                                    className={classes.picker}
+                                                                    invalidDateMessage="Ngày không hợp lệ"
+                                                                    disablePast
+                                                                    format="dd/MM/yyyy"
+                                                                    id="date-picker-dialog"
+                                                                    value={this.state.startDate}
+                                                                    onChange={this.handleDateChange}
+                                                                    label="Ngày bắt đầu sự kiện"
+                                                                    InputLabelProps={{className: classes.input}}
+                                                                    InputProps={{className: classes.input}}
+                                                                    fullWidth
+                                                                />
+                                                            </MuiPickersUtilsProvider>
+
+                                                        </Grid>
+
+                                                        <Grid item xs={6}>
+                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                <KeyboardTimePicker
+                                                                    className={classes.picker}
+                                                                    label="Thời gian bắt đầu sự kiện"
+                                                                    value={this.state.startTime}
+                                                                    onChange={this.handleTimeChange}
+                                                                    InputLabelProps={{className: classes.input}}
+                                                                    InputProps={{className: classes.input}}
+                                                                    fullWidth
+                                                                />
+                                                            </MuiPickersUtilsProvider>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid container spacing={4}>
+                                                        <Grid item xs={6}>
+                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                <KeyboardDatePicker
+                                                                    className={classes.picker}
+                                                                    invalidDateMessage="Ngày không hợp lệ"
+                                                                    disablePast
+                                                                    minDateMessage="Ngày kết thúc phải sau ngày bắt đầu"
+                                                                    minDate={this.state.startDate}
+                                                                    format="dd/MM/yyyy"
+                                                                    id="end-date-picker-dialog"
+                                                                    value={this.state.endDate}
+                                                                    onChange={this.handleEndDateChange}
+                                                                    label="Ngày kết thúc sự kiện"
+                                                                    InputLabelProps={{className: classes.input}}
+                                                                    InputProps={{className: classes.input}}
+                                                                    fullWidth
+                                                                />
+
+                                                            </MuiPickersUtilsProvider>
+                                                        </Grid>
+
+                                                        <Grid item xs={6}>
+                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                <KeyboardTimePicker
+                                                                    className={classes.picker}
+                                                                    label="Thời gian kết thúc sự kiện"
+                                                                    value={this.state.endTime}
+                                                                    onChange={this.handleEndTimeChange}
+                                                                    InputLabelProps={{className: classes.input}}
+                                                                    InputProps={{className: classes.input}}
+                                                                    fullWidth
+                                                                />
+                                                            </MuiPickersUtilsProvider>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <TextField
+                                                        className={classes.formInput}
+                                                        name="eventAddress"
+                                                        required
+                                                        multiline
+                                                        rows="2"
+                                                        type="text"
+                                                        label="Địa chỉ sự kiện"
+                                                        helperText={errors.address}
+                                                        error={!!errors.address}
+                                                        onChange={this.handleChange}
+                                                        value={this.state.eventAddress}
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        InputLabelProps={{className: classes.input}}
+                                                        InputProps={{className: classes.input}}
+                                                    />
+
+                                                    <TextField
+                                                        variant="outlined"
+                                                        className={classes.formInput}
+                                                        name="eventDescription"
+                                                        required
+                                                        type="text"
+                                                        label="Mô tả sự kiện"
+                                                        onChange={this.handleChange}
+                                                        value={this.state.eventDescription}
+                                                        multiline
+                                                        rows="2"
+                                                        helperText={errors.description}
+                                                        error={!!errors.description}
+                                                        fullWidth
+                                                        InputLabelProps={{className: classes.input}}
+                                                        InputProps={{className: classes.input}}
+                                                    />
+
+                                                    <TextField
+                                                        variant="outlined"
+                                                        className={classes.formInput}
+                                                        name="eventAgenda"
+                                                        required
+                                                        type="text"
+                                                        label="Lịch trình sự kiện"
+                                                        onChange={this.handleChange}
+                                                        value={this.state.eventAgenda}
+                                                        multiline
+                                                        rows="3"
+                                                        helperText={errors.agenda}
+                                                        error={!!errors.agenda}
+                                                        fullWidth
+                                                        InputLabelProps={{className: classes.input}}
+                                                        InputProps={{className: classes.input}}
+                                                    />
+
+                                                    <Button
+                                                        variant="contained"
+                                                        onClick={this.continue}
+                                                        className={classes.customBtn}
+                                                    >Tiếp tục</Button>
+
+                                                    {/*{doneCreateLocation ?*/}
+                                                    {/*    (*/}
+                                                    {/*        <CheckIcon className={classes.tickIcon}/>*/}
+                                                    {/*    ) :*/}
+                                                    {/*    (loading ? (*/}
+                                                    {/*                <CircularProgress variant="indeterminate" size={40}/>*/}
+                                                    {/*            ) :*/}
+                                                    {/*            (*/}
+                                                    {/*                <Button*/}
+                                                    {/*                    variant="contained"*/}
+                                                    {/*                    onClick={this.printSth}*/}
+                                                    {/*                    disabled={loading}*/}
+                                                    {/*                    className={classes.customBtn}*/}
+                                                    {/*                >Xác Nhận*/}
+                                                    {/*                </Button>*/}
+                                                    {/*            )*/}
+                                                    {/*    )*/}
+                                                    {/*}*/}
+                                                </form>
                                             </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item sm={2}></Grid>
 
-                                            <TextField
-                                                className={classes.formInput}
-                                                name="eventAddress"
-                                                required
-                                                multiline
-                                                rows="2"
-                                                type="text"
-                                                label="Địa chỉ sự kiện"
-                                                helperText={errors.address}
-                                                error={!!errors.address}
-                                                onChange={this.handleChange}
-                                                value={this.state.eventAddress}
-                                                fullWidth
-                                                variant="outlined"
-                                                InputLabelProps={{className: classes.input}}
-                                                InputProps={{className: classes.input}}
-                                            />
+                        </Grid>
+                    </div>
 
-                                            <TextField
-                                                variant="outlined"
-                                                className={classes.formInput}
-                                                name="eventDescription"
-                                                required
-                                                type="text"
-                                                label="Mô tả sự kiện"
-                                                onChange={this.handleChange}
-                                                value={this.state.eventDescription}
-                                                multiline
-                                                rows="2"
-                                                helperText={errors.description}
-                                                error={!!errors.description}
-                                                fullWidth
-                                                InputLabelProps={{className: classes.input}}
-                                                InputProps={{className: classes.input}}
-                                            />
+                );
+            case 2:
+                return (
+                    <div>
+                        <NavBar/>
+                        <Grid container className={classes.wrapper}>
+                            <Grid item sm={2}></Grid>
+                            <Grid item sm={8}>
+                                {/*<Card className={classes.cardForm}>*/}
+                                {/*    <CardContent>*/}
+                                        <Grid container>
+                                            <Grid item sm={12} className={classes.mapWrapper}>
 
-                                            <TextField
-                                                variant="outlined"
-                                                className={classes.formInput}
-                                                name="eventAgenda"
-                                                required
-                                                type="text"
-                                                label="Lịch trình sự kiện"
-                                                onChange={this.handleChange}
-                                                value={this.state.eventAgenda}
-                                                multiline
-                                                rows="4"
-                                                helperText={errors.agenda}
-                                                error={!!errors.agenda}
-                                                fullWidth
-                                                InputLabelProps={{className: classes.input}}
-                                                InputProps={{className: classes.input}}
-                                            />
-
-                                            {doneCreateLocation ?
-                                                (
-                                                    <CheckIcon className={classes.tickIcon}/>
-                                                ) :
-                                                (loading ? (
-                                                            <CircularProgress variant="indeterminate" size={40}/>
-                                                        ) :
-                                                        (
-                                                            <Button
-                                                                variant="contained"
-                                                                onClick={this.printSth}
-                                                                disabled={loading}
-                                                                className={classes.customBtn}
-                                                            >Xác Nhận
-                                                            </Button>
-                                                        )
-                                                )
-                                            }
-                                        </form>
-                                    </Grid>
-
-                                    <Grid item sm={6} className={classes.mapWrapper}>
-                                        <Typography className={classes.helpTitle}> Chọn địa điểm cho sự kiện của bạn</Typography>
-
-                                        <CreateCleanUpMap handleCall={this.getLocation}/>
-
-                                        {/*<Typography className={classes.helpTitle}>{this.state.eventLat}</Typography>*/}
-                                        {/*<Typography className={classes.helpTitle}>{this.state.eventLng}</Typography>*/}
-                                        <br/>
-                                        <Typography className={classes.helpTitle}>Logo của tổ chức bạn</Typography>
+                                                    <Typography className={classes.helpTitle}>Chọn địa điểm bạn muốn tổ chức sự kiện của mình</Typography>
+                                                    <CreateCleanUpMap handleCall={this.getLocation}/>
 
 
-                                        {/*<Typography className={classes.helpTitle}>Hình ảnh trước kia của sự kiện</Typography>*/}
+                                                <Grid container>
+                                                    <Typography className={classes.helpTitle}>Logo của bạn</Typography>
+                                                    <ImageDropZone/>
+                                                </Grid>
 
-                                    </Grid>
-                                </Grid>
-                            </CardContent>
-                        </Card>
-                    </Grid>
 
-                </Grid>
-            </div>
-        )
+                                                <Grid container justify="center">
+                                                    <Grid item sm={4}>
+                                                        <Button
+                                                            onClick={this.prevStep}
+                                                            variant="contained"
+                                                            className={classes.customBtn}
+                                                        >Trở lại</Button>
+                                                        <Button
+                                                            onCick={this.addNewLocation}
+                                                            variant="contained"
+                                                            className={classes.confirmBtn}
+                                                        >
+                                                            Xác nhận
+                                                        </Button>
+                                                    </Grid>
+
+                                                </Grid>
+
+                                            </Grid>
+                                        </Grid>
+                                {/*    </CardContent>*/}
+                                {/*</Card>*/}
+                            </Grid>
+
+                            <Grid item sm={2}></Grid>
+                        </Grid>
+                    </div>
+
+                )
+        }
     }
 }
 
