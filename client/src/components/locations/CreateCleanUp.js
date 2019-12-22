@@ -305,7 +305,7 @@ class CreateCleanUp extends Component {
         })
     }
 
-     validateDataBeforeSubmit(data) {
+    validateDataBeforeSubmit(data) {
         const errors = {};
         if (data.name === "") {
             errors.name = "Không được để trống";
@@ -571,39 +571,39 @@ class CreateCleanUp extends Component {
                             <Grid item sm={8}>
                                 {/*<Card className={classes.cardForm}>*/}
                                 {/*    <CardContent>*/}
+                                <Grid container>
+                                    <Grid item sm={12} className={classes.mapWrapper}>
+
+                                        <Typography className={classes.helpTitle}>Chọn địa điểm bạn muốn tổ chức sự kiện của mình</Typography>
+                                        <CreateCleanUpMap handleCall={this.getLocation}/>
+
+
                                         <Grid container>
-                                            <Grid item sm={12} className={classes.mapWrapper}>
-
-                                                    <Typography className={classes.helpTitle}>Chọn địa điểm bạn muốn tổ chức sự kiện của mình</Typography>
-                                                    <CreateCleanUpMap handleCall={this.getLocation}/>
-
-
-                                                <Grid container>
-                                                    <Typography className={classes.helpTitle}>Logo của bạn</Typography>
-                                                    <ImageDropZone/>
-                                                </Grid>
-
-
-                                                <Grid container justify="center">
-                                                    <Grid item sm={4}>
-                                                        <Button
-                                                            onClick={this.prevStep}
-                                                            variant="contained"
-                                                            className={classes.customBtn}
-                                                        >Trở lại</Button>
-                                                        <Button
-                                                            onCick={this.addNewLocation}
-                                                            variant="contained"
-                                                            className={classes.confirmBtn}
-                                                        >
-                                                            Xác nhận
-                                                        </Button>
-                                                    </Grid>
-
-                                                </Grid>
-
-                                            </Grid>
+                                            <Typography className={classes.helpTitle}>Logo của bạn</Typography>
+                                            <ImageDropZone/>
                                         </Grid>
+
+
+                                        <Grid container justify="center">
+                                            <Grid item sm={4}>
+                                                <Button
+                                                    onClick={this.prevStep}
+                                                    variant="contained"
+                                                    className={classes.customBtn}
+                                                >Trở lại</Button>
+                                                <Button
+                                                    onCick={this.addNewLocation}
+                                                    variant="contained"
+                                                    className={classes.confirmBtn}
+                                                >
+                                                    Xác nhận
+                                                </Button>
+                                            </Grid>
+
+                                        </Grid>
+
+                                    </Grid>
+                                </Grid>
                                 {/*    </CardContent>*/}
                                 {/*</Card>*/}
                             </Grid>
@@ -627,7 +627,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CreateCleanUp));
-
-
-
-
