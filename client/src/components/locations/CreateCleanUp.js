@@ -28,13 +28,13 @@ const styles = {
 
     mapWrapper: {
         width: "50vw",
-        height: "50vh",
+        height: "40vh",
         padding: 15,
     },
 
     formWrapper: {
         width: "50vw",
-        height: "30vh",
+        height: "auto",
         padding: "0 30px"
     },
     title: {
@@ -57,6 +57,7 @@ const styles = {
     },
     cardForm: {
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
+
     },
 
     formInput: {
@@ -136,7 +137,7 @@ const styles = {
     },
     wrapper: {
         height: "auto",
-        padding: 20,
+        paddingTop: 20,
 
     },
     tickIcon: {
@@ -164,6 +165,7 @@ class CreateCleanUp extends Component {
             eventEndDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
             eventEndTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
             email: "",
+            creator:"",
             errors: {}
         }
     };
@@ -265,25 +267,27 @@ class CreateCleanUp extends Component {
             startDate: this.state.eventStartDate,
             startTime: this.state.eventStartTime,
             endDate: this.state.eventEndDate,
-            endTime: this.state.eventEndTime
+            endTime: this.state.eventEndTime,
+
         };
         if (this.validateDataBeforeSubmit(data)) {
             event.preventDefault();
-            console.log(data)
-            // this.props.createNewLocation({
-            //     name: this.state.eventName,
-            //     lat: this.state.eventLat,
-            //     lng: this.state.eventLng,
-            //     address: this.state.eventAddress,
-            //     description: this.state.eventDescription,
-            //     agenda: this.state.eventAgenda,
-            //     startDate: this.state.eventStartDate,
-            //     startTime: this.state.eventStartTime,
-            //     endDate: this.state.eventEndDate,
-            //     endTime: this.state.eventEndTime,
-            //     creator: this.state.email
-            // });
-            // this.clearFormAndError();
+            console.log(data);
+            this.props.createNewLocation({
+                name: this.state.eventName,
+                lat: this.state.eventLat,
+                lng: this.state.eventLng,
+                address: this.state.eventAddress,
+                description: this.state.eventDescription,
+                agenda: this.state.eventAgenda,
+                startDate: this.state.eventStartDate,
+                startTime: this.state.eventStartTime,
+                endDate: this.state.eventEndDate,
+                endTime: this.state.eventEndTime,
+                creator: this.state.creator
+            });
+            this.clearFormAndError();
+            this.prevStep()
         } else {
             console.log("false")
         }
@@ -305,7 +309,7 @@ class CreateCleanUp extends Component {
         })
     }
 
-    validateDataBeforeSubmit(data) {
+     validateDataBeforeSubmit(data) {
         const errors = {};
         if (data.name === "") {
             errors.name = "Không được để trống";
@@ -350,15 +354,25 @@ class CreateCleanUp extends Component {
     }
 
     componentDidMount() {
+        // const auth = localStorage.getItem("FBIdToken");
+        // if (!auth) {
+        //     window.location.href = "/authentication";
+        // }
+        // const decodedToken = jwtDecode(auth);
+        // this.setState({
+        //     email: decodedToken.email
+        // });
         const auth = localStorage.getItem("FBIdToken");
         if (!auth) {
             window.location.href = "/authentication";
         }
         const decodedToken = jwtDecode(auth);
         this.setState({
-            email: decodedToken.email
+            creator: decodedToken.email
         });
     }
+
+
 
 
 
@@ -569,41 +583,41 @@ class CreateCleanUp extends Component {
                         <Grid container className={classes.wrapper}>
                             <Grid item sm={2}></Grid>
                             <Grid item sm={8}>
-                                {/*<Card className={classes.cardForm}>*/}
+                                {/*<Card>*/}
                                 {/*    <CardContent>*/}
-                                <Grid container>
-                                    <Grid item sm={12} className={classes.mapWrapper}>
-
-                                        <Typography className={classes.helpTitle}>Chọn địa điểm bạn muốn tổ chức sự kiện của mình</Typography>
-                                        <CreateCleanUpMap handleCall={this.getLocation}/>
-
-
                                         <Grid container>
-                                            <Typography className={classes.helpTitle}>Logo của bạn</Typography>
-                                            <ImageDropZone/>
-                                        </Grid>
+                                            <Grid item sm={12} className={classes.mapWrapper}>
+
+                                                <Typography className={classes.helpTitle}>Chọn địa điểm bạn muốn tổ chức sự kiện của mình</Typography>
+                                                <CreateCleanUpMap handleCall={this.getLocation}/>
+
+                                                <br/>
+                                                <Grid container>
+                                                    <Typography className={classes.helpTitle}>Logo của bạn</Typography>
+                                                    <ImageDropZone/>
+                                                </Grid>
 
 
-                                        <Grid container justify="center">
-                                            <Grid item sm={4}>
-                                                <Button
-                                                    onClick={this.prevStep}
-                                                    variant="contained"
-                                                    className={classes.customBtn}
-                                                >Trở lại</Button>
-                                                <Button
-                                                    onCick={this.addNewLocation}
-                                                    variant="contained"
-                                                    className={classes.confirmBtn}
-                                                >
-                                                    Xác nhận
-                                                </Button>
+                                                <Grid container justify="center">
+                                                    <Grid item sm={4}>
+                                                        <Button
+                                                            onClick={this.prevStep}
+                                                            variant="contained"
+                                                            className={classes.customBtn}
+                                                        >Trở lại</Button>
+                                                        <Button
+                                                            onClick={this.addNewLocation}
+                                                            variant="contained"
+                                                            className={classes.confirmBtn}
+                                                        >
+                                                            Xác nhận
+                                                        </Button>
+                                                    </Grid>
+
+                                                </Grid>
+
                                             </Grid>
-
                                         </Grid>
-
-                                    </Grid>
-                                </Grid>
                                 {/*    </CardContent>*/}
                                 {/*</Card>*/}
                             </Grid>
@@ -627,3 +641,7 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CreateCleanUp));
+
+
+
+

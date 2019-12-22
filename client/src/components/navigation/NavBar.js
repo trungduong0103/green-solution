@@ -25,7 +25,7 @@ import CleanUpFormDetail from "../locations/forms/CleanUpFormDetail";
 const styles = {
     appBar: {
         backgroundColor: "white",
-        height: "100px",
+        height: "80px",
         // height: "100px",
         justifyContent: "center"
     },

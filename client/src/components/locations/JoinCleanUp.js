@@ -50,7 +50,8 @@ const styles = {
         justifyContent: 'center',
     },
     wrapper: {
-        height: "75vh"
+        height: "75vh",
+        marginBottom: "20px"
     }
 };
 
@@ -70,7 +71,7 @@ class JoinCleanUp extends Component {
         const {classes, formState: {openJoinSite, loading}} = this.props;
         return (
             <div>
-                <NavBar/>
+                {/*<NavBar/>*/}
                 <Grid container className={classes.wrapper}>
                     <Grid item sm={7} >
                         <Grid className={classes.mapContainer}>
