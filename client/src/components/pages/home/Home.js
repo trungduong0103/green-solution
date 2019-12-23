@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import banner from "../../assets/imgs/home_page_img.jpg"
+import banner from "../../../assets/imgs/home_page_img.jpg"
 // import earthDay from "../../assets/imgs/earthday.png"
 import {connect} from "react-redux";
 
@@ -7,13 +7,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Snackbar from "@material-ui/core/Snackbar";
-import NavBar from "../navigation/NavBar";
-import AboutUsContent from "./AboutUsContent";
+import NavBar from "../../navigation/NavBar";
+import AboutUsContent from "../about/AboutUsContent";
 import Grid from "@material-ui/core/Grid";
-import {getAllLocations} from "../../redux/actions/LocationActions";
-import {JoinCleanUpMap} from "../locations/maps/JoinCleanUpMap";
+import {getAllLocations} from "../../../redux/actions/LocationActions";
+import {JoinCleanUpMap} from "../../locations/maps/JoinCleanUpMap";
 import CleanSitesList from "./CleanSitesList";
-import {enlargeMarker, minimizeMarker} from "../../redux/actions/UIActions";
+import {enlargeMarker, minimizeMarker} from "../../../redux/actions/UIActions";
 
 const styles = {
     homePageMapWrapper: {
@@ -67,6 +67,7 @@ class Home extends Component {
                                         infoWindowIndex={infoWindowIndex}/>
                     </Grid>
                 </Grid>
+
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                           open={openSignOutSnackbar}
                           message={"Bạn đã đăng xuất."}/>

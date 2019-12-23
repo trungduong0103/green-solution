@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import {Typography} from "@material-ui/core";
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
-import avatar from "../../assets/imgs/download.jpeg"
+import avatar from "../../../assets/imgs/download.jpeg"
 
 const styles = {
     listWrapper: {
