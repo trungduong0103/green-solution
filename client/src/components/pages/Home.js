@@ -30,6 +30,10 @@ class Home extends Component {
         this.props.getAllLocations();
     }
 
+    handleEnlargeMarker=(index)=>{
+        this.props.enlargeMarker(index)
+    }
+
     render() {
         const {openSignOutSnackbar} = this.props;
         const {classes, enlargeMarker, minimizeMarker, locations, showInfoWindow, infoWindowIndex} = this.props;
@@ -51,7 +55,7 @@ class Home extends Component {
                     </Grid>
                     <Grid item sm={6}>
                         <JoinCleanUpMap locations={locations}
-                                        enlarge={enlargeMarker}
+                                        enlarge={this.handleEnlargeMarker}
                                         minimize={minimizeMarker}
                                         showInfoWindow={showInfoWindow}
                                         infoWindowIndex={infoWindowIndex}/>
