@@ -19,11 +19,13 @@ import AppBar from "@material-ui/core/AppBar";
 import {openAuthenticationSnackbar} from "../../redux/actions/UIActions";
 import {signUserOut} from "../../redux/actions/UserActions";
 import jwtDecode from "jwt-decode";
+import CreateCleanUp from "../locations/CreateCleanUp";
+import CleanUpFormDetail from "../locations/forms/CleanUpFormDetail";
 
 const styles = {
     appBar: {
         backgroundColor: "white",
-        height: "100px",
+        height: "80px",
         // height: "100px",
         justifyContent: "center"
     },
@@ -88,7 +90,6 @@ class NavBar extends Component {
         if (auth) {
             const decodedIdToken = jwtDecode(auth);
             email = decodedIdToken.email;
-            console.log(decodedIdToken);
         }
 
         return (

@@ -42,6 +42,16 @@ const styles = {
     cardActions: {
         textAlign: "center"
     },
+    text: {
+        paddingTop: 20,
+        fontFamily: "'Merriweather', serif",
+    },
+    subText: {
+        marginTop: 15,
+        fontSize: 17,
+        fontFamily: "'Quicksand', sans-serif;",
+        color: "black"
+    }
 };
 
 class AboutUsContent extends PureComponent {
@@ -75,6 +85,13 @@ class AboutUsContent extends PureComponent {
                         trường với hy vọng có thể giáo dục và nâng cao ý thức của thế hệ trẻ về bảo vệ môi
                         trường.
                     </Typography>
+
+                    <Typography variant="h4" className={classes.text}>Ngày trái đất 2020</Typography>
+                    <Typography className={classes.subText} paragraph>
+                        Theo như thông lệ hằng năm thì Giờ trái đất sẽ được tổ chức vào thứ 7 cuối cùng của tháng 3.
+                        Như vậy năm nay sẽ diễn ra từ 20.30 tới 21.30 ngày 28.03.2020 chung toàn thế giới.
+                    </Typography>
+
                 </CardContent>
                 <CardActions className={classes.cardActions}>
                     <Button

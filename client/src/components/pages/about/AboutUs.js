@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import banner from "../../assets/imgs/aboutus.jpg"
-import inspire1 from "../../assets/imgs/inspire1.jpg"
-import inspire2 from "../../assets/imgs/inspire2.jpg"
-import inspire3 from "../../assets/imgs/inspire3.jpg"
-import inspire4 from "../../assets/imgs/inspire4.jpg"
-import NavBar from "../navigation/NavBar";
-import Footer from "./Footer"
+import banner from "../../../assets/imgs/aboutus.jpg"
+import inspire1 from "../../../assets/imgs/inspire1.jpg"
+import inspire2 from "../../../assets/imgs/inspire2.jpg"
+import inspire3 from "../../../assets/imgs/inspire3.jpg"
+import inspire4 from "../../../assets/imgs/inspire4.jpg"
+import NavBar from "../../navigation/NavBar";
+import Footer from "../Footer"
 
 import Typography from "@material-ui/core/Typography";
 import GridList from "@material-ui/core/GridList";

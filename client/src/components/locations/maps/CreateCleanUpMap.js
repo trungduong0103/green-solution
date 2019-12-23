@@ -4,6 +4,8 @@ import _ from "lodash";
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 import React from "react";
+
+
 export const CreateCleanUpMap = compose(
     withProps({
         googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
