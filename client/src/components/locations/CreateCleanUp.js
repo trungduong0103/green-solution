@@ -354,14 +354,6 @@ class CreateCleanUp extends Component {
     }
 
     componentDidMount() {
-        // const auth = localStorage.getItem("FBIdToken");
-        // if (!auth) {
-        //     window.location.href = "/authentication";
-        // }
-        // const decodedToken = jwtDecode(auth);
-        // this.setState({
-        //     email: decodedToken.email
-        // });
         const auth = localStorage.getItem("FBIdToken");
         if (!auth) {
             window.location.href = "/authentication";
@@ -372,15 +364,11 @@ class CreateCleanUp extends Component {
         });
     }
 
-
-
-
-
     render() {
         const {classes, UI: {loading, doneCreateLocation}} = this.props;
         const { errors, step } = this.state;
 
-        // eslint-disable-next-line default-case
+
         switch (step){
             case 1:
                 return (

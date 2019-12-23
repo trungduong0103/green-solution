@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import banner from "../../assets/imgs/home_page_img.jpg"
-import earthDay from "../../assets/imgs/earthday.png"
+// import earthDay from "../../assets/imgs/earthday.png"
 import {connect} from "react-redux";
 
 import withStyles from "@material-ui/core/styles/withStyles";
