@@ -52,7 +52,7 @@ class CleanSitesList extends Component {
                                     <CardContent>
                                         <Grid container>
                                             <Grid item sm={4}>
-                                                <img src={avatar} className={classes.locationAvatar}/>
+                                                <img alt="location-avatar" src={avatar} className={classes.locationAvatar}/>
                                             </Grid>
                                             <Grid item sm={8}>
                                                 <Typography variant="h5" component="h5" className={classes.text}>{location.name}</Typography>

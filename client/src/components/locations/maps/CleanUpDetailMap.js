@@ -1,7 +1,6 @@
 import React from "react";
 import {compose, withProps} from "recompose";
 import {REACT_APP_GOOGLE_KEY} from "../../../environments/Keys";
-import _ from "lodash";
 import {GoogleMap,Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import markerLogo from "../../../assets/imgs/marker.png";
 

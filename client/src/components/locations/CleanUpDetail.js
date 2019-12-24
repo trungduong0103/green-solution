@@ -1,12 +1,11 @@
 import React from 'react';
-import { connect } from "react-redux";
-import { deleteLocation, getAllLocations, getLocation, updateLocation } from "../../redux/actions/LocationActions";
+import {connect} from "react-redux";
+import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import NavBar from "../navigation/NavBar";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-//import JoinCleanUpForm from "./forms/JoinCleanSiteForm";
 import Grid from "@material-ui/core/Grid"
 import placeholderImage from "../../assets/imgs/home_page_img.jpg";
 import Button from "@material-ui/core/Button"
@@ -15,9 +14,6 @@ import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined'
 import {CleanUpDetailMap} from "./maps/CleanUpDetailMap"
 
 const styles = {
-    joinButton: {
-        textAlign: "center"
-    },
     cardForm: {
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
         backgroundColor: "#F6EDD9",
@@ -65,7 +61,7 @@ const styles = {
         transform: "translate(-50%,-50%)",
         position: "absolute"
     },
-    mapCenter:{
+    mapCenter: {
         left: "50%",
         transform: "translateX(-50%)",
         position: "absolute"
@@ -87,7 +83,7 @@ const styles = {
         marginTop: "20px"
     },
     mapContainer: {
-        marginTop:"20px",
+        marginTop: "20px",
         width: "500px",
         height: "400px",
 
@@ -95,8 +91,8 @@ const styles = {
     },
     mapGrid: {
         position: "relative",
-        width:"100%",
-        textAlign:"center"
+        width: "100%",
+        textAlign: "center"
     },
 };
 
@@ -113,8 +109,8 @@ class CleanUpDetail extends React.Component {
                 endDate: '2019-12-24',
                 endTime: '02:00',
                 agenda: "23:45: Meet up\n 00:00 - 01:30: Clean\n 01:30 - 02:00: Classify trash etc.",
-                lat:10.763963,
-                lng:106.68189970000003
+                lat: 10.763963,
+                lng: 106.68189970000003
 
             }
         }
@@ -130,17 +126,15 @@ class CleanUpDetail extends React.Component {
     // }
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
         return (
             <div>
-                <NavBar />
+                <NavBar/>
                 <Grid container spacing={2} className={classes.grid}>
-                    <Grid item sm={2} />
+                    <Grid item sm={2}/>
                     <Grid item sm={2} className={classes.locationGrid}>
                         <div className={classes.gridCenter}>
-
-                            <img src={placeholderImage} alt="Location's image" className={classes.image} />
-
+                            <img src={placeholderImage} alt="location-avatar" className={classes.image}/>
                         </div>
                     </Grid>
                     <Grid item sm={3} className={classes.locationGrid}>
@@ -153,19 +147,20 @@ class CleanUpDetail extends React.Component {
                             </Typography>
                         </div>
                     </Grid>
-                    <Grid item sm={1} />
+                    <Grid item sm={1}/>
                     <Grid item sm={2} className={classes.locationGrid}>
                         <div className={classes.gridCenter}>
                             <Card className={classes.card}>
                                 <CardContent className={classes.cardContent}>
-                                    <Typography gutterBottom component="h3" className={classes.cardTitle}>Thông tin</Typography>
+                                    <Typography gutterBottom component="h3" className={classes.cardTitle}>Thông
+                                        tin</Typography>
                                     <Typography gutterBottom variant="body2" component="p" className={classes.cardText}>
-                                        <LocationOnOutlinedIcon className={classes.icon} />
+                                        <LocationOnOutlinedIcon className={classes.icon}/>
                                         {`     ${this.state.location.address}`}
                                     </Typography>
                                     <Typography gutterBottom variant="body2" component="p" className={classes.cardText}>
 
-                                        <AccessTimeOutlinedIcon className={classes.icon} />
+                                        <AccessTimeOutlinedIcon className={classes.icon}/>
                                         {`     ${this.state.location.startTime} ${this.state.location.startDate} - ${this.state.location.endTime} ${this.state.location.endDate}`}
                                     </Typography>
 
@@ -174,14 +169,15 @@ class CleanUpDetail extends React.Component {
                             </Card>
                         </div>
                     </Grid>
-                    <Grid item sm={2} />
+                    <Grid item sm={2}/>
 
                 </Grid>
 
-                <Grid container spacing={2} style={{padding:"20px",marginTop:"20px",minHeight:"500px"}}>
-                    <Grid item xs={6} style={{width:"100%",textAlign:"center"}}>
+                <Grid container spacing={2} style={{padding: "20px", marginTop: "20px", minHeight: "500px"}}>
+                    <Grid item xs={6} style={{width: "100%", textAlign: "center"}}>
                         <div>
-                            <Typography gutterBotton variant="h4" component="h2" className={classes.title}>Kế Hoạch Sự Kiện</Typography>
+                            <Typography gutterBotton variant="h4" component="h2" className={classes.title}>Kế Hoạch Sự
+                                Kiện</Typography>
                             <Typography gutterBottom variant="body2" paragraph className={classes.cardText}>
                                 {this.state.location.agenda}
                             </Typography>
@@ -189,15 +185,16 @@ class CleanUpDetail extends React.Component {
                     </Grid>
                     <Grid item xs={6} className={classes.mapGrid}>
                         <div className={classes.mapCenter}>
-                            <Typography gutterBotton variant="h4" component="h2" className={classes.title}>Bản đồ</Typography>    
+                            <Typography gutterBotton variant="h4" component="h2" className={classes.title}>Bản
+                                đồ</Typography>
                             <div className={classes.mapContainer}>
-                                <CleanUpDetailMap coord={{lat:this.state.location.lat,lng:this.state.location.lng}} />
-                        
+                                <CleanUpDetailMap coord={{lat: this.state.location.lat, lng: this.state.location.lng}}/>
+
                             </div>
                         </div>
                     </Grid>
                 </Grid>
-                
+
             </div>
 
         )

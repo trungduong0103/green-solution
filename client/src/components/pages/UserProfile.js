@@ -71,7 +71,7 @@ const styles = {
         borderRadius: '50%',
         height: "200px",
         width: "200px",
-        padding:"10px"
+        padding: "10px"
     },
     user: {
         width: '100%',
@@ -81,12 +81,12 @@ const styles = {
 
 };
 
-const userObj={
-    firstName:'abc',
-    lastName:'def',
-    email:'sfs',
-    phoneNumber:'sdf',
-    image:''
+const userObj = {
+    firstName: 'abc',
+    lastName: 'def',
+    email: 'sfs',
+    phoneNumber: 'sdf',
+    image: ''
 }
 
 
@@ -98,8 +98,8 @@ class Home extends Component {
             createdLocations: [],
             email: "",
             tab: 0,
-            openUpdateProfile:false,
-            user:{}
+            openUpdateProfile: false,
+            user: {}
         }
         this.switchTab = this.switchTab.bind(this)
         this.tabProps = this.tabProps.bind(this)
@@ -120,9 +120,9 @@ class Home extends Component {
         }
     };
 
-    handleOpenUpdateProfile = ()=>{
+    handleOpenUpdateProfile = () => {
         this.setState({
-            openUpdateProfile:!this.state.openUpdateProfile
+            openUpdateProfile: !this.state.openUpdateProfile
         })
     };
 
@@ -135,8 +135,8 @@ class Home extends Component {
         this.setState({
             email: decodedToken.email
         });
-        this.props.getAllCreatedLocationsWithEmail({ email: decodedToken.email });
-        this.props.getAllRegisteredLocationsWithEmail({ email: decodedToken.email });
+        this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
+        this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
 
         //Add fetch user
     }
@@ -166,34 +166,33 @@ class Home extends Component {
     };
 
     render() {
-        const { classes, openUpdateSite, loading, loadRegisteredLocations, loadCreatedLocations } = this.props;
-        const { registeredLocations, createdLocations, tab, email,openUpdateProfile,user } = this.state;
-        console.log(createdLocations)
+        const {classes, openUpdateSite, loading, loadRegisteredLocations, loadCreatedLocations} = this.props;
+        const {registeredLocations, createdLocations, tab, email, openUpdateProfile,} = this.state;
+
         return (
             <div>
-                <NavBar />
+                <NavBar/>
                 <Grid container spacing={5} className={classes.wrapper}>
                     <Grid item xs={3} className={classes.gridForm}>
                         <Card>
 
                             <CardContent>
-                            <div className={classes.user}>
-                                <img src={userAvatar} alt="User's avatar" className={classes.avatar} />
-                            </div>
+                                <div className={classes.user}>
+                                    <img src={userAvatar} alt="User's avatar" className={classes.avatar}/>
+                                </div>
                                 <Typography>{email}
 
                                     <IconButton
                                         className={classes.button}
                                         onClick={this.handleOpenUpdateProfile}
                                     >
-                                        <EditIcon />
+                                        <EditIcon/>
                                     </IconButton>
                                 </Typography>
 
                                 <Typography variant="body2" component="p">
 
                                 </Typography>
-
 
 
                             </CardContent>
@@ -204,18 +203,24 @@ class Home extends Component {
 
                     <Grid item xs={9} className={classes.gridForm}>
                         <AppBar position="static" color="inherit">
-                            <Tabs classes={{ indicator: classes.indicator }} value={tab} onChange={this.switchTab} aria-label="simple tabs locations">
+                            <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
+                                  aria-label="simple tabs locations">
                                 <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)} />
                                 <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} />
                             </Tabs>
                         </AppBar>
-                        {tab === 0 && <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations} />}
-                        {tab === 1 && <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={this.state.email} delete={this.handleDeleteLocation} edit={this.handleEditLocation} loaded={loadCreatedLocations} locations={createdLocations} />}
+                        {tab === 0 &&
+                        <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>}
+                        {tab === 1 &&
+                        <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={this.state.email}
+                                          delete={this.handleDeleteLocation} edit={this.handleEditLocation}
+                                          loaded={loadCreatedLocations} locations={createdLocations}/>}
                     </Grid>
                 </Grid>
 
                 {/* pass props user */}
-                <UpdateProfile open={openUpdateProfile} user={userObj} handleOpenUpdateProfile={this.handleOpenUpdateProfile} />
+                <UpdateProfile open={openUpdateProfile} user={userObj}
+                               handleOpenUpdateProfile={this.handleOpenUpdateProfile}/>
 
             </div>
         );
