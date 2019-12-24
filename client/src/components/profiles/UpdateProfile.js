@@ -141,22 +141,6 @@ class UpdateProfile extends Component {
         }
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.user !== state.user) {
-    //         return {
-    //             // createdLocations: props.createdLocations,
-    //             firstName:props.user.firstName,
-    //             lastName:props.user.lastName,
-    //             email:props.user.email,
-    //             image:props.user.image,
-    //             phoneNumber:props.user.phoneNumber
-    //         }
-    //     }
-
-
-    //     //Add user
-    //     return null;
-    // }
 
 
     render() {
@@ -192,7 +176,6 @@ class UpdateProfile extends Component {
                                     onChange={this.handleChange}
                                     value={lastName}
                                     fullWidth
-                                    color="green"
 
                                     
                                 />
