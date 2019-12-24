@@ -10,7 +10,6 @@ import {connect} from "react-redux";
 import {getAllLocations} from "../../redux/actions/LocationActions";
 
 //React router
-import NavBar from "../navigation/NavBar";
 import {JoinCleanUpMap} from "./maps/JoinCleanUpMap";
 import {openCleanUpDetail} from "../../redux/actions/FormActions";
 

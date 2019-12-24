@@ -1,28 +1,13 @@
 import React, {Component} from 'react';
-import DateFnsUtils from "@date-io/date-fns"
-import dayjs from "dayjs";
-import jwtDecode from "jwt-decode";
-
 //Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
-import Typography from "@material-ui/core/Typography"
-import Grid from "@material-ui/core/Grid"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-
-import NavBar from "../../navigation/NavBar";
-import CheckIcon from "@material-ui/icons/Check";
-import {MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers"
 //React-redux
 import {connect} from "react-redux";
-import {createNewLocation} from "../../../redux/actions/LocationActions";
-import ImageDropZone from "../../pages/ImageDropZone"
-import {CreateCleanUpMap} from "../maps/CreateCleanUpMap";
+
 import FirstTab from "./FirstTab";
 import SecondTab from "./SecondTab";
+import NavBar from "../../navigation/NavBar";
+import {createNewLocation} from "../../../redux/actions/LocationActions";
 
 const styles = {
     wrapper: {
@@ -41,7 +26,7 @@ class CreateCleanSite extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 2
+            step: 1
         }
     };
 

@@ -366,6 +366,8 @@ class FirstTab extends Component {
     }
 }
 
-FirstTab.propTypes = {};
+FirstTab.propTypes = {
+    continue: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(FirstTab);

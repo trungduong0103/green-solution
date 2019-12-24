@@ -87,6 +87,8 @@ class SecondTab extends Component {
     }
 }
 
-SecondTab.propTypes = {};
+SecondTab.propTypes = {
+    prevStep: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(SecondTab);

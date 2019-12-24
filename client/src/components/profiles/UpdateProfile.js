@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { withStyles } from "@material-ui/core";
+import React, {Component} from 'react';
+import {withStyles} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -13,11 +13,10 @@ import EditIcon from "@material-ui/icons/Edit"
 import TextField from "@material-ui/core/TextField"
 
 
-
 const styles = {
     paper: {
         padding: 20,
-        minWidth:"400px"
+        minWidth: "400px"
     },
     profile: {
         '& .image-wrapper': {
@@ -62,26 +61,26 @@ const styles = {
         }
     },
     formInput: {
-        '& label.Mui-focused':{
-            color:'green'
+        '& label.Mui-focused': {
+            color: 'green'
         },
-        '& .MuiInput-underline:after':{
-            borderBottomColor:'green'
+        '& .MuiInput-underline:after': {
+            borderBottomColor: 'green'
         },
-        paddingBottom:"10px"
+        paddingBottom: "10px"
     },
 };
 
 class UpdateProfile extends Component {
 
-    constructor(props){
-        super(props)
-        this.state={
-            email:'',
-            firstName:'',
-            lastName:'',
-            phoneNumber:'',
-            image:''
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            firstName: '',
+            lastName: '',
+            phoneNumber: '',
+            image: ''
         }
     }
 
@@ -98,55 +97,52 @@ class UpdateProfile extends Component {
         fileInput.click();
     };
 
-    handleChange = (event)=>{
+    handleChange = (event) => {
         this.setState({
-            [event.target.name]:event.target.value
+            [event.target.name]: event.target.value
         })
-    }
+    };
 
-    submit = () =>{
-        const user={
-            firstName:this.state.firstName,
-            lastName:this.state.lastName,
-            phoneNumber:this.state.phoneNumber,
-            image:this.state.image,
-            email:this.state.email
-        }
+    submit = () => {
+        // const user = {
+        //     firstName: this.state.firstName,
+        //     lastName: this.state.lastName,
+        //     phoneNumber: this.state.phoneNumber,
+        //     image: this.state.image,
+        //     email: this.state.email
+        // };
 
-        console.log(user)
         this.props.handleOpenUpdateProfile()
-    }
+    };
 
-    componentDidMount(){
-        if(this.props.user!==undefined){
+    componentDidMount() {
+        if (this.props.user !== undefined) {
             this.setState({
-                firstName:this.props.user.firstName,
-                lastName:this.props.user.lastName,
-                phoneNumber:this.props.user.phoneNumber,
-                image:this.props.user.image,
-                email:this.props.user.email
+                firstName: this.props.user.firstName,
+                lastName: this.props.user.lastName,
+                phoneNumber: this.props.user.phoneNumber,
+                image: this.props.user.image,
+                email: this.props.user.email
             })
         }
     }
 
-    componentDidUpdate(prevProps){
-        if(this.props.user!==prevProps.user){
+    componentDidUpdate(prevProps) {
+        if (this.props.user !== prevProps.user) {
             this.setState({
-                firstName:this.props.user.firstName,
-                lastName:this.props.user.lastName,
-                phoneNumber:this.props.user.phoneNumber,
-                image:this.props.user.image,
-                email:this.props.user.email
+                firstName: this.props.user.firstName,
+                lastName: this.props.user.lastName,
+                phoneNumber: this.props.user.phoneNumber,
+                image: this.props.user.image,
+                email: this.props.user.email
             })
         }
     }
-
 
 
     render() {
-        const { classes, open, handleOpenUpdateProfile,user } = this.props;
-        const {firstName, lastName, phoneNumber, image,email}=this.state; 
-        console.log(user)
+        const {classes, open, handleOpenUpdateProfile, } = this.props;
+        const {firstName, lastName, phoneNumber, email} = this.state;
         return (
             <Dialog open={open} onClose={() => handleOpenUpdateProfile()}>
                 <DialogTitle>Update profile</DialogTitle>
@@ -154,14 +150,14 @@ class UpdateProfile extends Component {
                     <Paper className={classes.paper}>
                         <div className={classes.profile}>
                             <div className="image-wrapper">
-                                <img src={userAvatar} alt="Profile" className="profile-image" />
-                                <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange} />
+                                <img src={userAvatar} alt="Profile" className="profile-image"/>
+                                <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange}/>
                                 <IconButton onClick={this.handleEditPicture} btnClassName="button">
-                                    <EditIcon />
+                                    <EditIcon/>
                                 </IconButton>
                             </div>
-                            <hr />
-                            <hr />
+                            <hr/>
+                            <hr/>
                             <div className="profile-details">
 
                                 <Typography>{email}</Typography>
@@ -177,11 +173,11 @@ class UpdateProfile extends Component {
                                     value={lastName}
                                     fullWidth
 
-                                    
+
                                 />
 
                                 <TextField
-                                    label = "Tên"
+                                    label="Tên"
                                     type="text"
                                     name="firstName"
                                     placeholder="Nhập tên"
@@ -191,11 +187,10 @@ class UpdateProfile extends Component {
                                     value={firstName}
                                     fullWidth
 
-                                    
+
                                 />
-                                
-                                
-                                
+
+
                                 <TextField
                                     label="Số điện thoại"
                                     type="text"
@@ -207,9 +202,9 @@ class UpdateProfile extends Component {
                                     value={phoneNumber}
                                     fullWidth
 
-                                    
+
                                 />
-                                
+
                             </div>
 
                         </div>
@@ -217,7 +212,7 @@ class UpdateProfile extends Component {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={()=>this.submit()} >Submit</Button>
+                    <Button onClick={() => this.submit()}>Submit</Button>
                     <Button onClick={() => handleOpenUpdateProfile()}>Close</Button>
                 </DialogActions>
             </Dialog>
