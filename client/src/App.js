@@ -5,7 +5,7 @@ import store from "./redux/store";
 import jwtDecode from "jwt-decode";
 import Home from "./components/pages/home/Home";
 import JoinCleanUp from "./components/locations/JoinCleanUp"
-import CreateCleanUp from "./components/locations/CreateCleanUp"
+import CreateCleanUp from "./components/locations/create_clean_site/CreateCleanSite"
 import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/pages/UserProfile"

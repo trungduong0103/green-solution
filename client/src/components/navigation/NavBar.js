@@ -19,7 +19,7 @@ import AppBar from "@material-ui/core/AppBar";
 import {openAuthenticationSnackbar} from "../../redux/actions/UIActions";
 import {signUserOut} from "../../redux/actions/UserActions";
 import jwtDecode from "jwt-decode";
-import CreateCleanUp from "../locations/CreateCleanUp";
+import CreateCleanUp from "../locations/create_clean_site/CreateCleanSite";
 import CleanUpFormDetail from "../locations/forms/CleanUpFormDetail";
 
 const styles = {
