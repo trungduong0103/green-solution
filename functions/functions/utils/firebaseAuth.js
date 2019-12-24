@@ -16,20 +16,33 @@ module.exports = (req, res, next) => {
     return admin
         .auth()
         .verifyIdToken(idToken)
-        .then(decodedToken => {
+        .then((decodedToken) => {
             req.user = decodedToken;
             return db
                 .collection("users")
-                .where("email", "==", req.user.email)
-                .limit(1)
+                .doc(req.user.email)
                 .get();
         })
-        .then(data => {
-            req.user.email = data.docs[0].data().email;
+        .then(() => {
             return next();
         })
         .catch(err => {
-            console.error("Error while verifying token", err);
-            return res.status(403).json(err);
-        });
+            return res.json(err);
+        })
+        // .then(decodedToken => {
+        //     req.user = decodedToken;
+        //     return db
+        //         .collection("users")
+        //         .where("email", "==", req.user.email)
+        //         .limit(1)
+        //         .get();
+        // })
+        // .then(data => {
+        //     req.user.email = data.docs[0].data().email;
+        //     return next();
+        // })
+        // .catch(err => {
+        //     console.error("Error while verifying token", err);
+        //     return res.status(403).json(err);
+        // });
 };

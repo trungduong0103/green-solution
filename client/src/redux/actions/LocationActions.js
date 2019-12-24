@@ -20,7 +20,6 @@ import {
 import axios from "axios";
 import {closeUpdateSiteForm} from "./FormActions";
 
-
 export function getAllLocations() {
     return function (dispatch) {
         axios
