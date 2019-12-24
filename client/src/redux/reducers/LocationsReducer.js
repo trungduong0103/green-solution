@@ -5,7 +5,9 @@ import {
     UPDATE_LOCATION,
     DELETE_LOCATION,
     GOT_CREATED_LOCATIONS,
-    GOT_REGISTERED_LOCATIONS
+    GOT_REGISTERED_LOCATIONS,
+    FILTER_LOCATION_BY_DISTRICT,
+    FILTER_LOCATION_BY_CITY
 } from "../types";
 
 const initialState = {
@@ -13,7 +15,8 @@ const initialState = {
     location: {},
     loading: false,
     registeredLocations: [],
-    createdLocations: []
+    createdLocations: [],
+    filteredLocations: null
 };
 
 export default function (state = initialState, action) {
@@ -35,6 +38,16 @@ export default function (state = initialState, action) {
         case DELETE_LOCATION:
             const updatedLocations = state.createdLocations.filter((location) => location.id !== action.payload);
             return {...state, createdLocations: updatedLocations};
+        case FILTER_LOCATION_BY_DISTRICT:
+            const filteredCities = state.locations.filter(location =>
+                location.address.split(",").includes(` ${action.payload}`)
+            );
+            return {...state, filteredLocations: filteredCities};
+        case FILTER_LOCATION_BY_CITY:
+            const filteredDistricts = state.locations.filter(location =>
+                location.address.split(",").includes(` ${action.payload}`)
+            );
+            return {...state, filteredLocations: filteredDistricts};
         default:
             return state;
     }

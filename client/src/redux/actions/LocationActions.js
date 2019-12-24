@@ -4,6 +4,7 @@ import {
     CREATING_LOCATION,
     DEFAULT_URL,
     DELETE_LOCATION,
+    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_DISTRICT,
     GET_ALL_LOCATIONS,
     GET_LOCATION,
     GETTING_CREATED_LOCATIONS,
@@ -154,3 +155,17 @@ export function getAllRegisteredLocationsWithEmail(email) {
             })
     }
 }
+
+export function filterLocationsByCity(city) {
+    return function (dispatch) {
+        dispatch({type: FILTER_LOCATION_BY_CITY, payload: city});
+    }
+}
+
+export function filterLocationsByDistrict(district) {
+    return function (dispatch) {
+        dispatch({type: FILTER_LOCATION_BY_DISTRICT, payload: district});
+    }
+}
+
+
