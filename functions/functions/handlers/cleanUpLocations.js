@@ -120,8 +120,8 @@ exports.joinCleanUpLocation = (req, res) => {
 
 function createUserUsingEmail(email) {
     return db.collection("users")
+        .doc(email)
         .add({
-            email: email,
             createdAt: new Date().toISOString(),
             verified: 0
         });

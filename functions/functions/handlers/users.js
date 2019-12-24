@@ -17,8 +17,8 @@ exports.onUserDeleteInAuth = (userRecord) => {
 };
 
 function deleteUserRecordInFirestore(record) {
-    if (checkUserRecordInFirestore(record.uid)) {
-        return db.collection("users").doc(record.uid).delete();
+    if (checkUserRecordInFirestore(record.email)) {
+        return db.collection("users").doc(record.email).delete();
     }
     return null;
 }
@@ -44,9 +44,8 @@ function checkUserRecordInFirestore(recordId) {
 
 function createRecordInFirestore(record) {
     return db.collection("users")
-        .doc(record.uid)
+        .doc(record.email)
         .set({
-            email: record.email,
             createdAt: new Date().toISOString(),
             verified: 1
         })
@@ -143,15 +142,31 @@ exports.getAuthenticatedUser = (req, res) => {
         })
 };
 
-exports.checkUserRecord = (userId) => {
+exports.getAuthenticatedUserProfile = (req, res) => {
+    const userEmail = req.body.email;
     return db
         .collection("users")
-        .doc(userId)
+        .doc(userEmail)
         .get()
         .then((snapshot) => {
-            return snapshot.exists
+            return res.json(snapshot.data());
         })
         .catch((err) => {
             console.log(err);
         });
+};
+
+exports.updateUserProfile = (req, res) => {
+    const updateData = req.body;
+    return db
+        .collection("users")
+        .doc(req.body.email)
+        .update(updateData)
+        .then(() => {
+            return res.json(updateData);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.json(err);
+        })
 };

@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import jwtDecode from "jwt-decode";
-
 //Material-UI
 import NavBar from "../navigation/NavBar";
 import Grid from "@material-ui/core/Grid";
@@ -14,12 +13,13 @@ import RegisteredLocations from '../profiles/RegisteredLocations'
 import CreatedLocations from '../profiles/CreatedLocations'
 import userAvatar from "../../assets/imgs/home_page_img.jpg";
 import {
-    getAllRegisteredLocationsWithEmail,
-    getAllCreatedLocationsWithEmail, deleteLocation
+    deleteLocation,
+    getAllCreatedLocationsWithEmail,
+    getAllRegisteredLocationsWithEmail
 } from "../../redux/actions/LocationActions";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { openUpdateSiteForm } from "../../redux/actions/FormActions";
+import {openUpdateSiteForm} from "../../redux/actions/FormActions";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit"
 import UpdateProfile from "../profiles/UpdateProfile"
@@ -111,22 +111,20 @@ class Home extends Component {
         this.setState({
             tab: newValue
         })
-    }
+    };
 
     tabProps = (index) => {
-
-        const props = {
+        return {
             id: `simple-tab-${index}`,
             'aria-controls': `simple-tabpanel-${index}`
-        };
-        return props
-    }
+        }
+    };
 
     handleOpenUpdateProfile = ()=>{
         this.setState({
             openUpdateProfile:!this.state.openUpdateProfile
         })
-    }
+    };
 
     componentDidMount() {
         const auth = localStorage.getItem("FBIdToken");
@@ -134,7 +132,6 @@ class Home extends Component {
             window.location.href = "/authentication";
         }
         const decodedToken = jwtDecode(auth);
-        console.log(decodedToken);
         this.setState({
             email: decodedToken.email
         });
@@ -178,11 +175,9 @@ class Home extends Component {
                 <Grid container spacing={5} className={classes.wrapper}>
                     <Grid item xs={3} className={classes.gridForm}>
                         <Card>
-                            
+
                             <CardContent>
                             <div className={classes.user}>
-                                
-
                                 <img src={userAvatar} alt="User's avatar" className={classes.avatar} />
                             </div>
                                 <Typography>{email}
