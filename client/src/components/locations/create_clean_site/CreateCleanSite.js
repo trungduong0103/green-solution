@@ -31,7 +31,12 @@ class CreateCleanSite extends Component {
     };
 
     continue = (location) => {
-        this.props.createNewLocation(location);
+        const newLocation = location;
+        newLocation.startDate = `${location.startDate.getFullYear()}-${location.startDate.getMonth()}-${location.startDate.getDate()}`;
+        newLocation.endDate = `${location.endDate.getFullYear()}-${location.endDate.getMonth()}-${location.endDate.getDate()}`;
+        newLocation.startTime = `${location.startTime.getHours()}:${location.startTime.getMinutes()}:${location.startTime.getSeconds()}`;
+        newLocation.endTime = `${location.endTime.getHours()}:${location.endTime.getMinutes()}:${location.endTime.getSeconds()}`;
+        this.props.createNewLocation(newLocation);
     };
 
     // Move forward to next step
