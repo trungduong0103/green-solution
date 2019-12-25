@@ -56,7 +56,14 @@ class CreateCleanSite extends Component {
         return (
             <div>
                 <NavBar />
-                {step === 1 ? (<FirstTab continue={this.continue} />) : (<SecondTab prevStep={this.prevStep} />)}
+                {step === 1 ? (
+                    <FirstTab
+                        nextStep={this.nextStep}
+                    />) :
+                    (
+                    <SecondTab
+                        prevStep={this.prevStep}
+                    />)}
             </div>
         )
 
