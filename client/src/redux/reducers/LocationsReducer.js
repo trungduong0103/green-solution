@@ -5,7 +5,9 @@ import {
     UPDATE_LOCATION,
     DELETE_LOCATION,
     GOT_CREATED_LOCATIONS,
-    GOT_REGISTERED_LOCATIONS
+    GOT_REGISTERED_LOCATIONS,
+    FILTER_LOCATION_BY_DISTRICT,
+    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_START_DATE
 } from "../types";
 
 const initialState = {
@@ -13,7 +15,8 @@ const initialState = {
     location: {},
     loading: false,
     registeredLocations: [],
-    createdLocations: []
+    createdLocations: [],
+    filteredLocations: null
 };
 
 export default function (state = initialState, action) {
@@ -35,6 +38,24 @@ export default function (state = initialState, action) {
         case DELETE_LOCATION:
             const updatedLocations = state.createdLocations.filter((location) => location.id !== action.payload);
             return {...state, createdLocations: updatedLocations};
+        case FILTER_LOCATION_BY_DISTRICT:
+            const filteredCities = state.locations.filter(location =>
+                location.address.split(",").includes(` ${action.payload}`)
+            );
+            return {...state, filteredLocations: filteredCities};
+        case FILTER_LOCATION_BY_CITY:
+            const filteredDistricts = state.locations.filter(location =>
+                location.address.split(",").includes(` ${action.payload}`)
+            );
+            return {...state, filteredLocations: filteredDistricts};
+        case FILTER_LOCATION_BY_START_DATE:
+            const filteredStartDate = [];
+            state.locations.forEach(location => {
+                const dateSplit = location.startDate.split("-").map(value => parseInt(value));
+                const timeObj = new Date(dateSplit[0], dateSplit[1], dateSplit[2]);
+                if (timeObj >= action.payload) filteredStartDate.push(location);
+            });
+            return {...state, filteredLocations: filteredStartDate};
         default:
             return state;
     }
