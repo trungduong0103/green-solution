@@ -135,19 +135,15 @@ function registerUserToCleanSite(email, locationId) {
 }
 
 function checkUserAlreadyCreatedInFirestore(email) {
-    const documents = [];
     return db.collection("users")
-        .where("email", "==", email)
+        .doc(email)
         .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((snap) => {
-                documents.push(snap.id);
-            });
-            return documents.length > 0;
+        .then((snapshot) => {
+            return snapshot.exists;
         })
         .catch((err) => {
             console.log(err);
-        })
+        });
 }
 
 //GET REGISTERED CLEAN SITES

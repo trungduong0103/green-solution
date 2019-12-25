@@ -47,8 +47,7 @@ class Filters extends Component {
     };
 
     handleDateChange = (date) => {
-        const startDate = dayjs(date).format("YYYY-MM-DD");
-        this.setState({startDate: startDate});
+        this.setState({startDate: date});
     };
 
 
