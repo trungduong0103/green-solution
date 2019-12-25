@@ -47,6 +47,7 @@ class Filters extends Component {
     };
 
     handleDateChange = (date) => {
+        this.props.filterByStartDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
         this.setState({startDate: date});
     };
 
@@ -74,7 +75,6 @@ class Filters extends Component {
                             <KeyboardDatePicker
                                 className={classes.picker}
                                 invalidDateMessage="Ngày không hợp lệ"
-                                disablePast
                                 format="dd/MM/yyyy"
                                 id="date-picker-dialog"
                                 value={startDate}

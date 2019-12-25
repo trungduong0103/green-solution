@@ -4,7 +4,7 @@ import {
     CREATING_LOCATION,
     DEFAULT_URL,
     DELETE_LOCATION,
-    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_DISTRICT,
+    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_DISTRICT, FILTER_LOCATION_BY_START_DATE,
     GET_ALL_LOCATIONS,
     GET_LOCATION,
     GETTING_CREATED_LOCATIONS,
@@ -127,7 +127,7 @@ export function joinLocation(info) {
             .catch((err) => {
                 console.log(err);
             });
-    }
+    };
 }
 
 export function getAllCreatedLocationsWithEmail(email) {
@@ -140,7 +140,7 @@ export function getAllCreatedLocationsWithEmail(email) {
             .catch((err) => {
                 console.log(err);
             });
-    }
+    };
 }
 
 export function getAllRegisteredLocationsWithEmail(email) {
@@ -152,20 +152,25 @@ export function getAllRegisteredLocationsWithEmail(email) {
             })
             .catch((err) => {
                 console.log(err);
-            })
-    }
+            });
+    };
 }
 
 export function filterLocationsByCity(city) {
     return function (dispatch) {
         dispatch({type: FILTER_LOCATION_BY_CITY, payload: city});
-    }
+    };
 }
 
 export function filterLocationsByDistrict(district) {
     return function (dispatch) {
         dispatch({type: FILTER_LOCATION_BY_DISTRICT, payload: district});
-    }
+    };
 }
 
+export function filterLocationsByStartDate(startDate) {
+    return function (dispatch) {
+        dispatch({type: FILTER_LOCATION_BY_START_DATE, payload: startDate});
+    };
+}
 

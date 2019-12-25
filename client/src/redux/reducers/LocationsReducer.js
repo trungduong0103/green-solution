@@ -7,7 +7,7 @@ import {
     GOT_CREATED_LOCATIONS,
     GOT_REGISTERED_LOCATIONS,
     FILTER_LOCATION_BY_DISTRICT,
-    FILTER_LOCATION_BY_CITY
+    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_START_DATE
 } from "../types";
 
 const initialState = {
@@ -48,6 +48,14 @@ export default function (state = initialState, action) {
                 location.address.split(",").includes(` ${action.payload}`)
             );
             return {...state, filteredLocations: filteredDistricts};
+        case FILTER_LOCATION_BY_START_DATE:
+            const filteredStartDate = [];
+            state.locations.forEach(location => {
+                const dateSplit = location.startDate.split("-").map(value => parseInt(value));
+                const timeObj = new Date(dateSplit[0], dateSplit[1], dateSplit[2]);
+                if (timeObj >= action.payload) filteredStartDate.push(location);
+            });
+            return {...state, filteredLocations: filteredStartDate};
         default:
             return state;
     }

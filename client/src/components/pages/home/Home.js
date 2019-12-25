@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import {
     filterLocationsByCity,
     filterLocationsByDistrict,
+    filterLocationsByStartDate,
     getAllLocations
 } from "../../../redux/actions/LocationActions";
 import {JoinCleanUpMap} from "../../locations/maps/JoinCleanUpMap";
@@ -44,22 +45,25 @@ class Home extends Component {
         this.props.getAllLocations();
     };
 
-    handleEnlargeMarker=(index)=>{
+    handleEnlargeMarker = (index) => {
         this.props.enlargeMarker(index);
     };
 
     render() {
-        const {classes,
+        const {
+            classes,
             enlargeMarker,
             minimizeMarker,
             locations,
             filteredLocations,
             filterLocationsByCity,
             filterLocationsByDistrict,
+            filterLocationsByStartDate,
             showInfoWindow,
             infoWindowIndex,
-            openSignOutSnackbar}
-        = this.props;
+            openSignOutSnackbar
+        }
+            = this.props;
         return (
             <div>
                 <NavBar/>
@@ -74,24 +78,27 @@ class Home extends Component {
 
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
                 <Grid container>
-                    <Filter filterByCity={filterLocationsByCity} filterByDistrict={filterLocationsByDistrict}/>
+                    <Filter
+                        filterByCity={filterLocationsByCity}
+                        filterByDistrict={filterLocationsByDistrict}
+                        filterByStartDate={filterLocationsByStartDate}/>
                 </Grid>
 
-                {/*<Grid container className={classes.homePageMapWrapper}>*/}
-                {/*    <Grid item sm={6}>*/}
-                {/*        <CleanSitesList*/}
-                {/*            enlarge={enlargeMarker}*/}
-                {/*            minimize={minimizeMarker}*/}
-                {/*            locations={filteredLocations ? filteredLocations : locations}/>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item sm={6}>*/}
-                {/*        <JoinCleanUpMap locations={filteredLocations ? filteredLocations : locations}*/}
-                {/*                        enlarge={this.handleEnlargeMarker}*/}
-                {/*                        minimize={minimizeMarker}*/}
-                {/*                        showInfoWindow={showInfoWindow}*/}
-                {/*                        infoWindowIndex={infoWindowIndex}/>*/}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
+                <Grid container className={classes.homePageMapWrapper}>
+                    <Grid item sm={6}>
+                        <CleanSitesList
+                            enlarge={enlargeMarker}
+                            minimize={minimizeMarker}
+                            locations={filteredLocations ? filteredLocations : locations}/>
+                    </Grid>
+                    <Grid item sm={6}>
+                        <JoinCleanUpMap locations={filteredLocations ? filteredLocations : locations}
+                                        enlarge={this.handleEnlargeMarker}
+                                        minimize={minimizeMarker}
+                                        showInfoWindow={showInfoWindow}
+                                        infoWindowIndex={infoWindowIndex}/>
+                    </Grid>
+                </Grid>
 
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                           open={openSignOutSnackbar}
@@ -109,12 +116,14 @@ const mapStateToProps = (state) => ({
     infoWindowIndex: state.UI.infoWindowIndex
 });
 
+let filterLocationByStartDate;
 const mapDispatchToProps = {
     getAllLocations,
     enlargeMarker,
     minimizeMarker,
     filterLocationsByCity,
-    filterLocationsByDistrict
+    filterLocationsByDistrict,
+    filterLocationsByStartDate
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));
