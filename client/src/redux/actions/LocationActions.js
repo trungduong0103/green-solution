@@ -4,6 +4,7 @@ import {
     CREATING_LOCATION,
     DEFAULT_URL,
     DELETE_LOCATION,
+    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_DISTRICT, FILTER_LOCATION_BY_START_DATE,
     GET_ALL_LOCATIONS,
     GET_LOCATION,
     GETTING_CREATED_LOCATIONS,
@@ -19,6 +20,9 @@ import {
 } from "../types";
 import axios from "axios";
 import {closeUpdateSiteForm} from "./FormActions";
+
+let token;
+if (localStorage.getItem("FBIdToken")) token = localStorage.getItem("FBIdToken");
 
 export function getAllLocations() {
     return function (dispatch) {
@@ -55,7 +59,8 @@ export function updateLocation(locationData, email) {
     return function (dispatch) {
         console.log(locationData);
         axios
-            .put(`${DEFAULT_URL}/update_clean_site/${locationData.id}`, locationData)
+            .put(`${DEFAULT_URL}/update_clean_site/${locationData.id}`,
+                locationData, {headers: {"Authorization": token}})
             .then((res) => {
                 dispatch({
                     type: UPDATE_LOCATION,
@@ -63,7 +68,7 @@ export function updateLocation(locationData, email) {
                 });
             })
             .then(() => {
-               dispatch(closeUpdateSiteForm());
+                dispatch(closeUpdateSiteForm());
             })
             .then(() => {
                 dispatch(getAllRegisteredLocationsWithEmail({email: email}))
@@ -74,7 +79,7 @@ export function updateLocation(locationData, email) {
 export function deleteLocation(locationId, email) {
     return function (dispatch) {
         axios
-            .delete(`${DEFAULT_URL}/delete_clean_site/${locationId}`)
+            .delete(`${DEFAULT_URL}/delete_clean_site/${locationId}`, {headers: {"Authorization": token}})
             .then((res) => {
                 dispatch({
                     type: DELETE_LOCATION,
@@ -91,7 +96,7 @@ export function createNewLocation(location) {
     return function (dispatch) {
         dispatch({type: CREATING_LOCATION});
         axios
-            .post(`${DEFAULT_URL}/create_clean_site`, location)
+            .post(`${DEFAULT_URL}/create_clean_site`, location, {headers: {"Authorization": token}})
             .then((res) => {
                 dispatch({
                     type: CREATE_NEW_LOCATION,
@@ -125,7 +130,7 @@ export function joinLocation(info) {
             .catch((err) => {
                 console.log(err);
             });
-    }
+    };
 }
 
 export function getAllCreatedLocationsWithEmail(email) {
@@ -138,7 +143,7 @@ export function getAllCreatedLocationsWithEmail(email) {
             .catch((err) => {
                 console.log(err);
             });
-    }
+    };
 }
 
 export function getAllRegisteredLocationsWithEmail(email) {
@@ -150,6 +155,25 @@ export function getAllRegisteredLocationsWithEmail(email) {
             })
             .catch((err) => {
                 console.log(err);
-            })
-    }
+            });
+    };
 }
+
+export function filterLocationsByCity(city) {
+    return function (dispatch) {
+        dispatch({type: FILTER_LOCATION_BY_CITY, payload: city});
+    };
+}
+
+export function filterLocationsByDistrict(district) {
+    return function (dispatch) {
+        dispatch({type: FILTER_LOCATION_BY_DISTRICT, payload: district});
+    };
+}
+
+export function filterLocationsByStartDate(startDate) {
+    return function (dispatch) {
+        dispatch({type: FILTER_LOCATION_BY_START_DATE, payload: startDate});
+    };
+}
+

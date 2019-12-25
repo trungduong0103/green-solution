@@ -101,7 +101,6 @@ class FirstTab extends Component {
         this.setState({location});
     };
 
-    //TODO remember to convert back to time
     handleStartTimeChange = (time) => {
         const location = this.state.location;
         location.startTime = time;
