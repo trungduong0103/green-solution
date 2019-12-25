@@ -10,6 +10,7 @@ import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/pages/UserProfile"
 import AboutUs from "./components/pages/about/AboutUs"
+import axios from "axios";
 
 //session expired using token
 const token = localStorage.FBIdToken;
@@ -19,6 +20,7 @@ if (token) {
         alert("session timed out.");
         window.location.href = "/authentication";
         localStorage.clear();
+        axios.defaults.headers.common['Authorization'] = "";
     }
 }
 

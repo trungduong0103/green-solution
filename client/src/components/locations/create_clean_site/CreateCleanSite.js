@@ -31,10 +31,7 @@ class CreateCleanSite extends Component {
     };
 
     continue = (location) => {
-        this.props.createNewLocation(location)
-            .then(() => {
-                this.nextStep();
-            })
+        this.props.createNewLocation(location);
     };
 
     // Move forward to next step
