@@ -10,7 +10,8 @@ import {
     SIGNING_IN,
     SIGNING_UP,
     SIGNING_UP_SOCIAL_MEDIA, OPEN_SIGN_OUT_SNACKBAR, CLOSE_SIGN_OUT_SNACKBAR,
-    GET_USER
+    GET_USER,
+    UPLOAD_PROFILE_IMAGE
 } from "../types";
 
 import firebase from "../../environments/Firebase";
@@ -260,11 +261,15 @@ export function getUser(email){
 }
 
 export function uploadImage(image){
+    console.log(image)
     return function(dispatch){
         axios
             .post("https://9anyxuu738.execute-api.ap-southeast-1.amazonaws.com/prod/UploadToS3",image)
             .then((res)=>{
-                console.log(res)
+                dispatch({
+                    type:UPLOAD_PROFILE_IMAGE,
+                    payload:res.data.imageURL
+                })
             })
             .catch(error=>{
                 console.log(error)

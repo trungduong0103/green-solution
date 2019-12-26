@@ -90,10 +90,10 @@ class UpdateProfile extends Component {
         reader.onloadend=()=>{
             console.log("RESULT",reader.result)
             this.props.uploadImage({
-                image:reader.result,
+                image:reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/,""),
                 username:this.props.email,
                 height:200,
-                weight:200
+                width:200
             })
         }
         reader.readAsDataURL(image)
