@@ -10,15 +10,17 @@ import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/pages/UserProfile"
 import AboutUs from "./components/pages/about/AboutUs"
+import axios from "axios";
 
 //session expired using token
-const token = localStorage.FBIdToken;
+const token = localStorage.getItem("FBIdToken");
 if (token) {
     const decodedIdToken = jwtDecode(token);
     if (decodedIdToken.exp * 1000 < Date.now()) {
         alert("session timed out.");
         window.location.href = "/authentication";
-        localStorage.clear();
+        localStorage.removeItem("FBIdToken");
+        delete axios.defaults.headers.common["Authorization"];
     }
 }
 

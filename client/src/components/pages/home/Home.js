@@ -10,7 +10,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import NavBar from "../../navigation/NavBar";
 import AboutUsContent from "../about/AboutUsContent";
 import Grid from "@material-ui/core/Grid";
-import { getAllLocations } from "../../../redux/actions/LocationActions";
 import { JoinCleanUpMap } from "../../locations/maps/JoinCleanUpMap";
 import CleanSitesList from "./CleanSitesList";
 import CleanSitesGrid from "./CleanSitesGrid"
@@ -18,6 +17,14 @@ import { enlargeMarker, minimizeMarker } from "../../../redux/actions/UIActions"
 import IconButton from "@material-ui/core/IconButton";
 import ViewListIcon from "@material-ui/icons/ViewList"
 import AppsIcon from "@material-ui/icons/Apps"
+import {
+    filterLocationsByCity,
+    filterLocationsByDistrict, filterLocationsByKeyword,
+    filterLocationsByStartDate,
+    getAllLocations, resetFilters
+} from "../../../redux/actions/LocationActions";
+import Filter from "./Filter";
+import Search from "./Search";
 
 const styles = {
     homePageMapWrapper: {
@@ -54,20 +61,36 @@ class Home extends Component {
             grid: false,
             list: true
         })
-    }
+    };
 
     componentDidMount() {
         this.props.getAllLocations();
-    }
+    };
 
     handleEnlargeMarker = (index) => {
         this.props.enlargeMarker(index)
     }
+    switchView = () => {
+        this.setState({ checked: !this.state.checked })
+    };
 
     render() {
-        const { openSignOutSnackbar } = this.props;
-        const { classes, enlargeMarker, minimizeMarker, locations, showInfoWindow, infoWindowIndex } = this.props;
-        const {list, grid} = this.state
+        const {
+            classes,
+            enlargeMarker,
+            minimizeMarker,
+            locations,
+            filteredLocations,
+            filterLocationsByCity,
+            filterLocationsByDistrict,
+            filterLocationsByStartDate,
+            filterLocationsByKeyword,
+            resetFilters,
+            showInfoWindow,
+            infoWindowIndex,
+            openSignOutSnackbar
+        } = this.props;
+        const { list, grid } = this.state
         return (
             <div>
                 <NavBar />
@@ -81,6 +104,13 @@ class Home extends Component {
                 </GridList>
 
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
+                <Grid container>
+                    <Filter
+                        filterByCity={filterLocationsByCity}
+                        filterByDistrict={filterLocationsByDistrict}
+                        filterByStartDate={filterLocationsByStartDate} />
+                    <Search filterByKeyword={filterLocationsByKeyword} reset={resetFilters} />
+                </Grid>
                 <Grid container className={classes.homePageMapWrapper}>
                     <Grid item sm={6}>
                         <div style={{ width: '100%', textAlign: 'right' }}>
@@ -91,11 +121,18 @@ class Home extends Component {
                                 <ViewListIcon />
                             </IconButton>
                         </div>
-                        {list && <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations} />}
-                        {grid && <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations} grid={6} />}
+                        {grid && <CleanSitesGrid 
+                            enlarge={enlargeMarker} 
+                            minimize={minimizeMarker} 
+                            locations={filteredLocations ? filteredLocations : locations} 
+                            grid={6} />}
+                        {list && <CleanSitesList
+                            enlarge={enlargeMarker}
+                            minimize={minimizeMarker}
+                            locations={filteredLocations ? filteredLocations : locations} />}
                     </Grid>
                     <Grid item sm={6}>
-                        <JoinCleanUpMap locations={locations}
+                        <JoinCleanUpMap locations={filteredLocations ? filteredLocations : locations}
                             enlarge={this.handleEnlargeMarker}
                             minimize={minimizeMarker}
                             showInfoWindow={showInfoWindow}
@@ -113,6 +150,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
     locations: state.locationsData.locations,
+    filteredLocations: state.locationsData.filteredLocations,
     openSignOutSnackbar: state.UI.openSignOutSnackbar,
     showInfoWindow: state.UI.showInfoWindow,
     infoWindowIndex: state.UI.infoWindowIndex
@@ -121,7 +159,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getAllLocations,
     enlargeMarker,
-    minimizeMarker
+    minimizeMarker,
+    filterLocationsByCity,
+    filterLocationsByDistrict,
+    filterLocationsByStartDate,
+    filterLocationsByKeyword,
+    resetFilters
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));

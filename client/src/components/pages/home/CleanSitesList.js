@@ -12,8 +12,8 @@ import avatar from "../../../assets/imgs/download.jpeg"
 
 const styles = {
     listWrapper: {
-        maxHeight: 500,
-        overflow: "auto"
+        maxHeight: 600,
+        overflowY: "scroll"
     },
     locationAvatar: {
         height: "120px",
@@ -45,12 +45,11 @@ class CleanSitesList extends Component {
     render() {
         const {locations, classes} = this.props;
         return (
-            <List>
+            <List className={classes.listWrapper}>
                 {locations.map((location, index) =>
                     <div key={location.id}
                          onMouseEnter={() => this.props.enlarge(index)}
                          onMouseLeave={this.props.minimize}>
-                        <List className={classes.listWrapper}>
                             <ListItem>
                                 <Card className={classes.locationCard}>
                                     <CardContent>
@@ -70,7 +69,7 @@ class CleanSitesList extends Component {
                                 </Card>
 
                             </ListItem>
-                        </List>
+
                     </div>
                 )}
             </List>

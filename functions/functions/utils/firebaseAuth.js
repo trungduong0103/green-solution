@@ -27,6 +27,7 @@ module.exports = (req, res, next) => {
             return next();
         })
         .catch(err => {
+            console.log(err);
             return res.json(err);
         })
         // .then(decodedToken => {
