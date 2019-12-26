@@ -178,7 +178,6 @@ class CleanUpFormDetail extends Component {
             startTime: time,
         });
         this.props.values.eventStartTime = startTime
-
     };
 
     handleEndTimeChange = (time) => {
