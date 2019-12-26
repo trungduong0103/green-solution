@@ -1,64 +1,65 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 //Material UI
 import Grid from "@material-ui/core/Grid"
-import Collapse from '@material-ui/core/Collapse';
 import withStyles from "@material-ui/core/styles/withStyles";
 
 //React-redux
-import {connect} from "react-redux";
-import {getAllLocations} from "../../redux/actions/LocationActions";
+import { connect } from "react-redux";
+import { getAllLocations } from "../../redux/actions/LocationActions";
 
 //React router
-import {JoinCleanUpMap} from "./maps/JoinCleanUpMap";
-import {openCleanUpDetail} from "../../redux/actions/FormActions";
+import { JoinCleanUpMap } from "./maps/JoinCleanUpMap";
+import { openCleanUpDetail } from "../../redux/actions/FormActions";
 
-import CleanUpDetail from "./CleanUpDetail";
-import {CircularProgress} from "@material-ui/core";
-import Footer from "../pages/Footer";
+import NavBar from "../navigation/NavBar";
+
+import CleanSitesList from "../pages/home/CleanSitesList";
+import CleanSitesGrid from "../pages/home/CleanSitesGrid"
+
+import { enlargeMarker, minimizeMarker } from "../../redux/actions/UIActions";
+import IconButton from "@material-ui/core/IconButton";
+import ViewListIcon from "@material-ui/icons/ViewList"
+import AppsIcon from "@material-ui/icons/Apps"
+import Switch from '@material-ui/core/Switch'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const styles = {
-    mapContainer: {
-        position: "absolute",
-        width: "50vw",
-        height: "50vh",
-        top:"20%",
-        left: "5%",
-        boxShadow: "0 10px 20px rgba(0,0,0,0.25)"
-    },
-    text: {
-        position: "absolute",
-        top: "23%",
-        left: "13%",
-        fontFamily:"'Quicksand', sans-serif;",
-        fontSize: 30,
-    },
-    progress: {
-        position: "absolute",
-        top: "45%",
-        marginLeft: "20%"
-    },
-    detailContainer: {
-        position: "absolute",
-        top:"20%",
-        width: "35%"
-    },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     wrapper: {
-        height: "75vh",
-        marginBottom: "20px"
+        padding: '10px'
+    },
+    title: {
+        fontFamily: "'Quicksand', sans-serif;",
+        padding: "30px 0 10px 0"
+    },
+    icon: {
+        width: '100%',
+        textAlign: 'right'
     }
+
 };
+
+const CustomSwitch = withStyles({
+    switchBase: {
+        '&$checked': {
+            color: 'green'
+        },
+        '&$checked + $track': {
+            backgroundColor: 'green'
+        }
+    },
+    checked: {},
+    track:{}
+})(Switch)
 
 class JoinCleanUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            locations: []
+            locations: [],
+            list: false,
+            grid: true,
+            map: false
         }
     }
     // Fetch all locations from database and setState
@@ -66,34 +67,87 @@ class JoinCleanUp extends Component {
         this.props.getAllLocations();
     }
 
+    handleEnlargeMarker = (index) => {
+        this.props.enlargeMarker(index)
+    }
+
+    setGrid = () => {
+        this.setState({
+            grid: true,
+            list: false
+        })
+    }
+
+    setList = () => {
+        this.setState({
+            grid: false,
+            list: true
+        })
+    }
+
+    toggleMap = () => {
+        this.setState({
+            map: !this.state.map
+        })
+    }
+
     render() {
-        const {classes, formState: {openJoinSite, loading}} = this.props;
+        const { classes, locations, enlargeMarker, minimizeMarker, showInfoWindow, infoWindowIndex } = this.props;
+        const { list, grid, map } = this.state
         return (
             <div>
-                {/*<NavBar/>*/}
-                <Grid container className={classes.wrapper}>
-                    <Grid item sm={7} >
-                        <Grid className={classes.mapContainer}>
-                            <JoinCleanUpMap
-                                locations={this.props.locations}
-                                openCleanUpForm={this.props.openCleanUpDetail}/>
-                        </Grid>
+                <NavBar />
+                <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
+                {map ? <Grid container className={classes.wrapper}>
+                    <Grid item sm={6}>
+                        <div className={classes.icon}>
+                            <IconButton onClick={() => this.setGrid()}>
+                                <AppsIcon />
+                            </IconButton>
+                            <IconButton onClick={() => this.setList()}>
+                                <ViewListIcon />
+                            </IconButton>
+                        </div>
+                        {list && <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations} />}
+                        {grid && <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations} grid={6} />}
                     </Grid>
+                    <Grid item sm={6}>
+                        <div className={classes.icon}>
+                            <FormControlLabel
+                                control={
+                                    <CustomSwitch checked={map} onChange={() => this.toggleMap()} />
+                                }
+                                label="Mở bản đồ"
+                            />
+                        </div>
+                        <JoinCleanUpMap locations={locations}
+                            enlarge={this.handleEnlargeMarker}
+                            minimize={minimizeMarker}
+                            showInfoWindow={showInfoWindow}
+                            infoWindowIndex={infoWindowIndex} />
+                    </Grid>
+                </Grid> :
 
-                    <Grid item sm={5} >
-                        {loading ? (
-                            <CircularProgress
-                                variant="indeterminate"
-                                size={50}
-                                className={classes.progress} />
-                        ) : (
-                            <Collapse in={openJoinSite} className={classes.detailContainer}>
-                                <CleanUpDetail />
-                            </Collapse>
-                        )}
-                    </Grid>
-                </Grid>
-                <Footer/>
+                    <div className={classes.wrapper}>
+                        <div className={classes.icon}>
+                            <IconButton onClick={() => this.setGrid()}>
+                                <AppsIcon />
+                            </IconButton>
+                            <IconButton onClick={() => this.setList()}>
+                                <ViewListIcon />
+                            </IconButton>
+                            <FormControlLabel
+                                control={
+                                    <CustomSwitch checked={map} onChange={() => this.toggleMap()} />
+                                }
+                                label="Mở bản đồ"
+                            />
+                        </div>
+                        {list && <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations} />}
+                        {grid && <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations} grid={4} />}
+
+                    </div>}
+
             </div>
 
         )
@@ -102,12 +156,16 @@ class JoinCleanUp extends Component {
 
 const mapStateToProps = state => ({
     locations: state.locationsData.locations,
-    formState: state.formState
+    formState: state.formState,
+    showInfoWindow: state.UI.showInfoWindow,
+    infoWindowIndex: state.UI.infoWindowIndex
 });
 
 const mapDispatchToProps = {
     getAllLocations,
-    openCleanUpDetail
+    openCleanUpDetail,
+    enlargeMarker,
+    minimizeMarker
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(JoinCleanUp));
