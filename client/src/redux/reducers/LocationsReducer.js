@@ -7,7 +7,7 @@ import {
     GOT_CREATED_LOCATIONS,
     GOT_REGISTERED_LOCATIONS,
     FILTER_LOCATION_BY_DISTRICT,
-    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_START_DATE
+    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_START_DATE, FILTER_LOCATION_BY_KEYWORD, RESET_FILTERS
 } from "../types";
 
 const initialState = {
@@ -56,6 +56,13 @@ export default function (state = initialState, action) {
                 if (timeObj >= action.payload) filteredStartDate.push(location);
             });
             return {...state, filteredLocations: filteredStartDate};
+        case FILTER_LOCATION_BY_KEYWORD:
+            const filteredKeyword = state.locations.filter(location =>
+                location.name.toLowerCase() === action.payload.toLowerCase()
+            );
+            return {...state, filteredLocations: filteredKeyword};
+        case RESET_FILTERS:
+            return {...state, filteredLocations: state.locations};
         default:
             return state;
     }

@@ -12,14 +12,15 @@ import AboutUsContent from "../about/AboutUsContent";
 import Grid from "@material-ui/core/Grid";
 import {
     filterLocationsByCity,
-    filterLocationsByDistrict,
+    filterLocationsByDistrict, filterLocationsByKeyword,
     filterLocationsByStartDate,
-    getAllLocations
+    getAllLocations, resetFilters
 } from "../../../redux/actions/LocationActions";
 import {JoinCleanUpMap} from "../../locations/maps/JoinCleanUpMap";
 import CleanSitesList from "./CleanSitesList";
 import {enlargeMarker, minimizeMarker} from "../../../redux/actions/UIActions";
 import Filter from "./Filter";
+import Search from "./Search";
 
 const styles = {
     homePageMapWrapper: {
@@ -38,7 +39,8 @@ const styles = {
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+        };
     }
 
     componentDidMount() {
@@ -47,6 +49,10 @@ class Home extends Component {
 
     handleEnlargeMarker = (index) => {
         this.props.enlargeMarker(index);
+    };
+
+    switchView = () => {
+        this.setState({checked: !this.state.checked})
     };
 
     render() {
@@ -59,6 +65,8 @@ class Home extends Component {
             filterLocationsByCity,
             filterLocationsByDistrict,
             filterLocationsByStartDate,
+            filterLocationsByKeyword,
+            resetFilters,
             showInfoWindow,
             infoWindowIndex,
             openSignOutSnackbar
@@ -82,8 +90,8 @@ class Home extends Component {
                         filterByCity={filterLocationsByCity}
                         filterByDistrict={filterLocationsByDistrict}
                         filterByStartDate={filterLocationsByStartDate}/>
+                    <Search filterByKeyword={filterLocationsByKeyword} reset={resetFilters}/>
                 </Grid>
-
                 <Grid container className={classes.homePageMapWrapper}>
                     <Grid item sm={6}>
                         <CleanSitesList
@@ -116,14 +124,15 @@ const mapStateToProps = (state) => ({
     infoWindowIndex: state.UI.infoWindowIndex
 });
 
-let filterLocationByStartDate;
 const mapDispatchToProps = {
     getAllLocations,
     enlargeMarker,
     minimizeMarker,
     filterLocationsByCity,
     filterLocationsByDistrict,
-    filterLocationsByStartDate
+    filterLocationsByStartDate,
+    filterLocationsByKeyword,
+    resetFilters
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));
