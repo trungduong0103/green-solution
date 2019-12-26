@@ -1,8 +1,10 @@
-import {FETCHING_USER, SET_AUTHENTICATED, SET_USER, STOP_FETCHING_USER} from "../types";
+import {FETCHING_USER, SET_AUTHENTICATED, SET_USER, STOP_FETCHING_USER,GET_USER,UPLOAD_PROFILE_IMAGE} from "../types";
 
 const initialState = {
     authenticated: false,
     loading: false,
+    user:{},
+    image:''
 };
 
 export default function (state = initialState, action) {
@@ -30,6 +32,18 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: false
             };
+        }
+        case GET_USER:{
+            return{
+                ...state,
+                user:action.payload
+            }
+        }
+        case UPLOAD_PROFILE_IMAGE:{
+            return{
+                ...state,
+                image:action.payload
+            }
         }
         default:
             return state;

@@ -76,7 +76,6 @@ class UpdateProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
             firstName: '',
             lastName: '',
             phoneNumber: '',
@@ -87,9 +86,17 @@ class UpdateProfile extends Component {
 
     handleImageChange = (event) => {
         const image = event.target.files[0];
-        const formData = new FormData();
-        formData.append("image", image, image.name);
-        //this.props.uploadImage(formData);
+        const reader = new FileReader()
+        reader.onloadend=()=>{
+            console.log("RESULT",reader.result)
+            this.props.uploadImage({
+                image:reader.result,
+                username:this.props.email,
+                height:200,
+                weight:200
+            })
+        }
+        reader.readAsDataURL(image)
     };
 
     handleEditPicture = () => {
@@ -104,14 +111,15 @@ class UpdateProfile extends Component {
     };
 
     submit = () => {
-        // const user = {
-        //     firstName: this.state.firstName,
-        //     lastName: this.state.lastName,
-        //     phoneNumber: this.state.phoneNumber,
-        //     image: this.state.image,
-        //     email: this.state.email
-        // };
+        const user = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            phoneNumber: this.state.phoneNumber,
+            //image: this.state.image,
+            email: this.props.email
+        };
 
+        this.props.updateUser(user)
         this.props.handleOpenUpdateProfile()
     };
 
@@ -121,8 +129,7 @@ class UpdateProfile extends Component {
                 firstName: this.props.user.firstName,
                 lastName: this.props.user.lastName,
                 phoneNumber: this.props.user.phoneNumber,
-                image: this.props.user.image,
-                email: this.props.user.email
+                //image: this.props.user.image
             })
         }
     }
@@ -133,16 +140,20 @@ class UpdateProfile extends Component {
                 firstName: this.props.user.firstName,
                 lastName: this.props.user.lastName,
                 phoneNumber: this.props.user.phoneNumber,
-                image: this.props.user.image,
-                email: this.props.user.email
+                //image: this.props.user.image
+            })
+        }
+        if(this.props.image!==prevProps.image && this.props.image!==''){
+            this.setState({
+                image:this.props.image
             })
         }
     }
 
 
     render() {
-        const {classes, open, handleOpenUpdateProfile, } = this.props;
-        const {firstName, lastName, phoneNumber, email} = this.state;
+        const {classes, open, handleOpenUpdateProfile,email } = this.props;
+        const {firstName, lastName, phoneNumber,image } = this.state;
         return (
             <Dialog open={open} onClose={() => handleOpenUpdateProfile()}>
                 <DialogTitle>Update profile</DialogTitle>
@@ -150,9 +161,10 @@ class UpdateProfile extends Component {
                     <Paper className={classes.paper}>
                         <div className={classes.profile}>
                             <div className="image-wrapper">
-                                <img src={userAvatar} alt="Profile" className="profile-image"/>
+                                {image === '' ? <img src={userAvatar} alt="Profile" className="profile-image"/>
+                                : <img src={image} alt="Profile" className="profile-image"/>}
                                 <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange}/>
-                                <IconButton onClick={this.handleEditPicture} btnClassName="button">
+                                <IconButton onClick={this.handleEditPicture} >
                                     <EditIcon/>
                                 </IconButton>
                             </div>
@@ -193,7 +205,7 @@ class UpdateProfile extends Component {
 
                                 <TextField
                                     label="Số điện thoại"
-                                    type="text"
+                                    type="tel"
                                     name="phoneNumber"
                                     placeholder="Nhập số điện thoại"
                                     className={classes.formInput}

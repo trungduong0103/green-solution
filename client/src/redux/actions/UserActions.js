@@ -9,7 +9,8 @@ import {
     SIGN_UP_COMPLETE,
     SIGNING_IN,
     SIGNING_UP,
-    SIGNING_UP_SOCIAL_MEDIA, OPEN_SIGN_OUT_SNACKBAR, CLOSE_SIGN_OUT_SNACKBAR
+    SIGNING_UP_SOCIAL_MEDIA, OPEN_SIGN_OUT_SNACKBAR, CLOSE_SIGN_OUT_SNACKBAR,
+    GET_USER
 } from "../types";
 
 import firebase from "../../environments/Firebase";
@@ -229,3 +230,44 @@ const setAuthorizationHeader = (token) => {
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 };
 
+export function updateUser(user){
+    return function(dispatch){
+        axios
+            .post(`${DEFAULT_URL}/update_user_profile`,user)
+            .then(()=>{
+                dispatch(getUser({email:user.email}))
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+    }
+}
+
+export function getUser(email){
+    return function(dispatch){
+        axios
+            .post(`${DEFAULT_URL}/get_user_profile`,email)
+            .then((res)=>{
+                dispatch({
+                    type:GET_USER,
+                    payload:res.data
+                })
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+    }
+}
+
+export function uploadImage(image){
+    return function(dispatch){
+        axios
+            .post("https://9anyxuu738.execute-api.ap-southeast-1.amazonaws.com/prod/UploadToS3",image)
+            .then((res)=>{
+                console.log(res)
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+    }
+}
