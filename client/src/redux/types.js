@@ -8,6 +8,8 @@ export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 export const FETCHING_USER = "FETCHING_USER";
 export const STOP_FETCHING_USER = "STOP_FETCHING_USER";
 export const SET_USER = "SET_USER";
+export const GET_USER="GET_USER";
+export const UPLOAD_PROFILE_IMAGE="UPLOAD_PROFILE_IMAGE"
 
 //locations types
 export const GET_ALL_LOCATIONS = "GET_ALL_LOCATIONS";

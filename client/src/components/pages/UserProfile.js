@@ -6,23 +6,28 @@ import jwtDecode from "jwt-decode";
 import NavBar from "../navigation/NavBar";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import RegisteredLocations from '../profiles/RegisteredLocations'
-import CreatedLocations from '../profiles/CreatedLocations'
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import RegisteredLocations from '../profiles/RegisteredLocations';
+import CreatedLocations from '../profiles/CreatedLocations';
 import userAvatar from "../../assets/imgs/home_page_img.jpg";
 import {
     deleteLocation,
     getAllCreatedLocationsWithEmail,
     getAllRegisteredLocationsWithEmail
 } from "../../redux/actions/LocationActions";
+import {
+    updateUser,
+    getUser,
+    uploadImage
+} from "../../redux/actions/UserActions";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import {openUpdateSiteForm} from "../../redux/actions/FormActions";
 import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit"
-import UpdateProfile from "../profiles/UpdateProfile"
+import EditIcon from "@material-ui/icons/Edit";
+import UpdateProfile from "../profiles/UpdateProfile";
 
 
 const styles = {
@@ -84,8 +89,7 @@ const styles = {
 const userObj = {
     firstName: 'abc',
     lastName: 'def',
-    email: 'sfs',
-    phoneNumber: 'sdf',
+    phoneNumber: 123,
     image: ''
 }
 
@@ -137,7 +141,7 @@ class Home extends Component {
         });
         this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
         this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
-
+        this.props.getUser({email:decodedToken.email})
         //Add fetch user
     }
 
@@ -152,8 +156,11 @@ class Home extends Component {
                 registeredLocations: props.registeredLocations
             }
         }
-
-        //Add user
+        if(props.user!==state.user){
+            return{
+                user:props.user
+            }
+        }
         return null;
     }
 
@@ -166,9 +173,10 @@ class Home extends Component {
     };
 
     render() {
-        const {classes, openUpdateSite, loading, loadRegisteredLocations, loadCreatedLocations} = this.props;
-        const {registeredLocations, createdLocations, tab, email, openUpdateProfile,} = this.state;
-
+        const {classes, openUpdateSite, loading, loadRegisteredLocations, 
+                loadCreatedLocations,updateUser,uploadImage,image} = this.props;
+        const {registeredLocations, createdLocations, tab, email, openUpdateProfile,user} = this.state;
+        console.log(user)
         return (
             <div>
                 <NavBar/>
@@ -219,8 +227,9 @@ class Home extends Component {
                 </Grid>
 
                 {/* pass props user */}
-                <UpdateProfile open={openUpdateProfile} user={userObj}
-                               handleOpenUpdateProfile={this.handleOpenUpdateProfile}/>
+                <UpdateProfile open={openUpdateProfile} user={userObj} email={email} image={image}
+                               handleOpenUpdateProfile={this.handleOpenUpdateProfile}
+                               updateUser={updateUser} uploadImage={uploadImage}/>
 
             </div>
         );
@@ -233,14 +242,19 @@ const mapStateToProps = (state) => ({
     openUpdateSite: state.formState.openUpdateSite,
     loading: state.formState.loading,
     loadCreatedLocations: state.UI.loadCreatedLocations,
-    loadRegisteredLocations: state.UI.loadRegisteredLocations
+    loadRegisteredLocations: state.UI.loadRegisteredLocations,
+    user:state.user.user,
+    image:state.user.image
 });
 
 const mapDispatchToProps = {
     getAllCreatedLocationsWithEmail,
     getAllRegisteredLocationsWithEmail,
     deleteLocation,
-    openUpdateSiteForm
+    openUpdateSiteForm,
+    updateUser,
+    getUser,
+    uploadImage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));
