@@ -37,10 +37,7 @@ class CleanSitesGrid extends Component {
             <div>
                 <Grid container spacing={5} className={classes.wrapper}>
                     {locations.map((location, index)=> (
-                        <Grid item xs={grid} key={location.id}
-                            onMouseEnter={() => this.props.enlarge(index)}
-                            onMouseLeave={this.props.minimize}
-                        >
+                        <Grid item xs={grid} key={location.id} onMouseEnter={() => this.props.enlarge(index)}>
                             <Card>
                                 <CardMedia component="img"
                                     height="140"
@@ -54,7 +51,6 @@ class CleanSitesGrid extends Component {
                                     </Typography>
                                     <Typography variant="subtitle1" className={classes.text}>{location.address}</Typography>
                                     <Typography variant="subtitle2" className={classes.text}>{location.description}</Typography>
-
                                 </CardContent>
                             </Card>
                         </Grid>

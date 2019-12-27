@@ -2,13 +2,8 @@ import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {connect} from "react-redux";
 import jwtDecode from "jwt-decode";
-//Material-UI
 import NavBar from "../navigation/NavBar";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import UpdateProfile from "../profiles/UpdateProfile";
 import RegisteredLocations from '../profiles/RegisteredLocations';
 import CreatedLocations from '../profiles/CreatedLocations';
 import userAvatar from "../../assets/imgs/home_page_img.jpg";
@@ -22,51 +17,33 @@ import {
     getUser,
     uploadImage
 } from "../../redux/actions/UserActions";
+//Material-UI
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {openUpdateSiteForm} from "../../redux/actions/FormActions";
 import IconButton from "@material-ui/core/IconButton";
+import {CardActions, CircularProgress} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import UpdateProfile from "../profiles/UpdateProfile";
-
+import {openUpdateSiteForm} from "../../redux/actions/FormActions";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const styles = {
-    title: {
-        fontFamily: "'Quicksand', sans-serif;",
-        fontSize: 25,
-        padding: 10,
-        textAlign: "center"
-    },
-    formTitle: {
-        fontFamily: "'Quicksand', sans-serif;",
-        fontSize: 35,
-        textAlign: "center"
-    },
-    table: {
-        fontFamily: "'Quicksand', sans-serif;",
-        fontSize: 15
-    },
     wrapper: {
         height: "auto",
         padding: "20px 20px"
     },
+    userCard: {
+        display: "flex",
+        justifyContent: "center"
+    },
     progress: {
-        position: "absolute",
-        top: "45%",
-        marginLeft: "20%"
-    },
-    locationsProgress1: {
-        position: "absolute",
-        marginLeft: "15%",
-        top: "30%"
-    },
-    locationProgress2: {
-        position: "absolute",
-        top: "40%",
-        marginLeft: "30%"
+        padding: "30%"
     },
     indicator: {
-
         backgroundColor: "#7F986F",
     },
     active: {
@@ -82,16 +59,7 @@ const styles = {
         width: '100%',
         textAlign: 'center'
     }
-
-
 };
-
-const userObj = {
-    firstName: 'abc',
-    lastName: 'def',
-    phoneNumber: 123,
-    image: ''
-}
 
 
 class Home extends Component {
@@ -104,31 +72,8 @@ class Home extends Component {
             tab: 0,
             openUpdateProfile: false,
             user: {}
-        }
-        this.switchTab = this.switchTab.bind(this)
-        this.tabProps = this.tabProps.bind(this)
-        this.handleOpenUpdateProfile = this.handleOpenUpdateProfile.bind(this)
-
+        };
     }
-
-    switchTab = (event, newValue) => {
-        this.setState({
-            tab: newValue
-        })
-    };
-
-    tabProps = (index) => {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`
-        }
-    };
-
-    handleOpenUpdateProfile = () => {
-        this.setState({
-            openUpdateProfile: !this.state.openUpdateProfile
-        })
-    };
 
     componentDidMount() {
         const auth = localStorage.getItem("FBIdToken");
@@ -136,33 +81,38 @@ class Home extends Component {
             window.location.href = "/authentication";
         }
         const decodedToken = jwtDecode(auth);
-        this.setState({
-            email: decodedToken.email
-        });
+        this.setState({email: decodedToken.email});
+
+        //fetch locations and user profile
         this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
         this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
-        this.props.getUser({email:decodedToken.email})
-        //Add fetch user
+        this.props.getUser({email: decodedToken.email})
     }
 
     static getDerivedStateFromProps(props, state) {
         if (props.createdLocations !== state.createdLocations) {
-            return {
-                createdLocations: props.createdLocations
-            }
+            return {createdLocations: props.createdLocations}
         }
         if (props.registeredLocations !== state.registeredLocations) {
-            return {
-                registeredLocations: props.registeredLocations
-            }
+            return {registeredLocations: props.registeredLocations}
         }
-        if(props.user!==state.user){
-            return{
-                user:props.user
-            }
+        if (props.user !== state.user) {
+            return {user: props.user}
         }
         return null;
     }
+
+    switchTab = (event, newValue) => {
+        this.setState({tab: newValue})
+    };
+
+    tabProps = (index) => {
+        return {id: `simple-tab-${index}`, 'aria-controls': `simple-tabpanel-${index}`}
+    };
+
+    handleOpenUpdateProfile = () => {
+        this.setState({openUpdateProfile: !this.state.openUpdateProfile})
+    };
 
     handleDeleteLocation = (locationId) => {
         this.props.deleteLocation(locationId, this.state.email);
@@ -173,43 +123,39 @@ class Home extends Component {
     };
 
     render() {
-        const {classes, openUpdateSite, loading, loadRegisteredLocations, 
-                loadCreatedLocations,updateUser,uploadImage,image} = this.props;
-        const {registeredLocations, createdLocations, tab, email, openUpdateProfile,user} = this.state;
-        console.log(user)
+        const {
+            classes, openUpdateSite, loading, userLoading, loadRegisteredLocations,
+            loadCreatedLocations, updateUser, userUpdating, doneUserUpdate, uploadImage, image,
+        } = this.props;
+        const {registeredLocations, createdLocations, tab, openUpdateProfile, user} = this.state;
         return (
             <div>
                 <NavBar/>
                 <Grid container spacing={5} className={classes.wrapper}>
-                    <Grid item xs={3} className={classes.gridForm}>
-                        <Card>
-
-                            <CardContent>
-                                <div className={classes.user}>
-                                    <img src={userAvatar} alt="User's avatar" className={classes.avatar}/>
+                    <Grid item xs={3}>
+                        <Card className={classes.userCard}>
+                            {userLoading ? (
+                                <CircularProgress size={100} variant="indeterminate" className={classes.progress}/>
+                            ) : (<div>
+                                    <CardContent>
+                                        <div className={classes.user}>
+                                            <img src={user.avatarUrl ? user.avatarUrl : userAvatar} alt="User's avatar" className={classes.avatar}/>
+                                        </div>
+                                        <Typography style={{textAlign: "center"}}>{user.email}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <IconButton style={{marginLeft: "auto"}} onClick={this.handleOpenUpdateProfile}>
+                                            <EditIcon/>
+                                        </IconButton>
+                                    </CardActions>
                                 </div>
-                                <Typography>{email}
+                            )}
 
-                                    <IconButton
-                                        className={classes.button}
-                                        onClick={this.handleOpenUpdateProfile}
-                                    >
-                                        <EditIcon/>
-                                    </IconButton>
-                                </Typography>
-
-                                <Typography variant="body2" component="p">
-
-                                </Typography>
-
-
-                            </CardContent>
                         </Card>
-
-
                     </Grid>
 
-                    <Grid item xs={9} className={classes.gridForm}>
+                    <Grid item xs={9}>
                         <AppBar position="static" color="inherit">
                             <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
                                   aria-label="simple tabs locations">
@@ -220,17 +166,24 @@ class Home extends Component {
                         {tab === 0 &&
                         <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>}
                         {tab === 1 &&
-                        <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={this.state.email}
+                        <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={user.email}
                                           delete={this.handleDeleteLocation} edit={this.handleEditLocation}
                                           loaded={loadCreatedLocations} locations={createdLocations}/>}
                     </Grid>
                 </Grid>
 
                 {/* pass props user */}
-                <UpdateProfile open={openUpdateProfile} user={userObj} email={email} image={image}
+                <UpdateProfile open={openUpdateProfile} user={user} image={image}
                                handleOpenUpdateProfile={this.handleOpenUpdateProfile}
                                updateUser={updateUser} uploadImage={uploadImage}/>
 
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                          open={userUpdating}
+                          message={"Updating profile..."}/>
+
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                          open={doneUserUpdate}
+                          message={"Profile updated successfully!"}/>
             </div>
         );
     }
@@ -243,8 +196,11 @@ const mapStateToProps = (state) => ({
     loading: state.formState.loading,
     loadCreatedLocations: state.UI.loadCreatedLocations,
     loadRegisteredLocations: state.UI.loadRegisteredLocations,
-    user:state.user.user,
-    image:state.user.image
+    user: state.user.user,
+    image: state.user.image,
+    userLoading: state.user.loading,
+    userUpdating: state.user.updating,
+    doneUserUpdate: state.user.doneUpdate
 });
 
 const mapDispatchToProps = {
