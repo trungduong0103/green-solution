@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withStyles} from "@material-ui/core";
+import {connect} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -11,6 +12,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit"
 import TextField from "@material-ui/core/TextField"
+import {updateUserAvatar} from "../../redux/actions/UserActions";
 
 
 const styles = {
@@ -83,20 +85,19 @@ class UpdateProfile extends Component {
         }
     }
 
-
     handleImageChange = (event) => {
         const image = event.target.files[0];
-        const reader = new FileReader()
-        reader.onloadend=()=>{
-            console.log("RESULT",reader.result)
-            this.props.uploadImage({
-                image:reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/,""),
-                username:this.props.email,
-                height:200,
-                width:200
-            })
-        }
-        reader.readAsDataURL(image)
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            this.props.updateUserAvatar({
+                image: reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""),
+                username: this.props.user.email,
+                height: 200,
+                width: 200
+            });
+        };
+        reader.readAsDataURL(image);
+        this.props.handleOpenUpdateProfile();
     };
 
     handleEditPicture = () => {
@@ -105,9 +106,7 @@ class UpdateProfile extends Component {
     };
 
     handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+        this.setState({[event.target.name]: event.target.value})
     };
 
     submit = () => {
@@ -115,12 +114,10 @@ class UpdateProfile extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             phoneNumber: this.state.phoneNumber,
-            //image: this.state.image,
-            email: this.props.email
+            email: this.props.user.email
         };
-
-        this.props.updateUser(user)
-        this.props.handleOpenUpdateProfile()
+        this.props.updateUser(user);
+        this.props.handleOpenUpdateProfile();
     };
 
     componentDidMount() {
@@ -129,31 +126,29 @@ class UpdateProfile extends Component {
                 firstName: this.props.user.firstName,
                 lastName: this.props.user.lastName,
                 phoneNumber: this.props.user.phoneNumber,
-                //image: this.props.user.image
+                avatarUrl: this.props.user.avatarUrl
             })
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState, snap) {
         if (this.props.user !== prevProps.user) {
             this.setState({
                 firstName: this.props.user.firstName,
                 lastName: this.props.user.lastName,
                 phoneNumber: this.props.user.phoneNumber,
-                //image: this.props.user.image
+                avatarUrl: this.props.user.avatarUrl
             })
         }
-        if(this.props.image!==prevProps.image && this.props.image!==''){
-            this.setState({
-                image:this.props.image
-            })
+        if (this.props.image !== prevProps.image && this.props.image !== '') {
+            this.setState({image: this.props.image})
         }
     }
 
-
     render() {
-        const {classes, open, handleOpenUpdateProfile,email } = this.props;
-        const {firstName, lastName, phoneNumber,image } = this.state;
+        const {classes, open, handleOpenUpdateProfile, email} = this.props;
+        const {firstName, lastName, phoneNumber, image} = this.state;
+        console.log(this.state);
         return (
             <Dialog open={open} onClose={() => handleOpenUpdateProfile()}>
                 <DialogTitle>Update profile</DialogTitle>
@@ -161,19 +156,16 @@ class UpdateProfile extends Component {
                     <Paper className={classes.paper}>
                         <div className={classes.profile}>
                             <div className="image-wrapper">
-                                {image === '' ? <img src={userAvatar} alt="Profile" className="profile-image"/>
-                                : <img src={image} alt="Profile" className="profile-image"/>}
+                                <img src={this.state.avatarUrl ? this.state.avatarUrl : userAvatar} alt="Profile" className="profile-image"/>
                                 <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange}/>
-                                <IconButton onClick={this.handleEditPicture} >
+                                <IconButton onClick={this.handleEditPicture}>
                                     <EditIcon/>
                                 </IconButton>
                             </div>
                             <hr/>
                             <hr/>
                             <div className="profile-details">
-
                                 <Typography>{email}</Typography>
-
                                 <TextField
                                     label="Họ"
                                     type="text"
@@ -184,8 +176,6 @@ class UpdateProfile extends Component {
                                     onChange={this.handleChange}
                                     value={lastName}
                                     fullWidth
-
-
                                 />
 
                                 <TextField
@@ -198,8 +188,6 @@ class UpdateProfile extends Component {
                                     onChange={this.handleChange}
                                     value={firstName}
                                     fullWidth
-
-
                                 />
 
 
@@ -213,8 +201,6 @@ class UpdateProfile extends Component {
                                     onChange={this.handleChange}
                                     value={phoneNumber}
                                     fullWidth
-
-
                                 />
 
                             </div>
@@ -233,8 +219,10 @@ class UpdateProfile extends Component {
     }
 }
 
-// const mapDispatchToProps = {
+const mapStateToProps = (state) => ({});
 
-// };
+const mapDispatchToProps = {
+    updateUserAvatar
+};
 
-export default (withStyles(styles)(UpdateProfile));
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(UpdateProfile)));

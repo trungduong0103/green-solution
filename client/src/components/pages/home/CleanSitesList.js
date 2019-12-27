@@ -47,9 +47,7 @@ class CleanSitesList extends Component {
         return (
             <List className={classes.listWrapper}>
                 {locations.map((location, index) =>
-                    <div key={location.id}
-                         onMouseEnter={() => this.props.enlarge(index)}
-                         onMouseLeave={this.props.minimize}>
+                    <div key={location.id} onMouseEnter={() => this.props.enlarge(index)}>
                             <ListItem>
                                 <Card className={classes.locationCard}>
                                     <CardContent>

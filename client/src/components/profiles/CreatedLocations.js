@@ -59,25 +59,22 @@ class CreatedLocations extends Component {
         this.setState({
             grid: 6
         })
-    }
+    };
 
     setList = () => {
         this.setState({
             grid: 12
         })
-    }
+    };
 
     render() {
         const { classes, locations, loaded,email,openUpdateSite,loading } = this.props;
-        const { grid } = this.state
-        console.log(grid)
-        console.log(locations)
+        const { grid } = this.state;
         return (
             <div>
                 {loaded ? 
                 
                 <CircularProgress variant="indeterminate" className={classes.locationProgress2} />
-                
                 :
                     <div>
                         <div style={{ width: '100%', textAlign: 'right' }}>
@@ -87,8 +84,6 @@ class CreatedLocations extends Component {
                             <IconButton onClick={this.setList}>
                                 <ViewListIcon />
                             </IconButton>
-
-
                         </div>
 
 
