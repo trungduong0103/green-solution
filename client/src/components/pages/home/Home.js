@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import banner from "../../../assets/imgs/home_page_img.jpg"
-// import earthDay from "../../assets/imgs/earthday.png"
 import {connect} from "react-redux";
 
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -23,7 +22,14 @@ import Filter from "./Filter";
 
 const styles = {
     homePageMapWrapper: {
-        height: "75vh"
+        height: "75vh",
+        padding: 10
+    },
+    filterContainerWrapper: {
+        paddingLeft: 100
+    },
+    cleanSiteWrapper: {
+        // overflowAnchor: "hidden"
     },
     title: {
         fontFamily: "'Quicksand', sans-serif;",
@@ -32,7 +38,7 @@ const styles = {
     earthDay: {
         width: 200,
         height: 150
-    }
+    },
 };
 
 class Home extends Component {
@@ -77,7 +83,7 @@ class Home extends Component {
                 </GridList>
 
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
-                <Grid container>
+                <Grid container className={classes.filterContainerWrapper}>
                     <Filter
                         filterByCity={filterLocationsByCity}
                         filterByDistrict={filterLocationsByDistrict}
@@ -85,13 +91,13 @@ class Home extends Component {
                 </Grid>
 
                 <Grid container className={classes.homePageMapWrapper}>
-                    <Grid item sm={6}>
+                    <Grid item sm={6} className={classes.cleanSiteWrapper}>
                         <CleanSitesList
                             enlarge={enlargeMarker}
                             minimize={minimizeMarker}
                             locations={filteredLocations ? filteredLocations : locations}/>
                     </Grid>
-                    <Grid item sm={6}>
+                    <Grid item sm={6} className={classes.mapWrapper}>
                         <JoinCleanUpMap locations={filteredLocations ? filteredLocations : locations}
                                         enlarge={this.handleEnlargeMarker}
                                         minimize={minimizeMarker}
