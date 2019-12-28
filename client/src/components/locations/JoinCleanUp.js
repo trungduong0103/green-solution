@@ -50,7 +50,7 @@ const CustomSwitch = withStyles({
     },
     checked: {},
     track:{}
-})(Switch)
+})(Switch);
 
 class JoinCleanUp extends Component {
     constructor(props) {

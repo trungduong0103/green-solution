@@ -128,9 +128,6 @@ class ThirdTab extends Component {
         return true;
     };
 
-    backToPreviousStep = () => {
-        this.props.prevStep()
-    };
 
     submitForm = () => {
         const location = this.state.location;
@@ -143,29 +140,12 @@ class ThirdTab extends Component {
         }
     };
 
-    resetLocationAndErrors = () => {
-        const defaultLocation = {
-            lat: 0,
-            lng: 0,
-            address: "",
-            name: "",
-            agenda: "",
-            description: "",
-            startDate: today,
-            endDate: today,
-            startTime: today,
-            endTime: today
-        };
-        this.setState({location: defaultLocation, errors: {}});
-    };
-
-
     render() {
         const {location, errors} = this.state;
         const {classes} = this.props;
         return (
             <Grid container spacing={0} className={classes.wrapper}>
-                <Grid item sm={3}></Grid>
+                <Grid item sm={3}/>
                 <Grid item sm={6} className={classes.formWrapper}>
                     <Card className={classes.cardForm}>
                         <CardContent>
@@ -205,7 +185,7 @@ class ThirdTab extends Component {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item sm={3}></Grid>
+                <Grid item sm={3}/>
             </Grid>
 
         );
