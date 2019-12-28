@@ -9,6 +9,8 @@ import SecondTab from "./SecondTab";
 import NavBar from "../../navigation/NavBar";
 import {createNewLocation} from "../../../redux/actions/LocationActions";
 
+import HorizontalStepper from "./HorizontalStepper"
+
 const styles = {
     wrapper: {
         height: "auto",
@@ -56,14 +58,16 @@ class CreateCleanSite extends Component {
         return (
             <div>
                 <NavBar />
-                {step === 1 ? (
-                    <FirstTab
-                        nextStep={this.nextStep}
-                    />) :
-                    (
-                    <SecondTab
-                        prevStep={this.prevStep}
-                    />)}
+                <HorizontalStepper/>
+
+                {/*{step === 1 ? (*/}
+                {/*    <FirstTab*/}
+                {/*        nextStep={this.nextStep}*/}
+                {/*    />) :*/}
+                {/*    (*/}
+                {/*    <SecondTab*/}
+                {/*        prevStep={this.prevStep}*/}
+                {/*    />)}*/}
             </div>
         )
 

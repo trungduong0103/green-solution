@@ -4,7 +4,9 @@ import 'react-dropzone-uploader/dist/styles.css'
 class ImageDropZone extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            logo: ""
+        }
     }
 
     getUploadParams = ({ meta }) => {
@@ -28,11 +30,36 @@ class ImageDropZone extends Component {
                 getUploadParams={this.getUploadParams}
                 onChangeStatus={this.handleChangeStatus}
                 onSubmit={this.handleSubmit}
-                accept="image/*,audio/*,video/*"
-                inputContent={(files, extra) => (extra.reject ? 'Image, audio and video files only' : 'Drag Files')}
+                accept="image/*"
+                maxFiles={1}
+                inputContent={(files, extra) => (extra.reject ? 'Chỉ nhận file hình' : 'Kéo thả logo vào đây')}
                 styles={{
-                    dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
-                    inputLabel: (files, extra) => (extra.reject ? { color: 'red' } : {}),
+                    dropzone: {
+                        border: ".5px dashed black",
+                        overflow: "hidden"
+                    },
+                    inputLabel: {
+                        fontFamily: 'Quicksand, sans-serif',
+                        color: "rgb(99,151,68)",
+                    },
+                    preview: {
+                        width: "100%",
+                        height: "100%",
+                        padding: 10
+                    },
+                    submitButton: {
+                        fontFamily: 'Quicksand, sans-serif',
+                        outline: "none",
+                        border: "1px solid #DDDDDD",
+                        backgroundColor: "black",
+                        padding: "10px 20px",
+                        letterSpacing: 1,
+                        textTransform: "uppercase",
+                        transition: "all 350mx ease-in-out",
+                        marginTop: "10px",
+                        color: "white"
+                    }
+
                 }}
             />
         )
