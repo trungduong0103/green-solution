@@ -59,10 +59,9 @@ class HorizontalStepper extends Component{
         switch (activeStep) {
             case 0:
                 return (
-                    <ThirdTab
-                        prevStep={this.prevStep}
+                    <FirstTab
+                        nextStep={this.nextStep}
                     />
-
                 );
             case 1:
                 return (
@@ -73,8 +72,8 @@ class HorizontalStepper extends Component{
                 );
             case 2:
                 return (
-                    <FirstTab
-                        nextStep={this.nextStep}
+                    <ThirdTab
+                        // prevStep={this.prevStep}
                     />
                 );
             default:
