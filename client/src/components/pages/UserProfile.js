@@ -6,6 +6,7 @@ import NavBar from "../navigation/NavBar";
 import UpdateProfile from "../profiles/UpdateProfile";
 import RegisteredLocations from '../profiles/RegisteredLocations';
 import CreatedLocations from '../profiles/CreatedLocations';
+import PastEvents from '../profiles/PastEvents';
 import userAvatar from "../../assets/imgs/home_page_img.jpg";
 import {
     deleteLocation,
@@ -161,6 +162,7 @@ class Home extends Component {
                                   aria-label="simple tabs locations">
                                 <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)} />
                                 <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} />
+                                <Tab label="Sự kiện đã hoàn thành" {...this.tabProps(2)} />
                             </Tabs>
                         </AppBar>
                         {tab === 0 &&
@@ -169,6 +171,7 @@ class Home extends Component {
                         <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={user.email}
                                           delete={this.handleDeleteLocation} edit={this.handleEditLocation}
                                           loaded={loadCreatedLocations} locations={createdLocations}/>}
+                        {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations} />}
                     </Grid>
                 </Grid>
 
