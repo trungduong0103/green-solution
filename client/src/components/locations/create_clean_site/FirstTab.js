@@ -31,7 +31,7 @@ const styles = {
     },
     title: {
         fontFamily: "'Quicksand', sans-serif;",
-        fontSize: 30,
+        fontSize: 25,
         textAlign: "center",
         textTransform: "uppercase"
     },
@@ -71,7 +71,8 @@ const styles = {
         maxWidth: 500
     },
     formControl: {
-        width: "260px",
+        width: "250px",
+        paddingBottom: "10px"
     }
 };
 
@@ -82,22 +83,12 @@ class FirstTab extends Component {
         super(props);
         this.state = {
             location: {
-                lat: 0,
-                lng: 0,
-
-                //These 3 subfields resemble the `address` field
                 street: "",
                 district: "",
                 city: "",
 
-                address: "",
                 name:"",
-                description: "",
-                agenda: "",
-                startDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
-                startTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-                endDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
-                endTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+                address: "",
                 creator: ""
 
             },
@@ -175,9 +166,9 @@ class FirstTab extends Component {
         if (data.city === "") errors.city = "Vui lòng chọn thành phố";
         if (data.agenda === "") errors.agenda = "Không được để trống";
 
-        if (data.startDate > data.endDate) errors.date = "Ngày kết thúc không hợp lệ";
-        if (data.startTime > data.endTime) errors.time = "Thời gian kết thúc không hợp lệ";
-        if (data.lat === 0 && data.lng === 0) errors.position = "Bạn chưa chọn địa điểm trên bản đồ";
+        // if (data.startDate > data.endDate) errors.date = "Ngày kết thúc không hợp lệ";
+        // if (data.startTime > data.endTime) errors.time = "Thời gian kết thúc không hợp lệ";
+        // if (data.lat === 0 && data.lng === 0) errors.position = "Bạn chưa chọn địa điểm trên bản đồ";
 
         if (Object.keys(errors).length !== 0) {
             this.setState({errors: errors});
@@ -244,6 +235,7 @@ class FirstTab extends Component {
         const {classes} = this.props;
         return (
             <Grid container spacing={0} className={classes.wrapper}>
+                <Grid item sm={3}></Grid>
                 <Grid item sm={6} className={classes.formWrapper}>
                     <Card className={classes.cardForm}>
                         <CardContent>
@@ -288,13 +280,13 @@ class FirstTab extends Component {
                                         />
 
                                         <Grid container spacing={4}>
-                                            <Grid item xs={6}>
+                                            <Grid item sm={6}>
                                                 <TextField
                                                     className={classes.formControl}
                                                     select
                                                     name="district"
                                                     label="Quận/Huyện"
-                                                    value={location.dist}
+                                                    value={location.district}
                                                     onChange={this.handleChange}
                                                     helperText={errors.district}
                                                     error={!!errors.district}
@@ -309,8 +301,9 @@ class FirstTab extends Component {
                                                 </TextField>
                                             </Grid>
 
-                                            <Grid item xs={6}>
+                                            <Grid item sm={6}>
                                                 <TextField
+                                                    fullWidth
                                                     className={classes.formControl}
                                                     select
                                                     name="city"
@@ -328,79 +321,6 @@ class FirstTab extends Component {
                                                         </MenuItem>
                                                     ))}
                                                 </TextField>
-                                            </Grid>
-                                        </Grid>
-
-                                        <Grid container spacing={4}>
-                                            <Grid item xs={6}>
-                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                    <KeyboardDatePicker
-                                                        className={classes.picker}
-                                                        invalidDateMessage="Ngày không hợp lệ"
-                                                        disablePast
-                                                        format="dd/MM/yyyy"
-                                                        id="date-picker-dialog"
-                                                        value={location.startDate}
-                                                        onChange={this.handleStartDateChange}
-                                                        label="Ngày bắt đầu sự kiện"
-                                                        InputLabelProps={{className: classes.input}}
-                                                        InputProps={{className: classes.input}}
-                                                        fullWidth
-                                                    />
-                                                </MuiPickersUtilsProvider>
-
-                                            </Grid>
-
-                                            <Grid item xs={6}>
-                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                    <KeyboardTimePicker
-                                                        className={classes.picker}
-                                                        label="Thời gian bắt đầu sự kiện"
-                                                        // value={location.startTime}
-                                                        value={this.state.formatStartTime}
-                                                        onChange={this.handleStartTimeChange}
-                                                        InputLabelProps={{className: classes.input}}
-                                                        InputProps={{className: classes.input}}
-                                                        fullWidth
-                                                    />
-                                                </MuiPickersUtilsProvider>
-                                            </Grid>
-                                        </Grid>
-
-                                        <Grid container spacing={4}>
-                                            <Grid item xs={6}>
-                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                    <KeyboardDatePicker
-                                                        className={classes.picker}
-                                                        invalidDateMessage="Ngày không hợp lệ"
-                                                        disablePast
-                                                        minDateMessage="Ngày kết thúc phải sau ngày bắt đầu"
-                                                        minDate={location.startDate}
-                                                        format="dd/MM/yyyy"
-                                                        id="end-date-picker-dialog"
-                                                        value={location.endDate}
-                                                        onChange={this.handleEndDateChange}
-                                                        label="Ngày kết thúc sự kiện"
-                                                        InputLabelProps={{className: classes.input}}
-                                                        InputProps={{className: classes.input}}
-                                                        fullWidth
-                                                    />
-                                                </MuiPickersUtilsProvider>
-                                            </Grid>
-
-                                            <Grid item xs={6}>
-                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                    <KeyboardTimePicker
-                                                        className={classes.picker}
-                                                        label="Thời gian kết thúc sự kiện"
-                                                        // value={location.endTime}
-                                                        value={this.state.formatEndTime}
-                                                        onChange={this.handleEndTimeChange}
-                                                        InputLabelProps={{className: classes.input}}
-                                                        InputProps={{className: classes.input}}
-                                                        fullWidth
-                                                    />
-                                                </MuiPickersUtilsProvider>
                                             </Grid>
                                         </Grid>
 
@@ -471,18 +391,15 @@ class FirstTab extends Component {
                     </Card>
                 </Grid>
 
-                <Grid item sm={6}>
-                    <CreateCleanUpMap handleCall={this.getLocation}/>
-                </Grid>
-
+                <Grid item sm={3}></Grid>
             </Grid>
 
         );
     }
 }
 
-FirstTab.propTypes = {
-    continue: PropTypes.func.isRequired
-};
+// FirstTab.propTypes = {
+//     continue: PropTypes.func.isRequired
+// };
 
 export default withStyles(styles)(FirstTab);
