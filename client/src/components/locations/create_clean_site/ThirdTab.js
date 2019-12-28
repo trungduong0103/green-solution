@@ -193,25 +193,12 @@ class ThirdTab extends Component {
                                         <br/>
                                         <ImageDropZone/>
 
-                                        <Grid container alignContent="center" alignItems="center">
-                                            <Grid item sm={2}></Grid>
-                                            <Grid item sm={4}>
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={this.backToPreviousStep}
-                                                    className={classes.customBtn}
-                                                >Trở lại</Button>
-                                            </Grid>
+                                        <Button
+                                            variant="contained"
+                                            onClick={this.submitForm}
+                                            className={classes.confirmBtn}
+                                        >Xác nhận</Button>
 
-                                            <Grid item sm={4}>
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={this.submitForm}
-                                                    className={classes.confirmBtn}
-                                                >Xác nhận</Button>
-                                            </Grid>
-                                            <Grid item sm={2}></Grid>
-                                        </Grid>
                                     </form>
                                 </Grid>
                             </Grid>

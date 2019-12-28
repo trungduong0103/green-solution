@@ -4,8 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from '@material-ui/core/MenuItem';
 import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Button from "@material-ui/core/Button";
@@ -13,7 +11,7 @@ import {CreateCleanUpMap} from "../maps/CreateCleanUpMap";
 import withStyles from "@material-ui/core/styles/withStyles";
 import jwtDecode from "jwt-decode";
 import dayjs from "dayjs";
-import { cities, districts } from "../../../environments/Environments";
+
 
 
 const styles = {
@@ -66,13 +64,7 @@ const styles = {
     input: {
         fontFamily: "'Quicksand', sans-serif;",
     },
-    // menuSelect: {
-    //     maxHeight: 500,
-    //     maxWidth: 500
-    // },
-    // formControl: {
-    //     width: "260px",
-    // }
+
 };
 
 const today = new Date();
@@ -84,11 +76,10 @@ class SecondTab extends Component {
             location: {
                 lat: 0,
                 lng: 0,
-
-                startDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
-                startTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-                endDate: (today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()),
-                endTime: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+                startDate: today,
+                startTime: today,
+                endDate: today,
+                endTime: today,
                 creator: ""
 
             },
