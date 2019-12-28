@@ -184,15 +184,17 @@ export function signUserOut() {
         firebase.auth().signOut()
             .then(() => {
                 localStorage.clear();
-            })
-            .then(() => {
                 dispatch({type: OPEN_SIGN_OUT_SNACKBAR});
-                window.location.href = "/home";
             })
             .then(() => {
                 setTimeout(() => {
                     dispatch({type: CLOSE_SIGN_OUT_SNACKBAR})
-                }, 2000);
+                }, 3000);
+            })
+            .then(() => {
+                setTimeout(() => {
+                    window.location.href = "/home";
+                });
             })
             .catch((err) => {
                 console.log(err);

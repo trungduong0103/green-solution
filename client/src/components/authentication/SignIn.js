@@ -53,8 +53,7 @@ const styles = {
         }
     },
     progress: {
-        color: "rgb(99,151,68)",
-        position: "absolute",
+        marginTop: "5%"
     },
     icon: {
         color: "white"
@@ -87,6 +86,9 @@ const styles = {
     customError: {
         color: "red",
     },
+    tick: {
+        marginTop: "5%"
+    }
 
 };
 
@@ -159,7 +161,8 @@ class SignIn extends Component {
                                InputProps={
                                    {
                                        disableUnderline: true,
-                                       className: classes.input}}
+                                       className: classes.input
+                                   }}
                     />
                     <TextField
                         type="password"
@@ -175,24 +178,18 @@ class SignIn extends Component {
                         InputProps={
                             {
                                 disableUnderline: true,
-                                className: classes.input}}
+                                className: classes.input
+                            }}
                     />
                     <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
-                    {/*<br/>*/}
-                    <Button
+                    {loading ? (
+                        <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
+                    ) : doneSignIn ? (<CheckIcon fontSize="large" className={classes.tick} />) : (<Button
                         variant="contained"
                         onClick={this.loginWithEmail}
                         className={doneSignIn ? classes.successBtn : classes.registerBtn}
                         disabled={loading}
-                    >
-                        {loading ? (
-                            <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
-                        ) : ""}
-
-                        {doneSignIn ? (<CheckIcon/>) : "Đăng nhập"}
-                    </Button>
-
-
+                    > Đăng Nhập </Button>)}
                 </form>
             </div>
         );
