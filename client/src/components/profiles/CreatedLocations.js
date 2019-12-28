@@ -5,7 +5,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia"
 import withStyles from "@material-ui/core/styles/withStyles";
 import IconButton from "@material-ui/core/IconButton";
-//import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import ViewListIcon from "@material-ui/icons/ViewList"
 import AppsIcon from "@material-ui/icons/Apps"
 import locationAvatar from "../../assets/imgs/download.jpeg";
@@ -60,25 +59,22 @@ class CreatedLocations extends Component {
         this.setState({
             grid: 6
         })
-    }
+    };
 
     setList = () => {
         this.setState({
             grid: 12
         })
-    }
+    };
 
     render() {
         const { classes, locations, loaded,email,openUpdateSite,loading } = this.props;
-        const { grid } = this.state
-        console.log(grid)
-        console.log(locations)
+        const { grid } = this.state;
         return (
             <div>
                 {loaded ? 
                 
                 <CircularProgress variant="indeterminate" className={classes.locationProgress2} />
-                
                 :
                     <div>
                         <div style={{ width: '100%', textAlign: 'right' }}>
@@ -88,8 +84,6 @@ class CreatedLocations extends Component {
                             <IconButton onClick={this.setList}>
                                 <ViewListIcon />
                             </IconButton>
-
-
                         </div>
 
 

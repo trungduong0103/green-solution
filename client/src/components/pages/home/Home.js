@@ -9,16 +9,21 @@ import Snackbar from "@material-ui/core/Snackbar";
 import NavBar from "../../navigation/NavBar";
 import AboutUsContent from "../about/AboutUsContent";
 import Grid from "@material-ui/core/Grid";
-import {
-    filterLocationsByCity,
-    filterLocationsByDistrict,
-    filterLocationsByStartDate,
-    getAllLocations
-} from "../../../redux/actions/LocationActions";
 import {JoinCleanUpMap} from "../../locations/maps/JoinCleanUpMap";
 import CleanSitesList from "./CleanSitesList";
+import CleanSitesGrid from "./CleanSitesGrid"
 import {enlargeMarker, minimizeMarker} from "../../../redux/actions/UIActions";
+import IconButton from "@material-ui/core/IconButton";
+import ViewListIcon from "@material-ui/icons/ViewList"
+import AppsIcon from "@material-ui/icons/Apps"
+import {
+    filterLocationsByCity,
+    filterLocationsByDistrict, filterLocationsByKeyword,
+    filterLocationsByStartDate,
+    getAllLocations, resetFilters
+} from "../../../redux/actions/LocationActions";
 import Filter from "./Filter";
+import Search from "./Search";
 
 const styles = {
     homePageMapWrapper: {
@@ -44,15 +49,26 @@ const styles = {
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            grid: false,
+            list: true
+        }
     }
+
+    setGrid = () => {
+        this.setState({grid: true, list: false});
+    };
+
+    setList = () => {
+        this.setState({grid: false, list: true});
+    };
 
     componentDidMount() {
         this.props.getAllLocations();
     };
 
     handleEnlargeMarker = (index) => {
-        this.props.enlargeMarker(index);
+        this.props.enlargeMarker(index)
     };
 
     render() {
@@ -65,11 +81,13 @@ class Home extends Component {
             filterLocationsByCity,
             filterLocationsByDistrict,
             filterLocationsByStartDate,
+            filterLocationsByKeyword,
+            resetFilters,
             showInfoWindow,
             infoWindowIndex,
             openSignOutSnackbar
-        }
-            = this.props;
+        } = this.props;
+        const {list, grid} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -88,14 +106,33 @@ class Home extends Component {
                         filterByCity={filterLocationsByCity}
                         filterByDistrict={filterLocationsByDistrict}
                         filterByStartDate={filterLocationsByStartDate}/>
+                    <Search filterByKeyword={filterLocationsByKeyword} reset={resetFilters}/>
                 </Grid>
 
                 <Grid container className={classes.homePageMapWrapper}>
+
                     <Grid item sm={6} className={classes.cleanSiteWrapper}>
                         <CleanSitesList
+
+                    <Grid item sm={6}>
+                        <div style={{width: '100%', textAlign: 'right'}}>
+                            <IconButton onClick={() => this.setGrid()}>
+                                <AppsIcon/>
+                            </IconButton>
+                            <IconButton onClick={() => this.setList()}>
+                                <ViewListIcon/>
+                            </IconButton>
+                        </div>
+                        {grid && <CleanSitesGrid
                             enlarge={enlargeMarker}
                             minimize={minimizeMarker}
-                            locations={filteredLocations ? filteredLocations : locations}/>
+                            locations={filteredLocations ? filteredLocations : locations}
+                            grid={6}/>}
+                        {list && <CleanSitesList
+
+                            enlarge={enlargeMarker}
+                            minimize={minimizeMarker}
+                            locations={filteredLocations ? filteredLocations : locations}/>}
                     </Grid>
                     <Grid item sm={6} className={classes.mapWrapper}>
                         <JoinCleanUpMap locations={filteredLocations ? filteredLocations : locations}
@@ -122,14 +159,15 @@ const mapStateToProps = (state) => ({
     infoWindowIndex: state.UI.infoWindowIndex
 });
 
-let filterLocationByStartDate;
 const mapDispatchToProps = {
     getAllLocations,
     enlargeMarker,
     minimizeMarker,
     filterLocationsByCity,
     filterLocationsByDistrict,
-    filterLocationsByStartDate
+    filterLocationsByStartDate,
+    filterLocationsByKeyword,
+    resetFilters
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));

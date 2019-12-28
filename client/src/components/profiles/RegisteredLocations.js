@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia"
 import withStyles from "@material-ui/core/styles/withStyles";
 import IconButton from "@material-ui/core/IconButton";
-//import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
+
 import ViewListIcon from "@material-ui/icons/ViewList"
 import AppsIcon from "@material-ui/icons/Apps"
 import locationAvatar from "../../assets/imgs/download.jpeg";
@@ -35,35 +35,26 @@ const styles = {
 };
 
 class RegisteredLocations extends Component {
-
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             grid: 6
-        }
+        };
 
-        this.setGrid = this.setGrid.bind(this)
-        this.setList = this.setList.bind(this)
     }
 
     setGrid = () => {
-        this.setState({
-            grid: 6
-        })
-    }
+        this.setState({grid: 6})
+    };
 
     setList = () => {
-        this.setState({
-            grid: 12
-        })
-    }
+        this.setState({grid: 12})
+    };
 
     render() {
         const { classes, locations, loaded } = this.props;
-        const { grid } = this.state
-        console.log(grid)
-        console.log(locations)
+        const { grid } = this.state;
         return (
             <div>
                 {loaded ? 
@@ -79,8 +70,6 @@ class RegisteredLocations extends Component {
                             <IconButton onClick={this.setList}>
                                 <ViewListIcon />
                             </IconButton>
-
-
                         </div>
 
                         <Grid container spacing={5} className={classes.wrapper}>

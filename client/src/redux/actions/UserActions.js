@@ -2,14 +2,20 @@ import axios from "axios";
 import {
     RESET_UI_STATE,
     DEFAULT_URL,
-    FETCHING_USER, SET_AUTHENTICATED,
     SET_ERRORS,
-    SET_USER,
     SIGN_IN_COMPLETE,
     SIGN_UP_COMPLETE,
     SIGNING_IN,
     SIGNING_UP,
-    SIGNING_UP_SOCIAL_MEDIA, OPEN_SIGN_OUT_SNACKBAR, CLOSE_SIGN_OUT_SNACKBAR
+    SIGNING_UP_SOCIAL_MEDIA,
+    OPEN_SIGN_OUT_SNACKBAR,
+    CLOSE_SIGN_OUT_SNACKBAR,
+    UPLOAD_PROFILE_IMAGE,
+    FETCHING_USER,
+    GOT_USER,
+    UPDATING_USER,
+    DONE_UPDATE_USER,
+    CLOSE_DONE_UPDATE_USER_SNACKBAR
 } from "../types";
 
 import firebase from "../../environments/Firebase";
@@ -69,7 +75,6 @@ export function signInWithEmail(userData, history) {
             })
             .then(() => {
                 dispatch({type: SIGN_IN_COMPLETE});
-                dispatch({type: SET_AUTHENTICATED});
             })
             .then(() => {
                 setTimeout(() => {
@@ -81,23 +86,6 @@ export function signInWithEmail(userData, history) {
                     type: SET_ERRORS,
                     payload: err.response.data
                 });
-            });
-    };
-}
-
-export function getUserData() {
-    return function (dispatch) {
-        dispatch({type: FETCHING_USER});
-        axios
-            .get(`${DEFAULT_URL}/user`)
-            .then((res) => {
-                dispatch({
-                    type: SET_USER,
-                    payload: res.data
-                });
-            })
-            .catch((err) => {
-                console.log(err);
             });
     };
 }
@@ -120,7 +108,6 @@ export function signInWithFacebook(history) {
                 setSocialMediaToken()
                     .then(() => {
                         dispatch({type: SIGN_UP_COMPLETE});
-                        dispatch({type: SET_AUTHENTICATED});
                         setTimeout(() => {
                             history.push("/home")
                         }, 1500);
@@ -157,7 +144,6 @@ export function signInWithGoogle(history) {
                 setSocialMediaToken()
                     .then(() => {
                         dispatch({type: SIGN_UP_COMPLETE});
-                        dispatch({type: SET_AUTHENTICATED});
                         setTimeout(() => {
                             history.push("/home")
                         }, 1500);
@@ -198,15 +184,17 @@ export function signUserOut() {
         firebase.auth().signOut()
             .then(() => {
                 localStorage.clear();
-            })
-            .then(() => {
                 dispatch({type: OPEN_SIGN_OUT_SNACKBAR});
-                window.location.href = "/home";
             })
             .then(() => {
                 setTimeout(() => {
                     dispatch({type: CLOSE_SIGN_OUT_SNACKBAR})
-                }, 1000);
+                }, 3000);
+            })
+            .then(() => {
+                setTimeout(() => {
+                    window.location.href = "/home";
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -229,3 +217,74 @@ const setAuthorizationHeader = (token) => {
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 };
 
+export function updateUser(user) {
+    return function (dispatch) {
+        dispatch({type: UPDATING_USER});
+        axios
+            .put(`${DEFAULT_URL}/update_user_profile`, user)
+            .then(() => {
+                dispatch(getUser({email: user.email}))
+            })
+            .then(() => {
+                dispatch({type: DONE_UPDATE_USER});
+                setTimeout(() => {
+                    dispatch({type: CLOSE_DONE_UPDATE_USER_SNACKBAR});
+                }, 2000);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
+export function updateUserAvatar(updateObj) {
+    console.log(updateObj);
+    return function (dispatch) {
+        dispatch({type: UPDATING_USER});
+        axios
+            .put(`${DEFAULT_URL}/update_user_avatar`, updateObj)
+            .then(() => {
+                dispatch(getUser({email: updateObj.username}));
+            })
+            .then(() => {
+                dispatch({type: DONE_UPDATE_USER});
+                setTimeout(() => {
+                    dispatch({type: CLOSE_DONE_UPDATE_USER_SNACKBAR});
+                }, 2000);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+}
+
+export function getUser(email) {
+    return function (dispatch) {
+        dispatch({type: FETCHING_USER});
+        axios
+            .post(`${DEFAULT_URL}/get_user_profile`, email)
+            .then((res) => {
+                dispatch({type: GOT_USER, payload: res.data})
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
+export function uploadImage(image) {
+    // console.log(image);
+    // return function (dispatch) {
+    //     axios
+    //         .post("https://9anyxuu738.execute-api.ap-southeast-1.amazonaws.com/prod/UploadToS3", image)
+    //         .then((res) => {
+    //             dispatch({
+    //                 type: UPLOAD_PROFILE_IMAGE,
+    //                 payload: res.data.imageURL
+    //             })
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //         })
+    // }
+}

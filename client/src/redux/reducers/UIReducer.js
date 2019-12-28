@@ -19,7 +19,7 @@ import {
     OPEN_SIGN_OUT_SNACKBAR,
     CLOSE_SIGN_OUT_SNACKBAR,
     ENLARGE_MARKER,
-    MINIMIZE_MARKER
+    MINIMIZE_MARKER, UPDATING_USER, DONE_UPDATE_USER
 } from "../types";
 
 const initialState = {
@@ -89,18 +89,7 @@ export default function (state = initialState, action) {
                 infoWindowIndex: -1
             };
         case RESET_UI_STATE:
-            return {
-                ...state,
-                doneCreateLocation: false,
-                doneJoinLocation: false,
-                loadRegisteredLocations: false,
-                loadCreatedLocations: false,
-                loading: false,
-                doneSignUp: false,
-                doneSignIn: false,
-                openAuthenticationSnackbar: false,
-                errors: {}
-            };
+            return {...state, state: initialState};
         default:
             return state;
     }
