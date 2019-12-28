@@ -7,6 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {TextField} from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
+import Typography from "@material-ui/core/Typography";
 
 const styles = {
     textField: {
@@ -46,8 +47,7 @@ const styles = {
         }
     },
     progress: {
-        color: "rgb(99,151,68)",
-        position: "absolute",
+        marginTop:"5%"
     },
     icon: {
         color: "white"
@@ -77,7 +77,9 @@ const styles = {
     input: {
         fontFamily: "'Quicksand', sans-serif;",
     },
-
+    tick: {
+        marginTop: "5%"
+    }
 
 };
 
@@ -197,19 +199,15 @@ class SignUp extends Component {
                     >
                     </TextField>
 
-                    <Button
+
+                    {loading ? (
+                        <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
+                    ) : doneSignUp ? (<CheckIcon fontSize="large" className={classes.tick} />) : (<Button
                         variant="contained"
                         onClick={this.signUpWithEmail}
+                        className={classes.registerBtn}
                         disabled={loading}
-                        className={doneSignUp ? classes.successBtn : classes.registerBtn}
-
-                    >
-                        {loading ? (
-                                <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
-                            ) : ""}
-
-                        {doneSignUp ? (<CheckIcon/>) : "Đăng kí"}
-                    </Button>
+                    > Đăng Kí </Button>)}
                 </form>
             </div>
         );

@@ -6,8 +6,11 @@ import {cities, districts} from "../../../environments/Environments";
 import MenuItem from "@material-ui/core/MenuItem";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DateFnsUtils from "@date-io/date-fns";
+
 import {MuiPickersUtilsProvider, DatePicker} from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
+
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 const styles = {
     filterWrapper: {
@@ -58,7 +61,11 @@ class Filters extends Component {
         const {filterCity, filterDistrict, startDate} = this.state;
 
         return (
+
             <Grid item sm={5} className={classes.filterWrapper}>
+
+            <Grid className={classes.filterWrapper} item sm={6} style={{border: "1px solid black"}}>
+
                 <Grid spacing={2} container>
 
                     <Grid item sm={4}>
@@ -121,6 +128,10 @@ class Filters extends Component {
     }
 }
 
-Filters.propTypes = {};
+Filters.propTypes = {
+    filterByDistrict: PropTypes.func.isRequired,
+    filterByCity: PropTypes.func.isRequired,
+    filterByStartDate: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(Filters);

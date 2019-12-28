@@ -24,6 +24,10 @@ const styles = {
     },
     text: {
         fontFamily:"'Quicksand', sans-serif;",
+        "& a":{
+            color:'green',
+            textDecoration: 'none'
+        }
     },
     locationCard: {
         boxShadow: "0 5px 10px rgba(0,0,0,0.25)",
@@ -43,9 +47,7 @@ class CleanSitesList extends Component {
         return (
             <List className={classes.listWrapper}>
                 {locations.map((location, index) =>
-                    <div key={location.id}
-                         onMouseEnter={() => this.props.enlarge(index)}
-                         onMouseLeave={this.props.minimize}>
+                    <div key={location.id} onMouseEnter={() => this.props.enlarge(index)}>
                             <ListItem>
                                 <Card className={classes.locationCard}>
                                     <CardContent>
@@ -54,7 +56,9 @@ class CleanSitesList extends Component {
                                                 <img alt="location-avatar" src={avatar} className={classes.locationAvatar}/>
                                             </Grid>
                                             <Grid item sm={8}>
-                                                <Typography variant="h5" component="h5" className={classes.text}>{location.name}</Typography>
+                                                <Typography variant="h5" component="h5" className={classes.text}>
+                                                    <a href={`/cleanup-detail/${location.id}`} target="_blank" rel="noopener noreferrer">{location.name}</a>
+                                                </Typography>
                                                 <Typography variant="subtitle1" className={classes.text}>{location.address}</Typography>
                                                 <Typography variant="subtitle2" className={classes.text}>{location.description}</Typography>
                                             </Grid>

@@ -4,7 +4,9 @@ import {
     CREATING_LOCATION,
     DEFAULT_URL,
     DELETE_LOCATION,
-    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_DISTRICT, FILTER_LOCATION_BY_START_DATE,
+    FILTER_LOCATION_BY_CITY,
+    FILTER_LOCATION_BY_DISTRICT, FILTER_LOCATION_BY_KEYWORD,
+    FILTER_LOCATION_BY_START_DATE,
     GET_ALL_LOCATIONS,
     GET_LOCATION,
     GETTING_CREATED_LOCATIONS,
@@ -13,7 +15,7 @@ import {
     GOT_REGISTERED_LOCATIONS,
     JOINED_CLEAN_SITE,
     JOINING_CLEAN_SITE,
-    LOADING_FORM,
+    LOADING_FORM, RESET_FILTERS,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
     UPDATE_LOCATION
@@ -119,7 +121,7 @@ export function joinLocation(info) {
     return function (dispatch) {
         dispatch({type: JOINING_CLEAN_SITE});
         axios.post(`${DEFAULT_URL}/join_clean_site`, info)
-            .then((res) => {
+            .then(() => {
                 dispatch({type: JOINED_CLEAN_SITE})
             })
             .then(() => {
@@ -177,3 +179,14 @@ export function filterLocationsByStartDate(startDate) {
     };
 }
 
+export function filterLocationsByKeyword(keyword) {
+    return function (dispatch) {
+        dispatch({type: FILTER_LOCATION_BY_KEYWORD, payload: keyword});
+    };
+}
+
+export function resetFilters() {
+    return function (dispatch) {
+        dispatch({type: RESET_FILTERS});
+    }
+}

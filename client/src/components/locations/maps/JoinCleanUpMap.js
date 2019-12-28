@@ -65,8 +65,8 @@ export const JoinCleanUpMap = compose(
                     });
 
                 },
-                onInfoWindowClick: () => {
-
+                onInfoWindowClick: (id) => {
+                    window.open(`/cleanup-detail/${id}`,'mywindow')
                 }
             })
         }
@@ -112,8 +112,8 @@ export const JoinCleanUpMap = compose(
                 position={{lat: marker.lat, lng: marker.lng}}
             >
                 {(props.showInfoWindow && props.infoWindowIndex === index) &&
-                <InfoWindow onCloseClick={props.onToggleOpen} onClick={props.onInfoWindowClick}>
-                    <div onClick={props.onInfoWindowClick}>
+                <InfoWindow onCloseClick={props.onToggleOpen} onClick={()=>props.onInfoWindowClick(marker.id)}>
+                    <div onClick={()=>props.onInfoWindowClick(marker.id)} style={{cursor:'pointer'}}>
                         <Card style={{maxWidth: "400px"}}>
                             <CardMedia style={props.locationAvatar} component="img" src={locationAvatar}/>
                             <CardContent>

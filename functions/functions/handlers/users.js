@@ -1,10 +1,12 @@
 const {sendEmailToUser} = require("./topics");
+
 const {db} = require("../utils/admin");
 const firebase = require("../environments/config");
 const axios = require("axios");
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
 const {WELCOME_MESSAGE, WELCOME_SUBJECT} = require("../environments/emailTemplates");
 const {INVALID_CREDENTIALS, EMAIL_ALREADY_IN_USE, UNIDENTIFIED_ERRORS} = require("../environments/errorTemplates");
+const {AWS_SEND_EMAIL_API, AWS_RESIZE_IMAGE_API} = require("../environments/environments");
 
 //executes whenever a new user is created in Firebase Authentication
 exports.onUserCreateInAuth = (userRecord) => {
@@ -25,7 +27,7 @@ function deleteUserRecordInFirestore(record) {
 
 function sendGreetingEmail(email) {
     let recipient = {email: [email], subject: WELCOME_SUBJECT, content: WELCOME_MESSAGE};
-    axios.post(`https://gle8q1lhk3.execute-api.ap-southeast-1.amazonaws.com/prod/sendemail`, recipient)
+    axios.post(AWS_SEND_EMAIL_API, recipient)
         .then(() => {
             console.log("Sent email using AWS.");
             return null;
@@ -170,3 +172,20 @@ exports.updateUserProfile = (req, res) => {
             res.json(err);
         })
 };
+
+exports.updateUserAvatar = (req, res) => {
+    axios.post(AWS_RESIZE_IMAGE_API, req.body)
+        .then((res) => {
+            console.log(res.data.imageURL);
+            return db
+                .collection("users")
+                .doc(req.body.username)
+                .update({avatarUrl: res.data.imageURL});
+        })
+        .then(() => {
+            return res.json({message: "avatar update successful."});
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}

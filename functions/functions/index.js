@@ -5,7 +5,7 @@ const cors = require("cors");
 app.use(cors());
 
 const FBAuth = require("./utils/firebaseAuth");
-const {signUp, signIn, onUserCreateInAuth, onUserDeleteInAuth, getAuthenticatedUserProfile, updateUserProfile} = require("./handlers/users");
+const {signUp, signIn, onUserCreateInAuth, onUserDeleteInAuth, getAuthenticatedUserProfile, updateUserProfile, updateUserAvatar} = require("./handlers/users");
 const {createNewTopic, publishMessageToTopic, sendEmailToUser} = require("./handlers/topics");
 const {
     createNewLocation,
@@ -24,6 +24,7 @@ app.post("/sign_up", signUp);
 app.post("/sign_in", signIn);
 app.post("/get_user_profile", getAuthenticatedUserProfile);
 app.put("/update_user_profile", updateUserProfile);
+app.put("/update_user_avatar", updateUserAvatar);
 app.post("/get_registered_locations", getUserRegisteredLocations);
 app.post("/get_created_locations", getCreatedLocations);
 
