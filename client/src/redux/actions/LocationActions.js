@@ -1,11 +1,16 @@
 import {
+    CLEAR_ALL_FILTERS,
+    CLEAR_CITY_FILTER,
+    CLEAR_DISTRICT_FILTER_WITH_TIME_AND_CITY,
     CREATE_LOCATION_COMPLETE,
     CREATE_NEW_LOCATION,
     CREATING_LOCATION,
     DEFAULT_URL,
-    DELETE_LOCATION, DONE_UPLOAD_LOCATION_LOGO,
+    DELETE_LOCATION,
+    DONE_UPLOAD_LOCATION_LOGO,
     FILTER_LOCATION_BY_CITY,
-    FILTER_LOCATION_BY_DISTRICT,
+    FILTER_LOCATION_BY_CITY_AND_START_DATE,
+    FILTER_LOCATION_BY_DISTRICT, FILTER_LOCATION_BY_DISTRICT_WITH_CITY_AND_START_TIME,
     FILTER_LOCATION_BY_KEYWORD,
     FILTER_LOCATION_BY_START_DATE,
     GET_ALL_LOCATIONS,
@@ -16,10 +21,11 @@ import {
     GOT_REGISTERED_LOCATIONS,
     JOINED_CLEAN_SITE,
     JOINING_CLEAN_SITE,
-    LOADING_FORM, RESET_FILTERS,
+    LOADING_FORM,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
-    UPDATE_LOCATION, UPLOADING_LOCATION_LOGO
+    UPDATE_LOCATION,
+    UPLOADING_LOCATION_LOGO
 } from "../types";
 import axios from "axios";
 import {closeUpdateSiteForm} from "./FormActions";
@@ -174,21 +180,26 @@ export function uploadLocationLogo(updateObj, history, locationId) {
     }
 }
 
-export function filterLocationsByCity(city) {
+export function filterLocationsByCity(city, startDate) {
     return function (dispatch) {
-        dispatch({type: FILTER_LOCATION_BY_CITY, payload: city});
+        if (startDate) dispatch({type: FILTER_LOCATION_BY_CITY_AND_START_DATE, payload: {city, startDate}});
+        else dispatch({type: FILTER_LOCATION_BY_CITY, payload: city});
     };
 }
 
-export function filterLocationsByDistrict(district) {
+export function filterLocationsByDistrict(district, city, startDate) {
     return function (dispatch) {
-        dispatch({type: FILTER_LOCATION_BY_DISTRICT, payload: district});
+        if (city && startDate) dispatch({
+            type: FILTER_LOCATION_BY_DISTRICT_WITH_CITY_AND_START_TIME, payload: {district, city, startDate}
+        });
+        else dispatch({FILTER_LOCATION_BY_DISTRICT, payload: district});
     };
 }
 
-export function filterLocationsByStartDate(startDate) {
+export function filterLocationsByStartDate(startDate, city) {
     return function (dispatch) {
-        dispatch({type: FILTER_LOCATION_BY_START_DATE, payload: startDate});
+        if (city) dispatch({type: FILTER_LOCATION_BY_CITY_AND_START_DATE, payload: {startDate, city}});
+        else dispatch({type: FILTER_LOCATION_BY_START_DATE, payload: startDate});
     };
 }
 
@@ -198,8 +209,29 @@ export function filterLocationsByKeyword(keyword) {
     };
 }
 
-export function resetFilters() {
+export function clearCityFilter(time) {
     return function (dispatch) {
-        dispatch({type: RESET_FILTERS});
+        if (time) dispatch({type: FILTER_LOCATION_BY_START_DATE, time});
+        else dispatch({type: CLEAR_CITY_FILTER});
+    }
+}
+
+export function clearDistrictFilter(city, time) {
+    return function (dispatch) {
+        if (city && time) dispatch({type: CLEAR_DISTRICT_FILTER_WITH_TIME_AND_CITY, payload: {city, time}});
+        if (city) dispatch({type: FILTER_LOCATION_BY_CITY, payload: city})
+    }
+}
+
+export function clearStartDateFilter(city) {
+    return function (dispatch) {
+        if (city) dispatch({type: FILTER_LOCATION_BY_CITY, payload: city});
+        else dispatch({type: CLEAR_ALL_FILTERS});
+    }
+}
+
+export function clearAllFilters() {
+    return function (dispatch) {
+        dispatch({type: CLEAR_ALL_FILTERS});
     }
 }

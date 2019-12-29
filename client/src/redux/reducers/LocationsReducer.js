@@ -10,8 +10,13 @@ import {
     FILTER_LOCATION_BY_CITY,
     FILTER_LOCATION_BY_START_DATE,
     FILTER_LOCATION_BY_KEYWORD,
-    RESET_FILTERS,
-    UPLOADING_LOCATION_LOGO, DONE_UPLOAD_LOCATION_LOGO
+    UPLOADING_LOCATION_LOGO,
+    DONE_UPLOAD_LOCATION_LOGO,
+    CLEAR_CITY_FILTER,
+    CLEAR_ALL_FILTERS,
+    CLEAR_DISTRICT_FILTER_WITH_TIME_AND_CITY,
+    FILTER_LOCATION_BY_START_DATE_AND_CITY,
+    FILTER_LOCATION_BY_CITY_AND_START_DATE, FILTER_LOCATION_BY_DISTRICT_WITH_CITY_AND_START_TIME,
 } from "../types";
 
 const initialState = {
@@ -49,16 +54,37 @@ export default function (state = initialState, action) {
             return {...state, uploadingLogo: true};
         case DONE_UPLOAD_LOCATION_LOGO:
             return {...state, uploadingLogo: false, doneUploadLogo: true};
-        case FILTER_LOCATION_BY_DISTRICT:
+        case FILTER_LOCATION_BY_CITY:
             const filteredCities = state.locations.filter(location =>
-                location.address.split(",").includes(` ${action.payload}`)
+                location.city === action.payload
             );
             return {...state, filteredLocations: filteredCities};
-        case FILTER_LOCATION_BY_CITY:
-            const filteredDistricts = state.locations.filter(location =>
-                location.address.split(",").includes(` ${action.payload}`)
+        case FILTER_LOCATION_BY_CITY_AND_START_DATE:
+            const dateAndCity = [];
+            state.locations.forEach(location => {
+                const dateSplit = location.startDate.split("-").map(value => parseInt(value));
+                const timeObj = new Date(dateSplit[0], dateSplit[1], dateSplit[2]);
+                console.log(timeObj, action.payload.startDate);
+                if (timeObj >= action.payload.startDate && location.city === action.payload.city) dateAndCity.push(location);
+            });
+            return {...state, filteredLocations: dateAndCity};
+        case FILTER_LOCATION_BY_DISTRICT:
+            const filteredDistricts = state.filteredLocations.filter(location =>
+                location.district === action.payload
             );
             return {...state, filteredLocations: filteredDistricts};
+        case FILTER_LOCATION_BY_DISTRICT_WITH_CITY_AND_START_TIME:
+            const dateAndDistrict = [];
+            state.locations.forEach(location => {
+                console.log(action.payload);
+                const dateSplit = location.startDate.split("-").map(value => parseInt(value));
+                const timeObj = new Date(dateSplit[0], dateSplit[1], dateSplit[2]);
+                if (timeObj >= action.payload.startDate
+                    && location.city === action.payload.city
+                    && location.district === action.payload.district) dateAndDistrict.push(location);
+            });
+            console.log(dateAndDistrict);
+            return {...state, filteredLocations: dateAndDistrict};
         case FILTER_LOCATION_BY_START_DATE:
             const filteredStartDate = [];
             state.locations.forEach(location => {
@@ -72,7 +98,15 @@ export default function (state = initialState, action) {
                 location.name.toLowerCase() === action.payload.toLowerCase()
             );
             return {...state, filteredLocations: filteredKeyword};
-        case RESET_FILTERS:
+        case CLEAR_CITY_FILTER:
+            return {...state, filteredLocations: state.locations};
+        case CLEAR_DISTRICT_FILTER_WITH_TIME_AND_CITY:
+            console.log(action.payload);
+            // const timeAndCity = state.locations.filter(location =>
+            //
+            // )
+            return state;
+        case CLEAR_ALL_FILTERS:
             return {...state, filteredLocations: state.locations};
         default:
             return state;
