@@ -19,7 +19,7 @@ import {
     OPEN_SIGN_OUT_SNACKBAR,
     CLOSE_SIGN_OUT_SNACKBAR,
     ENLARGE_MARKER,
-    MINIMIZE_MARKER, UPDATING_USER, DONE_UPDATE_USER
+    MINIMIZE_MARKER
 } from "../types";
 
 const initialState = {

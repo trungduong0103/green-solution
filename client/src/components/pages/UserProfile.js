@@ -15,22 +15,21 @@ import {
 } from "../../redux/actions/LocationActions";
 import {
     updateUser,
-    getUser,
-    uploadImage
+    getUser
 } from "../../redux/actions/UserActions";
 //Material-UI
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
 import {CardActions, CircularProgress} from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
+import AppBar from '@material-ui/core/AppBar';
 import EditIcon from "@material-ui/icons/Edit";
 import {openUpdateSiteForm} from "../../redux/actions/FormActions";
-import Snackbar from "@material-ui/core/Snackbar";
 
 const styles = {
     wrapper: {
@@ -77,7 +76,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        const auth = localStorage.getItem("FBIdToken");
+        const auth = sessionStorage.getItem("FBIdToken");
         if (!auth) {
             window.location.href = "/authentication";
         }
@@ -212,8 +211,7 @@ const mapDispatchToProps = {
     deleteLocation,
     openUpdateSiteForm,
     updateUser,
-    getUser,
-    uploadImage
+    getUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));

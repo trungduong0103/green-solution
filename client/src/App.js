@@ -5,22 +5,19 @@ import store from "./redux/store";
 import jwtDecode from "jwt-decode";
 import Home from "./components/pages/home/Home";
 import JoinCleanUp from "./components/locations/JoinCleanUp"
-import CreateCleanUp from "./components/locations/create_clean_site/CreateCleanSite"
 import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/pages/UserProfile"
 import AboutUs from "./components/pages/about/AboutUs"
-import axios from "axios";
+import CreateCleanUp from "./components/locations/create_clean_site/CreateCleanUp";
 
 //session expired using token
-const token = localStorage.getItem("FBIdToken");
-if (token) {
-    const decodedIdToken = jwtDecode(token);
+if ("FBIdToken" in sessionStorage) {
+    const decodedIdToken = jwtDecode(sessionStorage.getItem("FBIdToken"));
     if (decodedIdToken.exp * 1000 < Date.now()) {
         alert("session timed out.");
         window.location.href = "/authentication";
-        localStorage.removeItem("FBIdToken");
-        delete axios.defaults.headers.common["Authorization"];
+        sessionStorage.clear();
     }
 }
 

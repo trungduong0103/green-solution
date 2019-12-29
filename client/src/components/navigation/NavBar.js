@@ -83,7 +83,7 @@ const styles = {
 class NavBar extends Component {
     render() {
         const {classes} = this.props;
-        const auth = localStorage.getItem("FBIdToken");
+        const auth = sessionStorage.getItem("FBIdToken");
         let email = "";
         if (auth) {
             const decodedIdToken = jwtDecode(auth);
