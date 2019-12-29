@@ -4,31 +4,28 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import Button from "@material-ui/core/Button";
-import {CreateCleanUpMap} from "../maps/CreateCleanUpMap";
-import withStyles from "@material-ui/core/styles/withStyles";
-import dayjs from "dayjs";
 import TextField from "@material-ui/core/TextField";
-import {cities, districts} from "../../../environments/Environments";
 import MenuItem from "@material-ui/core/MenuItem";
-import Snackbar from "@material-ui/core/Snackbar";
+import Snackbar from "@material-ui/core/Snackbar"
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
+import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import {CreateCleanUpMap} from "../maps/CreateCleanUpMap";
+import {cities, districts} from "../../../environments/Environments";
+import DateFnsUtils from "@date-io/date-fns";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 
 const styles = {
     wrapper: {
-        padding: "30px"
-    },
-    formWrapper: {
-        width: "50vw",
-        height: "550px",
-        padding: "0 10px"
+        padding: "1em 1em 1em 1em"
     },
     cardForm: {
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
     },
     title: {
+        marginTop: "5%",
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 25,
         textAlign: "center",
@@ -60,10 +57,20 @@ const styles = {
     input: {
         fontFamily: "'Quicksand', sans-serif;",
     },
+    progress: {
+        marginTop: "5%"
+    },
+    tick: {
+        marginTop: "5%"
+    }
 
 };
 
 const today = new Date();
+
+window.onbeforeunload = function() {
+    return "Data will be lost if you leave the page, are you sure?";
+};
 
 class SecondTab extends Component {
     constructor(props) {
@@ -93,9 +100,8 @@ class SecondTab extends Component {
     };
 
     handleStartDateChange = (date) => {
-        const startDate = dayjs(date).format("YYYY-MM-DD");
         const location = this.state.location;
-        location.startDate = startDate;
+        location.startDate = date;
         this.setState({location});
     };
 
@@ -106,9 +112,8 @@ class SecondTab extends Component {
     };
 
     handleEndDateChange = (date) => {
-        const endDate = dayjs(date).format("YYYY-MM-DD");
         const location = this.state.location;
-        location.endDate = endDate;
+        location.endDate = date;
         this.setState({location});
     };
 
@@ -134,13 +139,16 @@ class SecondTab extends Component {
         if (data.district === "") errors.district = "Không được để trống";
         if (data.city === "") errors.city = "Không được để trống";
         if (data.lat === 0 && data.lng === 0) {
-            errors.position = "Bạn chưa chọn địa điểm trên bản đồ";
-
+            this.setState({positionSnackbar: true});
+            setTimeout(() => {
+                this.setState({positionSnackbar: false})
+            }, 3000);
+            errors.position = "Chọn vị trí trên bản đồ.";
         }
 
         if (Object.keys(errors).length !== 0) {
             this.setState({errors: errors});
-            return false
+            return false;
         }
         return true;
     };
@@ -149,37 +157,21 @@ class SecondTab extends Component {
         const location = this.state.location;
         if (this.validateDataBeforeNextStep(location)) {
             this.props.nextStep(location, 1);
-        } else {
-            if (this.state.errors.position) {
-                this.setState({positionSnackbar: true});
-                setTimeout(() => {
-                    this.setState({positionSnackbar: false})
-                }, 3000);
-            }
-            else {
-                this.setState({errorSnackbar: true});
-                setTimeout(() => {
-                    this.setState({errorSnackbar: false})
-                }, 3000);
-            }
         }
     };
 
-
     render() {
-        console.log(this.state.location);
         const {location, errors, errorSnackbar, positionSnackbar} = this.state;
-        const {classes} = this.props;
+        const {classes, loading, doneCreateLocation} = this.props;
         return (
-            <Grid container spacing={0} className={classes.wrapper}>
-                <Grid item sm={5} className={classes.formWrapper}>
+            <Grid container spacing={4} className={classes.wrapper}>
+                <Grid item sm={5}>
                     <Card className={classes.cardForm}>
                         <CardContent>
-                            <Grid container>
+                            <Grid container style={{height: "60vh"}}>
                                 <Grid item sm={12}>
                                     <Typography className={classes.title}>Địa điểm và thời gian</Typography>
                                 </Grid>
-
                                 <Grid item sm={12}>
                                     <form>
                                         <Grid container>
@@ -199,35 +191,11 @@ class SecondTab extends Component {
                                                     fullWidth
                                                     InputLabelProps={{className: classes.input}}
                                                     InputProps={{className: classes.input}}
-
                                                 />
                                             </Grid>
                                         </Grid>
                                         <br/>
                                         <Grid container spacing={4}>
-                                            <Grid item sm={6}>
-                                                <TextField
-                                                    fullWidth
-                                                    className={classes.formControl}
-                                                    select
-                                                    name="district"
-                                                    label="Quận/Huyện"
-                                                    value={location.district}
-                                                    onChange={this.handleChange}
-                                                    helperText={errors.district}
-                                                    error={!!errors.district}
-                                                    InputLabelProps={{className: classes.input}}
-                                                    inputProps={{className: classes.input}}
-                                                >
-                                                    {districts.map(option => (
-                                                        <MenuItem key={option.id} value={option.name}
-                                                                  className={classes.input}>
-                                                            {option.name}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                            </Grid>
-
                                             <Grid item sm={6}>
                                                 <TextField
                                                     fullWidth
@@ -243,6 +211,29 @@ class SecondTab extends Component {
                                                     inputProps={{className: classes.input}}
                                                 >
                                                     {cities.map(option => (
+                                                        <MenuItem key={option.id} value={option.name}
+                                                                  className={classes.input}>
+                                                            {option.name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </TextField>
+                                            </Grid>
+                                            <Grid item sm={6}>
+                                                <TextField
+                                                    disabled={location.city === ""}
+                                                    fullWidth
+                                                    className={classes.formControl}
+                                                    select
+                                                    name="district"
+                                                    label="Quận/Huyện"
+                                                    value={location.district}
+                                                    onChange={this.handleChange}
+                                                    helperText={errors.district}
+                                                    error={!!errors.district}
+                                                    InputLabelProps={{className: classes.input}}
+                                                    inputProps={{className: classes.input}}
+                                                >
+                                                    {districts.map(option => (
                                                         <MenuItem key={option.id} value={option.name}
                                                                   className={classes.input}>
                                                             {option.name}
@@ -326,11 +317,16 @@ class SecondTab extends Component {
                                         <Grid container alignContent="center" alignItems="center">
                                             <Grid item sm={4}/>
                                             <Grid item sm={4}>
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={this.continueToNextStep}
-                                                    className={classes.customBtn}
-                                                >Tiếp tục</Button>
+                                                {loading ? (<CircularProgress size={32} className={classes.progress}/>) :
+                                                    doneCreateLocation ?
+                                                        <CheckIcon fontSize="large" className={classes.tick}/> : (
+                                                            <Button
+                                                                variant="contained"
+                                                                onClick={this.continueToNextStep}
+                                                                className={classes.customBtn}
+                                                            >Tiếp tục</Button>
+                                                        )
+                                                }
                                             </Grid>
                                             <Grid item sm={4}/>
                                         </Grid>

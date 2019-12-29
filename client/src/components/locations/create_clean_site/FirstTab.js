@@ -5,13 +5,9 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from '@material-ui/core/MenuItem';
+import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
-import jwtDecode from "jwt-decode";
-import dayjs from "dayjs";
-import {cities, districts} from "../../../environments/Environments";
-import Snackbar from "@material-ui/core/Snackbar";
 
 
 const styles = {

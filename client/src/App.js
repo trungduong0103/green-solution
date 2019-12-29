@@ -13,14 +13,12 @@ import CreateCleanUp from "./components/locations/create_clean_site/CreateCleanU
 import axios from "axios";
 
 //session expired using token
-const token = localStorage.getItem("FBIdToken");
-if (token) {
-    const decodedIdToken = jwtDecode(token);
+if ("FBIdToken" in sessionStorage) {
+    const decodedIdToken = jwtDecode(sessionStorage.getItem("FBIdToken"));
     if (decodedIdToken.exp * 1000 < Date.now()) {
         alert("session timed out.");
         window.location.href = "/authentication";
-        localStorage.removeItem("FBIdToken");
-        delete axios.defaults.headers.common["Authorization"];
+        sessionStorage.clear();
     }
 }
 
