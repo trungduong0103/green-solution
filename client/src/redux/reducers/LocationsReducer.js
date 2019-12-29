@@ -7,7 +7,11 @@ import {
     GOT_CREATED_LOCATIONS,
     GOT_REGISTERED_LOCATIONS,
     FILTER_LOCATION_BY_DISTRICT,
-    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_START_DATE, FILTER_LOCATION_BY_KEYWORD, RESET_FILTERS
+    FILTER_LOCATION_BY_CITY,
+    FILTER_LOCATION_BY_START_DATE,
+    FILTER_LOCATION_BY_KEYWORD,
+    RESET_FILTERS,
+    UPLOADING_LOCATION_LOGO, DONE_UPLOAD_LOCATION_LOGO
 } from "../types";
 
 const initialState = {
@@ -16,7 +20,10 @@ const initialState = {
     loading: false,
     registeredLocations: [],
     createdLocations: [],
-    filteredLocations: null
+    filteredLocations: null,
+    locationId: "",
+    uploadingLogo: false,
+    doneUploadLogo: false
 };
 
 export default function (state = initialState, action) {
@@ -30,7 +37,7 @@ export default function (state = initialState, action) {
         case GOT_REGISTERED_LOCATIONS:
             return {...state, registeredLocations: action.payload};
         case CREATE_NEW_LOCATION:
-            return {...state, locations: [...state.locations, action.payload]};
+            return {...state, locations: [...state.locations, action.payload], locationId: action.payload.id};
         case UPDATE_LOCATION:
             const index = state.createdLocations.findIndex((location) => location.id === action.payload.id);
             state.createdLocations[index] = action.payload;
@@ -38,6 +45,10 @@ export default function (state = initialState, action) {
         case DELETE_LOCATION:
             const updatedLocations = state.createdLocations.filter((location) => location.id !== action.payload);
             return {...state, createdLocations: updatedLocations};
+        case UPLOADING_LOCATION_LOGO:
+            return {...state, uploadingLogo: true};
+        case DONE_UPLOAD_LOCATION_LOGO:
+            return {...state, uploadingLogo: false, doneUploadLogo: true};
         case FILTER_LOCATION_BY_DISTRICT:
             const filteredCities = state.locations.filter(location =>
                 location.address.split(",").includes(` ${action.payload}`)

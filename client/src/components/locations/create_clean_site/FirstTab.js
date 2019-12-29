@@ -5,23 +5,19 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from '@material-ui/core/MenuItem';
+import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
-import jwtDecode from "jwt-decode";
-import dayjs from "dayjs";
-import { cities, districts } from "../../../environments/Environments";
 
 
 const styles = {
     wrapper: {
-        padding: "30px"
+        marginTop: "2%"
     },
-
     formWrapper: {
         width: "50vw",
         height: "auto",
-        padding: "0 10px"
+        padding: "0 1.5em"
     },
     cardForm: {
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
@@ -35,11 +31,6 @@ const styles = {
     formInput: {
         margin: 10,
         color: "white"
-    },
-    picker: {
-        margin: "10px 5px",
-        color: "white"
-
     },
     customBtn: {
         fontFamily: "'Quicksand', sans-serif;",
@@ -73,33 +64,19 @@ const styles = {
     }
 };
 
-const today = new Date();
-
 class FirstTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
             location: {
-                street: "",
-                district: "",
-                city: "",
-
-                name:"",
-                address: "",
-                creator: ""
-
+                name: "",
+                organization: "",
+                description: "",
+                agenda: ""
             },
+            errorSnackbar: false,
             errors: {}
         }
-    }
-
-    componentDidMount() {
-        const auth = localStorage.getItem("FBIdToken");
-        if (!auth) window.location.href = "/authentication";
-        const decodedToken = jwtDecode(auth);
-        const location = this.state.location;
-        location.creator = decodedToken.email;
-        this.setState({location});
     }
 
     handleChange = (event) => {
@@ -108,64 +85,12 @@ class FirstTab extends Component {
         this.setState({location});
     };
 
-    handleStartDateChange = (date) => {
-        const startDate = dayjs(date).format("YYYY-MM-DD");
-        console.log(startDate);
-        const location = this.state.location;
-        location.startDate = startDate;
-        this.setState({
-            location,
-
-        });
-    };
-
-    handleStartTimeChange = (time) => {
-        const startTime = dayjs(time).format("HH:mm:ss");
-        const location = this.state.location;
-        location.startTime = startTime;
-        this.setState({
-            location,
-            formatStartTime: time
-        })
-    };
-
-    handleEndDateChange = (date) => {
-        const endDate = dayjs(date).format("YYYY-MM-DD");
-        const location = this.state.location;
-        location.endDate = endDate;
-        this.setState({location});
-    };
-
-    handleEndTimeChange = (time) => {
-        const endTime = dayjs(time).format("HH:mm:ss");
-        const location = this.state.location;
-        location.endTime = endTime;
-        this.setState({
-            location,
-            formatEndTime: time
-        })
-    };
-
-    //Get marker position from user's search
-    getLocation = (childData) => {
-        const location  = this.state.location;
-        location.lat = childData.lat;
-        location.lng = childData.lng;
-        this.setState({location});
-    };
-
     validateDataBeforeNextStep(data) {
         const errors = {};
         if (data.name === "") errors.name = "Không được để trống";
         if (data.description === "") errors.description = "Không được để trống";
-        if (data.street === "") errors.street = "Vui lòng nhập địa chỉ";
-        if (data.district === "") errors.district = "Vui lòng chọn quận";
-        if (data.city === "") errors.city = "Vui lòng chọn thành phố";
+        if (data.organization === "") errors.organization = "Không được để trống";
         if (data.agenda === "") errors.agenda = "Không được để trống";
-
-        // if (data.startDate > data.endDate) errors.date = "Ngày kết thúc không hợp lệ";
-        // if (data.startTime > data.endTime) errors.time = "Thời gian kết thúc không hợp lệ";
-        // if (data.lat === 0 && data.lng === 0) errors.position = "Bạn chưa chọn địa điểm trên bản đồ";
 
         if (Object.keys(errors).length !== 0) {
             this.setState({errors: errors});
@@ -174,65 +99,28 @@ class FirstTab extends Component {
         return true;
     };
 
+    openErrorSnackbar = () => {
+        this.setState({errorSnackbar: true});
+        setTimeout(() => {
+            this.setState({errorSnackbar: false});
+        }, 3000);
+    };
+
     continueToNextStep = () => {
         const location = this.state.location;
         if (this.validateDataBeforeNextStep(location)) {
-            this.props.nextStep();
-            // this.resetLocationAndErrors();
+            this.props.nextStep(location, 0);
+        } else {
+            this.openErrorSnackbar();
         }
-        else {
-            alert("Kiểm tra lại đơn đăng ký của bạn")
-        }
-    };
-
-    resetLocationAndErrors = () => {
-        const defaultLocation = {
-            lat: 0,
-            lng: 0,
-            address: "",
-            name: "",
-            agenda: "",
-            description: "",
-            startDate: today,
-            endDate: today,
-            startTime: today,
-            endTime: today
-        };
-        this.setState({location: defaultLocation, errors: {}});
-    };
-
-    printSth = (e) => {
-        e.preventDefault();
-        const data = {
-            lat: this.state.location.lat,
-            lng: this.state.location.lng,
-            name: this.state.location.name,
-            description: this.state.location.description,
-            agenda: this.state.location.agenda,
-            street: this.state.location.street,
-            district: this.state.location.district,
-            city: this.state.location.city,
-            address: this.state.location.street+","+this.state.location.district+","+this.state.location.city,
-            startDate: this.state.location.startDate,
-            endDate: this.state.location.endDate,
-            startTime: this.state.location.startTime,
-            endTime: this.state.location.endTime,
-        };
-        if (this.validateDataBeforeNextStep(data)) {
-            console.log(data)
-        }
-        else {
-            console.log("False")
-        }
-
     };
 
     render() {
-        const {location, errors} = this.state;
+        const {location, errors, errorSnackbar} = this.state;
         const {classes} = this.props;
         return (
             <Grid container spacing={0} className={classes.wrapper}>
-                <Grid item sm={3}></Grid>
+                <Grid item sm={3}/>
                 <Grid item sm={6} className={classes.formWrapper}>
                     <Card className={classes.cardForm}>
                         <CardContent>
@@ -260,67 +148,19 @@ class FirstTab extends Component {
 
                                         <TextField
                                             className={classes.formInput}
-                                            name="street"
+                                            name="organization"
                                             required
-                                            multiline
-                                            rows="1"
                                             type="text"
-                                            label="Địa chỉ sự kiện"
-                                            helperText={errors.street}
-                                            error={!!errors.street}
+                                            label="Tên tổ chức"
                                             onChange={this.handleChange}
-                                            value={location.street}
+                                            value={location.organization}
+                                            helperText={errors.organization}
+                                            error={!!errors.organization}
                                             fullWidth
                                             InputLabelProps={{className: classes.input}}
                                             InputProps={{className: classes.input}}
-
                                         />
-
-                                        <Grid container spacing={4}>
-                                            <Grid item sm={6}>
-                                                <TextField
-                                                    className={classes.formControl}
-                                                    select
-                                                    name="district"
-                                                    label="Quận/Huyện"
-                                                    value={location.district}
-                                                    onChange={this.handleChange}
-                                                    helperText={errors.district}
-                                                    error={!!errors.district}
-                                                    InputLabelProps={{className: classes.input}}
-                                                    inputProps={{className: classes.input}}
-                                                >
-                                                    {districts.map(option => (
-                                                        <MenuItem key={option.id} value={option.name} className={classes.input}>
-                                                            {option.name}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                            </Grid>
-
-                                            <Grid item sm={6}>
-                                                <TextField
-                                                    fullWidth
-                                                    className={classes.formControl}
-                                                    select
-                                                    name="city"
-                                                    label="Tỉnh thành"
-                                                    value={location.city}
-                                                    onChange={this.handleChange}
-                                                    helperText={errors.city}
-                                                    error={!!errors.city}
-                                                    InputLabelProps={{className: classes.input}}
-                                                    inputProps={{className: classes.input}}
-                                                >
-                                                    {cities.map(option => (
-                                                        <MenuItem key={option.id} value={option.name} className={classes.input}>
-                                                            {option.name}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                            </Grid>
-                                        </Grid>
-
+                                        <br/>
                                         <TextField
                                             variant="outlined"
                                             className={classes.formInput}
@@ -362,41 +202,26 @@ class FirstTab extends Component {
                                             onClick={this.continueToNextStep}
                                             className={classes.customBtn}
                                         >Tiếp tục</Button>
-
-                                        {/*{doneCreateLocation ?*/}
-                                        {/*    (*/}
-                                        {/*        <CheckIcon className={classes.tickIcon}/>*/}
-                                        {/*    ) :*/}
-                                        {/*    (loading ? (*/}
-                                        {/*                <CircularProgress variant="indeterminate" size={40}/>*/}
-                                        {/*            ) :*/}
-                                        {/*            (*/}
-                                        {/*                <Button*/}
-                                        {/*                    variant="contained"*/}
-                                        {/*                    onClick={this.printSth}*/}
-                                        {/*                    disabled={loading}*/}
-                                        {/*                    className={classes.customBtn}*/}
-                                        {/*                >Xác Nhận*/}
-                                        {/*                </Button>*/}
-                                        {/*            )*/}
-                                        {/*    )*/}
-                                        {/*}*/}
                                     </form>
                                 </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
                 </Grid>
+                <Grid item sm={3}/>
 
-                <Grid item sm={3}></Grid>
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                          open={errorSnackbar}
+                          message={"Vui lòng điền đủ thông tin."}/>
+
             </Grid>
 
         );
     }
 }
 
-// FirstTab.propTypes = {
-//     continue: PropTypes.func.isRequired
-// };
+FirstTab.propTypes = {
+    nextStep: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(FirstTab);

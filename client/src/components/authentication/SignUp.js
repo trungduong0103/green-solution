@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-
 import {connect} from "react-redux";
-import {signInWithFacebook, signInWithGoogle, signUp} from "../../redux/actions/UserActions";
 import Button from "@material-ui/core/Button";
-import withStyles from "@material-ui/core/styles/withStyles";
-import {TextField} from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import TextField from "@material-ui/core/TextField";
+import {signInWithFacebook, signInWithGoogle, signUp} from "../../redux/actions/UserActions";
 import CheckIcon from "@material-ui/icons/Check";
-import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = {
     textField: {

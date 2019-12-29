@@ -4,43 +4,36 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import Snackbar from "@material-ui/core/Snackbar"
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
+import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {CreateCleanUpMap} from "../maps/CreateCleanUpMap";
+import {cities, districts} from "../../../environments/Environments";
+import DateFnsUtils from "@date-io/date-fns";
 import withStyles from "@material-ui/core/styles/withStyles";
-import jwtDecode from "jwt-decode";
-import dayjs from "dayjs";
-
 
 
 const styles = {
     wrapper: {
-        padding: "30px"
-    },
-
-    formWrapper: {
-        width: "50vw",
-        height: "550px",
-        padding: "0 10px"
+        padding: "1em 1em 1em 1em"
     },
     cardForm: {
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
     },
     title: {
+        marginTop: "5%",
         fontFamily: "'Quicksand', sans-serif;",
         fontSize: 25,
         textAlign: "center",
         textTransform: "uppercase"
     },
-    formInput: {
-        margin: 10,
-        color: "white"
-    },
     picker: {
         margin: "10px 5px",
         color: "white"
-
     },
     customBtn: {
         fontFamily: "'Quicksand', sans-serif;",
@@ -64,10 +57,20 @@ const styles = {
     input: {
         fontFamily: "'Quicksand', sans-serif;",
     },
+    progress: {
+        marginTop: "5%"
+    },
+    tick: {
+        marginTop: "5%"
+    }
 
 };
 
 const today = new Date();
+
+window.onbeforeunload = function() {
+    return "Data will be lost if you leave the page, are you sure?";
+};
 
 class SecondTab extends Component {
     constructor(props) {
@@ -76,24 +79,18 @@ class SecondTab extends Component {
             location: {
                 lat: 0,
                 lng: 0,
+                street: "",
+                district: "",
+                city: "",
                 startDate: today,
                 startTime: today,
                 endDate: today,
                 endTime: today,
-                creator: ""
-
             },
+            errorSnackbar: false,
+            positionSnackbar: false,
             errors: {}
         }
-    }
-
-    componentDidMount() {
-        const auth = localStorage.getItem("FBIdToken");
-        if (!auth) window.location.href = "/authentication";
-        const decodedToken = jwtDecode(auth);
-        const location = this.state.location;
-        location.creator = decodedToken.email;
-        this.setState({location});
     }
 
     handleChange = (event) => {
@@ -103,46 +100,32 @@ class SecondTab extends Component {
     };
 
     handleStartDateChange = (date) => {
-        const startDate = dayjs(date).format("YYYY-MM-DD");
-        console.log(startDate);
         const location = this.state.location;
-        location.startDate = startDate;
-        this.setState({
-            location,
-
-        });
+        location.startDate = date;
+        this.setState({location});
     };
 
     handleStartTimeChange = (time) => {
-        const startTime = dayjs(time).format("HH:mm:ss");
         const location = this.state.location;
-        location.startTime = startTime;
-        this.setState({
-            location,
-            formatStartTime: time
-        })
+        location.startTime = time;
+        this.setState({location});
     };
 
     handleEndDateChange = (date) => {
-        const endDate = dayjs(date).format("YYYY-MM-DD");
         const location = this.state.location;
-        location.endDate = endDate;
+        location.endDate = date;
         this.setState({location});
     };
 
     handleEndTimeChange = (time) => {
-        const endTime = dayjs(time).format("HH:mm:ss");
         const location = this.state.location;
-        location.endTime = endTime;
-        this.setState({
-            location,
-            formatEndTime: time
-        })
+        location.endTime = time;
+        this.setState({location});
     };
 
     //Get marker position from user's search
     getLocation = (childData) => {
-        const location  = this.state.location;
+        const location = this.state.location;
         location.lat = childData.lat;
         location.lng = childData.lng;
         this.setState({location});
@@ -152,87 +135,114 @@ class SecondTab extends Component {
         const errors = {};
         if (data.startDate > data.endDate) errors.date = "Ngày kết thúc không hợp lệ";
         if (data.startTime > data.endTime) errors.time = "Thời gian kết thúc không hợp lệ";
-        if (data.lat === 0 && data.lng === 0) errors.position = "Bạn chưa chọn địa điểm trên bản đồ";
+        if (data.street === "") errors.street = "Không được để trống";
+        if (data.district === "") errors.district = "Không được để trống";
+        if (data.city === "") errors.city = "Không được để trống";
+        if (data.lat === 0 && data.lng === 0) {
+            this.setState({positionSnackbar: true});
+            setTimeout(() => {
+                this.setState({positionSnackbar: false})
+            }, 3000);
+            errors.position = "Chọn vị trí trên bản đồ.";
+        }
 
         if (Object.keys(errors).length !== 0) {
             this.setState({errors: errors});
-            return false
+            return false;
         }
         return true;
-    };
-
-    backToPreviousStep = () => {
-        this.props.prevStep()
     };
 
     continueToNextStep = () => {
         const location = this.state.location;
         if (this.validateDataBeforeNextStep(location)) {
-            this.props.nextStep();
-            // this.resetLocationAndErrors();
+            this.props.nextStep(location, 1);
         }
-        else {
-            alert("Kiểm tra lại đơn đăng ký của bạn")
-        }
-    };
-
-    resetLocationAndErrors = () => {
-        const defaultLocation = {
-            lat: 0,
-            lng: 0,
-            address: "",
-            name: "",
-            agenda: "",
-            description: "",
-            startDate: today,
-            endDate: today,
-            startTime: today,
-            endTime: today
-        };
-        this.setState({location: defaultLocation, errors: {}});
-    };
-
-    printSth = (e) => {
-        e.preventDefault();
-        const data = {
-            lat: this.state.location.lat,
-            lng: this.state.location.lng,
-            name: this.state.location.name,
-            description: this.state.location.description,
-            agenda: this.state.location.agenda,
-            street: this.state.location.street,
-            district: this.state.location.district,
-            city: this.state.location.city,
-            address: this.state.location.street+","+this.state.location.district+","+this.state.location.city,
-            startDate: this.state.location.startDate,
-            endDate: this.state.location.endDate,
-            startTime: this.state.location.startTime,
-            endTime: this.state.location.endTime,
-        };
-        if (this.validateDataBeforeNextStep(data)) {
-            console.log(data)
-        }
-        else {
-            console.log("False")
-        }
-
     };
 
     render() {
-        const {location, errors} = this.state;
-        const {classes} = this.props;
+        const {location, errors, errorSnackbar, positionSnackbar} = this.state;
+        const {classes, loading, doneCreateLocation} = this.props;
         return (
-            <Grid container spacing={0} className={classes.wrapper}>
-                <Grid item sm={5} className={classes.formWrapper}>
+            <Grid container spacing={4} className={classes.wrapper}>
+                <Grid item sm={5}>
                     <Card className={classes.cardForm}>
                         <CardContent>
-                            <Grid container>
+                            <Grid container style={{height: "60vh"}}>
                                 <Grid item sm={12}>
                                     <Typography className={classes.title}>Địa điểm và thời gian</Typography>
                                 </Grid>
-
                                 <Grid item sm={12}>
                                     <form>
+                                        <Grid container>
+                                            <Grid item sm={12}>
+                                                <TextField
+                                                    className={classes.formInput}
+                                                    name="street"
+                                                    required
+                                                    multiline
+                                                    rows="1"
+                                                    type="text"
+                                                    label="Địa chỉ sự kiện"
+                                                    helperText={errors.street}
+                                                    error={!!errors.street}
+                                                    onChange={this.handleChange}
+                                                    value={location.street}
+                                                    fullWidth
+                                                    InputLabelProps={{className: classes.input}}
+                                                    InputProps={{className: classes.input}}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        <br/>
+                                        <Grid container spacing={4}>
+                                            <Grid item sm={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    className={classes.formControl}
+                                                    select
+                                                    name="city"
+                                                    label="Tỉnh thành"
+                                                    value={location.city}
+                                                    onChange={this.handleChange}
+                                                    helperText={errors.city}
+                                                    error={!!errors.city}
+                                                    InputLabelProps={{className: classes.input}}
+                                                    inputProps={{className: classes.input}}
+                                                >
+                                                    {cities.map(option => (
+                                                        <MenuItem key={option.id} value={option.name}
+                                                                  className={classes.input}>
+                                                            {option.name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </TextField>
+                                            </Grid>
+                                            <Grid item sm={6}>
+                                                <TextField
+                                                    disabled={location.city === ""}
+                                                    fullWidth
+                                                    className={classes.formControl}
+                                                    select
+                                                    name="district"
+                                                    label="Quận/Huyện"
+                                                    value={location.district}
+                                                    onChange={this.handleChange}
+                                                    helperText={errors.district}
+                                                    error={!!errors.district}
+                                                    InputLabelProps={{className: classes.input}}
+                                                    inputProps={{className: classes.input}}
+                                                >
+                                                    {districts.map(option => (
+                                                        <MenuItem key={option.id} value={option.name}
+                                                                  className={classes.input}>
+                                                            {option.name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </TextField>
+                                            </Grid>
+                                        </Grid>
+                                        <br/>
                                         <Grid container spacing={4}>
                                             <Grid item xs={6}>
                                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -250,7 +260,6 @@ class SecondTab extends Component {
                                                         fullWidth
                                                     />
                                                 </MuiPickersUtilsProvider>
-
                                             </Grid>
 
                                             <Grid item xs={6}>
@@ -259,7 +268,7 @@ class SecondTab extends Component {
                                                         className={classes.picker}
                                                         label="Thời gian bắt đầu sự kiện"
                                                         // value={location.startTime}
-                                                        value={this.state.formatStartTime}
+                                                        value={location.startTime}
                                                         onChange={this.handleStartTimeChange}
                                                         InputLabelProps={{className: classes.input}}
                                                         InputProps={{className: classes.input}}
@@ -268,7 +277,7 @@ class SecondTab extends Component {
                                                 </MuiPickersUtilsProvider>
                                             </Grid>
                                         </Grid>
-
+                                        <br/>
                                         <Grid container spacing={4}>
                                             <Grid item xs={6}>
                                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -295,8 +304,7 @@ class SecondTab extends Component {
                                                     <KeyboardTimePicker
                                                         className={classes.picker}
                                                         label="Thời gian kết thúc sự kiện"
-                                                        // value={location.endTime}
-                                                        value={this.state.formatEndTime}
+                                                        value={location.endTime}
                                                         onChange={this.handleEndTimeChange}
                                                         InputLabelProps={{className: classes.input}}
                                                         InputProps={{className: classes.input}}
@@ -307,23 +315,20 @@ class SecondTab extends Component {
                                         </Grid>
 
                                         <Grid container alignContent="center" alignItems="center">
-                                            <Grid item sm={2}></Grid>
+                                            <Grid item sm={4}/>
                                             <Grid item sm={4}>
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={this.backToPreviousStep}
-                                                    className={classes.customBtn}
-                                                >Trở lại</Button>
+                                                {loading ? (<CircularProgress size={32} className={classes.progress}/>) :
+                                                    doneCreateLocation ?
+                                                        <CheckIcon fontSize="large" className={classes.tick}/> : (
+                                                            <Button
+                                                                variant="contained"
+                                                                onClick={this.continueToNextStep}
+                                                                className={classes.customBtn}
+                                                            >Tiếp tục</Button>
+                                                        )
+                                                }
                                             </Grid>
-
-                                            <Grid item sm={4}>
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={this.continueToNextStep}
-                                                    className={classes.customBtn}
-                                                >Tiếp tục</Button>
-                                            </Grid>
-                                            <Grid item sm={2}></Grid>
+                                            <Grid item sm={4}/>
                                         </Grid>
                                     </form>
                                 </Grid>
@@ -336,14 +341,21 @@ class SecondTab extends Component {
                     <CreateCleanUpMap handleCall={this.getLocation}/>
                 </Grid>
 
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                          open={errorSnackbar}
+                          message={"Vui lòng điền đủ thông tin."}/>
+
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                          open={positionSnackbar}
+                          message={"Vui lòng chọn vị trí ở bản đồ"}/>
             </Grid>
 
         );
     }
 }
 
-// SecondTab.propTypes = {
-//     continue: PropTypes.func.isRequired
-// };
+SecondTab.propTypes = {
+    nextStep: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(SecondTab);
