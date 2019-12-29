@@ -68,10 +68,6 @@ const styles = {
 
 const today = new Date();
 
-window.onbeforeunload = function() {
-    return "Data will be lost if you leave the page, are you sure?";
-};
-
 class SecondTab extends Component {
     constructor(props) {
         super(props);
@@ -91,6 +87,12 @@ class SecondTab extends Component {
             positionSnackbar: false,
             errors: {}
         }
+    }
+
+    componentDidMount() {
+        window.onbeforeunload = function () {
+            return "Data will be lost if you leave the page, are you sure?";
+        };
     }
 
     handleChange = (event) => {
@@ -317,7 +319,8 @@ class SecondTab extends Component {
                                         <Grid container alignContent="center" alignItems="center">
                                             <Grid item sm={4}/>
                                             <Grid item sm={4}>
-                                                {loading ? (<CircularProgress size={32} className={classes.progress}/>) :
+                                                {loading ? (
+                                                        <CircularProgress size={32} className={classes.progress}/>) :
                                                     doneCreateLocation ?
                                                         <CheckIcon fontSize="large" className={classes.tick}/> : (
                                                             <Button

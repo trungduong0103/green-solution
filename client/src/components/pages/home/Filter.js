@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button"
-import {cities, districts} from "../../../environments/Environments";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import {MuiPickersUtilsProvider, DatePicker} from "@material-ui/pickers";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DateFnsUtils from "@date-io/date-fns";
-import {MuiPickersUtilsProvider, DatePicker} from "@material-ui/pickers";
-import TextField from "@material-ui/core/TextField";
+import {cities, districts} from "../../../environments/Environments";
 
 const styles = {
     filterWrapper: {
@@ -121,6 +120,10 @@ class Filters extends Component {
     }
 }
 
-Filters.propTypes = {};
+Filters.propTypes = {
+    filterByCity: PropTypes.func.isRequired,
+    filterByDistrict: PropTypes.func.isRequired,
+    filterByStartDate: PropTypes.func.isRequired,
+};
 
 export default withStyles(styles)(Filters);

@@ -35,15 +35,19 @@ class ThirdTab extends Component {
         }
     }
 
+    componentDidMount() {
+        window.onbeforeunload = function () {
+            return "Data will be lost if you leave the page, are you sure?";
+        };
+    }
+
     getUploadParams = ({meta}) => {
         const url = `https://httpbin.org/post`;
         return {url, meta: {fileUrl: `${url}/${encodeURIComponent(meta.name)}`}}
     };
 
     handleChangeStatus = ({meta}, status) => {
-        window.onbeforeunload = function () {
-            return "Data will be lost if you leave the page, are you sure?";
-        };
+
     };
 
     handleSubmit = (files, allFiles) => {
