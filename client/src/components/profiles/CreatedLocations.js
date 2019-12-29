@@ -12,7 +12,6 @@ import Typography from "@material-ui/core/Typography"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import { CircularProgress } from "@material-ui/core";
-import Collapse from "@material-ui/core/Collapse";
 import UpdateCleanSiteForm from "../locations/forms/UpdateCleanSiteForm";
 
 const styles = {
@@ -68,7 +67,7 @@ class CreatedLocations extends Component {
     };
 
     render() {
-        const { classes, locations, loaded,email,openUpdateSite,loading } = this.props;
+        const { classes, locations, loaded,email,openUpdateSite} = this.props;
         const { grid } = this.state;
         return (
             <div>
@@ -124,28 +123,8 @@ class CreatedLocations extends Component {
                     </div>
                 }
                 <br />
-                <Grid container>
-                    <Grid item sm={3} />
-                    <Grid item sm={6}>
-                        {loading ? (
-                            <CircularProgress
-                                variant="indeterminate"
-                                size={50}
-                                className={classes.progress} />
-                        ) : (
-                                <Collapse in={openUpdateSite}>
-                                    <Card>
-                                        <CardContent>
-                                            <Typography className={classes.formTitle} align="center">Cập nhật thông tin sự kiện</Typography>
-                                            <br />
-                                            <UpdateCleanSiteForm email={email} />
-                                        </CardContent>
-                                    </Card>
-                                </Collapse>
-                            )}
-                    </Grid>
-                    <Grid item sm={3} />
-                </Grid>
+                                            <UpdateCleanSiteForm email={email} open={openUpdateSite} />
+
 
 
             </div>

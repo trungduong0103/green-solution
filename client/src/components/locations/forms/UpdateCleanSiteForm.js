@@ -11,6 +11,11 @@ import {closeUpdateSiteForm} from "../../../redux/actions/FormActions";
 import {updateLocation} from "../../../redux/actions/LocationActions";
 import dayjs from "dayjs";
 
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+
 const styles = {
     customBtn: {
         fontFamily: "'Quicksand', sans-serif;",
@@ -33,6 +38,10 @@ const styles = {
     },
     input: {
         fontFamily: "'Quicksand', sans-serif;",
+    },
+    dialog:{
+        width:'100%',
+        height:'100%'
     }
 };
 
@@ -100,6 +109,7 @@ class UpdateCleanSiteForm extends Component {
     handleUpdateLocation = (event) => {
         event.preventDefault();
         this.props.updateLocation(this.state.location, this.props.email);
+        this.handleCloseForm();
     };
 
     handleCloseForm = () => {
@@ -113,12 +123,17 @@ class UpdateCleanSiteForm extends Component {
 
     render() {
         const {errors, location} = this.state;
-        const {classes} = this.props;
+        const {classes,open} = this.props;
         return (
+            <Dialog open={open} onClose={() => this.handleCloseForm()}>
             <div>
                 <form>
-                    <Grid container spacing={5}>
-                        <Grid item sm={6}>
+                
+                <DialogTitle>Cập nhật thông tin sự kiện</DialogTitle>
+                <DialogContent className={classes.dialog}>
+                
+                <Grid container spacing={5}>
+                        <Grid item sm={6} >
                             <TextField
                                 name="name"
                                 required
@@ -184,28 +199,29 @@ class UpdateCleanSiteForm extends Component {
                             </MuiPickersUtilsProvider>
 
                         </Grid>
+
                     </Grid>
-                    <br/>
-                    <Grid container>
-                        <Grid item sm={3}/>
-                        <Grid item sm={3}>
+                   
+                    </DialogContent>
+
+                    <DialogActions>
                             <Button variant="contained"
                                     className={classes.customBtn}
                                     onClick={this.handleUpdateLocation}>
                                 Lưu
                             </Button>
-                        </Grid>
-                        <Grid item sm={3}>
+                        
                             <Button variant="contained"
                                     className={classes.customBtn}
                                     onClick={this.handleCloseForm}>
                                 Huỷ
                             </Button>
-                        </Grid>
-                        <Grid item sm={3}/>
-                    </Grid>
+                        
+                    </DialogActions>
+            
                 </form>
             </div>
+            </Dialog>
         );
     }
 }
