@@ -10,7 +10,6 @@ import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/pages/UserProfile"
 import AboutUs from "./components/pages/about/AboutUs"
 import CreateCleanUp from "./components/locations/create_clean_site/CreateCleanUp";
-import axios from "axios";
 
 //session expired using token
 if ("FBIdToken" in sessionStorage) {

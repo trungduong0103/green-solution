@@ -147,7 +147,7 @@ class UpdateProfile extends Component {
 
     render() {
         const {classes, open, handleOpenUpdateProfile, email} = this.props;
-        const {firstName, lastName, phoneNumber, image} = this.state;
+        const {firstName, lastName, phoneNumber} = this.state;
         console.log(this.state);
         return (
             <Dialog open={open} onClose={() => handleOpenUpdateProfile()}>
