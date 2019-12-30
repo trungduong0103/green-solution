@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import {connect} from "react-redux";
 import Grid from "@material-ui/core/Grid";
-
-import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Fab from "@material-ui/core/Fab";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from '@material-ui/icons/Clear';
-import Fab from "@material-ui/core/Fab";
+import withStyles from "@material-ui/core/styles/withStyles";
+import {filterByKeyword, resetFilters} from "../../../redux/actions/LocationFilterActions";
 
 const styles = {};
 
@@ -29,7 +29,7 @@ class Search extends Component {
 
     resetKeyword = () => {
         this.setState({keyword: ""});
-        this.props.reset();
+        this.props.resetFilters();
     };
 
     render() {
@@ -68,8 +68,9 @@ class Search extends Component {
     }
 }
 
-Search.propTypes = {
-    filterByKeyword: PropTypes.func.isRequired
+const mapDispatchToProps = {
+    filterByKeyword,
+    resetFilters
 };
 
-export default withStyles(styles)(Search);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Search));

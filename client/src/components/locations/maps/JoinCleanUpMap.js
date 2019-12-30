@@ -31,13 +31,10 @@ export const JoinCleanUpMap = compose(
 
     lifecycle({
         componentDidMount() {
-            console.log(this.props);
             const refs = {};
             this.setState({
                 bounds: null,
-                center: {
-                    lat: 10.812675, lng: 106.656734
-                },
+                center: {lat: 10.812675, lng: 106.656734},
 
                 onSearchBoxMounted: ref => {
                     refs.searchBox = ref;
