@@ -3,20 +3,18 @@ import {connect} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import Chip from "@material-ui/core/Chip";
 import {MuiPickersUtilsProvider, DatePicker} from "@material-ui/pickers";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DateFnsUtils from "@date-io/date-fns";
-import {cities, districts} from "../../../environments/Environments";
-import Chip from "@material-ui/core/Chip";
+import {VIETNAMESE_CITIES, HCMC_DISTRICTS} from "../../../environments/Environments";
 import {
-    clearAllFilters,
-    clearCityFilter,
-    clearDistrictFilter,
-    clearStartDateFilter,
-    filterLocationsByCity,
-    filterLocationsByDistrict,
-    filterLocationsByStartDate
-} from "../../../redux/actions/LocationActions";
+    filterByCity,
+    filterByDistrict,
+    filterByStartDate,
+    resetFilters
+} from "../../../redux/actions/LocationFilterActions";
+
 
 const styles = {
     filterWrapper: {
@@ -33,6 +31,7 @@ const styles = {
 };
 
 const today = new Date();
+today.setHours(0, 0, 0, 0);
 
 class Filters extends Component {
     constructor(props) {
@@ -42,72 +41,61 @@ class Filters extends Component {
             filterDistrict: "",
             labelWidth: 0,
             startDate: today,
+            filters: {
+                startDate: today,
+                cities: [],
+                districts: []
+            }
         }
     }
 
     handleCityChange = (event) => {
-        const {startDate} = this.state;
-        startDate.setHours(0, 0, 0, 0);
-        const filterCity = event.target.value;
-        this.setState({filterCity: filterCity});
-        if (startDate !== today) this.props.filterLocationsByCity(filterCity, startDate);
-        else this.props.filterLocationsByCity(filterCity);
+        const cityToFilter = event.target.value;
+        const {filters} = this.state;
+        const {cities, startDate} = this.state.filters;
+        if (!cities.includes(cityToFilter)) filters.cities.push(cityToFilter);
+        this.setState({filterCity: cityToFilter, startDate});
+        if (startDate !== today) return this.props.filterByCity(cities, startDate);
+        return this.props.filterByCity(cities);
     };
 
     handleDistrictChange = (event) => {
-        const {startDate, filterCity} = this.state;
-        startDate.setHours(0, 0, 0, 0);
-        const filterDistrict = event.target.value;
-        this.setState({filterDistrict: filterDistrict});
-        if (startDate !== today && filterCity) this.props.filterLocationsByDistrict(filterDistrict, filterCity, startDate);
-        else if (filterCity) this.props.filterLocationsByDistrict(filterDistrict, filterCity);
-        else this.props.filterLocationsByDistrict(filterDistrict);
+        const districtToFilter = event.target.value;
+        const {filters} = this.state;
+        const {cities, startDate, districts} = this.state.filters;
+        if (!districts.includes(districtToFilter)) filters.districts.push(districtToFilter);
+        this.setState({filterDistrict: districtToFilter, filters});
+        if (startDate !== today && cities.length !== 0) return this.props.filterByDistrict(districts, cities, startDate);
+        if (startDate !== today && cities.length === 0) return this.props.filterByDistrict(districts, cities);
+        return this.props.filterByDistrict(districts);
     };
 
     handleDateChange = (date) => {
-        const {filterCity} = this.state;
-        this.setState({startDate: date});
-        const dateToFilter = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        dateToFilter.setHours(0, 0, 0, 0);
-        console.log(dateToFilter);
-        if (filterCity) {
-            this.props.filterLocationsByStartDate(dateToFilter, filterCity)
-        }
-        else this.props.filterLocationsByStartDate(dateToFilter);
+        const {filters} = this.state;
+        const {cities, districts} = this.state.filters;
+        const dateToFilter = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+        filters.startDate = dateToFilter;
+        this.setState({startDate: dateToFilter, filters});
+        if (cities.length !== 0 && districts.length === 0) return this.props.filterByStartDate(dateToFilter, cities);
+        if (districts.length !== 0) return this.props.filterByStartDate(dateToFilter, cities, districts);
+        return this.props.filterByStartDate(dateToFilter);
     };
 
-    handleDeleteDistrictFilter = () => {
-        const {filterCity, startDate} = this.state;
-        this.setState({filterDistrict: ""});
-        if (filterCity && startDate !== today) this.props.clearDistrictFilter(filterCity, startDate);
-        else this.props.clearDistrictFilter(this.state.filterCity);
-    };
-
-    handleDeleteCityFilter = () => {
-        const {startDate} = this.state;
-        this.setState({filterCity: ""});
-        if (startDate !== today) this.props.clearCityFilter(startDate);
-        else this.props.clearCityFilter();
-    };
-
-    handleDeleteStartDateFilter = () => {
-        const {filterCity} = this.state;
-        this.setState({startDate: today});
-        if (filterCity) this.props.clearStartDateFilter(filterCity);
-        else this.props.clearStartDateFilter();
-    };
-
-    handleClearAllFilters = () => {
-        this.setState({filterCity: "", filterDistrict: "", startDate: today});
-        this.props.clearAllFilters();
+    handleResetFilters = () => {
+        const {filters} = this.state;
+        filters.cities = [];
+        filters.districts = [];
+        filters.startDate = today;
+        this.setState({filters});
+        this.props.resetFilters();
     };
 
     render() {
         const {classes} = this.props;
-        const {filterCity, filterDistrict, startDate} = this.state;
-
+        const {filterCity, filterDistrict, startDate, filters} = this.state;
+        const {cities, districts} = this.state.filters;
         return (
-            <Grid item sm={5} className={classes.filterWrapper}>
+            <Grid item sm={6} className={classes.filterWrapper}>
                 <Grid spacing={2} container>
                     <Grid item sm={4}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -136,7 +124,7 @@ class Filters extends Component {
                             value={filterCity}
                             onChange={this.handleCityChange}
                         >
-                            {cities.map(option =>
+                            {VIETNAMESE_CITIES.map(option =>
                                 <MenuItem key={option.id} value={option.name}
                                           className={classes.menuSelect}>{option.name}</MenuItem>
                             )}
@@ -147,7 +135,7 @@ class Filters extends Component {
                         <TextField
                             fullWidth
                             select
-                            disabled={filterCity === ""}
+                            disabled={!filters.cities.includes("Hồ Chí Minh")}
                             variant="outlined"
                             InputLabelProps={{className: classes.input}}
                             inputProps={{className: classes.input}}
@@ -155,7 +143,7 @@ class Filters extends Component {
                             value={filterDistrict}
                             onChange={this.handleDistrictChange}
                         >
-                            {districts.map(option =>
+                            {HCMC_DISTRICTS.map(option =>
                                 <MenuItem key={option.id} value={option.name}
                                           className={classes.menuSelect}>{option.name}</MenuItem>
                             )}
@@ -164,18 +152,22 @@ class Filters extends Component {
                 </Grid>
                 <br/>
                 <Grid container>
-                    {startDate !== today ? (
-                        <Chip label={`${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()}`}
-                              variant="outlined" onDelete={this.handleDeleteStartDateFilter}/>
+                    {filters.startDate !== today ? (
+                        <Chip label={`${filters.startDate.getFullYear()}-${filters.startDate.getMonth()+1}-${filters.startDate.getDate()}`}
+                              variant="outlined"/>
                     ) : ""}
-                    {filterCity ? (
-                        <Chip label={filterCity} variant="outlined" onDelete={this.handleDeleteCityFilter}/>
+                    {cities ? (
+                        cities.map((city, index) =>
+                            <Chip key={index} label={city} variant="outlined"/>
+                        )
                     ) : ""}
-                    {filterDistrict ? (
-                        <Chip label={filterDistrict} variant="outlined" onDelete={this.handleDeleteDistrictFilter}/>
+                    {districts ? (
+                        districts.map((district, index) =>
+                            <Chip key={index} label={district} variant="outlined"/>
+                        )
                     ) : ""}
-                    {filterCity || startDate !== today ? (
-                        <Chip label="Clear all" variant="outlined" onDelete={this.handleClearAllFilters}/>
+                    {filters || startDate !== today ? (
+                        <Chip label="Clear all" variant="outlined" onClick={this.handleResetFilters}/>
                     ) : ""}
                 </Grid>
             </Grid>
@@ -184,13 +176,10 @@ class Filters extends Component {
 }
 
 const mapDispatchToProps = {
-    filterLocationsByCity,
-    filterLocationsByDistrict,
-    filterLocationsByStartDate,
-    clearCityFilter,
-    clearDistrictFilter,
-    clearStartDateFilter,
-    clearAllFilters
+    filterByStartDate,
+    filterByCity,
+    filterByDistrict,
+    resetFilters
 };
 
 export default connect(null, mapDispatchToProps)(withStyles(styles)(Filters));
