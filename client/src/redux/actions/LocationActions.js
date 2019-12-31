@@ -3,11 +3,8 @@ import {
     CREATE_NEW_LOCATION,
     CREATING_LOCATION,
     DEFAULT_URL,
-    DELETE_LOCATION, DONE_UPLOAD_LOCATION_LOGO,
-    FILTER_LOCATION_BY_CITY,
-    FILTER_LOCATION_BY_DISTRICT,
-    FILTER_LOCATION_BY_KEYWORD,
-    FILTER_LOCATION_BY_START_DATE,
+    DELETE_LOCATION,
+    DONE_UPLOAD_LOCATION_LOGO,
     GET_ALL_LOCATIONS,
     GET_LOCATION,
     GETTING_CREATED_LOCATIONS,
@@ -16,10 +13,11 @@ import {
     GOT_REGISTERED_LOCATIONS,
     JOINED_CLEAN_SITE,
     JOINING_CLEAN_SITE,
-    LOADING_FORM, RESET_FILTERS,
+    LOADING_FORM,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
-    UPDATE_LOCATION, UPLOADING_LOCATION_LOGO
+    UPDATE_LOCATION,
+    UPLOADING_LOCATION_LOGO
 } from "../types";
 import axios from "axios";
 import {closeUpdateSiteForm} from "./FormActions";
@@ -171,35 +169,5 @@ export function uploadLocationLogo(updateObj, history, locationId) {
             .catch((err) => {
                 console.log(err);
             })
-    }
-}
-
-export function filterLocationsByCity(city) {
-    return function (dispatch) {
-        dispatch({type: FILTER_LOCATION_BY_CITY, payload: city});
-    };
-}
-
-export function filterLocationsByDistrict(district) {
-    return function (dispatch) {
-        dispatch({type: FILTER_LOCATION_BY_DISTRICT, payload: district});
-    };
-}
-
-export function filterLocationsByStartDate(startDate) {
-    return function (dispatch) {
-        dispatch({type: FILTER_LOCATION_BY_START_DATE, payload: startDate});
-    };
-}
-
-export function filterLocationsByKeyword(keyword) {
-    return function (dispatch) {
-        dispatch({type: FILTER_LOCATION_BY_KEYWORD, payload: keyword});
-    };
-}
-
-export function resetFilters() {
-    return function (dispatch) {
-        dispatch({type: RESET_FILTERS});
     }
 }

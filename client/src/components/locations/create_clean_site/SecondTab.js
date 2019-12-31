@@ -12,7 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
 import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {CreateCleanUpMap} from "../maps/CreateCleanUpMap";
-import {cities, districts} from "../../../environments/Environments";
+import {VIETNAMESE_CITIES, HCMC_DISTRICTS} from "../../../environments/Environments";
 import DateFnsUtils from "@date-io/date-fns";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -212,7 +212,7 @@ class SecondTab extends Component {
                                                     InputLabelProps={{className: classes.input}}
                                                     inputProps={{className: classes.input}}
                                                 >
-                                                    {cities.map(option => (
+                                                    {VIETNAMESE_CITIES.map(option => (
                                                         <MenuItem key={option.id} value={option.name}
                                                                   className={classes.input}>
                                                             {option.name}
@@ -235,7 +235,7 @@ class SecondTab extends Component {
                                                     InputLabelProps={{className: classes.input}}
                                                     inputProps={{className: classes.input}}
                                                 >
-                                                    {districts.map(option => (
+                                                    {HCMC_DISTRICTS.map(option => (
                                                         <MenuItem key={option.id} value={option.name}
                                                                   className={classes.input}>
                                                             {option.name}
