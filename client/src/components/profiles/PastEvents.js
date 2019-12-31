@@ -9,13 +9,7 @@ import ViewListIcon from "@material-ui/icons/ViewList"
 import AppsIcon from "@material-ui/icons/Apps"
 import locationAvatar from "../../assets/imgs/download.jpeg";
 import Typography from "@material-ui/core/Typography"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
 import { CircularProgress } from "@material-ui/core";
-import UpdateCleanSiteForm from "../locations/forms/UpdateCleanSiteForm";
-import EventResultForm from "./EventResultForm"
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
-import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = {
     title: {
@@ -44,18 +38,13 @@ const styles = {
 
 };
 
-const locations = [
-    { name: 'abc', description: 'sdfs', id: 'jdkfhskdjf' }, { name: 'def', description: 'sdjfhns', id: 'dksjfh' }
-]
-
-class CreatedLocations extends Component {
+class PastEvents extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            grid: 6,
-            openResultForm: false
+            grid: 6
         }
 
         this.setGrid = this.setGrid.bind(this)
@@ -74,23 +63,15 @@ class CreatedLocations extends Component {
         })
     };
 
-    handleOpenResultForm = () => {
-        this.setState({
-            openResultForm: !this.state.openResultForm
-        })
-    }
-
     render() {
-        const { classes,
-            // locations,
-            loaded, email, openUpdateSite } = this.props;
-        const { grid, openResultForm } = this.state;
+        const { classes, locations, loaded } = this.props;
+        const { grid } = this.state;
         return (
             <div>
-                {loaded ?
-
-                    <CircularProgress variant="indeterminate" className={classes.locationProgress2} />
-                    :
+                {loaded ? 
+                
+                <CircularProgress variant="indeterminate" className={classes.locationProgress2} />
+                :
                     <div>
                         <div style={{ width: '100%', textAlign: 'right' }}>
                             <IconButton onClick={this.setGrid}>
@@ -107,42 +88,28 @@ class CreatedLocations extends Component {
                             {locations.map(location => (
                                 <Grid item xs={grid} key={location.id} className={classes.gridForm}>
                                     <Card>
-                                        {grid === 6 && <CardMedia component="img"
+                                        {grid===6 && <CardMedia component="img"
                                             height="140"
                                             image={locationAvatar}
                                             alt="Site's Image"
                                             title="Site's Image"
                                         />}
                                         <CardContent>
-
                                             <Typography gutterBottom variant="h5" component="h2">{location.name}</Typography>
                                             <Typography variant="body2" component="p">
                                                 {location.description}
                                             </Typography>
-                                            <div style={{ width: '100%', textAlign: 'right' }}>
-                                                <Tooltip title="Xóa sự kiện">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.props.delete(location.id)}>
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Cập nhật thông tin">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.props.edit(location.id)}>
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Đánh dấu đã hoàn thành">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.handleOpenResultForm()}>
-                                                        <CheckCircleOutlineIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </div>
-
+                                            {/* <IconButton
+                                                className={classes.button}
+                                                onClick={() => this.props.delete(location.id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                className={classes.button}
+                                                onClick={() => this.props.edit(location.id)}>
+                                                <EditIcon />
+                                            </IconButton> */}
+                                        
                                         </CardContent>
                                     </Card>
                                 </Grid>
@@ -153,9 +120,6 @@ class CreatedLocations extends Component {
                     </div>
                 }
                 <br />
-                <UpdateCleanSiteForm email={email} open={openUpdateSite} />
-                <EventResultForm open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
-
 
 
             </div>
@@ -163,4 +127,4 @@ class CreatedLocations extends Component {
     }
 }
 
-export default withStyles(styles)(CreatedLocations)
+export default withStyles(styles)(PastEvents)
