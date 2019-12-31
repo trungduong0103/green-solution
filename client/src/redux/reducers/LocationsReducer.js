@@ -6,8 +6,14 @@ import {
     DELETE_LOCATION,
     GOT_CREATED_LOCATIONS,
     GOT_REGISTERED_LOCATIONS,
-    FILTER_LOCATION_BY_DISTRICT,
-    FILTER_LOCATION_BY_CITY, FILTER_LOCATION_BY_START_DATE, FILTER_LOCATION_BY_KEYWORD, RESET_FILTERS
+    UPLOADING_LOCATION_LOGO,
+    DONE_UPLOAD_LOCATION_LOGO,
+    FILTER_LOCATIONS_BY_KEYWORD,
+    RESET_FILTERS,
+    FILTER_BY_START_DATE,
+    FILTER_BY_START_DATE_WITH_CITY,
+    FILTER_BY_START_DATE_WITH_CITY_AND_DISTRICT,
+    FILTER_BY_CITY, FILTER_BY_CITY_WITH_START_DATE, FILTER_BY_DISTRICT, FILTER_BY_DISTRICT_WITH_CITY
 } from "../types";
 
 const initialState = {
@@ -16,8 +22,13 @@ const initialState = {
     loading: false,
     registeredLocations: [],
     createdLocations: [],
-    filteredLocations: null
+    filteredLocations: null,
+    locationId: "",
+    uploadingLogo: false,
+    doneUploadLogo: false,
 };
+
+const today = new Date();
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -30,7 +41,7 @@ export default function (state = initialState, action) {
         case GOT_REGISTERED_LOCATIONS:
             return {...state, registeredLocations: action.payload};
         case CREATE_NEW_LOCATION:
-            return {...state, locations: [...state.locations, action.payload]};
+            return {...state, locations: [...state.locations, action.payload], locationId: action.payload.id};
         case UPDATE_LOCATION:
             const index = state.createdLocations.findIndex((location) => location.id === action.payload.id);
             state.createdLocations[index] = action.payload;
@@ -38,29 +49,65 @@ export default function (state = initialState, action) {
         case DELETE_LOCATION:
             const updatedLocations = state.createdLocations.filter((location) => location.id !== action.payload);
             return {...state, createdLocations: updatedLocations};
-        case FILTER_LOCATION_BY_DISTRICT:
-            const filteredCities = state.locations.filter(location =>
-                location.address.split(",").includes(` ${action.payload}`)
+        case UPLOADING_LOCATION_LOGO:
+            return {...state, uploadingLogo: true};
+        case DONE_UPLOAD_LOCATION_LOGO:
+            return {...state, uploadingLogo: false, doneUploadLogo: true};
+        case FILTER_LOCATIONS_BY_KEYWORD:
+            const filteredLocationsByKeyword = state.locations.filter(location =>
+                location.name === action.payload || location.organization === action.payload
             );
-            return {...state, filteredLocations: filteredCities};
-        case FILTER_LOCATION_BY_CITY:
-            const filteredDistricts = state.locations.filter(location =>
-                location.address.split(",").includes(` ${action.payload}`)
-            );
-            return {...state, filteredLocations: filteredDistricts};
-        case FILTER_LOCATION_BY_START_DATE:
-            const filteredStartDate = [];
+            return {...state, filteredLocations: filteredLocationsByKeyword};
+        case FILTER_BY_START_DATE:
+            const filteredLocationsByStartDate = [];
             state.locations.forEach(location => {
-                const dateSplit = location.startDate.split("-").map(value => parseInt(value));
-                const timeObj = new Date(dateSplit[0], dateSplit[1], dateSplit[2]);
-                if (timeObj >= action.payload) filteredStartDate.push(location);
+                const date = location.startDate.split("-").map(value => parseInt(value));
+                const locationDate = new Date(date[0], date[1], date[2]);
+                if (locationDate >= action.payload.startDate) filteredLocationsByStartDate.push(location);
             });
-            return {...state, filteredLocations: filteredStartDate};
-        case FILTER_LOCATION_BY_KEYWORD:
-            const filteredKeyword = state.locations.filter(location =>
-                location.name.toLowerCase() === action.payload.toLowerCase()
+            return {...state, filteredLocations: filteredLocationsByStartDate};
+        case FILTER_BY_START_DATE_WITH_CITY:
+            const filteredLocationsByStartDate1 = [];
+            state.locations.forEach(location => {
+                const date = location.startDate.split("-").map(value => parseInt(value));
+                const locationDate = new Date(date[0], date[1], date[2]);
+                if (locationDate >= action.payload.startDate && action.payload.cities.includes(location.city))
+                    filteredLocationsByStartDate1.push(location);
+            });
+            return {...state, filteredLocations: filteredLocationsByStartDate1};
+        case FILTER_BY_START_DATE_WITH_CITY_AND_DISTRICT:
+            const filteredLocationsByStartDate2 = [];
+            state.locations.forEach(location => {
+                const date = location.startDate.split("-").map(value => parseInt(value));
+                const locationDate = new Date(date[0], date[1], date[2]);
+                if (locationDate >= action.payload.startDate
+                    && action.payload.cities.includes(location.city)
+                    && action.payload.districts.includes(location.district))
+                    filteredLocationsByStartDate2.push(location);
+            });
+            return {...state, filteredLocations: filteredLocationsByStartDate2};
+        case FILTER_BY_CITY:
+            const filteredLocationsByCity
+            = state.locations.filter(location => action.payload.cities.includes(location.city));
+            return {...state, filteredLocations: filteredLocationsByCity};
+        case FILTER_BY_CITY_WITH_START_DATE:
+            const filterLocationsByCity1 = [];
+            state.locations.forEach(location => {
+                const date = location.startDate.split("-").map(value => parseInt(value));
+                const locationDate = new Date(date[0], date[1], date[2]);
+                if (locationDate >= action.payload.startDate
+                    && action.payload.cities.includes(location.city))
+                    filterLocationsByCity1.push(location);
+            });
+            return {...state, filteredLocations: filterLocationsByCity1};
+        case FILTER_BY_DISTRICT:
+            const filteredLocationsByDistrict = state.locations.filter(location => action.payload.districts.includes(location.district));
+            return {...state, filteredLocations: filteredLocationsByDistrict};
+        case FILTER_BY_DISTRICT_WITH_CITY:
+            const filteredLocationsByDistrict1 = state.locations.filter(location =>
+                action.payload.cities.includes(location.city) && action.payload.districts.includes(location.district)
             );
-            return {...state, filteredLocations: filteredKeyword};
+            return {...state, filteredLocations: filteredLocationsByDistrict1};
         case RESET_FILTERS:
             return {...state, filteredLocations: state.locations};
         default:

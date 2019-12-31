@@ -2,6 +2,8 @@ const {sendEmailToUser} = require("./topics");
 
 const {db} = require("../utils/admin");
 const {admin} = require("../utils/admin");
+const axios = require("axios");
+const {AWS_UPLOAD_IMAGE_API} = require("../environments/environments");
 
 //CREATE NEW CLEAN SITE
 exports.createNewLocation = (req, res) => {
@@ -221,3 +223,20 @@ function sendConfirmationToUserEmail(email, locationId) {
             console.log(err);
         });
 }
+
+//Add location logo
+exports.uploadLocationLogo = (req, res) => {
+    axios.post(AWS_UPLOAD_IMAGE_API, req.body)
+        .then((res) => {
+            return db
+                .collection("cleanUpLocations")
+                .doc(req.body.event)
+                .update({logoUrl: res.data.imageURL});
+        })
+        .then(() => {
+            return res.json({message: "logo upload successful."});
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+};

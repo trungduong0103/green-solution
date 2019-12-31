@@ -41,7 +41,7 @@ class Authentication extends Component {
     }
 
     componentDidMount() {
-        const auth = localStorage.getItem("FBIdToken");
+        const auth = sessionStorage.getItem("FBIdToken");
         if (auth) {
             window.location.href = "/home";
         } else {

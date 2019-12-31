@@ -10,7 +10,6 @@ import {
     SIGNING_UP_SOCIAL_MEDIA,
     OPEN_SIGN_OUT_SNACKBAR,
     CLOSE_SIGN_OUT_SNACKBAR,
-    UPLOAD_PROFILE_IMAGE,
     FETCHING_USER,
     GOT_USER,
     UPDATING_USER,
@@ -183,7 +182,7 @@ export function signUserOut() {
     return function (dispatch) {
         firebase.auth().signOut()
             .then(() => {
-                localStorage.clear();
+                sessionStorage.clear();
                 dispatch({type: OPEN_SIGN_OUT_SNACKBAR});
             })
             .then(() => {
@@ -203,16 +202,13 @@ export function signUserOut() {
 }
 
 const setSocialMediaToken = () => {
-    console.log("called to get token.");
     return firebase.auth().currentUser.getIdToken(true)
-        .then((idToken) => {
-            setAuthorizationHeader(idToken);
-        })
+        .then((idToken) => {setAuthorizationHeader(idToken);});
 };
 
 const setAuthorizationHeader = (token) => {
     const FBIdToken = `Bearer ${token}`;
-    localStorage.setItem('FBIdToken', FBIdToken);
+    sessionStorage.setItem('FBIdToken', FBIdToken);
     //set Authorization header with token "Bearer ..."
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 };
@@ -238,7 +234,6 @@ export function updateUser(user) {
 }
 
 export function updateUserAvatar(updateObj) {
-    console.log(updateObj);
     return function (dispatch) {
         dispatch({type: UPDATING_USER});
         axios
@@ -270,21 +265,4 @@ export function getUser(email) {
                 console.log(error)
             })
     }
-}
-
-export function uploadImage(image) {
-    // console.log(image);
-    // return function (dispatch) {
-    //     axios
-    //         .post("https://9anyxuu738.execute-api.ap-southeast-1.amazonaws.com/prod/UploadToS3", image)
-    //         .then((res) => {
-    //             dispatch({
-    //                 type: UPLOAD_PROFILE_IMAGE,
-    //                 payload: res.data.imageURL
-    //             })
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }
 }

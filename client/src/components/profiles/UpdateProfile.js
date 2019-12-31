@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
-import {withStyles} from "@material-ui/core";
 import {connect} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import userAvatar from "../../assets/imgs/home_page_img.jpg";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit"
 import TextField from "@material-ui/core/TextField"
+import EditIcon from "@material-ui/icons/Edit"
+import {withStyles} from "@material-ui/core";
+import userAvatar from "../../assets/imgs/home_page_img.jpg";
 import {updateUserAvatar} from "../../redux/actions/UserActions";
 
 
@@ -147,7 +147,7 @@ class UpdateProfile extends Component {
 
     render() {
         const {classes, open, handleOpenUpdateProfile, email} = this.props;
-        const {firstName, lastName, phoneNumber, image} = this.state;
+        const {firstName, lastName, phoneNumber} = this.state;
         console.log(this.state);
         return (
             <Dialog open={open} onClose={() => handleOpenUpdateProfile()}>

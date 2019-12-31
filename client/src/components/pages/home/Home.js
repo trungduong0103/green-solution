@@ -17,12 +17,7 @@ import {enlargeMarker, minimizeMarker} from "../../../redux/actions/UIActions";
 import IconButton from "@material-ui/core/IconButton";
 import ViewListIcon from "@material-ui/icons/ViewList"
 import AppsIcon from "@material-ui/icons/Apps"
-import {
-    filterLocationsByCity,
-    filterLocationsByDistrict, filterLocationsByKeyword,
-    filterLocationsByStartDate,
-    getAllLocations, resetFilters
-} from "../../../redux/actions/LocationActions";
+import {getAllLocations} from "../../../redux/actions/LocationActions";
 import Filter from "./Filter";
 import Search from "./Search";
 
@@ -72,11 +67,6 @@ class Home extends Component {
             minimizeMarker,
             locations,
             filteredLocations,
-            filterLocationsByCity,
-            filterLocationsByDistrict,
-            filterLocationsByStartDate,
-            filterLocationsByKeyword,
-            resetFilters,
             showInfoWindow,
             infoWindowIndex,
             openSignOutSnackbar
@@ -96,11 +86,8 @@ class Home extends Component {
 
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
                 <Grid container>
-                    <Filter
-                        filterByCity={filterLocationsByCity}
-                        filterByDistrict={filterLocationsByDistrict}
-                        filterByStartDate={filterLocationsByStartDate}/>
-                    <Search filterByKeyword={filterLocationsByKeyword} reset={resetFilters}/>
+                    <Filter/>
+                    <Search />
                 </Grid>
 
                 <Grid container className={classes.homePageMapWrapper}>
@@ -151,12 +138,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getAllLocations,
     enlargeMarker,
-    minimizeMarker,
-    filterLocationsByCity,
-    filterLocationsByDistrict,
-    filterLocationsByStartDate,
-    filterLocationsByKeyword,
-    resetFilters
+    minimizeMarker
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));
