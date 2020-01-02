@@ -37,7 +37,8 @@ const styles = {
     earthDay: {
         width: 200,
         height: 150
-    }
+    },
+
 };
 
 class Home extends Component {
@@ -96,11 +97,12 @@ class Home extends Component {
 
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
                 <Grid container>
+                    <Grid item sm={1}></Grid>
+                    <Search filterByKeyword={filterLocationsByKeyword} reset={resetFilters}/>
                     <Filter
                         filterByCity={filterLocationsByCity}
                         filterByDistrict={filterLocationsByDistrict}
                         filterByStartDate={filterLocationsByStartDate}/>
-                    <Search filterByKeyword={filterLocationsByKeyword} reset={resetFilters}/>
                 </Grid>
 
                 <Grid container className={classes.homePageMapWrapper}>

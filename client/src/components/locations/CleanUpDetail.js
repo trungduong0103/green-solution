@@ -44,15 +44,11 @@ const styles = {
     margin: {
         marginTop: 10
     },
-
-    cardText: {
-        fontFamily: "'Quicksand', sans-serif;",
-        fontSize: 18,
-
+    gridContent: {
+        height: "auto",
+        margin: "5px 0"
     },
-    carouselWrapper: {
-        backgroundColor: "#7da968",
-    },
+
 
     gridHeader: {
         // backgroundColor: "#7da968",
@@ -74,7 +70,6 @@ const styles = {
     },
     locationGrid: {
         position: "relative",
-
     },
 
     mapCenter: {
@@ -103,7 +98,6 @@ const styles = {
         marginTop: "10px",
         width: "500px",
         height: "400px",
-
         boxShadow: "0 10px 20px rgba(0,0,0,0.25)"
     },
     organizerAvatar: {
@@ -128,6 +122,7 @@ const styles = {
         backgroundColor: "rgb(99,151,68)",
         letterSpacing: 1,
         textTransform: "uppercase",
+        color: "white"
     },
     deactBtn: {
 
@@ -268,7 +263,7 @@ class CleanUpDetail extends React.Component {
 
                                     <Grid container className={classes.margin}>
                                         <Grid item sm={3}>
-                                            <Typography variant="h5" className={classes.title}>Trạng thái:</Typography>
+                                            <Typography variant="h6" className={classes.title}>Trạng thái:</Typography>
                                         </Grid>
                                         <Grid item sm={9}>
                                             <Chip className={classes.activeStatus} label="Còn chỗ"></Chip>
@@ -277,7 +272,7 @@ class CleanUpDetail extends React.Component {
 
                                     <Grid container className={classes.margin}>
                                         <Grid item sm={3}>
-                                            <Typography variant="h5" className={classes.title}>Ngày bắt đầu:</Typography>
+                                            <Typography variant="h6" className={classes.title}>Ngày bắt đầu:</Typography>
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
@@ -289,7 +284,7 @@ class CleanUpDetail extends React.Component {
 
                                     <Grid container className={classes.margin}>
                                         <Grid item sm={3}>
-                                            <Typography variant="h5" className={classes.title}>Thời gian:</Typography>
+                                            <Typography variant="h6" className={classes.title}>Thời gian:</Typography>
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
@@ -322,120 +317,46 @@ class CleanUpDetail extends React.Component {
                 <br/>
 
                 <Grid container>
-                    <Grid item sm={4}></Grid>
-                    <Grid item sm={4}>
+                    <Grid item sm={3}></Grid>
+                    <Grid item sm={6}>
                         <Divider variant="middle" />
                     </Grid>
-                    <Grid item sm={4}></Grid>
+                    <Grid item sm={3}></Grid>
                 </Grid>
 
-                <br/>
-
-                <Grid container>
+                <Grid container className={classes.gridHeader} spacing={3}>
                     <Grid item sm={2}></Grid>
-                    <Grid item sm={8}>
+                    <Grid item sm={4}>
+                        <Grid container className={classes.gridContent}>
+                            <Grid item>
+                                <Grid container direction="column" >
+                                    <Typography className={classes.title} variant="h6">Miêu tả:</Typography>
+                                    <Typography className={classes.text} paragraph>{this.state.location.description}</Typography>
+                                </Grid>
+                            </Grid>
+                        </Grid>
 
+                        <Grid container className={classes.gridContent}>
+                            <Grid item>
+                                <Grid container direction="column" >
+                                    <Typography className={classes.title} variant="h6">Lịch trình:</Typography>
+                                    <Typography className={classes.text} paragraph>{this.state.location.agenda}</Typography>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid item sm={2}></Grid>
+
+                    <Grid item sm={6}>
+                        <Grid container style={{textAlign: "center"}}>
+                            <div>
+                                <Typography gutterBottom variant="h4"  className={classes.title}>Bản đồ</Typography>
+                                <div className={classes.mapContainer}>
+                                    <CleanUpDetailMap coord={{lat: this.state.location.lat, lng: this.state.location.lng}}/>
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
                 </Grid>
-
-                {/*<Grid container className={classes.gridBody}>*/}
-                {/*    <Grid item sm={2}></Grid>*/}
-                {/*    <Grid item sm={8}>*/}
-                {/*        <div className={classes.gridCenter}>*/}
-                {/*            <Card className={classes.card}>*/}
-                {/*                <CardContent className={classes.cardContent}>*/}
-                {/*                    <Typography gutterBottom component="h3" className={classes.cardTitle}>Thông*/}
-                {/*                        tin</Typography>*/}
-                {/*                    <Typography gutterBottom variant="body2" component="p" className={classes.cardText}>*/}
-                {/*                        <LocationOnOutlinedIcon className={classes.icon}/>*/}
-                {/*                        {`     ${this.state.location.address}`}*/}
-                {/*                    </Typography>*/}
-                {/*                    <Typography gutterBottom variant="body2" component="p" className={classes.cardText}>*/}
-
-                {/*                        <AccessTimeOutlinedIcon className={classes.icon}/>*/}
-                {/*                        {`     ${this.state.location.startTime} ${this.state.location.startDate} - ${this.state.location.endTime} ${this.state.location.endDate}`}*/}
-                {/*                    </Typography>*/}
-
-                {/*                    <Button className={classes.joinButton}>Tham gia</Button>*/}
-                {/*                </CardContent>*/}
-                {/*            </Card>*/}
-                {/*        </div>*/}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
-
-                {/*<Grid container spacing={2} style={{padding: "10px", marginTop: "10px", minHeight: "500px"}}>*/}
-                {/*    <Grid item xs={6} style={{width: "100%", textAlign: "center"}}>*/}
-                {/*        <div>*/}
-                {/*            <Typography gutterBottom variant="h4" component="h2" className={classes.title}>Kế Hoạch Sự*/}
-                {/*                Kiện</Typography>*/}
-                {/*            <Typography gutterBottom variant="body2" paragraph className={classes.cardText}>*/}
-                {/*                {this.state.location.agenda}*/}
-                {/*            </Typography>*/}
-                {/*        </div>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item xs={6} className={classes.mapGrid}>*/}
-                {/*        <div className={classes.mapCenter}>*/}
-                {/*            <Typography gutterBottom variant="h4" component="h2" className={classes.title}>Bản*/}
-                {/*                đồ</Typography>*/}
-                {/*            <div className={classes.mapContainer}>*/}
-                {/*                <CleanUpDetailMap coord={{lat: this.state.location.lat, lng: this.state.location.lng}}/>*/}
-
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
-
-                    {/*<Grid item sm={2} className={classes.locationGrid}>*/}
-                    {/*    */}
-                    {/*</Grid>*/}
-
-                    {/*<Grid item sm={3} className={classes.locationGrid}>*/}
-                    {/*    <div className={classes.gridCenter}>*/}
-                    {/*        <Typography gutterBottom variant="h4" component="h2" className={classes.title}>*/}
-                    {/*            {this.state.location.organizer}</Typography>*/}
-                    {/*        /!*<Typography gutterBottom variant="h4" component="h2" className={classes.title}>*!/*/}
-                    {/*        /!*    {this.state.location.name}*!/*/}
-                    {/*        /!*</Typography>*!/*/}
-                    {/*        <Typography variant="body2" component="p" className={classes.helperText}>*/}
-                    {/*            {this.state.location.description}*/}
-                    {/*        </Typography>*/}
-                    {/*    </div>*/}
-                    {/*</Grid>*/}
-
-
-
-
-
-
-
-                {/*<Grid container>*/}
-                {/*    <SwipeableTextMobileStepper/>*/}
-                {/*</Grid>*/}
-
-
-                {/*<Grid container spacing={2} style={{padding: "10px", marginTop: "10px", minHeight: "500px"}}>*/}
-                {/*    <Grid item xs={6} style={{width: "100%", textAlign: "center"}}>*/}
-                {/*        <div>*/}
-                {/*            <Typography gutterBottom variant="h4" component="h2" className={classes.title}>Kế Hoạch Sự*/}
-                {/*                Kiện</Typography>*/}
-                {/*            <Typography gutterBottom variant="body2" paragraph className={classes.cardText}>*/}
-                {/*                {this.state.location.agenda}*/}
-                {/*            </Typography>*/}
-                {/*        </div>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item xs={6} className={classes.mapGrid}>*/}
-                {/*        <div className={classes.mapCenter}>*/}
-                {/*            <Typography gutterBottom variant="h4" component="h2" className={classes.title}>Bản*/}
-                {/*                đồ</Typography>*/}
-                {/*            <div className={classes.mapContainer}>*/}
-                {/*                <CleanUpDetailMap coord={{lat: this.state.location.lat, lng: this.state.location.lng}}/>*/}
-
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
-
             </div>
 
         )

@@ -9,17 +9,18 @@ import DateFnsUtils from "@date-io/date-fns";
 import {cities, districts} from "../../../environments/Environments";
 
 const styles = {
-    filterWrapper: {
-        padding: "1em 1em 1em 1em",
-        width: "100%",
-    },
     input: {
         textAlign: "center",
         fontFamily: "'Quicksand', sans-serif;",
     },
     menuSelect: {
         fontFamily: "'Quicksand', sans-serif;",
-    }
+    },
+    filterWrapper: {
+        padding: "1em 1em 1em 0",
+        width: "100%",
+        margin: "10px 0"
+    },
 };
 
 const today = new Date();
