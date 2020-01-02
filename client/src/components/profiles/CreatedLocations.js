@@ -44,10 +44,6 @@ const styles = {
 
 };
 
-const locations = [
-    { name: 'abc', description: 'sdfs', id: 'jdkfhskdjf' }, { name: 'def', description: 'sdjfhns', id: 'dksjfh' }
-]
-
 class CreatedLocations extends Component {
 
     constructor(props) {
@@ -55,7 +51,8 @@ class CreatedLocations extends Component {
 
         this.state = {
             grid: 6,
-            openResultForm: false
+            openResultForm: false,
+            currentEvent:0,
         }
 
         this.setGrid = this.setGrid.bind(this)
@@ -74,15 +71,16 @@ class CreatedLocations extends Component {
         })
     };
 
-    handleOpenResultForm = () => {
+    handleOpenResultForm = (index) => {
         this.setState({
-            openResultForm: !this.state.openResultForm
+            openResultForm: !this.state.openResultForm,
+            currentEvent:index,
         })
     }
 
     render() {
         const { classes,
-            // locations,
+            locations,
             loaded, email, openUpdateSite } = this.props;
         const { grid, openResultForm } = this.state;
         return (
@@ -104,7 +102,7 @@ class CreatedLocations extends Component {
 
 
                         <Grid container spacing={5} className={classes.wrapper}>
-                            {locations.map(location => (
+                            {locations.map((location,index) => (
                                 <Grid item xs={grid} key={location.id} className={classes.gridForm}>
                                     <Card>
                                         {grid === 6 && <CardMedia component="img"
@@ -137,7 +135,7 @@ class CreatedLocations extends Component {
                                                 <Tooltip title="Đánh dấu đã hoàn thành">
                                                     <IconButton
                                                         className={classes.button}
-                                                        onClick={() => this.handleOpenResultForm()}>
+                                                        onClick={() => this.handleOpenResultForm(index)}>
                                                         <CheckCircleOutlineIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -154,7 +152,7 @@ class CreatedLocations extends Component {
                 }
                 <br />
                 <UpdateCleanSiteForm email={email} open={openUpdateSite} />
-                <EventResultForm open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
+                <EventResultForm location={locations[this.state.currentEvent]} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
 
 
 
