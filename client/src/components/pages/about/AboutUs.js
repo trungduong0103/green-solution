@@ -35,9 +35,9 @@ const styles = {
         fontSize: 17,
         color: "black"
     },
-    gridList: {
-        padding: 0
-    },
+    // gridList: {
+    //     padding: 0
+    // },
     image: {
         width: 300,
         height: 200
