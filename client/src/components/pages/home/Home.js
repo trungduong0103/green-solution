@@ -86,8 +86,9 @@ class Home extends Component {
 
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
                 <Grid container>
-                    <Filter/>
+                    <Grid item sm={1}/>
                     <Search />
+                    <Filter/>
                 </Grid>
 
                 <Grid container className={classes.homePageMapWrapper}>
