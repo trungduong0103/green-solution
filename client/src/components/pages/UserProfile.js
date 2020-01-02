@@ -127,7 +127,7 @@ class Home extends Component {
             classes, openUpdateSite, loading, userLoading, loadRegisteredLocations,
             loadCreatedLocations, updateUser, userUpdating, doneUserUpdate, uploadImage, image,
         } = this.props;
-        const {registeredLocations, createdLocations, tab, openUpdateProfile, user} = this.state;
+        const {registeredLocations, createdLocations, tab, openUpdateProfile, user, email} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -141,7 +141,7 @@ class Home extends Component {
                                         <div className={classes.user}>
                                             <img src={user.avatarUrl ? user.avatarUrl : userAvatar} alt="User's avatar" className={classes.avatar}/>
                                         </div>
-                                        <Typography style={{textAlign: "center"}}>{user.email}
+                                        <Typography style={{textAlign: "center"}}>{email}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
