@@ -6,6 +6,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from '@material-ui/icons/Clear';
 import Fab from "@material-ui/core/Fab";
+
+import withStyles from "@material-ui/core/styles/withStyles";
 import {filterByKeyword, resetFilters} from "../../../redux/actions/LocationFilterActions";
 
 const styles = {
