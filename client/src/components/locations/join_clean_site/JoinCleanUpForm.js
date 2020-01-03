@@ -7,11 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
-import EditIcon from '@material-ui/icons/Edit';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {joinLocation} from "../../../redux/actions/LocationActions";
 import {getUser} from "../../../redux/actions/UserActions";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
