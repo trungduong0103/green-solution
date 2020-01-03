@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
-import {withStyles} from "@material-ui/core";
+import React, { Component } from 'react';
+import { withStyles } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import TextField from "@material-ui/core/TextField"
+import Dropzone from "react-dropzone-uploader"
+import Chip from "@material-ui/core/Chip"
 
 
 const styles = {
@@ -72,37 +75,81 @@ class EventResultForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            participants:0,
-            weight:0,
-            organic:0,
-            recyclable:0,
-            nonRecyclable:0,
+            participants: [],
+            weight: 0,
+            organic: 0,
+            recyclable: 0,
+            nonRecyclable: 0,
 
         }
     }
 
 
     handleChange = (event) => {
-        this.setState({[event.target.name]: event.target.value})
+        this.setState({ [event.target.name]: event.target.value })
     };
 
     submit = () => {
         const result = {
-            participants:this.state.participants,
-            weight:this.state.weight,
-            organic:this.state.organic,
+            participants: this.state.participants,
+            weight: this.state.weight,
+            organic: this.state.organic,
             recyclable: this.state.recyclable,
-            nonRecyclable:this.state.nonRecyclable
+            nonRecyclable: this.state.nonRecyclable
         };
         //this.props.updateResult(result);
         console.log(result)
-        this.props.handleOpenResultForm();
+        this.props.handleOpenResultForm(0);
     };
 
+    getUploadParams = ({meta}) => {
+        const url = `https://httpbin.org/post`;
+        return {url, meta: {fileUrl: `${url}/${encodeURIComponent(meta.name)}`}}
+    };
+
+    handleChangeStatus = ({meta}, status) => {
+
+    };
+
+    handleSubmitImage = (files) => {
+        // const {creator, locationId, history} = this.props;
+        files.forEach(f=>{
+            const img = f.file
+            const reader = new FileReader()
+            reader.onloadend = ()=>{
+                console.log(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
+            }
+            reader.readAsDataURL(img)
+        })
+    };
+
+    handleRemove=(participant)=>{
+        const filteredList = this.state.participants.filter(p => p!==participant)
+        this.setState({
+            participants:filteredList
+        })
+    }
+
+    componentDidMount(){
+        if(this.props.location.registeredUsers!==undefined)
+        {this.setState({
+            participants:this.props.location.registeredUsers
+        })}
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.location!==this.props.location){
+            if(this.props.location!==undefined && this.props.location.registeredUsers!==undefined)
+            {this.setState({
+                participants:this.props.location.registeredUsers
+            })}
+        }
+    }
+
     render() {
-        const {classes, open, handleOpenResultForm} = this.props;
-        const {participants, weight, organic, recyclable,nonRecyclable} = this.state;
-        
+        const { classes, open, handleOpenResultForm } = this.props;
+        const { participants, weight, organic, recyclable, nonRecyclable } = this.state;
+
         return (
             <Dialog open={open} onClose={() => handleOpenResultForm()}>
                 <DialogTitle>Kết quả sự kiện</DialogTitle>
@@ -110,16 +157,19 @@ class EventResultForm extends Component {
                     <Paper className={classes.paper}>
                         <div className={classes.form}>
                             <div>
-                                <TextField
-                                    label="Số lượng người tham gia"
-                                    type="number"
-                                    name="participants"
-                                    placeholder="Số lượng người tham gia"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={participants}
-                                    fullWidth
-                                />
+                                <Typography>Danh sách người tham gia</Typography>
+
+                                {participants.map((participant,index)=>
+                                (
+                                    <Chip 
+                                        label={participant}
+                                        onDelete={()=>this.handleRemove(participant)}
+                                        key={index}
+                                    />
+                                )
+                                )}
+
+                                <br/>
 
                                 <TextField
                                     label="Tổng khối lượng rác thu được (kg)"
@@ -141,8 +191,8 @@ class EventResultForm extends Component {
                                     onChange={this.handleChange}
                                     value={organic}
                                     fullWidth
-                                />  
-                                
+                                />
+
                                 <TextField
                                     label="Khối lượng rác tái chế (kg)"
                                     type="number"
@@ -152,7 +202,7 @@ class EventResultForm extends Component {
                                     onChange={this.handleChange}
                                     value={recyclable}
                                     fullWidth
-                                />  
+                                />
 
                                 <TextField
                                     label="Khối lượng rác không tái chế (kg)"
@@ -163,8 +213,43 @@ class EventResultForm extends Component {
                                     onChange={this.handleChange}
                                     value={nonRecyclable}
                                     fullWidth
-                                />  
+                                />
 
+                                <Dropzone
+                                    getUploadParams={this.getUploadParams}
+                                    onChangeStatus={this.handleChangeStatus}
+                                    onSubmit={this.handleSubmitImage}
+                                    accept="image/*"
+                                    maxFiles={9}
+                                    inputContent={(files, extra) => (extra.reject ? 'Chỉ nhận file hình' : 'Kéo thả hình vào đây')}
+                                    styles={{
+                                        dropzone: {
+                                            border: ".5px dashed black",
+                                            overflow: "hidden"
+                                        },
+                                        inputLabel: {
+                                            fontFamily: 'Quicksand, sans-serif',
+                                            color: "rgb(99,151,68)",
+                                        },
+                                        preview: {
+                                            width: "100%",
+                                            height: "100%",
+                                            padding: 10
+                                        },
+                                        submitButton: {
+                                            fontFamily: 'Quicksand, sans-serif',
+                                            outline: "none",
+                                            border: "1px solid #DDDDDD",
+                                            backgroundColor: "black",
+                                            padding: "10px 20px",
+                                            letterSpacing: 1,
+                                            textTransform: "uppercase",
+                                            transition: "all 350mx ease-in-out",
+                                            marginTop: "10px",
+                                            color: "white"
+                                        }
+                                    }}
+                                />
 
 
                             </div>

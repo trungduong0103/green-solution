@@ -3,19 +3,20 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia"
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography"
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Tooltip from '@material-ui/core/Tooltip';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import ViewListIcon from "@material-ui/icons/ViewList";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AppsIcon from "@material-ui/icons/Apps";
-import EditIcon from "@material-ui/icons/Edit";
 import withStyles from "@material-ui/core/styles/withStyles";
-import UpdateCleanSiteForm from "../locations/forms/UpdateCleanSiteForm";
-import EventResultForm from "./EventResultForm";
+import IconButton from "@material-ui/core/IconButton";
+import ViewListIcon from "@material-ui/icons/ViewList"
+import AppsIcon from "@material-ui/icons/Apps"
 import locationAvatar from "../../assets/imgs/download.jpeg";
+import Typography from "@material-ui/core/Typography"
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+import Tooltip from '@material-ui/core/Tooltip'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from '@material-ui/core/Button'
 
 const styles = {
     title: {
@@ -44,15 +45,15 @@ const styles = {
 
 };
 
-class CreatedLocations extends Component {
+class AdminLocations extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
             grid: 6,
-            openResultForm: false,
-            currentEvent:0,
+            open:false,
+            locationId:''
         }
 
         this.setGrid = this.setGrid.bind(this)
@@ -71,24 +72,34 @@ class CreatedLocations extends Component {
         })
     };
 
-    handleOpenResultForm = (index) => {
+    handleOpenDialog = (id)=>{
         this.setState({
-            openResultForm: !this.state.openResultForm,
-            currentEvent:index,
+            locationId:id,
+            open:true
         })
+    }
+
+    handleCloseDialog = ()=>{
+        this.setState({
+            open:false
+        })
+    }
+
+    handlePaymentCheck=()=>{
+        const id = this.state.locationId
+        console.log(id)
+        //function here
+        this.handleCloseDialog()
     }
 
     render() {
         const { classes,
-            locations,
-            loaded, email, openUpdateSite } = this.props;
-        const { grid, openResultForm } = this.state;
+            locations } = this.props;
+        const { grid, open} = this.state;
+        console.log(locations)
         return (
             <div>
-                {loaded ?
 
-                    <CircularProgress variant="indeterminate" className={classes.locationProgress2} />
-                    :
                     <div>
                         <div style={{ width: '100%', textAlign: 'right' }}>
                             <IconButton onClick={this.setGrid}>
@@ -118,24 +129,10 @@ class CreatedLocations extends Component {
                                                 {location.description}
                                             </Typography>
                                             <div style={{ width: '100%', textAlign: 'right' }}>
-                                                <Tooltip title="Xóa sự kiện">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.props.delete(location.id)}>
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Cập nhật thông tin">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.props.edit(location.id)}>
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </Tooltip>
                                                 <Tooltip title="Đánh dấu đã hoàn thành">
                                                     <IconButton
                                                         className={classes.button}
-                                                        onClick={() => this.handleOpenResultForm(index)}>
+                                                        onClick={() => this.handleOpenDialog(location.id)}>
                                                         <CheckCircleOutlineIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -147,18 +144,34 @@ class CreatedLocations extends Component {
                             ))}
                         </Grid>
 
+                        <Dialog
+                            open={open}
+                            onClose={()=>this.handleCloseDialog()}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id='alert-dialog-title'>Xác nhận đã thanh toán?</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Xác nhận nhà tổ chức sự kiện này đã thanh toán đầy đủ?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={()=>this.handleCloseDialog()}>Hủy</Button>
+                                <Button onClick={()=>this.handlePaymentCheck()}>Đồng ý</Button>
+                            </DialogActions>
+
+                        </Dialog>
+
+
 
                     </div>
-                }
+                
                 <br />
-                <UpdateCleanSiteForm email={email} open={openUpdateSite} />
-                <EventResultForm location={locations[this.state.currentEvent]} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
-
-
 
             </div>
         )
     }
 }
 
-export default withStyles(styles)(CreatedLocations)
+export default withStyles(styles)(AdminLocations)
