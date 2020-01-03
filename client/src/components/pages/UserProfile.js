@@ -11,7 +11,8 @@ import userAvatar from "../../assets/imgs/home_page_img.jpg";
 import {
     deleteLocation,
     getAllCreatedLocationsWithEmail,
-    getAllRegisteredLocationsWithEmail
+    getAllRegisteredLocationsWithEmail,
+    getAllLocations
 } from "../../redux/actions/LocationActions";
 import {
     updateUser,
@@ -30,6 +31,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import AppBar from '@material-ui/core/AppBar';
 import EditIcon from "@material-ui/icons/Edit";
 import {openUpdateSiteForm} from "../../redux/actions/FormActions";
+import AdminLocations from "../profiles/AdminLocations"
 
 const styles = {
     wrapper: {
@@ -84,8 +86,14 @@ class Home extends Component {
         this.setState({email: decodedToken.email});
 
         //fetch locations and user profile
-        this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
-        this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
+        //insert admin's email here ↓
+        if(decodedToken.email==="abc"){
+            this.props.getAllLocations()
+        }
+        else{
+            this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
+            this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
+        }
         this.props.getUser({email: decodedToken.email})
     }
 
@@ -124,7 +132,7 @@ class Home extends Component {
 
     render() {
         const {
-            classes, openUpdateSite, loading, userLoading, loadRegisteredLocations,
+            classes, openUpdateSite, loading, userLoading, loadRegisteredLocations, locations,
             loadCreatedLocations, updateUser, userUpdating, doneUserUpdate, uploadImage, image,
         } = this.props;
         const {registeredLocations, createdLocations, tab, openUpdateProfile, user, email} = this.state;
@@ -154,8 +162,11 @@ class Home extends Component {
 
                         </Card>
                     </Grid>
-
+                    
+                    {/*insert admin's email here ↓*/}
                     <Grid item xs={9}>
+                    {email === "abc" ? 
+                    <AdminLocations locations={locations} />:<div>
                         <AppBar position="static" color="inherit">
                             <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
                                   aria-label="simple tabs locations">
@@ -171,7 +182,9 @@ class Home extends Component {
                                           delete={this.handleDeleteLocation} edit={this.handleEditLocation}
                                           loaded={loadCreatedLocations} locations={createdLocations}/>}
                         {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations} />}
+                        </div>}
                     </Grid>
+                    
                 </Grid>
 
                 {/* pass props user */}
@@ -202,12 +215,14 @@ const mapStateToProps = (state) => ({
     image: state.user.image,
     userLoading: state.user.loading,
     userUpdating: state.user.updating,
-    doneUserUpdate: state.user.doneUpdate
+    doneUserUpdate: state.user.doneUpdate,
+    locations: state.locationsData.locations
 });
 
 const mapDispatchToProps = {
     getAllCreatedLocationsWithEmail,
     getAllRegisteredLocationsWithEmail,
+    getAllLocations,
     deleteLocation,
     openUpdateSiteForm,
     updateUser,
