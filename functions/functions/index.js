@@ -14,6 +14,7 @@ const {
     getCleanUpLocation,
     getAllCleanUpLocations,
     joinCleanUpLocation,
+    leaveCleanUpLocation,
     getUserRegisteredLocations,
     getCreatedLocations,
     getRegisteredUsersOfLocation,
@@ -28,6 +29,8 @@ app.put("/update_user_profile", updateUserProfile);
 app.put("/update_user_avatar", updateUserAvatar);
 app.post("/get_registered_locations", getUserRegisteredLocations);
 app.post("/get_created_locations", getCreatedLocations);
+app.post("/join_clean_site", joinCleanUpLocation);
+app.post("/leave_clean_site", leaveCleanUpLocation);
 
 //clean up locations
 app.post("/create_clean_site", FBAuth, createNewLocation);
@@ -36,8 +39,8 @@ app.put("/update_clean_site/:location_id", FBAuth, updateCleanUpLocation);
 app.get("/get_clean_site/:location_id", getCleanUpLocation);
 app.post("/upload_location_logo", uploadLocationLogo);
 app.get("/get_all_clean_sites", getAllCleanUpLocations);
-app.get("/get_registered_users/:location_id", getRegisteredUsersOfLocation);
-app.post("/join_clean_site", joinCleanUpLocation);
+app.post("/get_registered_users", getRegisteredUsersOfLocation);
+
 
 //topics
 app.get("/newtopic", createNewTopic);
@@ -49,6 +52,7 @@ exports.api = functions.region("asia-northeast1").https.onRequest(app);
 //background functions for Firebase Authentication
 exports.onUserCreatedInAuth = functions.region("asia-northeast1").auth.user().onCreate(onUserCreateInAuth);
 exports.onUserDeletedInAuth = functions.region("asia-northeast1").auth.user().onDelete(onUserDeleteInAuth);
+// exports.onLocationRegistrationDelete = functions.region("asia-northeast1")
 
 //background functions for pubsub
 exports.onNewMessagePublished = functions.region("asia-northeast1").pubsub.topic("my-first-topic").onPublish((message) => {

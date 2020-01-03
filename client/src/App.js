@@ -4,7 +4,7 @@ import {Provider} from "react-redux";
 import store from "./redux/store";
 import jwtDecode from "jwt-decode";
 import Home from "./components/pages/home/Home";
-import JoinCleanUp from "./components/locations/JoinCleanUp"
+import JoinCleanUp from "./components/locations/join_clean_site/JoinCleanUp"
 import CleanUpDetail from "./components/locations/CleanUpDetail";
 import Authentication from "./components/authentication/Authentication"
 import UserProfile from "./components/pages/UserProfile"

@@ -100,32 +100,24 @@ class CleanUpDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            location: {
-                name: 'RMIT Clean Up',
-                description: 'Dọn trường',
-                address: '702 Nguyễn Văn Linh Q7 TPHCM',
-                startDate: '2019-12-24',
-                startTime: '00:00',
-                endDate: '2019-12-24',
-                endTime: '02:00',
-                agenda: "23:45: Meet up\n 00:00 - 01:30: Clean\n 01:30 - 02:00: Classify trash etc.",
-                lat: 10.763963,
-                lng: 106.68189970000003
-
-            }
+            location: {}
         }
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.location !== state.location) {
-    //         return {
-    //             location: props.location
-    //         }
-    //     }
-    //     return null;
-    // }
+    componentDidMount() {
+        const locationId = this.props.match.params.id;
+        this.props.getLocation(locationId)
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.location !== state.location) {
+            return {location: props.location}
+        }
+        return null;
+    }
 
     render() {
+        const {location} = this.state;
         const {classes} = this.props;
         return (
             <div>
@@ -140,10 +132,10 @@ class CleanUpDetail extends React.Component {
                     <Grid item sm={3} className={classes.locationGrid}>
                         <div className={classes.gridCenter}>
                             <Typography gutterBottom variant="h4" component="h2" className={classes.title}>
-                                {this.state.location.name}
+                                {location.name}
                             </Typography>
                             <Typography variant="body2" component="p" className={classes.helperText}>
-                                {this.state.location.description}
+                                {location.description}
                             </Typography>
                         </div>
                     </Grid>
@@ -156,12 +148,12 @@ class CleanUpDetail extends React.Component {
                                         tin</Typography>
                                     <Typography gutterBottom variant="body2" component="p" className={classes.cardText}>
                                         <LocationOnOutlinedIcon className={classes.icon}/>
-                                        {`     ${this.state.location.address}`}
+                                        {`${location.street}`}
                                     </Typography>
                                     <Typography gutterBottom variant="body2" component="p" className={classes.cardText}>
 
                                         <AccessTimeOutlinedIcon className={classes.icon}/>
-                                        {`     ${this.state.location.startTime} ${this.state.location.startDate} - ${this.state.location.endTime} ${this.state.location.endDate}`}
+                                        {`${location.startTime} ${location.startDate} - ${location.endTime} ${location.endDate}`}
                                     </Typography>
 
                                     <Button className={classes.joinButton}>Tham gia</Button>
@@ -176,20 +168,19 @@ class CleanUpDetail extends React.Component {
                 <Grid container spacing={2} style={{padding: "20px", marginTop: "20px", minHeight: "500px"}}>
                     <Grid item xs={6} style={{width: "100%", textAlign: "center"}}>
                         <div>
-                            <Typography gutterBotton variant="h4" component="h2" className={classes.title}>Kế Hoạch Sự
+                            <Typography gutterBottom variant="h4" component="h2" className={classes.title}>Kế Hoạch Sự
                                 Kiện</Typography>
                             <Typography gutterBottom variant="body2" paragraph className={classes.cardText}>
-                                {this.state.location.agenda}
+                                {location.agenda}
                             </Typography>
                         </div>
                     </Grid>
                     <Grid item xs={6} className={classes.mapGrid}>
                         <div className={classes.mapCenter}>
-                            <Typography gutterBotton variant="h4" component="h2" className={classes.title}>Bản
+                            <Typography gutterBottom variant="h4" component="h2" className={classes.title}>Bản
                                 đồ</Typography>
                             <div className={classes.mapContainer}>
-                                <CleanUpDetailMap coord={{lat: this.state.location.lat, lng: this.state.location.lng}}/>
-
+                                {location.lat && location.lng ? <CleanUpDetailMap center={{lat: location.lat, lng: location.lng}}/> : ""}
                             </div>
                         </div>
                     </Grid>
