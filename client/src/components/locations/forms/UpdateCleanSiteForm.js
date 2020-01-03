@@ -65,12 +65,7 @@ class UpdateCleanSiteForm extends Component {
 
     validateDataBeforeSubmit(data) {
         const errors = {};
-        if (data.name === "") {
-            errors.name = "Không được để trống"
-        }
-        if (data.description === "") {
-            errors.description = "Không được để trống"
-        }
+
         if (Object.keys(errors).length !== 0) {
             this.setState({
                 errors: errors

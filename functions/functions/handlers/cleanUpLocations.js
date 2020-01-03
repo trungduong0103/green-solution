@@ -1,8 +1,7 @@
-const {sendEmailToUser} = require("./topics");
-
 const {db} = require("../utils/admin");
 const {admin} = require("../utils/admin");
 const axios = require("axios");
+const {sendLocationConfirmationEmail}  = require("../utils/email");
 const {AWS_UPLOAD_IMAGE_API} = require("../environments/environments");
 
 //CREATE NEW CLEAN SITE
@@ -94,47 +93,37 @@ exports.deleteCleanUpLocation = (req, res) => {
 
 //JOIN A CLEAN SITE
 exports.joinCleanUpLocation = (req, res) => {
-    const locationId = req.body.location_id;
-    const email = req.body.email;
+    const userInfo = req.body.userInfo;
+    const additionalInfo = req.body.additionalInfo;
 
-    checkUserAlreadyCreatedInFirestore(email)
+    checkUserAlreadyCreatedInFirestore(userInfo.email)
         .then((value) => {
             if (value === false) {
                 console.log("no record found while joining, creating new record...");
-                return createUserUsingEmail(email);
+                return createUserUsingEmail(req.body);
             }
+            console.log("record with user already exists");
             return null;
         })
         .catch((err) => {
             console.log(err);
         });
 
-    return Promise.all([
-        registerUserToCleanSite(email, locationId),
-        sendConfirmationToUserEmail(email, locationId)])
-        .then(() => {
-            return res.json({message: "registration successful"})
+    checkUserAlreadyRegisteredToLocation(additionalInfo.locationId, userInfo.email)
+        .then(message => {
+            console.log("message", message);
+            if (message === "registered") return res.json({message: "user already registered"});
+            else {
+                createNewRegistrationRecord(userInfo, additionalInfo);
+                addEmailToRegisteredUsers(userInfo.email, additionalInfo.locationId);
+                sendConfirmationToUserEmail(userInfo.email, additionalInfo.locationId);
+                return res.json({message: "registration successful"});
+            }
         })
         .catch((err) => {
             console.log(err);
-        });
+        })
 };
-
-function createUserUsingEmail(email) {
-    return db.collection("users")
-        .doc(email)
-        .add({
-            createdAt: new Date().toISOString(),
-            verified: 0
-        });
-}
-
-function registerUserToCleanSite(email, locationId) {
-    return db
-        .collection("cleanUpLocations")
-        .doc(locationId)
-        .update({registeredUsers: admin.firestore.FieldValue.arrayUnion(email)});
-}
 
 function checkUserAlreadyCreatedInFirestore(email) {
     return db.collection("users")
@@ -147,6 +136,94 @@ function checkUserAlreadyCreatedInFirestore(email) {
             console.log(err);
         });
 }
+
+function createUserUsingEmail(record) {
+    return db.collection("users")
+        .doc(record.email)
+        .set({phoneNumber: record.phoneNumber, verified: 0});
+}
+
+function checkUserAlreadyRegisteredToLocation(locationId, email) {
+    const documents = [];
+
+    return db.collection("locationRegistrations")
+        .where("email", "==", email)
+        .where("locationId", "==", locationId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((snapshot) => {
+                const data = snapshot.data();
+                data.id = snapshot.id;
+                documents.push(data);
+            });
+            if (documents.length !== 0) return "registered";
+            return "ok";
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+function createNewRegistrationRecord(userInfo, additionalInfo) {
+    const registrationDocument = {
+        email: userInfo.email,
+        locationId: additionalInfo.locationId,
+        tools: additionalInfo.tools,
+        tShirtSize: additionalInfo.tShirtSize
+    };
+
+    return db
+        .collection("locationRegistrations")
+        .add(registrationDocument);
+}
+
+function addEmailToRegisteredUsers(email, locationId) {
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationId)
+        .update({registeredUsers: admin.firestore.FieldValue.arrayUnion(email)});
+}
+
+function sendConfirmationToUserEmail(email, locationId) {
+    return db.collection("cleanUpLocations")
+        .doc(locationId)
+        .get()
+        .then((doc) => {
+            return sendLocationConfirmationEmail(email, doc.data().name);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+//LEAVE A CLEAN SITE
+exports.leaveCleanUpLocation = (req, res) => {
+    const locationId = req.body.locationId;
+    const email = req.body.email;
+
+    const deleteRecord = db.collection("locationRegistrations")
+        .where("locationId", "==", locationId)
+        .where("email", "==", email)
+        .get()
+        .then((querySnapshot) => {
+            if (querySnapshot.empty) {return res.json({message: "no record exists"});}
+            return querySnapshot.forEach((snap) => {return snap.ref.delete()});
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+
+    const deleteEmail = db.collection("cleanUpLocations")
+        .doc(locationId)
+        .update({registeredUsers: admin.firestore.FieldValue.arrayRemove(email)})
+        .catch((err) => {
+            console.log(err);
+        });
+
+    return Promise.all([deleteRecord, deleteEmail])
+        .then(() => {return res.json({message: "success"})})
+        .catch((err) => {return res.json(err)});
+};
 
 //GET REGISTERED CLEAN SITES
 exports.getUserRegisteredLocations = (req, res) => {
@@ -166,8 +243,7 @@ exports.getUserRegisteredLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-        })
-
+        });
 };
 
 //GET CREATED CLEAN SITES
@@ -202,29 +278,22 @@ function getCreatedLocationsFromEmail(email) {
 
 //GET REGISTERED USERS
 exports.getRegisteredUsersOfLocation = (req, res) => {
-    const locationId = req.params.location_id;
-    return db
-        .collection("cleanUpLocations")
-        .doc(locationId)
+    const locationId = req.body.locationId;
+    const email = req.body.email;
+    const registeredDocs = [];
+    return db.collection("locationRegistrations")
+        .where("locationId", "==", locationId)
+        .where("email", "==", email)
         .get()
-        .then((documentSnapshot) => {
-            return res.json(documentSnapshot.data().registeredUsers);
-        });
+        .then((querySnapshot) => {
+            querySnapshot.forEach((snap) => {registeredDocs.push(snap.data())});
+            return res.json(registeredDocs);
+        })
+        .catch((err) => {console.log(err)});
 };
 
-function sendConfirmationToUserEmail(email, locationId) {
-    return db.collection("cleanUpLocations")
-        .doc(locationId)
-        .get()
-        .then((doc) => {
-            return sendEmailToUser(`Thanks for joining ${doc.data().name}`, email)
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
 
-//Add location logo
+//ADD LOCATION LOGO
 exports.uploadLocationLogo = (req, res) => {
     axios.post(AWS_UPLOAD_IMAGE_API, req.body)
         .then((res) => {
@@ -240,3 +309,4 @@ exports.uploadLocationLogo = (req, res) => {
             console.log(err);
         })
 };
+

@@ -1,16 +1,14 @@
-const {sendEmailToUser} = require("./topics");
-
 const {db} = require("../utils/admin");
 const firebase = require("../environments/config");
 const axios = require("axios");
+const {sendWelcomeEmail} =require( "../utils/email");
 const {validateSignUpData, validateLoginData} = require("../utils/validators");
-const {WELCOME_MESSAGE, WELCOME_SUBJECT} = require("../environments/emailTemplates");
 const {INVALID_CREDENTIALS, EMAIL_ALREADY_IN_USE, UNIDENTIFIED_ERRORS} = require("../environments/errorTemplates");
-const {AWS_SEND_EMAIL_API, AWS_RESIZE_IMAGE_API} = require("../environments/environments");
+const {AWS_RESIZE_IMAGE_API} = require("../environments/environments");
 
 //executes whenever a new user is created in Firebase Authentication
 exports.onUserCreateInAuth = (userRecord) => {
-    return Promise.all([sendGreetingEmail(userRecord.email), createRecordInFirestore(userRecord)]);
+    return Promise.all([sendWelcomeEmail(userRecord.email), createRecordInFirestore(userRecord)]);
 };
 
 //executes whenever an account is deleted from Firebase Authentication
@@ -23,18 +21,6 @@ function deleteUserRecordInFirestore(record) {
         return db.collection("users").doc(record.email).delete();
     }
     return null;
-}
-
-function sendGreetingEmail(email) {
-    let recipient = {email: [email], subject: WELCOME_SUBJECT, content: WELCOME_MESSAGE};
-    axios.post(AWS_SEND_EMAIL_API, recipient)
-        .then(() => {
-            console.log("Sent email using AWS.");
-            return null;
-        })
-        .catch((err) => {
-            console.log(err);
-        })
 }
 
 function checkUserRecordInFirestore(recordId) {
