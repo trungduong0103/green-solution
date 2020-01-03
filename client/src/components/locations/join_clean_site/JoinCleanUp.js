@@ -23,7 +23,6 @@ import ViewListIcon from "@material-ui/icons/ViewList"
 import AppsIcon from "@material-ui/icons/Apps"
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import JoinCleanUpForm from "./JoinCleanUpForm";
 
 const styles = {
     wrapper: {

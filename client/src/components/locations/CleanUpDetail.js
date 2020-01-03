@@ -2,8 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import NavBar from "../navigation/NavBar";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid"
@@ -12,20 +10,14 @@ import placeholderImage from "../../assets/imgs/home_page_img.jpg";
 import myImage from "../../assets/imgs/aboutus.jpg"
 import img2 from "../../assets/imgs/img2.jpg"
 import img1 from "../../assets/imgs/img1.jpg"
-import Button from "@material-ui/core/Button"
 import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
 import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined'
-import CardHeader from "@material-ui/core/CardHeader"
 import {CleanUpDetailMap} from "./maps/CleanUpDetailMap"
 import {GridList} from "@material-ui/core";
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
 import Chip from "@material-ui/core/Chip"
-import { useTheme, makeStyles } from "@material-ui/core/styles"
 import Divider from "@material-ui/core/Divider";
 
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const styles = {
     cardForm: {
@@ -173,12 +165,11 @@ class CleanUpDetail extends React.Component {
     }
 
     displayImages(imageList) {
-        const { classes } = this.props;
         if (imageList.length === 1) {
             return (
                 <GridList cellHeight={200}>
                     <GridListTile>
-                        <img src={imageList[0].img} alt="location-image"/>
+                        <img src={imageList[0].img} alt="location"/>
                     </GridListTile>
                 </GridList>
             )
@@ -187,10 +178,10 @@ class CleanUpDetail extends React.Component {
             return (
                 <GridList cellHeight={200} cols={2} spacing={0}>
                     <GridListTile>
-                        <img src={imageList[0].img} alt="location-image"/>
+                        <img src={imageList[0].img} alt="location"/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[1].img} alt="location-image"/>
+                        <img src={imageList[1].img} alt="location"/>
                     </GridListTile>
                 </GridList>
             )
@@ -199,13 +190,13 @@ class CleanUpDetail extends React.Component {
             return (
                 <GridList cellHeight={300} cols={3} spacing={0}>
                     <GridListTile>
-                        <img src={imageList[0].img} alt="location-image"/>
+                        <img src={imageList[0].img} alt="location"/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[1].img} alt="location-image"/>
+                        <img src={imageList[1].img} alt="location"/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[2].img} alt="location-image"/>
+                        <img src={imageList[2].img} alt="location"/>
                     </GridListTile>
                 </GridList>
             )
@@ -214,16 +205,16 @@ class CleanUpDetail extends React.Component {
             return (
                 <GridList cellHeight={200} cols={3} spacing={0}>
                     <GridListTile cols={2} rows={1}>
-                        <img src={imageList[0].img} alt="location-image"/>
+                        <img src={imageList[0].img} alt="location"/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[1].img} alt="location-image"/>
+                        <img src={imageList[1].img} alt="location"/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[2].img} alt="location-image"/>
+                        <img src={imageList[2].img} alt="location"/>
                     </GridListTile>
                     <GridListTile cols={2} rows={1}>
-                        <img src={imageList[3].img} alt="location-image"/>
+                        <img src={imageList[3].img} alt="location"/>
                     </GridListTile>
                 </GridList>
             )
