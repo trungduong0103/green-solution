@@ -147,7 +147,7 @@ class CleanUpDetail extends React.Component {
             activeStep: 0,
             maxStep: imageList.length,
             location: {},
-            backdrop: true
+            backdrop: false
         }
     }
 
