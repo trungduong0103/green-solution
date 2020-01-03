@@ -25,7 +25,7 @@ const initialState = {
     filteredLocations: null,
     locationId: "",
     uploadingLogo: false,
-    doneUploadLogo: false,
+    doneUploadLogo: false
 };
 
 

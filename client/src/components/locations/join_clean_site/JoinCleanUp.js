@@ -140,7 +140,8 @@ class JoinCleanUp extends Component {
                         </div>
                         {list &&
                         <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}/>}
-                        {grid && <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}
+                        {grid &&
+                        <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}
                                                  grid={4}/>}
 
                     </div>}
