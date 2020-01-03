@@ -19,12 +19,13 @@ import {
     OPEN_SIGN_OUT_SNACKBAR,
     CLOSE_SIGN_OUT_SNACKBAR,
     ENLARGE_MARKER,
-    MINIMIZE_MARKER
+    MINIMIZE_MARKER, ALREADY_JOINED_CLEAN_SITE
 } from "../types";
 
 const initialState = {
     doneCreateLocation: false,
     doneJoinLocation: false,
+    alreadyJoinedLocation: false,
     loadRegisteredLocations: false,
     loadCreatedLocations: false,
     loading: false,
@@ -63,6 +64,8 @@ export default function (state = initialState, action) {
             return {...state, loading: true};
         case JOINED_CLEAN_SITE:
             return {...state, loading: false, doneJoinLocation: true};
+        case ALREADY_JOINED_CLEAN_SITE:
+            return {...state, loading: false, alreadyJoinedLocation: true};
         case GETTING_REGISTERED_LOCATIONS:
             return {...state, loadRegisteredLocations: true};
         case GOT_REGISTERED_LOCATIONS:

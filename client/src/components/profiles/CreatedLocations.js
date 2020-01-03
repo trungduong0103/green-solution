@@ -3,19 +3,19 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia"
-import withStyles from "@material-ui/core/styles/withStyles";
 import IconButton from "@material-ui/core/IconButton";
-import ViewListIcon from "@material-ui/icons/ViewList"
-import AppsIcon from "@material-ui/icons/Apps"
-import locationAvatar from "../../assets/imgs/download.jpeg";
 import Typography from "@material-ui/core/Typography"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
-import { CircularProgress } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Tooltip from '@material-ui/core/Tooltip';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import ViewListIcon from "@material-ui/icons/ViewList";
+import DeleteIcon from "@material-ui/icons/Delete";
+import AppsIcon from "@material-ui/icons/Apps";
+import EditIcon from "@material-ui/icons/Edit";
+import withStyles from "@material-ui/core/styles/withStyles";
 import UpdateCleanSiteForm from "../locations/forms/UpdateCleanSiteForm";
-import EventResultForm from "./EventResultForm"
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
-import Tooltip from '@material-ui/core/Tooltip'
+import EventResultForm from "./EventResultForm";
+import locationAvatar from "../../assets/imgs/download.jpeg";
 
 const styles = {
     title: {

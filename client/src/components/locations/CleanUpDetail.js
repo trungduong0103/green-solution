@@ -1,23 +1,26 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
-import NavBar from "../navigation/NavBar";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
-import Grid from "@material-ui/core/Grid"
-import GridListTile from "@material-ui/core/GridListTile"
-import placeholderImage from "../../assets/imgs/home_page_img.jpg";
-import myImage from "../../assets/imgs/aboutus.jpg"
-import img2 from "../../assets/imgs/img2.jpg"
-import img1 from "../../assets/imgs/img1.jpg"
-import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
-import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined'
-import {CleanUpDetailMap} from "./maps/CleanUpDetailMap"
-import {GridList} from "@material-ui/core";
-import Chip from "@material-ui/core/Chip"
+import Grid from "@material-ui/core/Grid";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridList from "@material-ui/core/GridList";
+import Chip from "@material-ui/core/Chip";
 import Divider from "@material-ui/core/Divider";
-
-
+import Button from "@material-ui/core/Button";
+import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
+import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
+import Backdrop from "@material-ui/core/Backdrop";
+import withStyles from "@material-ui/core/styles/withStyles";
+import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
+import {CleanUpDetailMap} from "./maps/CleanUpDetailMap";
+import jwtDecode from "jwt-decode";
+import NavBar from "../navigation/NavBar";
+import myImage from "../../assets/imgs/aboutus.jpg";
+import img2 from "../../assets/imgs/img2.jpg";
+import img1 from "../../assets/imgs/img1.jpg";
+import placeholderImage from "../../assets/imgs/home_page_img.jpg";
+import JoinCleanUpForm from "./join_clean_site/JoinCleanUpForm";
+import {getUser} from "../../redux/actions/UserActions";
 
 const styles = {
     cardForm: {
@@ -43,7 +46,6 @@ const styles = {
 
 
     gridHeader: {
-        // backgroundColor: "#7da968",
         padding: "20px",
         marginTop: "10px",
         height: "auto",
@@ -116,29 +118,27 @@ const styles = {
         textTransform: "uppercase",
         color: "white"
     },
-    deactBtn: {
-
+    deactBtn: {},
+    backdrop: {
+        zIndex: 1
     }
-
-
-
 };
 
- const imageList = [
-     {
-         img: myImage,
-     },
-     {
-         img: placeholderImage,
-     },
-     {
-         img: img1,
-     },
-     {
-         img: img2,
-     },
+const imageList = [
+    {
+        img: myImage,
+    },
+    {
+        img: placeholderImage,
+    },
+    {
+        img: img1,
+    },
+    {
+        img: img2,
+    },
 
- ];
+];
 
 class CleanUpDetail extends React.Component {
     constructor(props) {
@@ -146,23 +146,30 @@ class CleanUpDetail extends React.Component {
         this.state = {
             activeStep: 0,
             maxStep: imageList.length,
-
-            location: {
-                organizer: "Đại học RMIT",
-                name: 'Sự kiện dọn dẹp trường RMIT',
-                description: 'Dọn trường',
-                address: '702 Nguyễn Văn Linh Q7 TPHCM',
-                startDate: '2019-12-24',
-                startTime: '06:50:00',
-                endDate: '2019-12-24',
-                endTime: '14:30:00',
-                agenda: "23:45: Meet up\n 00:00 - 01:30: Clean\n 01:30 - 02:00: Classify trash etc.",
-                lat: 10.763963,
-                lng: 106.68189970000003
-
-            }
+            location: {},
+            backdrop: true
         }
     }
+
+    componentDidMount() {
+        const locationId = this.props.match.params.id;
+        this.props.getLocation(locationId);
+        if ("FBIdToken" in sessionStorage) {
+            const decodedToken = jwtDecode(sessionStorage.getItem("FBIdToken"));
+            this.props.getUser({email: decodedToken.email});
+        }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.location !== state.location) {
+            return {location: props.location};
+        }
+        return null;
+    }
+
+    openJoinLocationForm = () => {
+        this.setState({backdrop: true});
+    };
 
     displayImages(imageList) {
         if (imageList.length === 1) {
@@ -173,8 +180,7 @@ class CleanUpDetail extends React.Component {
                     </GridListTile>
                 </GridList>
             )
-        }
-        else if (imageList.length === 2) {
+        } else if (imageList.length === 2) {
             return (
                 <GridList cellHeight={200} cols={2} spacing={0}>
                     <GridListTile>
@@ -185,8 +191,7 @@ class CleanUpDetail extends React.Component {
                     </GridListTile>
                 </GridList>
             )
-        }
-        else if (imageList.length === 3) {
+        } else if (imageList.length === 3) {
             return (
                 <GridList cellHeight={300} cols={3} spacing={0}>
                     <GridListTile>
@@ -200,8 +205,7 @@ class CleanUpDetail extends React.Component {
                     </GridListTile>
                 </GridList>
             )
-        }
-        else if (imageList.length === 4) {
+        } else if (imageList.length === 4) {
             return (
                 <GridList cellHeight={200} cols={3} spacing={0}>
                     <GridListTile cols={2} rows={1}>
@@ -223,7 +227,8 @@ class CleanUpDetail extends React.Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, user} = this.props;
+        const {location, backdrop} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -238,17 +243,19 @@ class CleanUpDetail extends React.Component {
                     <Grid item sm={8}>
                         <Grid container>
                             <Grid item sm={8}>
-                                <Grid container
-                                      direction="column"
-                                >
-                                    <Typography variant="h3" className={classes.title}>{this.state.location.name}</Typography>
+                                <Grid container direction="column">
+                                    <Typography variant="h3"
+                                                className={classes.title}>{location.name}</Typography>
 
                                     <Grid container className={classes.margin}>
                                         <Grid item sm={3}>
-                                            <Typography variant="h5" className={classes.title}>Địa chỉ:</Typography>
+                                            <Typography variant="h5" className={classes.title}>
+                                                {`Địa chỉ: ${location.street}`}
+                                            </Typography>
                                         </Grid>
                                         <Grid item sm={9}>
-                                            <Typography variant="h6" className={classes.text}>{this.state.location.address}</Typography>
+                                            <Typography variant="h6"
+                                                        className={classes.text}>{location.address}</Typography>
                                         </Grid>
                                     </Grid>
 
@@ -257,18 +264,19 @@ class CleanUpDetail extends React.Component {
                                             <Typography variant="h6" className={classes.title}>Trạng thái:</Typography>
                                         </Grid>
                                         <Grid item sm={9}>
-                                            <Chip className={classes.activeStatus} label="Còn chỗ"></Chip>
+                                            <Chip className={classes.activeStatus} label="Còn chỗ"/>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container className={classes.margin}>
                                         <Grid item sm={3}>
-                                            <Typography variant="h6" className={classes.title}>Ngày bắt đầu:</Typography>
+                                            <Typography variant="h6" className={classes.title}>Ngày bắt
+                                                đầu:</Typography>
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
                                                 <EventNoteOutlinedIcon className={classes.icon}/>
-                                                {`     ${this.state.location.startDate}`}
+                                                {`${location.startDate}`}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -280,14 +288,14 @@ class CleanUpDetail extends React.Component {
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
                                                 <AccessTimeOutlinedIcon className={classes.icon}/>
-                                                {`${this.state.location.startTime} - ${this.state.location.endTime}`}
+                                                {`${location.startTime} - ${location.endTime}`}
                                             </Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
-                            <Grid item sm={1}></Grid>
+                            <Grid item sm={1}/>
 
                             <Grid item sm={3}>
                                 <Grid container
@@ -296,42 +304,38 @@ class CleanUpDetail extends React.Component {
                                       justify="center"
                                       className={classes.organizerAvatar}
                                 >
-                                    <img src={placeholderImage} alt="location-avatar" className={classes.image}/>
-                                    <Typography variant="subtitle1" className={classes.text}>{this.state.location.organizer}</Typography>
+                                    <img src={location.logoUrl ? location.logoUrl : placeholderImage}
+                                         alt="location-avatar" className={classes.image}/>
+                                    <Typography variant="subtitle1"
+                                                className={classes.text}>{location.organization}</Typography>
+                                    <Button onClick={this.openJoinLocationForm}>Join</Button>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item sm={2}></Grid>
+                    <Grid item sm={2}/>
                 </Grid>
-
                 <br/>
-
-                <Grid container>
-                    <Grid item sm={3}></Grid>
-                    <Grid item sm={6}>
-                        <Divider variant="middle" />
-                    </Grid>
-                    <Grid item sm={3}></Grid>
-                </Grid>
-
+                <Divider variant="inset"/>
                 <Grid container className={classes.gridHeader} spacing={3}>
-                    <Grid item sm={2}></Grid>
+                    <Grid item sm={2}/>
                     <Grid item sm={4}>
                         <Grid container className={classes.gridContent}>
                             <Grid item>
-                                <Grid container direction="column" >
+                                <Grid container direction="column">
                                     <Typography className={classes.title} variant="h6">Miêu tả:</Typography>
-                                    <Typography className={classes.text} paragraph>{this.state.location.description}</Typography>
+                                    <Typography className={classes.text}
+                                                paragraph>{location.description}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
 
                         <Grid container className={classes.gridContent}>
                             <Grid item>
-                                <Grid container direction="column" >
+                                <Grid container direction="column">
                                     <Typography className={classes.title} variant="h6">Lịch trình:</Typography>
-                                    <Typography className={classes.text} paragraph>{this.state.location.agenda}</Typography>
+                                    <Typography className={classes.text}
+                                                paragraph>{location.agenda}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -340,14 +344,19 @@ class CleanUpDetail extends React.Component {
                     <Grid item sm={6}>
                         <Grid container style={{textAlign: "center"}}>
                             <div>
-                                <Typography gutterBottom variant="h4"  className={classes.title}>Bản đồ</Typography>
+                                <Typography gutterBottom variant="h4" className={classes.title}>Bản đồ</Typography>
                                 <div className={classes.mapContainer}>
-                                    <CleanUpDetailMap coord={{lat: this.state.location.lat, lng: this.state.location.lng}}/>
+                                    {location.lat && location.lng ? <CleanUpDetailMap
+                                        center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}
                                 </div>
                             </div>
                         </Grid>
                     </Grid>
                 </Grid>
+
+                <Backdrop timeout={0} open={backdrop} className={classes.backdrop}>
+                    <JoinCleanUpForm location={location} user={user} locationId={location.id}/>
+                </Backdrop>
             </div>
 
         )
@@ -355,14 +364,16 @@ class CleanUpDetail extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    location: state.locationsData.location
+    location: state.locationsData.location,
+    user: state.user.user
 });
 
 const mapDispatchToProps = {
     getLocation,
     updateLocation,
     getAllLocations,
-    deleteLocation
+    deleteLocation,
+    getUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CleanUpDetail));

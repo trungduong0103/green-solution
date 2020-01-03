@@ -1,4 +1,5 @@
 import {
+    ALREADY_JOINED_CLEAN_SITE,
     CREATE_LOCATION_COMPLETE,
     CREATE_NEW_LOCATION,
     CREATING_LOCATION,
@@ -22,6 +23,7 @@ import {
 import axios from "axios";
 import {closeUpdateSiteForm} from "./FormActions";
 
+//GET ALL LOCATIONS
 export function getAllLocations() {
     return function (dispatch) {
         axios
@@ -38,6 +40,7 @@ export function getAllLocations() {
     };
 }
 
+//GET ONE LOCATION
 export function getLocation(locationId) {
     return function (dispatch) {
         dispatch({type: LOADING_FORM});
@@ -53,6 +56,7 @@ export function getLocation(locationId) {
     }
 }
 
+//UPDATE LOCATION
 export function updateLocation(locationData, email) {
     return function (dispatch) {
         console.log(locationData);
@@ -73,6 +77,7 @@ export function updateLocation(locationData, email) {
     }
 }
 
+//DELETE LOCATION
 export function deleteLocation(locationId, email) {
     return function (dispatch) {
         axios
@@ -89,6 +94,7 @@ export function deleteLocation(locationId, email) {
     };
 }
 
+//CREATE NEW LOCATION
 export function createNewLocation(location) {
     const token = sessionStorage.getItem("FBIdToken");
     return function (dispatch) {
@@ -111,12 +117,14 @@ export function createNewLocation(location) {
     };
 }
 
+//JOIN LOCATION
 export function joinLocation(info) {
     return function (dispatch) {
         dispatch({type: JOINING_CLEAN_SITE});
         axios.post(`${DEFAULT_URL}/join_clean_site`, info)
-            .then(() => {
-                dispatch({type: JOINED_CLEAN_SITE})
+            .then((response) => {
+                if (response.message === "registration successful") return dispatch({type: JOINED_CLEAN_SITE});
+                return dispatch({type: ALREADY_JOINED_CLEAN_SITE});
             })
             .then(() => {
                 setTimeout(() => {
@@ -129,6 +137,7 @@ export function joinLocation(info) {
     };
 }
 
+//GET CREATED LOCATIONS
 export function getAllCreatedLocationsWithEmail(email) {
     return function (dispatch) {
         dispatch({type: GETTING_CREATED_LOCATIONS});
@@ -142,6 +151,7 @@ export function getAllCreatedLocationsWithEmail(email) {
     };
 }
 
+//GET REGISTERED LOCATIONS
 export function getAllRegisteredLocationsWithEmail(email) {
     return function (dispatch) {
         dispatch({type: GETTING_REGISTERED_LOCATIONS});
@@ -155,6 +165,7 @@ export function getAllRegisteredLocationsWithEmail(email) {
     };
 }
 
+//UPLOAD LOCATION LOGO
 export function uploadLocationLogo(updateObj, history, locationId) {
     return function (dispatch) {
         dispatch({type: UPLOADING_LOCATION_LOGO});
