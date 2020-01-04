@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {withStyles} from "@material-ui/core";
-import {connect} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
@@ -83,7 +81,6 @@ class EventResultForm extends Component {
         }
     }
 
-
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value})
     };
@@ -97,7 +94,7 @@ class EventResultForm extends Component {
             nonRecyclable:this.state.nonRecyclable
         };
         //this.props.updateResult(result);
-        console.log(result)
+        console.log(result);
         this.props.handleOpenResultForm();
     };
 
@@ -166,8 +163,6 @@ class EventResultForm extends Component {
                                     value={nonRecyclable}
                                     fullWidth
                                 />  
-
-
 
                             </div>
 

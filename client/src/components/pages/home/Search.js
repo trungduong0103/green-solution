@@ -20,6 +20,7 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
     },
     searchBtn: {
+        width: 100,
         padding: "0 20px",
         color: "white",
         backgroundColor: "rgb(99,151,68)",

@@ -22,13 +22,11 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import {CardActions, CircularProgress} from "@material-ui/core";
+import Fab from "@material-ui/core/Fab"
+import {CircularProgress} from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import AppBar from '@material-ui/core/AppBar';
-import EditIcon from "@material-ui/icons/Edit";
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import {openUpdateSiteForm} from "../../redux/actions/FormActions";
 
 const styles = {
@@ -38,7 +36,8 @@ const styles = {
     },
     userCard: {
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
+        boxShadow: "0 10px 20px rgba(0,0,0,0.25)"
     },
     progress: {
         padding: "30%"
@@ -50,17 +49,29 @@ const styles = {
         color: "#7F986F"
     },
     avatar: {
+        position: "relative",
         borderRadius: '50%',
         height: "200px",
         width: "200px",
-        padding: "10px"
+         boxShadow: "0 14px 28px rgba(0,0,0,0.25)"
     },
     user: {
+        padding: 30,
         width: '100%',
-        textAlign: 'center'
+        textAlign: 'center',
+    },
+    text: {
+        fontFamily: "'Quicksand', sans-serif;",
+    },
+    editBtn: {
+        position: "relative",
+        backgroundColor: "rgb(99,151,68)",
+        transition: "all 350ms ease-in-out",
+        "&:hover": {
+            backgroundColor: "#4A6F44"
+        }
     }
 };
-
 
 class Home extends Component {
     constructor(props) {
@@ -133,35 +144,27 @@ class Home extends Component {
                 <NavBar/>
                 <Grid container spacing={5} className={classes.wrapper}>
                     <Grid item xs={3}>
-                        <Card className={classes.userCard}>
                             {userLoading ? (
                                 <CircularProgress size={100} variant="indeterminate" className={classes.progress}/>
                             ) : (<div>
-                                    <CardContent>
-                                        <div className={classes.user}>
-                                            <img src={user.avatarUrl ? user.avatarUrl : userAvatar} alt="User's avatar" className={classes.avatar}/>
-                                        </div>
-                                        <Typography style={{textAlign: "center"}}>{email}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <IconButton style={{marginLeft: "auto"}} onClick={this.handleOpenUpdateProfile}>
-                                            <EditIcon/>
-                                        </IconButton>
-                                    </CardActions>
+                                    <Grid container className={classes.user}>
+                                        <img src={user.avatarUrl ? user.avatarUrl : userAvatar} alt="User's avatar" className={classes.avatar}/>
+                                        <Fab className={classes.editBtn} onClick={this.handleOpenUpdateProfile}>
+                                            <EditOutlinedIcon style={{color: "white"}}  />
+                                        </Fab>
+                                        <Typography className={classes.text} style={{padding: "10px 15px"}}>{email}</Typography>
+                                    </Grid>
                                 </div>
                             )}
-
-                        </Card>
                     </Grid>
 
                     <Grid item xs={9}>
                         <AppBar position="static" color="inherit">
                             <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
                                   aria-label="simple tabs locations">
-                                <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)} />
-                                <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} />
-                                <Tab label="Sự kiện đã hoàn thành" {...this.tabProps(2)} />
+                                <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)} className={classes.text}/>
+                                <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} className={classes.text}/>
+                                <Tab label="Sự kiện đã hoàn thành" {...this.tabProps(2)} className={classes.text} />
                             </Tabs>
                         </AppBar>
                         {tab === 0 &&
@@ -181,11 +184,11 @@ class Home extends Component {
 
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                           open={userUpdating}
-                          message={"Updating profile..."}/>
+                          message={"Đang cập nhật hồ sơ..."}/>
 
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                           open={doneUserUpdate}
-                          message={"Profile updated successfully!"}/>
+                          message={"Hồ sơ cập nhật thành công!"}/>
             </div>
         );
     }

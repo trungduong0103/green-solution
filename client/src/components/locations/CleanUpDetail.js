@@ -2,45 +2,28 @@ import React from 'react';
 import {connect} from "react-redux";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import NavBar from "../navigation/NavBar";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Grid from "@material-ui/core/Grid"
-import GridListTile from "@material-ui/core/GridListTile"
+import Grid from "@material-ui/core/Grid";
 import placeholderImage from "../../assets/imgs/home_page_img.jpg";
-import myImage from "../../assets/imgs/aboutus.jpg"
-import img2 from "../../assets/imgs/img2.jpg"
-import img1 from "../../assets/imgs/img1.jpg"
+import myImage from "../../assets/imgs/aboutus.jpg";
+import img2 from "../../assets/imgs/img2.jpg";
+import img1 from "../../assets/imgs/img1.jpg";
 import Button from "@material-ui/core/Button"
 import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
-import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined'
-import CardHeader from "@material-ui/core/CardHeader"
-import {CleanUpDetailMap} from "./maps/CleanUpDetailMap"
-import {GridList} from "@material-ui/core";
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
+import {CleanUpDetailMap} from "./maps/CleanUpDetailMap";
 import Chip from "@material-ui/core/Chip"
-import { useTheme, makeStyles } from "@material-ui/core/styles"
 import Divider from "@material-ui/core/Divider";
-
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
+import ImageGridList from "../locations/clean_site_detail/ImageGridList";
+import UserGridList from "../locations/clean_site_detail/UserGridList";
 const styles = {
-    cardForm: {
-        boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
-        backgroundColor: "#F6EDD9",
-    },
     title: {
-
         fontFamily: "'Oswald', sans-serif;",
     },
-
     text: {
         fontFamily: "'Quicksand', sans-serif;",
     },
-
     margin: {
         marginTop: 10
     },
@@ -48,17 +31,12 @@ const styles = {
         height: "auto",
         margin: "5px 0"
     },
-
-
     gridHeader: {
-        // backgroundColor: "#7da968",
         padding: "20px",
         marginTop: "10px",
         height: "auto",
     },
-
     image: {
-
         borderRadius: '50%',
         height: "80px",
         width: "80px",
@@ -67,20 +45,6 @@ const styles = {
         borderStyle: "solid",
         boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
 
-    },
-    locationGrid: {
-        position: "relative",
-    },
-
-    mapCenter: {
-        left: "50%",
-        transform: "translateX(-50%)",
-        position: "absolute"
-    },
-    card: {
-        boxShadow: "0 14px 28px rgba(0,0,0,0.25)",
-        padding: "20px",
-        minWidth: "300px",
     },
     icon: {
         display: "inline",
@@ -114,9 +78,7 @@ const styles = {
     gridListContainer: {
         height: "auto"
     },
-    // grid: {
-    //     margin: "10px 0"
-    // },
+
     activeStatus: {
         fontFamily: "'Quicksand', sans-serif;",
         backgroundColor: "rgb(99,151,68)",
@@ -124,11 +86,36 @@ const styles = {
         textTransform: "uppercase",
         color: "white"
     },
-    deactBtn: {
+    disableStatus: {
+        fontFamily: "'Quicksand', sans-serif;",
+        backgroundColor: "rgb(255,96,88)",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        color: "black"
+    },
 
+    userCardItem: {
+        minHeight: "auto",
+        minWidth: "auto",
+        margin: "auto",
+        textAlign: "center",
+        padding: "10px 10px"
+    },
+    joinBtn: {
+        width: 150,
+        marginTop: 10,
+        fontSize: 17,
+        textTransform: "uppercase",
+        fontFamily: "'Quicksand', sans-serif;",
+        border: "none",
+        backgroundColor: "rgb(99,151,68)",
+        color: "white",
+        transition: "all 350ms ease-in-out",
+        "&:hover": {
+            backgroundColor: "black",
+            color: "white",
+        },
     }
-
-
 
 };
 
@@ -148,13 +135,56 @@ const styles = {
 
  ];
 
+const volunteers = [
+    {
+        id: 1,
+        img: myImage,
+        email: "manhtrietvt@gmail.com",
+        buyTools: true,
+        size: "XL"
+    },
+    {
+        id: 2,
+        img: placeholderImage,
+        email: "trungduong@gmail.com",
+        buyTools: true,
+        size: "XL"
+    },
+    {
+        id: 3,
+        img: img1,
+        email: "khang_nguyen12@gmail.com",
+        buyTools: false,
+        size: "M"
+    },
+    {
+        id: 4,
+        img: img2,
+        email: "nst@gmail.com",
+        buyTools: false,
+        size: "L"
+    },
+    {
+        id: 5,
+        img: img2,
+        email: "quachtoan@gmail.com",
+        buyTools: true,
+        size: "L"
+    },
+    {
+        id: 6,
+        img: img2,
+        email: "lam99@gmail.com",
+        buyTools: false,
+        size: "XL"
+    },
+
+];
+
 class CleanUpDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeStep: 0,
-            maxStep: imageList.length,
-
             location: {
                 organizer: "Đại học RMIT",
                 name: 'Sự kiện dọn dẹp trường RMIT',
@@ -172,65 +202,6 @@ class CleanUpDetail extends React.Component {
         }
     }
 
-    displayImages(imageList) {
-        const { classes } = this.props;
-        if (imageList.length === 1) {
-            return (
-                <GridList cellHeight={200}>
-                    <GridListTile>
-                        <img src={imageList[0].img} alt="location-image"/>
-                    </GridListTile>
-                </GridList>
-            )
-        }
-        else if (imageList.length === 2) {
-            return (
-                <GridList cellHeight={200} cols={2} spacing={0}>
-                    <GridListTile>
-                        <img src={imageList[0].img} alt="location-image"/>
-                    </GridListTile>
-                    <GridListTile>
-                        <img src={imageList[1].img} alt="location-image"/>
-                    </GridListTile>
-                </GridList>
-            )
-        }
-        else if (imageList.length === 3) {
-            return (
-                <GridList cellHeight={300} cols={3} spacing={0}>
-                    <GridListTile>
-                        <img src={imageList[0].img} alt="location-image"/>
-                    </GridListTile>
-                    <GridListTile>
-                        <img src={imageList[1].img} alt="location-image"/>
-                    </GridListTile>
-                    <GridListTile>
-                        <img src={imageList[2].img} alt="location-image"/>
-                    </GridListTile>
-                </GridList>
-            )
-        }
-        else if (imageList.length === 4) {
-            return (
-                <GridList cellHeight={200} cols={3} spacing={0}>
-                    <GridListTile cols={2} rows={1}>
-                        <img src={imageList[0].img} alt="location-image"/>
-                    </GridListTile>
-                    <GridListTile>
-                        <img src={imageList[1].img} alt="location-image"/>
-                    </GridListTile>
-                    <GridListTile>
-                        <img src={imageList[2].img} alt="location-image"/>
-                    </GridListTile>
-                    <GridListTile cols={2} rows={1}>
-                        <img src={imageList[3].img} alt="location-image"/>
-                    </GridListTile>
-                </GridList>
-            )
-        }
-
-    }
-
     render() {
         const {classes} = this.props;
         return (
@@ -238,7 +209,7 @@ class CleanUpDetail extends React.Component {
                 <NavBar/>
 
                 <Grid container>
-                    {this.displayImages(imageList)}
+                    <ImageGridList imageList={imageList}/>
                 </Grid>
 
                 <Grid container className={classes.gridHeader}>
@@ -266,7 +237,7 @@ class CleanUpDetail extends React.Component {
                                             <Typography variant="h6" className={classes.title}>Trạng thái:</Typography>
                                         </Grid>
                                         <Grid item sm={9}>
-                                            <Chip className={classes.activeStatus} label="Còn chỗ"></Chip>
+                                            <Chip className={classes.activeStatus} label="Còn chỗ"/>
                                         </Grid>
                                     </Grid>
 
@@ -296,7 +267,7 @@ class CleanUpDetail extends React.Component {
                                 </Grid>
                             </Grid>
 
-                            <Grid item sm={1}></Grid>
+                            <Grid item sm={1}/>
 
                             <Grid item sm={3}>
                                 <Grid container
@@ -307,25 +278,26 @@ class CleanUpDetail extends React.Component {
                                 >
                                     <img src={placeholderImage} alt="location-avatar" className={classes.image}/>
                                     <Typography variant="subtitle1" className={classes.text}>{this.state.location.organizer}</Typography>
+                                    <Button variant="outlined" className={classes.joinBtn}>Tham gia</Button>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item sm={2}></Grid>
+                    <Grid item sm={2}/>
                 </Grid>
 
                 <br/>
 
                 <Grid container>
-                    <Grid item sm={3}></Grid>
+                    <Grid item sm={3}/>
                     <Grid item sm={6}>
                         <Divider variant="middle" />
                     </Grid>
-                    <Grid item sm={3}></Grid>
+                    <Grid item sm={3}/>
                 </Grid>
 
                 <Grid container className={classes.gridHeader} spacing={3}>
-                    <Grid item sm={2}></Grid>
+                    <Grid item sm={2}/>
                     <Grid item sm={4}>
                         <Grid container className={classes.gridContent}>
                             <Grid item>
@@ -356,6 +328,24 @@ class CleanUpDetail extends React.Component {
                             </div>
                         </Grid>
                     </Grid>
+                </Grid>
+
+                <br/>
+
+                <Grid container>
+                    <Grid item sm={3}/>
+                    <Grid item sm={6}>
+                        <Divider variant="middle" />
+                    </Grid>
+                    <Grid item sm={3}/>
+                </Grid>
+
+                <Grid container className={classes.gridHeader}>
+                    <Grid item sm={2}/>
+                    <Grid item sm={8}>
+                        <UserGridList userList={volunteers} />
+                    </Grid>
+                    <Grid item sm={2}/>
                 </Grid>
             </div>
 
