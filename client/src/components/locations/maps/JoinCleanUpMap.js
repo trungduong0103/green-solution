@@ -111,15 +111,17 @@ export const JoinCleanUpMap = compose(
                 {(props.showInfoWindow && props.infoWindowIndex === index) &&
                 <InfoWindow onCloseClick={props.onToggleOpen} onClick={()=>props.onInfoWindowClick(marker.id)}>
                     <div onClick={()=>props.onInfoWindowClick(marker.id)} style={{cursor:'pointer'}}>
-                        <Card style={{maxWidth: "400px"}}>
+                        <Card style={{minWidth: "300px", minHeight: "300px", alignContent: "center", justifyContent:"center"}}>
                             <CardMedia style={props.locationAvatar} component="img" src={locationAvatar}/>
-                            <CardContent>
-                                <Typography gutterBottom variant="h4" component="h2">{marker.name}</Typography>
-                                <Typography noWrap variant="body1" color="textSecondary" component="h3"
+                            <CardContent style={{textAlign: "center"}}>
+
+                                <Typography style={{fontFamily: "Quicksand, sans-serif"}} gutterBottom variant="h4">{marker.name}</Typography>
+
+                                <Typography style={{fontFamily: "Quicksand, sans-serif"}} noWrap variant="body1" color="textSecondary" component="h3"
                                             paragraph>{marker.address}</Typography>
-                                <Typography variant="body2" color="textSecondary"
+                                <Typography style={{fontFamily: "Quicksand, sans-serif"}} variant="body2" color="textSecondary"
                                             component="h5">From {marker.startDate}</Typography>
-                                <Typography variant="body2" color="textSecondary"
+                                <Typography style={{fontFamily: "Quicksand, sans-serif"}} variant="body2" color="textSecondary"
                                             component="h5">Description {marker.description}</Typography>
                             </CardContent>
                         </Card>

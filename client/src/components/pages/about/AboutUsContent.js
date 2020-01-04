@@ -44,7 +44,7 @@ const styles = {
     },
     text: {
         paddingTop: 20,
-        fontFamily: "'Merriweather', serif",
+        fontFamily: "'Quicksand', serif",
     },
     subText: {
         marginTop: 15,

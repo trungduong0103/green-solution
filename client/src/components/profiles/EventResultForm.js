@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { withStyles } from "@material-ui/core";
+import React, {Component} from 'react';
+import {withStyles} from "@material-ui/core";
+import {connect} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -161,7 +162,7 @@ class EventResultForm extends Component {
 
                                 {participants.map((participant,index)=>
                                 (
-                                    <Chip 
+                                    <Chip
                                         label={participant}
                                         onDelete={()=>this.handleRemove(participant)}
                                         key={index}
