@@ -6,10 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogTitle from "@material-ui/core/DialogTitle"
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField"
-import EditIcon from "@material-ui/icons/Edit"
 import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 import {withStyles} from "@material-ui/core";
 import userAvatar from "../../assets/imgs/home_page_img.jpg";
@@ -59,19 +57,13 @@ const styles = {
         }
     },
     confirmBtn: {
-        padding: "5px 20px",
         fontFamily: "'Quicksand', sans-serif;",
-        backgroundColor: "rgb(99,151,68)",
-        color: "white",
         "&:hover":{
             backgroundColor: "rgb(99,151,68)",
         }
     },
     closeBtn: {
-        padding: "5px 20px",
         fontFamily: "'Quicksand', sans-serif;",
-        backgroundColor: "rgb(255,84,83)",
-        color: "black",
         "&:hover":{
             backgroundColor: "rgb(255,84,83)",
         }

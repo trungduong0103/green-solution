@@ -21,9 +21,28 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import Checkbox from "@material-ui/core/Checkbox";
 import Collapse from "@material-ui/core/Collapse";
+import {Typography} from "@material-ui/core";
 
 const styles = {
-    customBtn: {marginLeft: "auto"},
+    confirmBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        "&:hover":{
+            backgroundColor: "rgb(99,151,68)",
+        }
+    },
+    closeBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        "&:hover":{
+            backgroundColor: "rgb(255,84,83)",
+        }
+    },
+    collapseTitle: {
+        fontFamily: "'Quicksand', sans-serif;",
+        paddingLeft: "1em"
+    },
+    input: {
+        fontFamily: "'Quicksand', sans-serif;",
+    },
     card: {minWidth: "550px"},
     treeView: {padding: "0 0 0 0.5em"}
 };
@@ -85,18 +104,24 @@ class JoinCleanUpForm extends Component {
         const {userInfo} = this.state;
         const {additionalInfo} = this.state;
         if (this.validateData(userInfo)) {
-            const userInfo_ = {};
-            userInfo_.email = userInfo.email;
-            userInfo_.phoneNumber = userInfo.phoneNumber;
-            console.log(userInfo_);
-            console.log(additionalInfo);
-            this.props.joinLocation({
-                userInfo: userInfo_,
-                additionalInfo: additionalInfo
-            });
-            this.clearForm();
+            alert("True")
+            // const userInfo_ = {};
+            // userInfo_.email = userInfo.email;
+            // userInfo_.phoneNumber = userInfo.phoneNumber;
+            // console.log(userInfo_);
+            // console.log(additionalInfo);
+            // this.props.joinLocation({
+            //     userInfo: userInfo_,
+            //     additionalInfo: additionalInfo
+            // });
+            // this.clearForm();
         }
-    };
+        else {
+            alert("False")
+        }
+    }
+
+    ;
 
     clearForm = () => {
     };
@@ -111,6 +136,10 @@ class JoinCleanUpForm extends Component {
             errors.phoneNumber = "Không được để trống";
         }
 
+        if (data.dateOfBirth === "") {
+            errors.phoneNumber = "Không được để trống";
+        }
+
         if (Object.keys(errors).length !== 0) {
             this.setState({errors: errors});
             return false;
@@ -119,7 +148,7 @@ class JoinCleanUpForm extends Component {
     }
 
     render() {
-        const {classes, loading, doneJoinLocation, alreadyJoinedLocation, location} = this.props;
+        const {classes, loading, doneJoinLocation, alreadyJoinedLocation, location, openJoinLocationForm} = this.props;
         const {errors, userInfo, additionalInfo, checked} = this.state;
         const availableSizes = ["S", "M", "L", "XL"];
         return (
@@ -146,12 +175,14 @@ class JoinCleanUpForm extends Component {
                                 onChange={this.handleChange}
                                 margin="normal"
                                 fullWidth
+                                InputLabelProps={{className: classes.input}}
+                                InputProps={{className: classes.input}}
                             />
                         </Grid>
                         <Grid item sm={6}>
                             <TextField
                                 name="phoneNumber"
-                                placeholder="Phone Number"
+                                placeholder="Số điện thoại"
                                 value={userInfo.phoneNumber}
                                 className={classes.textField}
                                 helperText={errors.phoneNumber}
@@ -159,6 +190,8 @@ class JoinCleanUpForm extends Component {
                                 onChange={this.handleChange}
                                 margin="normal"
                                 fullWidth
+                                InputLabelProps={{className: classes.input}}
+                                InputProps={{className: classes.input}}
                             />
                         </Grid>
                     </Grid>
@@ -172,17 +205,20 @@ class JoinCleanUpForm extends Component {
                                     id="date-picker-dialog"
                                     value={userInfo.dateOfBirth}
                                     onChange={this.handleStartDateChange}
-                                    label="DOB"
+                                    label="Ngày sinh"
                                     fullWidth
+                                    InputLabelProps={{className: classes.input}}
+                                    InputProps={{className: classes.input}}
                                 />
                             </MuiPickersUtilsProvider>
                         </Grid>
                     </Grid>
                 </CardContent>
                 <br/>
-                <FormControlLabel style={{paddingLeft: "1em"}} control={<Checkbox color="primary"/>}
-                                  onChange={this.requestTool} label="Request Tool"/>
+                <FormControlLabel style={{paddingLeft: "1em"}} control={<Checkbox  color="primary"/>}
+                                  onChange={this.requestTool} label={<Typography style={{fontFamily: "'Quicksand', sans-serif"}}>Yêu cầu dụng cụ</Typography>}/>
                 <Collapse in={checked}>
+                    <Typography className={classes.collapseTitle}>Chọn size áo</Typography>
                     {availableSizes.map((size) =>
                         <FormControlLabel
                             key={size}
@@ -194,10 +230,16 @@ class JoinCleanUpForm extends Component {
                             onChange={this.handleEquipmentChange}
                         />
                     )}
-                    <TextField label="More tools" value={additionalInfo.tools} name="tools" onChange={this.handleEquipmentChange}/>
+                    <TextField InputLabelProps={{className: classes.input}}
+                               InputProps={{className: classes.input}}
+                               label="Thêm dụng cụ"
+                               value={additionalInfo.tools}
+                               name="tools"
+                               onChange={this.handleEquipmentChange}/>
                 </Collapse>
-                {alreadyJoinedLocation ? <h4>Already Joined</h4> :
+                {alreadyJoinedLocation ? <h4>Đã đăng ký tham gia</h4> :
                     <CardActions>
+                        <Button style={{marginLeft: "auto"}} onClick={openJoinLocationForm} className={classes.closeBtn}>Đóng</Button>
                         {doneJoinLocation ?
                             (<CheckIcon className={classes.tickIcon}/>) :
                             (loading ? (
@@ -207,8 +249,7 @@ class JoinCleanUpForm extends Component {
                                         className={classes.progress}
                                     />) : (
                                     <Button
-                                        variant="contained"
-                                        className={classes.customBtn}
+                                        className={classes.confirmBtn}
                                         onClick={this.handleJoinLocation}>
                                         Đăng Kí
                                     </Button>

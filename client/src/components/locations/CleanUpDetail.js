@@ -1,26 +1,13 @@
 import React from 'react';
 import {connect} from "react-redux";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridList from "@material-ui/core/GridList";
-import Chip from "@material-ui/core/Chip";
-import Divider from "@material-ui/core/Divider";
-import Button from "@material-ui/core/Button";
-import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
-import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
 import Backdrop from "@material-ui/core/Backdrop";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import {CleanUpDetailMap} from "./maps/CleanUpDetailMap";
 import jwtDecode from "jwt-decode";
 import NavBar from "../navigation/NavBar";
-import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
-import myImage from "../../assets/imgs/aboutus.jpg";
-import img2 from "../../assets/imgs/img2.jpg";
-import img1 from "../../assets/imgs/img1.jpg";
 import placeholderImage from "../../assets/imgs/home_page_img.jpg";
 import myImage from "../../assets/imgs/aboutus.jpg";
 import img2 from "../../assets/imgs/img2.jpg";
@@ -28,7 +15,6 @@ import img1 from "../../assets/imgs/img1.jpg";
 import Button from "@material-ui/core/Button"
 import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
 import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
-import {CleanUpDetailMap} from "./maps/CleanUpDetailMap";
 import Chip from "@material-ui/core/Chip"
 import Divider from "@material-ui/core/Divider";
 import ImageGridList from "../locations/clean_site_detail/ImageGridList";
@@ -133,6 +119,7 @@ const styles = {
             backgroundColor: "black",
             color: "white",
         },
+    },
     backdrop: {
         zIndex: 1
     }
@@ -228,7 +215,7 @@ class CleanUpDetail extends React.Component {
     }
 
     openJoinLocationForm = () => {
-        this.setState({backdrop: true});
+        this.setState({backdrop: !this.state.backdrop});
     };
 
     render() {
@@ -237,7 +224,6 @@ class CleanUpDetail extends React.Component {
         return (
             <div>
                 <NavBar/>
-
                 <Grid container>
                     <ImageGridList imageList={imageList}/>
                 </Grid>
@@ -313,7 +299,7 @@ class CleanUpDetail extends React.Component {
                                          alt="location-avatar" className={classes.image}/>
                                     <Typography variant="subtitle1"
                                                 className={classes.text}>{location.organization}</Typography>
-                                    <Button onClick={this.openJoinLocationForm}>Join</Button>
+                                    <Button className={classes.joinBtn} onClick={this.openJoinLocationForm}>Tham gia</Button>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -332,7 +318,7 @@ class CleanUpDetail extends React.Component {
                 </Grid>
 
                 <Grid container className={classes.gridHeader} spacing={3}>
-                    <Grid item sm={2}></Grid>
+                    <Grid item sm={2}/>
                     <Grid item sm={4}>
                         <Grid container className={classes.gridContent}>
                             <Grid item>
@@ -368,10 +354,6 @@ class CleanUpDetail extends React.Component {
                     </Grid>
                 </Grid>
 
-                <Backdrop timeout={0} open={backdrop} className={classes.backdrop}>
-                    <JoinCleanUpForm location={location} user={user} locationId={location.id}/>
-                </Backdrop>
-
                 <br/>
 
                 <Grid container>
@@ -389,6 +371,11 @@ class CleanUpDetail extends React.Component {
                     </Grid>
                     <Grid item sm={2}/>
                 </Grid>
+
+                <Backdrop timeout={0} open={backdrop} className={classes.backdrop}>
+                    <JoinCleanUpForm location={location} user={user} locationId={location.id} openJoinLocationForm={this.openJoinLocationForm}/>
+                </Backdrop>
+
             </div>
 
         )
