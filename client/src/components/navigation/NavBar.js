@@ -43,13 +43,15 @@ const styles = {
             outline: "none",
             border: "none"
         },
-        marginTop: 35
+        marginTop: 15
     },
     logo: {
         width: 200,
         height: 60
     },
     logoBtn: {
+        marginRight: "auto",
+        // display: "flex",
         outline: "none",
         textDecoration: "none",
         textTransform: "none",
@@ -61,7 +63,7 @@ const styles = {
             outline: "none",
             border: "none"
         },
-        padding: 25,
+        // padding: 25,
     },
     toolbar: {
         padding: "0 2% 0 2%",
@@ -76,7 +78,7 @@ const styles = {
         "&:hover": {
             backgroundColor: "#7F986F",
         },
-        marginTop: 35,
+        marginTop: 15,
     }
 };
 
@@ -92,7 +94,7 @@ class NavBar extends Component {
 
         return (
             <AppBar position="sticky" className={classes.appBar}>
-                <Toolbar className={classes.toolbar}>
+                <Toolbar className={classes.toolbar} >
                     <Grid container>
                         <Grid item sm={3}>
                             <Button
@@ -104,8 +106,8 @@ class NavBar extends Component {
                             </Button>
                         </Grid>
 
-                        <Grid item sm={5}>
-                            <Grid container spacing={2} justify="center">
+                        <Grid item sm={6}>
+                            <Grid container spacing={2} justify="center" alignItems="center">
                                 <Grid item>
                                     <Button
                                         onClick={!auth ? () => this.props.openAuthenticationSnackbar() : () => console.log("logged in")}
@@ -146,10 +148,10 @@ class NavBar extends Component {
                             </Grid>
                         </Grid>
 
-                        <Grid item sm={4}>
+                        <Grid item sm={3}>
                             <Grid container>
-                                <Grid item sm={5}/>
-                                <Grid item sm={7} >
+                                <Grid item sm={3}/>
+                                <Grid item sm={9} >
                                     {auth ? (
                                         <Button variant="contained"
                                                 className={classes.signUpBtn}

@@ -68,6 +68,7 @@ class JoinCleanUpForm extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        //Note: error occur when user is authenticated
         if (prevProps.user !== this.props.user) {
             this.setState({userInfo: this.props.user});
         }
@@ -102,6 +103,8 @@ class JoinCleanUpForm extends Component {
 
     handleJoinLocation = () => {
         const {userInfo} = this.state;
+        console.log(this.state.userInfo);
+        // console.log(this.state.additionalInfo);
         const {additionalInfo} = this.state;
         if (this.validateData(userInfo)) {
             const userInfo_ = {};
@@ -162,7 +165,7 @@ class JoinCleanUpForm extends Component {
                     subheader={location.street}
                 />
                 <CardContent>
-                    <Grid container spacing={1}>
+                    <Grid container spacing={4}>
                         <Grid item sm={6}>
                             <TextField
                                 name="email"
@@ -224,7 +227,7 @@ class JoinCleanUpForm extends Component {
                             value={size}
                             name="tShirtSize"
                             control={<Radio color="primary"/>}
-                            label={size}
+                            label={<Typography style={{fontFamily: "'Quicksand', sans-serif"}}>{size}</Typography>}
                             labelPlacement="bottom"
                             onChange={this.handleEquipmentChange}
                         />
