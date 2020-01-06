@@ -85,9 +85,9 @@ class JoinCleanUpForm extends Component {
     };
 
     handleStartDateChange = (date) => {
-        const {user} = this.state.user;
-        user.dateOfBirth = date;
-        this.setState({user});
+        const {userInfo} = this.state;
+        userInfo.dateOfBirth = date;
+        this.setState({userInfo});
     };
 
     requestTool = () => {
@@ -104,24 +104,23 @@ class JoinCleanUpForm extends Component {
         const {userInfo} = this.state;
         const {additionalInfo} = this.state;
         if (this.validateData(userInfo)) {
-            alert("True")
-            // const userInfo_ = {};
-            // userInfo_.email = userInfo.email;
-            // userInfo_.phoneNumber = userInfo.phoneNumber;
-            // console.log(userInfo_);
-            // console.log(additionalInfo);
-            // this.props.joinLocation({
-            //     userInfo: userInfo_,
-            //     additionalInfo: additionalInfo
-            // });
-            // this.clearForm();
+            const userInfo_ = {};
+            userInfo_.email = userInfo.email;
+            userInfo_.phoneNumber = userInfo.phoneNumber;
+            console.log(userInfo_);
+            console.log(additionalInfo);
+            this.props.joinLocation({
+                userInfo: userInfo_,
+                additionalInfo: additionalInfo
+            });
+            this.clearForm();
         }
         else {
+            //TODO OPEN MODAL
+            //MESSAGE: PLEASE CHECK YOUR FORM
             alert("False")
         }
-    }
-
-    ;
+    };
 
     clearForm = () => {
     };
