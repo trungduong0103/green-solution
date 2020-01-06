@@ -29,6 +29,9 @@ const styles = {
         width: "100%",
         margin: "10px 0"
     },
+    chip: {
+        fontFamily: "'Quicksand', sans-serif;",
+    }
 };
 
 const today = new Date();
@@ -155,20 +158,20 @@ class Filters extends Component {
                 <Grid container>
                     {filters.startDate !== today ? (
                         <Chip label={`${filters.startDate.getFullYear()}-${filters.startDate.getMonth()+1}-${filters.startDate.getDate()}`}
-                              variant="outlined"/>
+                              variant="outlined" className={classes.chip}/>
                     ) : ""}
                     {cities ? (
                         cities.map((city, index) =>
-                            <Chip key={index} label={city} variant="outlined"/>
+                            <Chip key={index} label={city} variant="outlined" className={classes.chip}/>
                         )
                     ) : ""}
                     {districts ? (
                         districts.map((district, index) =>
-                            <Chip key={index} label={district} variant="outlined"/>
+                            <Chip key={index} label={district} variant="outlined" className={classes.chip}/>
                         )
                     ) : ""}
                     {filters || startDate !== today ? (
-                        <Chip label="Clear all" variant="outlined" onClick={this.handleResetFilters}/>
+                        <Chip label="Clear all" variant="outlined" onClick={this.handleResetFilters} className={classes.chip}/>
                     ) : ""}
                 </Grid>
             </Grid>

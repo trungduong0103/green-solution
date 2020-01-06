@@ -60,7 +60,7 @@ class CleanSitesList extends Component {
                                                     <a href={`/cleanup-detail/${location.id}`} target="_blank" rel="noopener noreferrer">{location.name}</a>
                                                 </Typography>
                                                 <Typography variant="subtitle1" className={classes.text}>{location.address}</Typography>
-                                                <Typography variant="subtitle2" className={classes.text}>{location.description}</Typography>
+                                                <Typography variant="subtitle1" className={classes.text}>{location.description}</Typography>
                                             </Grid>
                                         </Grid>
                                     </CardContent>
