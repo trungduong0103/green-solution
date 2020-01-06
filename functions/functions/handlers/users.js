@@ -137,7 +137,9 @@ exports.getAuthenticatedUserProfile = (req, res) => {
         .doc(userEmail)
         .get()
         .then((snapshot) => {
-            return res.json(snapshot.data());
+            const userProfile = snapshot.data();
+            userProfile.email = snapshot.id;
+            return res.json(userProfile);
         })
         .catch((err) => {
             console.log(err);

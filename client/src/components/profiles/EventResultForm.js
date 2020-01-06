@@ -79,7 +79,6 @@ class EventResultForm extends Component {
             organic: 0,
             recyclable: 0,
             nonRecyclable: 0,
-
         }
     }
 
@@ -129,9 +128,9 @@ class EventResultForm extends Component {
     }
 
     componentDidMount() {
-        if (this.props.location !== undefined) {
+        if (this.props.locations !== undefined) {
             this.setState({
-                participants: this.props.location.registeredUsers
+                participants: this.props.locations[0].registeredUsers
             })
         }
     }
@@ -158,8 +157,6 @@ class EventResultForm extends Component {
                         <div className={classes.form}>
                             <div>
                                 <Typography>Danh sách người tham gia</Typography>
-
-
                                 {participants.map((participant, index) =>
                                     (
                                         <Chip
@@ -168,11 +165,8 @@ class EventResultForm extends Component {
                                             key={index}
                                         />
                                     )
-
                                 )}
-
                                 <br/>
-
                                 <TextField
                                     label="Tổng khối lượng rác thu được (kg)"
                                     type="number"
@@ -271,4 +265,4 @@ class EventResultForm extends Component {
 }
 
 
-export default ((withStyles(styles)(EventResultForm)));
+export default (withStyles(styles)(EventResultForm));
