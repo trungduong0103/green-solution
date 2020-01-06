@@ -84,7 +84,7 @@ class EventResultForm extends Component {
     }
 
     handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value })
+        this.setState({[event.target.name]: event.target.value})
     };
 
     submit = () => {
@@ -111,42 +111,44 @@ class EventResultForm extends Component {
 
     handleSubmitImage = (files) => {
         // const {creator, locationId, history} = this.props;
-        files.forEach(f=>{
+        files.forEach(f => {
             const img = f.file
             const reader = new FileReader()
-            reader.onloadend = ()=>{
+            reader.onloadend = () => {
                 console.log(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
             }
             reader.readAsDataURL(img)
         })
     };
 
-    handleRemove=(participant)=>{
-        const filteredList = this.state.participants.filter(p => p!==participant)
+    handleRemove = (participant) => {
+        const filteredList = this.state.participants.filter(p => p !== participant)
         this.setState({
-            participants:filteredList
+            participants: filteredList
         })
     }
 
-    componentDidMount(){
-        if(this.props.location.registeredUsers!==undefined)
-        {this.setState({
-            participants:this.props.location.registeredUsers
-        })}
+    componentDidMount() {
+        if (this.props.location !== undefined) {
+            this.setState({
+                participants: this.props.location.registeredUsers
+            })
+        }
     }
 
-    componentDidUpdate(prevProps){
-        if(prevProps.location!==this.props.location){
-            if(this.props.location!==undefined && this.props.location.registeredUsers!==undefined)
-            {this.setState({
-                participants:this.props.location.registeredUsers
-            })}
+    componentDidUpdate(prevProps) {
+        if (prevProps.location !== this.props.location) {
+            if (this.props.location !== undefined && this.props.location.registeredUsers !== undefined) {
+                this.setState({
+                    participants: this.props.location.registeredUsers
+                })
+            }
         }
     }
 
     render() {
-        const { classes, open, handleOpenResultForm } = this.props;
-        const { participants, weight, organic, recyclable, nonRecyclable } = this.state;
+        const {classes, open, handleOpenResultForm} = this.props;
+        const {participants, weight, organic, recyclable, nonRecyclable} = this.state;
 
         return (
             <Dialog open={open} onClose={() => handleOpenResultForm()}>
@@ -157,14 +159,16 @@ class EventResultForm extends Component {
                             <div>
                                 <Typography>Danh sách người tham gia</Typography>
 
-                                {participants.map((participant,index)=>
-                                (
-                                    <Chip
-                                        label={participant}
-                                        onDelete={()=>this.handleRemove(participant)}
-                                        key={index}
-                                    />
-                                )
+
+                                {participants.map((participant, index) =>
+                                    (
+                                        <Chip
+                                            label={participant}
+                                            onDelete={() => this.handleRemove(participant)}
+                                            key={index}
+                                        />
+                                    )
+
                                 )}
 
                                 <br/>
