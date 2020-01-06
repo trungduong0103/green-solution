@@ -41,7 +41,6 @@ app.post("/upload_location_logo", uploadLocationLogo);
 app.get("/get_all_clean_sites", getAllCleanUpLocations);
 app.post("/get_registered_users", getRegisteredUsersOfLocation);
 
-
 //topics
 app.get("/newtopic", createNewTopic);
 app.post("/newmessage", publishMessageToTopic);
