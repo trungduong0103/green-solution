@@ -19,6 +19,7 @@ import Chip from "@material-ui/core/Chip"
 import Divider from "@material-ui/core/Divider";
 import ImageGridList from "../locations/clean_site_detail/ImageGridList";
 import UserGridList from "../locations/clean_site_detail/UserGridList";
+import UpdatePhotos from "../locations/clean_site_detail/UpdatePhotos";
 import JoinCleanUpForm from "./join_clean_site/JoinCleanUpForm";
 import {getUser} from "../../redux/actions/UserActions";
 
@@ -194,7 +195,8 @@ class CleanUpDetail extends React.Component {
             activeStep: 0,
             maxStep: imageList.length,
             location: {},
-            backdrop: false
+            backdrop: false,
+            openDropImage: false
         }
     }
 
@@ -218,14 +220,20 @@ class CleanUpDetail extends React.Component {
         this.setState({backdrop: !this.state.backdrop});
     };
 
+    handleOpenDropImage = ()=>{
+        this.setState({
+            openDropImage:!this.state.openDropImage
+        })
+    }
+
     render() {
         const {classes, user} = this.props;
-        const {location, backdrop} = this.state;
+        const {location, backdrop,openDropImage} = this.state;
         return (
             <div>
                 <NavBar/>
                 <Grid container>
-                    <ImageGridList imageList={imageList}/>
+                    <ImageGridList imageList={imageList} open={this.handleOpenDropImage}/>
                 </Grid>
 
                 <Grid container className={classes.gridHeader}>
@@ -375,6 +383,8 @@ class CleanUpDetail extends React.Component {
                 <Backdrop timeout={0} open={backdrop} className={classes.backdrop}>
                     <JoinCleanUpForm location={location} user={user} locationId={location.id} openJoinLocationForm={this.openJoinLocationForm}/>
                 </Backdrop>
+
+                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage} />
 
             </div>
 
