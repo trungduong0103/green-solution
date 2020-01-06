@@ -6,13 +6,13 @@ import Typography from "@material-ui/core/Typography";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogTitle from "@material-ui/core/DialogTitle"
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField"
-import EditIcon from "@material-ui/icons/Edit"
+import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 import {withStyles} from "@material-ui/core";
 import userAvatar from "../../assets/imgs/home_page_img.jpg";
 import {updateUserAvatar} from "../../redux/actions/UserActions";
+import Grid from "@material-ui/core/Grid";
 
 
 const styles = {
@@ -27,14 +27,14 @@ const styles = {
             '& button': {
                 position: 'absolute',
                 top: '80%',
-                left: '70%'
+                left: '65%',
             }
         },
         '& .profile-image': {
             borderRadius: '50%',
             height: "200px",
             width: "200px",
-            padding: "10px"
+            // padding: "10px"
         },
         '& .profile-details': {
             textAlign: 'left',
@@ -56,10 +56,16 @@ const styles = {
             }
         }
     },
-    buttons: {
-        textAlign: 'center',
-        '& a': {
-            margin: '20px 10px'
+    confirmBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        "&:hover":{
+            backgroundColor: "rgb(99,151,68)",
+        }
+    },
+    closeBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        "&:hover":{
+            backgroundColor: "rgb(255,84,83)",
         }
     },
     formInput: {
@@ -71,6 +77,14 @@ const styles = {
         },
         paddingBottom: "10px"
     },
+    input: {
+        fontFamily: "'Quicksand', sans-serif;",
+    },
+    dialogTitle: {
+        fontFamily: "'Quicksand', sans-serif;",
+        textAlign: "center",
+        padding: 15
+    }
 };
 
 class UpdateProfile extends Component {
@@ -151,67 +165,73 @@ class UpdateProfile extends Component {
         console.log(this.state);
         return (
             <Dialog open={open} onClose={() => handleOpenUpdateProfile()}>
-                <DialogTitle>Update profile</DialogTitle>
+                <Typography variant="h5" className={classes.dialogTitle}>Cập nhật hồ sơ</Typography>
                 <DialogContent>
                     <Paper className={classes.paper}>
                         <div className={classes.profile}>
                             <div className="image-wrapper">
                                 <img src={this.state.avatarUrl ? this.state.avatarUrl : userAvatar} alt="Profile" className="profile-image"/>
                                 <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange}/>
-                                <IconButton onClick={this.handleEditPicture}>
-                                    <EditIcon/>
+                                <IconButton onClick={this.handleEditPicture} className={classes.icon}>
+                                    <CameraAltOutlinedIcon/>
                                 </IconButton>
                             </div>
                             <hr/>
-                            <hr/>
-                            <div className="profile-details">
-                                <Typography>{email}</Typography>
-                                <TextField
-                                    label="Họ"
-                                    type="text"
-                                    name="lastName"
-                                    placeholder="Nhập họ"
-                                    className={classes.formInput}
-                                    id="lastName"
-                                    onChange={this.handleChange}
-                                    value={lastName}
-                                    fullWidth
-                                />
+                            <Grid item sm={12}>
+                                <Grid container spacing={3}>
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            className={classes.formInput}
+                                            name="lastName"
+                                            required
+                                            type="text"
+                                            label="Họ"
+                                            onChange={this.handleChange}
+                                            fullWidth
+                                            value={lastName}
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
+                                        />
+                                    </Grid>
 
-                                <TextField
-                                    label="Tên"
-                                    type="text"
-                                    name="firstName"
-                                    placeholder="Nhập tên"
-                                    className={classes.formInput}
-                                    id="firstName"
-                                    onChange={this.handleChange}
-                                    value={firstName}
-                                    fullWidth
-                                />
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            className={classes.formInput}
+                                            name="firstName"
+                                            required
+                                            type="text"
+                                            label="Tên"
+                                            onChange={this.handleChange}
+                                            fullWidth
+                                            value={firstName}
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
+                                        />
+                                    </Grid>
+                                </Grid>
 
-
-                                <TextField
-                                    label="Số điện thoại"
-                                    type="tel"
-                                    name="phoneNumber"
-                                    placeholder="Nhập số điện thoại"
-                                    className={classes.formInput}
-                                    id="phoneNumber"
-                                    onChange={this.handleChange}
-                                    value={phoneNumber}
-                                    fullWidth
-                                />
-
-                            </div>
-
+                                <Grid item sm={12}>
+                                    <TextField
+                                        className={classes.formInput}
+                                        name="phoneNumber"
+                                        required
+                                        type="number"
+                                        label="Số điện thoại"
+                                        onChange={this.handleChange}
+                                        fullWidth
+                                        value={phoneNumber}
+                                        InputLabelProps={{className: classes.input}}
+                                        InputProps={{className: classes.input}}
+                                    />
+                                </Grid>
+                            </Grid>
                         </div>
                     </Paper>
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={() => this.submit()}>Submit</Button>
-                    <Button onClick={() => handleOpenUpdateProfile()}>Close</Button>
+                    <Button className={classes.confirmBtn} onClick={() => this.submit()}>Lưu</Button>
+                    <Button className={classes.closeBtn} onClick={() => handleOpenUpdateProfile()}>Đóng</Button>
                 </DialogActions>
             </Dialog>
 

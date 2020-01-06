@@ -54,10 +54,10 @@ class AdminLocations extends Component {
             grid: 6,
             open:false,
             locationId:''
-        }
+        };
 
-        this.setGrid = this.setGrid.bind(this)
-        this.setList = this.setList.bind(this)
+        this.setGrid = this.setGrid.bind(this);
+        this.setList = this.setList.bind(this);
     }
 
     setGrid = () => {
@@ -77,26 +77,26 @@ class AdminLocations extends Component {
             locationId:id,
             open:true
         })
-    }
+    };
 
     handleCloseDialog = ()=>{
         this.setState({
             open:false
         })
-    }
+    };
 
     handlePaymentCheck=()=>{
-        const id = this.state.locationId
-        console.log(id)
+        const id = this.state.locationId;
+        console.log(id);
         //function here
         this.handleCloseDialog()
-    }
+    };
 
     render() {
         const { classes,
             locations } = this.props;
         const { grid, open} = this.state;
-        console.log(locations)
+        console.log(locations);
         return (
             <div>
 

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {withStyles} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
@@ -10,7 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import TextField from "@material-ui/core/TextField"
 import Dropzone from "react-dropzone-uploader"
 import Chip from "@material-ui/core/Chip"
-
+import Typography from "@material-ui/core/Typography"
 
 const styles = {
     paper: {
@@ -83,7 +82,6 @@ class EventResultForm extends Component {
 
         }
     }
-
 
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value})
@@ -161,6 +159,7 @@ class EventResultForm extends Component {
                             <div>
                                 <Typography>Danh sách người tham gia</Typography>
 
+
                                 {participants.map((participant, index) =>
                                     (
                                         <Chip
@@ -169,6 +168,7 @@ class EventResultForm extends Component {
                                             key={index}
                                         />
                                     )
+
                                 )}
 
                                 <br/>
