@@ -112,24 +112,6 @@ exports.signIn = (req, res) => {
         });
 };
 
-//get user information
-exports.getAuthenticatedUser = (req, res) => {
-    db.collection("users")
-        .doc(`${req.user.username}`)
-        .get()
-        .then((doc) => {
-            if (doc.exists) {
-                return res.json(doc.data());
-            } else {
-                return res.json({error: "User not found."});
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            return res.json({error: err.code});
-        })
-};
-
 exports.getAuthenticatedUserProfile = (req, res) => {
     const userEmail = req.body.email;
     return db

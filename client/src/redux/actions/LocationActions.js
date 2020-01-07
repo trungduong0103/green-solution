@@ -102,14 +102,9 @@ export function createNewLocation(location) {
         axios
             .post(`${DEFAULT_URL}/create_clean_site`, location, {headers: {"Authorization": token}})
             .then((res) => {
-                dispatch({
-                    type: CREATE_NEW_LOCATION,
-                    payload: res.data
-                });
+                dispatch({type: CREATE_NEW_LOCATION, payload: res.data});
                 dispatch({type: CREATE_LOCATION_COMPLETE});
-                setTimeout(() => {
-                    dispatch({type: RESET_UI_STATE})
-                }, 1000);
+                setTimeout(() => {dispatch({type: RESET_UI_STATE})}, 1000);
             })
             .catch((err) => {
                 console.log(err);
@@ -123,13 +118,11 @@ export function joinLocation(info) {
         dispatch({type: JOINING_CLEAN_SITE});
         axios.post(`${DEFAULT_URL}/join_clean_site`, info)
             .then((response) => {
-                if (response.message === "registration successful") return dispatch({type: JOINED_CLEAN_SITE});
+                if (response.data.message === "registration successful") return dispatch({type: JOINED_CLEAN_SITE});
                 return dispatch({type: ALREADY_JOINED_CLEAN_SITE});
             })
             .then(() => {
-                setTimeout(() => {
-                    dispatch({type: RESET_UI_STATE})
-                }, 1000);
+                setTimeout(() => {dispatch({type: RESET_UI_STATE});}, 1000);
             })
             .catch((err) => {
                 console.log(err);

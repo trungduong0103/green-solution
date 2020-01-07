@@ -138,9 +138,10 @@ function checkUserAlreadyCreatedInFirestore(email) {
 }
 
 function createUserUsingEmail(record) {
+    const userInfo = record.userInfo;
     return db.collection("users")
-        .doc(record.email)
-        .set({phoneNumber: record.phoneNumber, verified: 0});
+        .doc(userInfo.email)
+        .set({phoneNumber: userInfo.phoneNumber, verified: 0});
 }
 
 function checkUserAlreadyRegisteredToLocation(locationId, email) {

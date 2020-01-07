@@ -56,6 +56,7 @@ class JoinCleanUpForm extends Component {
             userInfo: {
                 email: "",
                 phoneNumber: "",
+                verified: "",
                 dateOfBirth: today
             },
             additionalInfo: {
@@ -68,8 +69,9 @@ class JoinCleanUpForm extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        //Note: error occur when user is authenticated
         if (prevProps.user !== this.props.user) {
+            const userInfo = this.props.user;
+            if (userInfo.phoneNumber === undefined) userInfo.phoneNumber = "";
             this.setState({userInfo: this.props.user});
         }
         if (prevProps.locationId !== this.props.locationId) {
@@ -103,15 +105,12 @@ class JoinCleanUpForm extends Component {
 
     handleJoinLocation = () => {
         const {userInfo} = this.state;
-        console.log(this.state.userInfo);
         // console.log(this.state.additionalInfo);
         const {additionalInfo} = this.state;
         if (this.validateData(userInfo)) {
             const userInfo_ = {};
             userInfo_.email = userInfo.email;
             userInfo_.phoneNumber = userInfo.phoneNumber;
-            console.log(userInfo_);
-            console.log(additionalInfo);
             this.props.joinLocation({
                 userInfo: userInfo_,
                 additionalInfo: additionalInfo

@@ -54,13 +54,13 @@ exports.onUserDeletedInAuth = functions.region("asia-northeast1").auth.user().on
 // exports.onLocationRegistrationDelete = functions.region("asia-northeast1")
 
 //background functions for pubsub
-exports.onNewMessagePublished = functions.region("asia-northeast1").pubsub.topic("my-first-topic").onPublish((message) => {
-    let topicMessage = null;
-    try {
-        topicMessage = message.json.message;
-        sendEmailToUser(topicMessage);
-    } catch (e) {
-        console.log(e.response)
-    }
-    return topicMessage;
-});
+// exports.onNewMessagePublished = functions.region("asia-northeast1").pubsub.topic("my-first-topic").onPublish((message) => {
+//     let topicMessage = null;
+//     try {
+//         topicMessage = message.json.message;
+//         sendEmailToUser(topicMessage);
+//     } catch (e) {
+//         console.log(e.response)
+//     }
+//     return topicMessage;
+// });
