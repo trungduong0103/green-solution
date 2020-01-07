@@ -228,7 +228,7 @@ class CleanUpDetail extends React.Component {
     };
 
     toggleUpdateForm = () => {
-        this.setState({updateLocation: !this.state.updateLocation, location: this.props.location});
+        this.setState({updateLocation: !this.state.updateLocation});
     };
 
     openDeleteDialog = () => {
@@ -239,11 +239,11 @@ class CleanUpDetail extends React.Component {
         this.setState({
             openDropImage:!this.state.openDropImage
         })
-    }
+    };
 
     render() {
-        const {classes, user} = this.props;
-        const {backdrop, updateLocation, openDeleteDialog, location, openDropImage} = this.state;
+        const {classes, user, location} = this.props;
+        const {backdrop, updateLocation, openDeleteDialog,openDropImage } = this.state;
         return (
             <div>
                 <NavBar/>
@@ -394,10 +394,10 @@ class CleanUpDetail extends React.Component {
                         <Grid container style={{textAlign: "center"}}>
                             <div>
                                 <Typography gutterBottom variant="h4" className={classes.title}>Bản đồ</Typography>
-                                {/*<div className={classes.mapContainer}>*/}
-                                {/*    {location.lat && location.lng ? <CleanUpDetailMap*/}
-                                {/*        center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}*/}
-                                {/*</div>*/}
+                                <div className={classes.mapContainer}>
+                                    {location.lat && location.lng ? <CleanUpDetailMap
+                                        center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}
+                                </div>
                             </div>
                         </Grid>
                     </Grid>

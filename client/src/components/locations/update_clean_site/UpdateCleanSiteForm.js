@@ -32,24 +32,37 @@ class UpdateCleanSiteForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            location: {},
+            name:"",
+            organization:"",
+            description:"",
+            agenda:"",
+            startDate:"",
+            startTime:"",
             errors: {},
-            step: 0
+            step: 0,
+            startDatePicker: null,
+            startTimePicker:null
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if (prevProps.location !== this.props.location) {
-            this.setState({location: this.props.location});
+            if(this.props.location!==undefined){
+                Object.keys(this.props.location).forEach((key,index)=>{
+                    this.setState({
+                        [key]:this.props.location[key]
+                    })
+                })
+        }
         }
     }
 
-    validateDataBeforeSubmit(data) {
+    validateDataBeforeSubmit() {
         const errors = {};
-        const {location} = this.state;
-        if (location.name === "") errors.name = "Không được để trống";
-        if (location.organization === "") errors.organization = "Không được để trống";
-        if (location.agenda === "") errors.agenda = "Không được để trống";
+        const {name, organization,agenda} = this.state;
+        if (name === "") errors.name = "Không được để trống";
+        if (organization === "") errors.organization = "Không được để trống";
+        if (agenda === "") errors.agenda = "Không được để trống";
 
         if (Object.keys(errors).length !== 0) {
             this.setState({
@@ -61,28 +74,26 @@ class UpdateCleanSiteForm extends Component {
     }
 
     handleChange = (event) => {
-        const {location} = this.state;
-        location[event.target.name] = event.target.value;
-        this.setState({location});
+       
+            this.setState({
+                [event.target.name]:event.target.value
+            })
+
     };
 
     handleDateChange = (date) => {
-        const location = this.state.location;
         const updateDate = dayjs(date).format("YYYY-MM-DD");
-        location.startDate = updateDate;
-        this.setState({location: location, startDate: updateDate});
+        this.setState({startDate: updateDate, startDatePicker:date});
     };
 
     handleTimeChange = (time) => {
-        const location = this.state.location;
-        location.startTime = dayjs(time).format("HH:mm:ss");
-        this.setState({location: location, startTime: time});
+        const updateTime =  dayjs(time).format("HH:mm:ss");
+        this.setState({startTime:updateTime, startTimePicker: time});
     };
 
     moveToNextStep = (event) => {
         event.preventDefault();
-        const {location} = this.state;
-        if (this.validateDataBeforeSubmit(location)) {
+        if (this.validateDataBeforeSubmit()) {
             this.setState({step: this.state.step + 1});
         }
     };
@@ -99,12 +110,23 @@ class UpdateCleanSiteForm extends Component {
     };
 
     clearForm = () => {
-        this.setState({location: this.props.location, errors: {}});
+        this.setState({
+            name:"",
+            organization:"",
+            description:"",
+            agenda:"",
+            startDate:"",
+            startTime:"",
+            errors: {},
+            startDatePicker: null,
+            startTimePicker:null
+        });
     };
 
     render() {
         console.log(this.state.location, this.props.location);
-        const {errors, step, location} = this.state;
+        const {errors, step, name, organization,
+                description, agenda, startDatePicker,startTimePicker} = this.state;
         const {classes, open} = this.props;
         return (
             <Dialog open={open} onClose={() => this.props.close()}>
@@ -122,7 +144,7 @@ class UpdateCleanSiteForm extends Component {
                                         type="text"
                                         label="Tên sự kiện"
                                         onChange={this.handleChange}
-                                        value={location.name}
+                                        value={name}
                                         helperText={errors.name}
                                         error={!!errors.name}
                                         fullWidth
@@ -137,7 +159,7 @@ class UpdateCleanSiteForm extends Component {
                                         type="text"
                                         label="Tổ Chức"
                                         onChange={this.handleChange}
-                                        value={location.organization}
+                                        value={organization}
                                         helperText={errors.organization}
                                         error={!!errors.organization}
                                         fullWidth
@@ -157,7 +179,7 @@ class UpdateCleanSiteForm extends Component {
                                         type="text"
                                         label="Mô tả sự kiện"
                                         onChange={this.handleChange}
-                                        value={location.description}
+                                        value={description}
                                         multiline
                                         rows="2"
                                         helperText={errors.description}
@@ -176,7 +198,7 @@ class UpdateCleanSiteForm extends Component {
                                         type="text"
                                         label="Lịch trình sự kiện"
                                         onChange={this.handleChange}
-                                        value={location.agenda}
+                                        value={agenda}
                                         multiline
                                         rows="2"
                                         helperText={errors.agenda}
@@ -200,7 +222,7 @@ class UpdateCleanSiteForm extends Component {
                                             disablePast
                                             format="dd/MM/yyyy"
                                             id="date-picker-dialog"
-                                            value={this.state.startDate}
+                                            value={startDatePicker}
                                             onChange={this.handleDateChange}
                                             InputLabelProps={{className: classes.input}}
                                             InputProps={{className: classes.input}}
@@ -213,7 +235,7 @@ class UpdateCleanSiteForm extends Component {
                                         <KeyboardTimePicker
                                             className={classes.picker}
                                             label="Thời gian bắt đầu sự kiện"
-                                            value={this.state.startTime}
+                                            value={startTimePicker}
                                             onChange={this.handleTimeChange}
                                             InputLabelProps={{className: classes.input}}
                                             InputProps={{className: classes.input}}
