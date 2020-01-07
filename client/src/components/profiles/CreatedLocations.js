@@ -6,15 +6,9 @@ import CardMedia from "@material-ui/core/CardMedia"
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography"
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Tooltip from '@material-ui/core/Tooltip';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ViewListIcon from "@material-ui/icons/ViewList";
-import DeleteIcon from "@material-ui/icons/Delete";
 import AppsIcon from "@material-ui/icons/Apps";
-import EditIcon from "@material-ui/icons/Edit";
 import withStyles from "@material-ui/core/styles/withStyles";
-import UpdateCleanSiteForm from "../locations/forms/UpdateCleanSiteForm";
-import EventResultForm from "./EventResultForm";
 import locationAvatar from "../../assets/imgs/download.jpeg";
 
 const styles = {
@@ -40,6 +34,12 @@ const styles = {
         position: "absolute",
         top: "45%",
         marginLeft: "20%"
+    },
+    text: {
+        "& a":{
+            color:'green',
+            textDecoration: 'none'
+        }
     },
 
 };
@@ -113,33 +113,12 @@ class CreatedLocations extends Component {
                                         />}
                                         <CardContent>
 
-                                            <Typography gutterBottom variant="h5" component="h2">{location.name}</Typography>
+                                            <Typography gutterBottom variant="h5" component="h2" className={classes.text}>
+                                                <a href={`/cleanup-detail/${location.id}`} target="_blank" rel="noopener noreferrer">{location.name}</a>    
+                                            </Typography>
                                             <Typography variant="body2" component="p">
                                                 {location.description}
                                             </Typography>
-                                            <div style={{ width: '100%', textAlign: 'right' }}>
-                                                <Tooltip title="Xóa sự kiện">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.props.delete(location.id)}>
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Cập nhật thông tin">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.props.edit(location.id)}>
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Đánh dấu đã hoàn thành">
-                                                    <IconButton
-                                                        className={classes.button}
-                                                        onClick={() => this.handleOpenResultForm(index)}>
-                                                        <CheckCircleOutlineIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </div>
 
                                         </CardContent>
                                     </Card>
@@ -151,10 +130,6 @@ class CreatedLocations extends Component {
                     </div>
                 }
                 <br />
-                <UpdateCleanSiteForm email={email} open={openUpdateSite} />
-                <EventResultForm location={locations[this.state.currentEvent]} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
-
-
 
             </div>
         )

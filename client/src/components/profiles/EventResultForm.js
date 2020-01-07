@@ -14,44 +14,9 @@ import Typography from "@material-ui/core/Typography"
 const styles = {
     paper: {
         padding: 20,
-        minWidth: "400px"
+        minWidth: "600px"
     },
-    form: {
-        '& .image-wrapper': {
-            textAlign: 'center',
-            position: 'relative',
-            '& button': {
-                position: 'absolute',
-                top: '80%',
-                left: '70%'
-            }
-        },
-        '& .profile-image': {
-            borderRadius: '50%',
-            height: "200px",
-            width: "200px",
-            padding: "10px"
-        },
-        '& .profile-details': {
-            textAlign: 'left',
-            '& span, svg': {
-                verticalAlign: 'middle'
-            },
-            '& a': {
-                color: '#00bcd4',
-                textDecoration: "none"
-            }
-        },
-        '& hr': {
-            border: 'none',
-            margin: '0 0 10px 0'
-        },
-        '& svg.button': {
-            '&:hover': {
-                cursor: 'pointer'
-            }
-        }
-    },
+
     buttons: {
         textAlign: 'center',
         '& a': {
@@ -96,7 +61,7 @@ class EventResultForm extends Component {
         };
         //this.props.updateResult(result);
         console.log(result)
-        this.props.handleOpenResultForm(0);
+        this.props.handleOpenResultForm();
     };
 
     getUploadParams = ({meta}) => {
@@ -128,9 +93,9 @@ class EventResultForm extends Component {
     }
 
     componentDidMount() {
-        if (this.props.locations !== undefined) {
+        if (this.props.location !== undefined) {
             this.setState({
-                participants: this.props.locations[0].registeredUsers
+                participants: this.props.location.registeredUsers
             })
         }
     }
@@ -150,14 +115,16 @@ class EventResultForm extends Component {
         const {participants, weight, organic, recyclable, nonRecyclable} = this.state;
 
         return (
-            <Dialog open={open} onClose={() => handleOpenResultForm()}>
+            <Dialog open={open} onClose={() => handleOpenResultForm()}
+                fullWidth={true} maxWidth="md"
+            >
                 <DialogTitle>Kết quả sự kiện</DialogTitle>
                 <DialogContent>
                     <Paper className={classes.paper}>
-                        <div className={classes.form}>
+                        <div>
                             <div>
                                 <Typography>Danh sách người tham gia</Typography>
-                                {participants.map((participant, index) =>
+                                {participants !==undefined && participants.map((participant, index) =>
                                     (
                                         <Chip
                                             label={participant}
@@ -167,8 +134,8 @@ class EventResultForm extends Component {
                                     )
                                 )}
                                 <br/>
+                                <Typography>Tổng khối lượng rác thu được (kg)</Typography>
                                 <TextField
-                                    label="Tổng khối lượng rác thu được (kg)"
                                     type="number"
                                     name="weight"
                                     placeholder="Tổng khối lượng rác thu được"
@@ -177,9 +144,9 @@ class EventResultForm extends Component {
                                     value={weight}
                                     fullWidth
                                 />
-
+                                <br/>
+                                <Typography>Khối lượng rác hữu cơ (kg)</Typography>
                                 <TextField
-                                    label="Khối lượng rác hữu cơ (kg)"
                                     type="number"
                                     name="organic"
                                     placeholder="Khối lượng rác hữu cơ"
@@ -188,9 +155,9 @@ class EventResultForm extends Component {
                                     value={organic}
                                     fullWidth
                                 />
-
+                                <br/>
+                                <Typography>Khối lượng rác tái chế (kg)</Typography>
                                 <TextField
-                                    label="Khối lượng rác tái chế (kg)"
                                     type="number"
                                     name="recyclable"
                                     placeholder="Khối lượng rác tái chế"
@@ -199,9 +166,9 @@ class EventResultForm extends Component {
                                     value={recyclable}
                                     fullWidth
                                 />
-
+                                <br/>
+                                <Typography>Khối lượng rác không tái chế (kg)</Typography>
                                 <TextField
-                                    label="Khối lượng rác không tái chế (kg)"
                                     type="number"
                                     name="nonRecyclable"
                                     placeholder="Khối lượng rác không tái chế"
@@ -210,7 +177,8 @@ class EventResultForm extends Component {
                                     value={nonRecyclable}
                                     fullWidth
                                 />
-
+                                <br/>
+                                <Typography>Hình ảnh sự kiện</Typography>
                                 <Dropzone
                                     getUploadParams={this.getUploadParams}
                                     onChangeStatus={this.handleChangeStatus}
