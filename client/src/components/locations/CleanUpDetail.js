@@ -1,26 +1,33 @@
 import React from 'react';
 import {connect} from "react-redux";
-import Typography from "@material-ui/core/Typography";
-import Backdrop from "@material-ui/core/Backdrop";
-import withStyles from "@material-ui/core/styles/withStyles";
-import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import {CleanUpDetailMap} from "./maps/CleanUpDetailMap";
 import jwtDecode from "jwt-decode";
-import NavBar from "../navigation/NavBar";
+import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button"
+import Chip from "@material-ui/core/Chip"
+import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import Backdrop from "@material-ui/core/Backdrop";
+import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
+import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
+import DeleteIcon from "@material-ui/icons/Delete";
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import EditIcon from "@material-ui/icons/Edit";
+import withStyles from "@material-ui/core/styles/withStyles";
+import NavBar from "../navigation/NavBar";
 import placeholderImage from "../../assets/imgs/home_page_img.jpg";
 import myImage from "../../assets/imgs/aboutus.jpg";
 import img2 from "../../assets/imgs/img2.jpg";
 import img1 from "../../assets/imgs/img1.jpg";
-import Button from "@material-ui/core/Button"
-import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
-import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
-import Chip from "@material-ui/core/Chip"
-import Divider from "@material-ui/core/Divider";
 import ImageGridList from "../locations/clean_site_detail/ImageGridList";
 import UserGridList from "../locations/clean_site_detail/UserGridList";
 import JoinCleanUpForm from "./join_clean_site/JoinCleanUpForm";
 import {getUser} from "../../redux/actions/UserActions";
+import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
+import UpdateCleanSiteForm from "./update_clean_site/UpdateCleanSiteForm";
+import DeleteCleanSiteDialog from "./delete_clean_site/DeleteCleanSiteDialog";
 
 const styles = {
     title: {
@@ -191,10 +198,11 @@ class CleanUpDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeStep: 0,
             maxStep: imageList.length,
             location: {},
-            backdrop: false
+            backdrop: false,
+            updateLocation: true,
+            openDeleteDialog: false
         }
     }
 
@@ -218,9 +226,17 @@ class CleanUpDetail extends React.Component {
         this.setState({backdrop: !this.state.backdrop});
     };
 
+    toggleUpdateForm = () => {
+        this.setState({updateLocation: !this.state.updateLocation, location: this.props.location});
+    };
+
+    openDeleteDialog = () => {
+        this.setState({openDeleteDialog: true});
+    };
+
     render() {
         const {classes, user} = this.props;
-        const {location, backdrop} = this.state;
+        const {backdrop, updateLocation, openDeleteDialog, location} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -289,17 +305,43 @@ class CleanUpDetail extends React.Component {
                             <Grid item sm={1}/>
 
                             <Grid item sm={3}>
-                                <Grid container
-                                      direction="column"
-                                      alignItems="center"
-                                      justify="center"
-                                      className={classes.organizerAvatar}
-                                >
+                                <Grid container direction="column"
+                                      alignItems="center" justify="center" className={classes.organizerAvatar}>
                                     <img src={location.logoUrl ? location.logoUrl : placeholderImage}
                                          alt="location-avatar" className={classes.image}/>
                                     <Typography variant="subtitle1"
                                                 className={classes.text}>{location.organization}</Typography>
-                                    <Button className={classes.joinBtn} onClick={this.openJoinLocationForm}>Tham gia</Button>
+                                    <br/>
+                                    {user.email === location.creator ?
+                                        <div style={{width: '100%', textAlign: 'center'}}>
+                                            <Tooltip title="Cập nhật thông tin">
+                                                <IconButton
+                                                    className={classes.button}
+                                                    onClick={this.toggleUpdateForm}
+                                                >
+                                                    <EditIcon/>
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Đánh dấu đã hoàn thành">
+                                                <IconButton
+                                                    className={classes.button}
+                                                >
+                                                    <CheckCircleOutlineIcon/>
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Xóa sự kiện">
+                                                <IconButton
+                                                    className={classes.button}
+                                                    onClick={this.openDeleteDialog}
+                                                >
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </div>
+                                        :
+                                        <Button className={classes.joinBtn} onClick={this.openJoinLocationForm}>Tham
+                                            gia</Button>
+                                    }
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -312,7 +354,7 @@ class CleanUpDetail extends React.Component {
                 <Grid container>
                     <Grid item sm={3}/>
                     <Grid item sm={6}>
-                        <Divider variant="middle" />
+                        <Divider variant="middle"/>
                     </Grid>
                     <Grid item sm={3}/>
                 </Grid>
@@ -345,10 +387,10 @@ class CleanUpDetail extends React.Component {
                         <Grid container style={{textAlign: "center"}}>
                             <div>
                                 <Typography gutterBottom variant="h4" className={classes.title}>Bản đồ</Typography>
-                                <div className={classes.mapContainer}>
-                                    {location.lat && location.lng ? <CleanUpDetailMap
-                                        center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}
-                                </div>
+                                {/*<div className={classes.mapContainer}>*/}
+                                {/*    {location.lat && location.lng ? <CleanUpDetailMap*/}
+                                {/*        center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}*/}
+                                {/*</div>*/}
                             </div>
                         </Grid>
                     </Grid>
@@ -359,7 +401,7 @@ class CleanUpDetail extends React.Component {
                 <Grid container>
                     <Grid item sm={3}/>
                     <Grid item sm={6}>
-                        <Divider variant="middle" />
+                        <Divider variant="middle"/>
                     </Grid>
                     <Grid item sm={3}/>
                 </Grid>
@@ -367,15 +409,18 @@ class CleanUpDetail extends React.Component {
                 <Grid container className={classes.gridHeader}>
                     <Grid item sm={2}/>
                     <Grid item sm={8}>
-                        <UserGridList userList={volunteers} />
+                        <UserGridList userList={volunteers}/>
                     </Grid>
                     <Grid item sm={2}/>
                 </Grid>
 
                 <Backdrop timeout={0} open={backdrop} className={classes.backdrop}>
-                    <JoinCleanUpForm location={location} user={user} locationId={location.id} openJoinLocationForm={this.openJoinLocationForm}/>
+                    <JoinCleanUpForm location={location} user={user} locationId={location.id}
+                                     openJoinLocationForm={this.openJoinLocationForm}/>
                 </Backdrop>
 
+                <UpdateCleanSiteForm close={this.toggleUpdateForm} email={user.email} open={updateLocation} />
+                <DeleteCleanSiteDialog open={openDeleteDialog}/>
             </div>
 
         )
