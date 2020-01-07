@@ -227,7 +227,7 @@ class CleanUpDetail extends React.Component {
     };
 
     toggleUpdateForm = () => {
-        this.setState({updateLocation: !this.state.updateLocation, location: this.props.location});
+        this.setState({updateLocation: !this.state.updateLocation});
     };
 
     openDeleteDialog = () => {
@@ -235,8 +235,8 @@ class CleanUpDetail extends React.Component {
     };
 
     render() {
-        const {classes, user} = this.props;
-        const {backdrop, updateLocation, openDeleteDialog, location} = this.state;
+        const {classes, user, location} = this.props;
+        const {backdrop, updateLocation, openDeleteDialog, } = this.state;
         return (
             <div>
                 <NavBar/>
