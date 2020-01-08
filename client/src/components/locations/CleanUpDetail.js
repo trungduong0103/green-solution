@@ -335,7 +335,6 @@ class CleanUpDetail extends React.Component {
                                                 <IconButton
                                                     className={classes.button}
                                                     onClick={() => this.handleOpenResultForm()}>
-                                                >
                                                     <CheckCircleOutlineIcon/>
                                                 </IconButton>
                                             </Tooltip>
@@ -413,7 +412,7 @@ class CleanUpDetail extends React.Component {
                                      email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
                 <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
-                <EventResultForm location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
+                <EventResultForm history={history} location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
             </div>
         )
     }

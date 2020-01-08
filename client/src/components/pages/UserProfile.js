@@ -20,7 +20,11 @@ import AppBar from '@material-ui/core/AppBar';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import {updateUser, getUser} from "../../redux/actions/UserActions";
 import {
-    deleteLocation, getAllCreatedLocationsWithEmail, getAllRegisteredLocationsWithEmail, getAllLocations
+    deleteLocation,
+    getAllCreatedLocationsWithEmail,
+    getAllRegisteredLocationsWithEmail,
+    getAllCompletedLocationsWithEmail,
+    getAllLocations
 } from "../../redux/actions/LocationActions";
 import AdminLocations from "../profiles/AdminLocations"
 
@@ -74,6 +78,7 @@ class Home extends Component {
         this.state = {
             registeredLocations: [],
             createdLocations: [],
+            completedLocations: [],
             email: "",
             tab: 0,
             openUpdateProfile: false,
@@ -96,6 +101,7 @@ class Home extends Component {
         } else {
             this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
             this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
+            this.props.getAllCompletedLocationsWithEmail({email: decodedToken.email});
         }
         this.props.getUser({email: decodedToken.email});
     }
@@ -106,6 +112,9 @@ class Home extends Component {
         }
         if (props.registeredLocations !== state.registeredLocations) {
             return {registeredLocations: props.registeredLocations}
+        }
+        if (props.completedLocations !== state.completedLocations) {
+            return {completedLocations: props.completedLocations}
         }
         if (props.user !== state.user) {
             return {user: props.user}
@@ -128,9 +137,10 @@ class Home extends Component {
     render() {
         const {
             classes, userLoading, loadRegisteredLocations, locations,
-            loadCreatedLocations, updateUser, userUpdating, doneUserUpdate, uploadImage, image,
+            loadCreatedLocations, loadCompletedLocations,
+            updateUser, userUpdating, doneUserUpdate, uploadImage, image,
         } = this.props;
-        const {registeredLocations, createdLocations, tab, openUpdateProfile, user, email} = this.state;
+        const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -170,7 +180,8 @@ class Home extends Component {
                                 <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>}
                                 {tab === 1 &&
                                 <CreatedLocations loaded={loadCreatedLocations} locations={createdLocations}/>}
-                                {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations}/>}
+                                {tab === 2 &&
+                                <PastEvents locations={completedLocations} loaded={loadCompletedLocations}/>}
                             </div>}
                     </Grid>
 
@@ -196,8 +207,10 @@ class Home extends Component {
 const mapStateToProps = (state) => ({
     createdLocations: state.locationsData.createdLocations,
     registeredLocations: state.locationsData.registeredLocations,
+    completedLocations: state.locationsData.completedLocations,
     loadCreatedLocations: state.UI.loadCreatedLocations,
     loadRegisteredLocations: state.UI.loadRegisteredLocations,
+    loadCompletedLocations: state.UI.loadCompletedLocations,
     user: state.user.user,
     image: state.user.image,
     userLoading: state.user.loading,
@@ -209,6 +222,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getAllCreatedLocationsWithEmail,
     getAllRegisteredLocationsWithEmail,
+    getAllCompletedLocationsWithEmail,
     getAllLocations,
     deleteLocation,
     updateUser,

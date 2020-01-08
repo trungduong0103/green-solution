@@ -8,14 +8,14 @@ import {
     DELETING_LOCATION,
     DONE_UPLOAD_LOCATION_LOGO,
     GET_ALL_LOCATIONS,
-    GET_LOCATION,
+    GET_LOCATION, GETTING_COMPLETED_LOCATIONS,
     GETTING_CREATED_LOCATIONS,
-    GETTING_REGISTERED_LOCATIONS,
+    GETTING_REGISTERED_LOCATIONS, GOT_COMPLETED_LOCATIONS,
     GOT_CREATED_LOCATIONS,
     GOT_REGISTERED_LOCATIONS,
     JOINED_CLEAN_SITE,
     JOINING_CLEAN_SITE,
-    LOADING_FORM,
+    LOADING_FORM, LOCATION_MARKED_AS_DONE, MARKING_AS_DONE,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
     UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE,
@@ -132,6 +132,24 @@ export function joinLocation(info) {
     };
 }
 
+//MARK LOCATION AS DONE
+export function markLocationAsDone(resultData, history) {
+    return function (dispatch) {
+        dispatch({type: MARKING_AS_DONE});
+        axios.post(`${DEFAULT_URL}/mark_location_as_done`, resultData)
+            .then(() => {
+                dispatch({type: LOCATION_MARKED_AS_DONE});
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE});
+                    history.push("/profile");
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+}
+
 //GET CREATED LOCATIONS
 export function getAllCreatedLocationsWithEmail(email) {
     return function (dispatch) {
@@ -153,6 +171,20 @@ export function getAllRegisteredLocationsWithEmail(email) {
         axios.post(`${DEFAULT_URL}/get_registered_locations`, email)
             .then((res) => {
                 dispatch({type: GOT_REGISTERED_LOCATIONS, payload: res.data});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+}
+
+//GET COMPLETED LOCATIONS
+export function getAllCompletedLocationsWithEmail(email) {
+    return function (dispatch) {
+        dispatch({type: GETTING_COMPLETED_LOCATIONS});
+        axios.post(`${DEFAULT_URL}/get_completed_locations`, email)
+            .then((res) => {
+                dispatch({type: GOT_COMPLETED_LOCATIONS, payload: res.data});
             })
             .catch((err) => {
                 console.log(err);

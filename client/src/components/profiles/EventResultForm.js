@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withStyles} from "@material-ui/core";
+import {connect} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog"
@@ -7,9 +7,13 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import TextField from "@material-ui/core/TextField"
-import Dropzone from "react-dropzone-uploader"
 import Chip from "@material-ui/core/Chip"
 import Typography from "@material-ui/core/Typography"
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckIcon from "@material-ui/icons/Check";
+import {withStyles} from "@material-ui/core";
+import Dropzone from "react-dropzone-uploader"
+import {markLocationAsDone} from "../../redux/actions/LocationActions";
 
 const styles = {
     paper: {
@@ -35,7 +39,6 @@ const styles = {
 };
 
 class EventResultForm extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -43,10 +46,10 @@ class EventResultForm extends Component {
             weight: 0,
             organic: 0,
             bottle: 0,
-            straw:0,
-            foamBox:0,
-            plasticBag:0,
-            photos:[]
+            straw: 0,
+            foamBox: 0,
+            plasticBag: 0,
+            photos: []
         }
     }
 
@@ -56,17 +59,17 @@ class EventResultForm extends Component {
 
     submit = () => {
         const result = {
+            id: this.props.location.id,
             participants: this.state.participants,
             weight: this.state.weight,
             organic: this.state.organic,
-            bottle:this.state.bottle,
-            straw:this.state.straw,
-            foamBox:this.state.foamBox,
-            plasticBag:this.state.plasticBag,
-            photos:this.state.photos
+            bottle: this.state.bottle,
+            straw: this.state.straw,
+            foamBox: this.state.foamBox,
+            plasticBag: this.state.plasticBag,
         };
-        //this.props.updateResult(result);
-        console.log(result)
+
+        this.props.markLocationAsDone(result, this.props.history);
         this.props.handleOpenResultForm();
     };
 
@@ -81,59 +84,49 @@ class EventResultForm extends Component {
 
     handleSubmitImage = (files) => {
         files.forEach(f => {
-            const img = f.file
-            const reader = new FileReader()
+            const img = f.file;
+            const reader = new FileReader();
             reader.onloadend = () => {
-                const list = this.state.photos
-                list.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
-                this.setState({
-                    photos:list
-                })
-            }
-            reader.readAsDataURL(img)
+                const list = this.state.photos;
+                list.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""));
+                this.setState({photos: list});
+            };
+            reader.readAsDataURL(img);
         })
     };
 
     handleRemove = (participant) => {
-        const filteredList = this.state.participants.filter(p => p !== participant)
-        this.setState({
-            participants: filteredList
-        })
-    }
+        const filteredList = this.state.participants.filter(p => p !== participant);
+        this.setState({participants: filteredList});
+    };
 
     componentDidMount() {
         if (this.props.location !== undefined) {
-            this.setState({
-                participants: this.props.location.registeredUsers
-            })
+            this.setState({participants: this.props.location.registeredUsers});
         }
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.location !== this.props.location) {
             if (this.props.location !== undefined && this.props.location.registeredUsers !== undefined) {
-                this.setState({
-                    participants: this.props.location.registeredUsers
-                })
+                this.setState({participants: this.props.location.registeredUsers});
             }
         }
-    }
+    };
 
     render() {
-        const {classes, open, handleOpenResultForm} = this.props;
-        const {participants, weight, organic, bottle, foamBox, straw,plasticBag,} = this.state;
+        const {classes, open, handleOpenResultForm, loading, doneMarkLocation} = this.props;
+        const {participants, weight, organic, bottle, foamBox, straw, plasticBag,} = this.state;
 
         return (
-            <Dialog open={open} onClose={() => handleOpenResultForm()}
-                maxWidth="md"
-            >
+            <Dialog open={open} onClose={() => handleOpenResultForm()} maxWidth="md">
                 <DialogTitle>Kết quả sự kiện</DialogTitle>
                 <DialogContent>
                     <Paper className={classes.paper}>
                         <div>
                             <div>
                                 <Typography>Danh sách người tham gia</Typography>
-                                {participants !==undefined && participants.map((participant, index) =>
+                                {participants !== undefined && participants.map((participant, index) =>
                                     (
                                         <Chip
                                             label={participant}
@@ -168,7 +161,7 @@ class EventResultForm extends Component {
                                 <Typography>Số lượng chai nhựa (cái)</Typography>
 
                                 <TextField
-                                    
+
                                     type="number"
                                     name="bottle"
                                     placeholder="Số lượng chai nhựa"
@@ -179,7 +172,7 @@ class EventResultForm extends Component {
                                 />
                                 <Typography>Số lượng ống hút (cái)</Typography>
                                 <TextField
-                                    
+
                                     type="number"
                                     name="straw"
                                     placeholder="Số lượng ống hút"
@@ -190,7 +183,7 @@ class EventResultForm extends Component {
                                 />
                                 <Typography>Số lượng hộp xốp (cái)</Typography>
                                 <TextField
-                                    
+
                                     type="number"
                                     name="foamBox"
                                     placeholder="Số lượng hộp xốp"
@@ -201,7 +194,7 @@ class EventResultForm extends Component {
                                 />
                                 <Typography>Số lượng túi nhựa (cái)</Typography>
                                 <TextField
-                                    
+
                                     type="number"
                                     name="plasticBag"
                                     placeholder="Số lượng túi nhựa"
@@ -210,7 +203,7 @@ class EventResultForm extends Component {
                                     value={plasticBag}
                                     fullWidth
                                 />
-                            
+
                                 <br/>
                                 <Typography>Hình ảnh sự kiện</Typography>
                                 <Dropzone
@@ -248,17 +241,24 @@ class EventResultForm extends Component {
                                         }
                                     }}
                                 />
-
-
                             </div>
-
                         </div>
                     </Paper>
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={() => this.submit()}>Lưu</Button>
-                    <Button onClick={() => handleOpenResultForm()}>Hủy</Button>
+                    {doneMarkLocation ? (
+                        <CheckIcon/>
+                    ) : (
+                        loading ? (
+                            <CircularProgress/>
+                        ) : (
+                            <div>
+                                <Button onClick={() => this.submit()}>Lưu</Button>
+                                <Button onClick={() => handleOpenResultForm()}>Hủy</Button>
+                            </div>
+                        )
+                    )}
                 </DialogActions>
             </Dialog>
 
@@ -266,5 +266,14 @@ class EventResultForm extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    location: state.locationsData.location,
+    loading: state.UI.loading,
+    doneMarkLocation: state.UI.doneMarkLocation
+});
 
-export default (withStyles(styles)(EventResultForm));
+const mapDispatchToProps = {
+    markLocationAsDone
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EventResultForm));

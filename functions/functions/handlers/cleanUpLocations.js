@@ -1,14 +1,15 @@
 const {db} = require("../utils/admin");
 const {admin} = require("../utils/admin");
 const axios = require("axios");
-const {sendLocationConfirmationEmail}  = require("../utils/email");
+const {sendLocationConfirmationEmail} = require("../utils/email");
 const {AWS_UPLOAD_IMAGE_API} = require("../environments/environments");
 
 //CREATE NEW CLEAN SITE
 exports.createNewLocation = (req, res) => {
     const creationTime = new Date().toISOString();
     const newLocation = req.body;
-    req.body.createdAt = creationTime;
+    newLocation.createdAt = creationTime;
+    newLocation.done = 0;
     return db.collection("cleanUpLocations")
         .add(newLocation)
         .then((ref) => {
@@ -207,8 +208,12 @@ exports.leaveCleanUpLocation = (req, res) => {
         .where("email", "==", email)
         .get()
         .then((querySnapshot) => {
-            if (querySnapshot.empty) {return res.json({message: "no record exists"});}
-            return querySnapshot.forEach((snap) => {return snap.ref.delete()});
+            if (querySnapshot.empty) {
+                return res.json({message: "no record exists"});
+            }
+            return querySnapshot.forEach((snap) => {
+                return snap.ref.delete()
+            });
         })
         .catch((err) => {
             console.log(err)
@@ -222,9 +227,40 @@ exports.leaveCleanUpLocation = (req, res) => {
         });
 
     return Promise.all([deleteRecord, deleteEmail])
-        .then(() => {return res.json({message: "success"})})
-        .catch((err) => {return res.json(err)});
+        .then(() => {
+            return res.json({message: "success"})
+        })
+        .catch((err) => {
+            return res.json(err)
+        });
 };
+
+//MARK LOCATION AS DONE
+exports.markLocationAsDone = (req, res) => {
+    const data = req.body;
+    const locationId = data.id;
+    return db
+        .collection("completedLocations")
+        .add(data)
+        .then(() => {
+            changeLocationStatusToDone(locationId);
+            return res.json({message: "success"});
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({message: err});
+        })
+};
+
+function changeLocationStatusToDone(locationId) {
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationId)
+        .update({done: 1})
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
 //GET REGISTERED CLEAN SITES
 exports.getUserRegisteredLocations = (req, res) => {
@@ -233,6 +269,7 @@ exports.getUserRegisteredLocations = (req, res) => {
     return db
         .collection("cleanUpLocations")
         .where("registeredUsers", "array-contains", email)
+        .where("done", "==", 0)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((snap) => {
@@ -249,20 +286,12 @@ exports.getUserRegisteredLocations = (req, res) => {
 
 //GET CREATED CLEAN SITES
 exports.getCreatedLocations = (req, res) => {
-    return getCreatedLocationsFromEmail(req.body.email)
-        .then((data) => {
-            return res.json(data);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
-
-function getCreatedLocationsFromEmail(email) {
+    const email = req.body.email;
     const documents = [];
     return db
         .collection("cleanUpLocations")
         .where("creator", "==", email)
+        .where("done", "==", 0)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((snap) => {
@@ -270,12 +299,37 @@ function getCreatedLocationsFromEmail(email) {
                 created.id = snap.id;
                 documents.push(created);
             });
-            return documents;
+            return res.json(documents);
         })
         .catch((err) => {
             console.log(err);
+            return res.json({message: err});
         });
-}
+};
+
+//GET COMPLETED LOCATIONS
+exports.getCompletedLocations = (req, res) => {
+    const email = req.body.email;
+    const documents = [];
+
+    return db
+        .collection("cleanUpLocations")
+        .where("creator", "==", email)
+        .where("done", "==", 1)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((snap) => {
+                const created = snap.data();
+                created.id = snap.id;
+                documents.push(created);
+            });
+            return res.json(documents);
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({message: err});
+        })
+};
 
 //GET REGISTERED USERS
 exports.getRegisteredUsersOfLocation = (req, res) => {
@@ -287,10 +341,14 @@ exports.getRegisteredUsersOfLocation = (req, res) => {
         .where("email", "==", email)
         .get()
         .then((querySnapshot) => {
-            querySnapshot.forEach((snap) => {registeredDocs.push(snap.data())});
+            querySnapshot.forEach((snap) => {
+                registeredDocs.push(snap.data())
+            });
             return res.json(registeredDocs);
         })
-        .catch((err) => {console.log(err)});
+        .catch((err) => {
+            console.log(err)
+        });
 };
 
 
