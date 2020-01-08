@@ -160,7 +160,7 @@ class UpdateProfile extends Component {
     }
 
     render() {
-        const {classes, open, handleOpenUpdateProfile, email} = this.props;
+        const {classes, open, handleOpenUpdateProfile} = this.props;
         const {firstName, lastName, phoneNumber} = this.state;
         console.log(this.state);
         return (
@@ -231,7 +231,7 @@ class UpdateProfile extends Component {
 
                 <DialogActions>
                     <Button className={classes.confirmBtn} onClick={() => this.submit()}>Lưu</Button>
-                    <Button className={classes.closeBtn} onClick={() => handleOpenUpdateProfile()}>Đóng</Button>
+                    <Button className={classes.closeBtn} onClick={() => handleOpenUpdateProfile()}>Hủy</Button>
                 </DialogActions>
             </Dialog>
 

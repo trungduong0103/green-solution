@@ -42,8 +42,11 @@ class EventResultForm extends Component {
             participants: [],
             weight: 0,
             organic: 0,
-            recyclable: 0,
-            nonRecyclable: 0,
+            bottle: 0,
+            straw:0,
+            foamBox:0,
+            plasticBag:0,
+            photos:[]
         }
     }
 
@@ -56,8 +59,11 @@ class EventResultForm extends Component {
             participants: this.state.participants,
             weight: this.state.weight,
             organic: this.state.organic,
-            recyclable: this.state.recyclable,
-            nonRecyclable: this.state.nonRecyclable
+            bottle:this.state.bottle,
+            straw:this.state.straw,
+            foamBox:this.state.foamBox,
+            plasticBag:this.state.plasticBag,
+            photos:this.state.photos
         };
         //this.props.updateResult(result);
         console.log(result)
@@ -74,12 +80,15 @@ class EventResultForm extends Component {
     };
 
     handleSubmitImage = (files) => {
-        // const {creator, locationId, history} = this.props;
         files.forEach(f => {
             const img = f.file
             const reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
+                const list = this.state.photos
+                list.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
+                this.setState({
+                    photos:list
+                })
             }
             reader.readAsDataURL(img)
         })
@@ -112,11 +121,11 @@ class EventResultForm extends Component {
 
     render() {
         const {classes, open, handleOpenResultForm} = this.props;
-        const {participants, weight, organic, recyclable, nonRecyclable} = this.state;
+        const {participants, weight, organic, bottle, foamBox, straw,plasticBag,} = this.state;
 
         return (
             <Dialog open={open} onClose={() => handleOpenResultForm()}
-                fullWidth={true} maxWidth="md"
+                maxWidth="md"
             >
                 <DialogTitle>Kết quả sự kiện</DialogTitle>
                 <DialogContent>
@@ -156,27 +165,52 @@ class EventResultForm extends Component {
                                     fullWidth
                                 />
                                 <br/>
-                                <Typography>Khối lượng rác tái chế (kg)</Typography>
+                                <Typography>Số lượng chai nhựa (cái)</Typography>
+
                                 <TextField
+                                    
                                     type="number"
-                                    name="recyclable"
-                                    placeholder="Khối lượng rác tái chế"
+                                    name="bottle"
+                                    placeholder="Số lượng chai nhựa"
                                     className={classes.formInput}
                                     onChange={this.handleChange}
-                                    value={recyclable}
+                                    value={bottle}
                                     fullWidth
                                 />
-                                <br/>
-                                <Typography>Khối lượng rác không tái chế (kg)</Typography>
+                                <Typography>Số lượng ống hút (cái)</Typography>
                                 <TextField
+                                    
                                     type="number"
-                                    name="nonRecyclable"
-                                    placeholder="Khối lượng rác không tái chế"
+                                    name="straw"
+                                    placeholder="Số lượng ống hút"
                                     className={classes.formInput}
                                     onChange={this.handleChange}
-                                    value={nonRecyclable}
+                                    value={straw}
                                     fullWidth
                                 />
+                                <Typography>Số lượng hộp xốp (cái)</Typography>
+                                <TextField
+                                    
+                                    type="number"
+                                    name="foamBox"
+                                    placeholder="Số lượng hộp xốp"
+                                    className={classes.formInput}
+                                    onChange={this.handleChange}
+                                    value={foamBox}
+                                    fullWidth
+                                />
+                                <Typography>Số lượng túi nhựa (cái)</Typography>
+                                <TextField
+                                    
+                                    type="number"
+                                    name="plasticBag"
+                                    placeholder="Số lượng túi nhựa"
+                                    className={classes.formInput}
+                                    onChange={this.handleChange}
+                                    value={plasticBag}
+                                    fullWidth
+                                />
+                            
                                 <br/>
                                 <Typography>Hình ảnh sự kiện</Typography>
                                 <Dropzone
@@ -223,8 +257,8 @@ class EventResultForm extends Component {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={() => this.submit()}>Submit</Button>
-                    <Button onClick={() => handleOpenResultForm()}>Close</Button>
+                    <Button onClick={() => this.submit()}>Lưu</Button>
+                    <Button onClick={() => handleOpenResultForm()}>Hủy</Button>
                 </DialogActions>
             </Dialog>
 

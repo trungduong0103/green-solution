@@ -81,8 +81,8 @@ class CreatedLocations extends Component {
     render() {
         const { classes,
             locations,
-            loaded, email, openUpdateSite } = this.props;
-        const { grid, openResultForm } = this.state;
+            loaded} = this.props;
+        const { grid} = this.state;
         return (
             <div>
                 {loaded ?
