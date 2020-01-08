@@ -71,7 +71,7 @@ exports.updateCleanUpLocation = (req, res) => {
     return db.collection("cleanUpLocations").doc(locationId)
         .update(updateData)
         .then(() => {
-            return res.json({updateData});
+            return res.json(req.body);
         })
         .catch((err) => {
             console.log(err);

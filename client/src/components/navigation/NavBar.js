@@ -150,8 +150,8 @@ class NavBar extends Component {
 
                         <Grid item sm={3}>
                             <Grid container>
-                                <Grid item sm={3}/>
-                                <Grid item sm={9} >
+                                <Grid item sm={2}/>
+                                <Grid item sm={10} >
                                     {auth ? (
                                         <Button variant="contained"
                                                 className={classes.signUpBtn}
