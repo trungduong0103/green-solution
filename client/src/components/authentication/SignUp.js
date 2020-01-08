@@ -186,10 +186,7 @@ class SignUp extends Component {
                         fullWidth
                         InputLabelProps={{className: classes.input}}
                         InputProps={
-                            {
-                                disableUnderline: true,
-                                className: classes.input
-                            }}
+                            {disableUnderline: true, className: classes.input}}
                     >
                     </TextField>
 
