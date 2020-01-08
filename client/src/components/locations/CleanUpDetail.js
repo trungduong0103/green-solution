@@ -26,6 +26,8 @@ import UpdatePhotos from "../locations/clean_site_detail/UpdatePhotos";
 import JoinCleanUpForm from "./join_clean_site/JoinCleanUpForm";
 import {getUser} from "../../redux/actions/UserActions";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
+import UpdateCleanSiteForm from "./update_clean_site/UpdateCleanSiteForm";
+import DeleteCleanSiteDialog from "./delete_clean_site/DeleteCleanSiteDialog";
 
 
 const styles = {
@@ -201,7 +203,6 @@ class CleanUpDetail extends React.Component {
             joinLocation: false,
             updateLocation: false,
             openDeleteDialog: false,
-            backdrop: false,
             openDropImage: false
         }
     }
@@ -241,7 +242,6 @@ class CleanUpDetail extends React.Component {
     };
 
     render() {
-        console.log(this.state);
         const {classes, user, location, history} = this.props;
         const {joinLocation, updateLocation, openDeleteDialog, openDropImage} = this.state;
         return (

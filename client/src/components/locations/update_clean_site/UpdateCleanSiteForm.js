@@ -173,7 +173,6 @@ class UpdateCleanSiteForm extends Component {
             errors, step, name, organization, city, street, district,
             description, agenda, startDate, startTime, endTime, lat, lng
         } = this.state;
-        console.log(this.state.step);
         const {classes, open, loading, doneUpdateLocation} = this.props;
         return (
             <Dialog style={{zIndex: 1}} fullWidth={step === 1} maxWidth={step === 1 ? "lg" : "md"} open={open}
