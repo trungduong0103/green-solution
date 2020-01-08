@@ -26,17 +26,20 @@ import placeholderImage from "../../../assets/imgs/home_page_img.jpg";
 const styles = {
     confirmBtn: {
         fontFamily: "'Quicksand', sans-serif;",
+        backgroundColor: "rgb(99,151,68)",
+        color: "white",
         "&:hover":{
             backgroundColor: "rgb(99,151,68)",
         }
     },
     closeBtn: {
         fontFamily: "'Quicksand', sans-serif;",
+        backgroundColor: "rgb(255,84,83)",
         "&:hover":{
             backgroundColor: "rgb(255,84,83)",
         }
     },
-    collapseTitle: {
+    title: {
         fontFamily: "'Quicksand', sans-serif;",
         paddingLeft: "1em"
     },

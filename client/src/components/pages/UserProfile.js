@@ -68,7 +68,7 @@ const styles = {
     }
 };
 
-class Home extends Component {
+class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -154,24 +154,47 @@ class Home extends Component {
 
                     {/*insert admin's email here ↓*/}
                     <Grid item xs={9}>
-                        {email === "abc" ?
-                            <AdminLocations locations={locations}/> : <div>
-                                <AppBar position="static" color="inherit">
-                                    <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
-                                          aria-label="simple tabs locations">
-                                        <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)}
-                                             className={classes.text}/>
-                                        <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} className={classes.text}/>
-                                        <Tab label="Sự kiện đã hoàn thành" {...this.tabProps(2)}
-                                             className={classes.text}/>
-                                    </Tabs>
-                                </AppBar>
-                                {tab === 0 &&
-                                <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>}
-                                {tab === 1 &&
-                                <CreatedLocations loaded={loadCreatedLocations} locations={createdLocations}/>}
-                                {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations}/>}
-                            </div>}
+                    {email === "abc" ? 
+                    <AdminLocations locations={locations} />:<div>
+                        <AppBar position="static" color="inherit">
+                            <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
+                                  aria-label="simple tabs locations">
+                                <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)} className={classes.text}/>
+                                <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} className={classes.text}/>
+                                <Tab label="Sự kiện đã hoàn thành" {...this.tabProps(2)} className={classes.text} />
+                            </Tabs>
+                        </AppBar>
+                        {tab === 0 ?
+                            registeredLocations.length === 0 ?
+                                <Grid container style={{textAlign: "center", height: "250px"}}  alignContent="center" justify="center">
+                                    <Grid item sm={12}>
+                                        <Typography className={classes.text} variant="h5">Bạn chưa tham gia sự kiện nào</Typography>
+                                        <Typography className={classes.text}><a  href={`/join-cleanup`} target="_blank" rel="noopener noreferrer">Bấm vào đây để tham gia sự kiện</a></Typography>
+                                    </Grid>
+                                </Grid>
+                            :
+                            <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>
+                           : ""
+                        }
+
+
+                        {tab === 1 ?
+                            createdLocations.length === 0 ?
+                                <Grid container style={{textAlign: "center", height: "250px"}}  alignContent="center" justify="center">
+                                    <Grid item sm={12}>
+                                        <Typography className={classes.text} variant="h5">Bạn chưa tổ chức sự kiện nào</Typography>
+                                        <Typography className={classes.text}><a  href={`/create-cleanup`} target="_blank" rel="noopener noreferrer">Bấm vào đây để tồ chức sự kiện đầu tiên</a></Typography>
+                                    </Grid>
+                                </Grid>
+                            :
+                            <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={user.email}
+                                          delete={this.handleDeleteLocation} edit={this.handleEditLocation}
+                                          loaded={loadCreatedLocations} locations={createdLocations}/>
+                            : ""
+                        }
+
+                        {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations} />}
+                        </div>}
                     </Grid>
 
                 </Grid>
@@ -215,4 +238,4 @@ const mapDispatchToProps = {
     getUser
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserProfile));

@@ -81,8 +81,8 @@ class EventResultForm extends Component {
 
     handleSubmitImage = (files) => {
         files.forEach(f => {
-            const img = f.file
-            const reader = new FileReader()
+            const img = f.file;
+            const reader = new FileReader();
             reader.onloadend = () => {
                 const list = this.state.photos
                 list.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
@@ -95,11 +95,11 @@ class EventResultForm extends Component {
     };
 
     handleRemove = (participant) => {
-        const filteredList = this.state.participants.filter(p => p !== participant)
+        const filteredList = this.state.participants.filter(p => p !== participant);
         this.setState({
             participants: filteredList
         })
-    }
+    };
 
     componentDidMount() {
         if (this.props.location !== undefined) {
@@ -168,7 +168,7 @@ class EventResultForm extends Component {
                                 <Typography>Số lượng chai nhựa (cái)</Typography>
 
                                 <TextField
-                                    
+
                                     type="number"
                                     name="bottle"
                                     placeholder="Số lượng chai nhựa"
@@ -179,7 +179,7 @@ class EventResultForm extends Component {
                                 />
                                 <Typography>Số lượng ống hút (cái)</Typography>
                                 <TextField
-                                    
+
                                     type="number"
                                     name="straw"
                                     placeholder="Số lượng ống hút"
@@ -190,7 +190,7 @@ class EventResultForm extends Component {
                                 />
                                 <Typography>Số lượng hộp xốp (cái)</Typography>
                                 <TextField
-                                    
+
                                     type="number"
                                     name="foamBox"
                                     placeholder="Số lượng hộp xốp"
@@ -201,7 +201,7 @@ class EventResultForm extends Component {
                                 />
                                 <Typography>Số lượng túi nhựa (cái)</Typography>
                                 <TextField
-                                    
+
                                     type="number"
                                     name="plasticBag"
                                     placeholder="Số lượng túi nhựa"
@@ -210,7 +210,7 @@ class EventResultForm extends Component {
                                     value={plasticBag}
                                     fullWidth
                                 />
-                            
+
                                 <br/>
                                 <Typography>Hình ảnh sự kiện</Typography>
                                 <Dropzone

@@ -222,7 +222,7 @@ class SecondTab extends Component {
                                             </Grid>
                                             <Grid item sm={6}>
                                                 <TextField
-                                                    disabled={location.city === ""}
+                                                    disabled={location.city === "" || location.city !== "Hồ Chí Minh"}
                                                     fullWidth
                                                     className={classes.formControl}
                                                     select

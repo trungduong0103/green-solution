@@ -49,15 +49,17 @@ class Home extends Component {
         } = this.props;
         return (
             <div>
-                <NavBar />
+                <NavBar/>
                 <GridList cols={2} cellHeight={710} spacing={0}>
                     <GridListTile>
-                        <img src={banner} alt="bannerBackground" />
+                        <img src={banner} alt="bannerBackground"/>
                     </GridListTile>
                     <GridListTile>
-                        <AboutUsContent />
+                        <AboutUsContent/>
                     </GridListTile>
                 </GridList>
+
+                {/*<SendEmailForm/>*/}
 
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
                 <div className={classes.homePageMapWrapper}>

@@ -155,43 +155,43 @@ const volunteers = [
         id: 1,
         img: myImage,
         email: "manhtrietvt@gmail.com",
-        buyTools: true,
-        size: "XL"
+        tools: true,
+        tShirtSize: "XL"
     },
     {
         id: 2,
         img: placeholderImage,
         email: "trungduong@gmail.com",
-        buyTools: true,
-        size: "XL"
+        tools: true,
+        tShirtSize: "XL"
     },
     {
         id: 3,
         img: img1,
         email: "khang_nguyen12@gmail.com",
-        buyTools: false,
-        size: "M"
+        tools: false,
+        tShirtSize: "M"
     },
     {
         id: 4,
         img: img2,
         email: "nst@gmail.com",
-        buyTools: false,
-        size: "L"
+        tools: false,
+        tShirtSize: "L"
     },
     {
         id: 5,
         img: img2,
         email: "quachtoan@gmail.com",
-        buyTools: true,
-        size: "L"
+        tools: true,
+        tShirtSize: "L"
     },
     {
         id: 6,
         img: img2,
         email: "lam99@gmail.com",
-        buyTools: false,
-        size: "XL"
+        tools: false,
+        tShirtSize: "XL"
     },
 
 ];

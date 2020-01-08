@@ -35,9 +35,6 @@ const styles = {
         fontSize: 17,
         color: "black"
     },
-    // gridList: {
-    //     padding: 0
-    // },
     image: {
         width: 300,
         height: 200
@@ -103,7 +100,7 @@ class AboutUs extends Component {
                     </GridListTile>
                 </GridList>
                 <Typography className={classes.typoTitle}>Nguồn cảm hứng</Typography>
-                <GridList cols={4} cellHeight={400} spacing={5} className={classes.gridList}>
+                <GridList cols={4} cellHeight={400} spacing={5} style={{margin:0}}>
                     <GridListTile>
                         <img
                             className={classes.image}
