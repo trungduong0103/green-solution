@@ -41,9 +41,7 @@ export default function (state = initialState, action) {
         case CREATE_NEW_LOCATION:
             return {...state, locations: [...state.locations, action.payload], locationId: action.payload.id};
         case UPDATE_LOCATION:
-            const index = state.createdLocations.findIndex((location) => location.id === action.payload.id);
-            state.createdLocations[index] = action.payload;
-            return {...state, locations: [...state.locations]};
+            return {...state, location: action.payload};
         case DELETE_LOCATION:
             const updatedLocations = state.createdLocations.filter((location) => location.id !== action.payload);
             return {...state, createdLocations: updatedLocations};
@@ -86,7 +84,7 @@ export default function (state = initialState, action) {
             return {...state, filteredLocations: filteredLocationsByStartDate2};
         case FILTER_BY_CITY:
             const filteredLocationsByCity
-            = state.locations.filter(location => action.payload.cities.includes(location.city));
+                = state.locations.filter(location => action.payload.cities.includes(location.city));
             return {...state, filteredLocations: filteredLocationsByCity};
         case FILTER_BY_CITY_WITH_START_DATE:
             const filterLocationsByCity1 = [];

@@ -11,7 +11,7 @@ import Snackbar from "@material-ui/core/Snackbar"
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
 import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import {CreateCleanUpMap} from "../maps/CreateCleanUpMap";
+import {MapWithSearchBox} from "../maps/MapWithSearchBox";
 import {VIETNAMESE_CITIES, HCMC_DISTRICTS} from "../../../environments/Environments";
 import DateFnsUtils from "@date-io/date-fns";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -269,7 +269,6 @@ class SecondTab extends Component {
                                                     <KeyboardTimePicker
                                                         className={classes.picker}
                                                         label="Thời gian bắt đầu sự kiện"
-                                                        // value={location.startTime}
                                                         value={location.startTime}
                                                         onChange={this.handleStartTimeChange}
                                                         InputLabelProps={{className: classes.input}}
@@ -341,7 +340,7 @@ class SecondTab extends Component {
                 </Grid>
 
                 <Grid item sm={7}>
-                    <CreateCleanUpMap handleCall={this.getLocation}/>
+                    <MapWithSearchBox handleCall={this.getLocation}/>
                 </Grid>
 
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}

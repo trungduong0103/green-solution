@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List"
+import Avatar from "@material-ui/core/Avatar";
 
 const styles = {
     title: {
@@ -28,7 +29,7 @@ const styles = {
         fontFamily: "'Quicksand', sans-serif;",
     },
     cardContent: {
-        padding: "10px 20px"
+
     },
     cardList: {
         overflow: 'auto',
@@ -45,41 +46,31 @@ class UserGridList extends React.Component {
     }
 
     render() {
-        const { classes, userList } = this.props;
-        return(
-            <div>
-                <Grid container justify="center" alignContent="center">
-                    <Typography variant="h4" gutterBottom className={classes.title}>Danh sách tình nguyện viên</Typography>
-                    <List className={classes.cardList}>
-                        <Grid container>
-                            {userList.map(user => (
-                                <Grid item sm={4} key={user.id}>
-                                    <Card className={classes.cardWrapper}>
-                                        <Grid container
-                                              className={classes.userCardItem}
-                                              direction="row"
-                                              alignItems="center"
-                                              justify="center"
-                                        >
-                                            <Grid item sm={2}>
-                                                <img src={user.img} className={classes.avatar} alt="user-avatar"/>
-                                            </Grid>
-
-                                            <Grid item sm={10}>
-                                                <Grid container direction="column" className={classes.cardContent}>
-                                                    <Typography  className={classes.text}>{user.email}</Typography>
-                                                    <Typography  className={classes.text}>Mua dụng cụ: {user.tools === true ? "Có" : "Không"}</Typography>
-                                                    <Typography  className={classes.text}>Size áo: {user.tShirtSize}</Typography>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Card>
+        const {classes, userList} = this.props;
+        return (
+            <List className={classes.cardList}>
+                <Typography align="center" variant="h4" gutterBottom className={classes.title}>Danh sách tình nguyện
+                    viên</Typography>
+                <Grid container>
+                    {userList.map(user => (
+                        <Grid item sm={4} key={user.id}>
+                            <Card className={classes.cardWrapper}>
+                                <Grid container direction="row" alignItems="center" justify="center" spacing={4}>
+                                    <Grid item sm={3}>
+                                        <Avatar style={{marginLeft: "0.7em"}} alt="Remy Sharp" src={user.img}/>
+                                    </Grid>
+                                    <Grid item sm={9}>
+                                        <Typography className={classes.text}>{user.email}</Typography>
+                                        <Typography className={classes.text}>Mua dụng
+                                            cụ: {user.buyTools === true ? "Có" : "Không"}</Typography>
+                                        <Typography className={classes.text}>Size áo: {user.size}</Typography>
+                                    </Grid>
                                 </Grid>
-                            ))}
+                            </Card>
                         </Grid>
-                    </List>
+                    ))}
                 </Grid>
-            </div>
+            </List>
         )
     }
 }

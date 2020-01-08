@@ -30,7 +30,13 @@ const styles = {
     },
     card: {
         minWidth: 275
-    }
+    },
+    text: {
+        "& a":{
+            color:'green',
+            textDecoration: 'none'
+        }
+    },
 
 };
 
@@ -83,7 +89,9 @@ class RegisteredLocations extends Component {
                                             title="Site's Image"
                                         />}
                                         <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2">{location.name}</Typography>
+                                            <Typography gutterBottom variant="h5" component="h2" className={classes.text}>
+                                                <a href={`/cleanup-detail/${location.id}`} target="_blank" rel="noopener noreferrer">{location.name}</a>
+                                            </Typography>
                                             <Typography variant="body2" component="p">
                                                 {location.description}
                                             </Typography>

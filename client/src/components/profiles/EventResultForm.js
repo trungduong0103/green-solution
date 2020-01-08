@@ -14,44 +14,9 @@ import Typography from "@material-ui/core/Typography"
 const styles = {
     paper: {
         padding: 20,
-        minWidth: "400px"
+        minWidth: "600px"
     },
-    form: {
-        '& .image-wrapper': {
-            textAlign: 'center',
-            position: 'relative',
-            '& button': {
-                position: 'absolute',
-                top: '80%',
-                left: '70%'
-            }
-        },
-        '& .profile-image': {
-            borderRadius: '50%',
-            height: "200px",
-            width: "200px",
-            padding: "10px"
-        },
-        '& .profile-details': {
-            textAlign: 'left',
-            '& span, svg': {
-                verticalAlign: 'middle'
-            },
-            '& a': {
-                color: '#00bcd4',
-                textDecoration: "none"
-            }
-        },
-        '& hr': {
-            border: 'none',
-            margin: '0 0 10px 0'
-        },
-        '& svg.button': {
-            '&:hover': {
-                cursor: 'pointer'
-            }
-        }
-    },
+
     buttons: {
         textAlign: 'center',
         '& a': {
@@ -77,8 +42,11 @@ class EventResultForm extends Component {
             participants: [],
             weight: 0,
             organic: 0,
-            recyclable: 0,
-            nonRecyclable: 0,
+            bottle: 0,
+            straw:0,
+            foamBox:0,
+            plasticBag:0,
+            photos:[]
         }
     }
 
@@ -91,12 +59,15 @@ class EventResultForm extends Component {
             participants: this.state.participants,
             weight: this.state.weight,
             organic: this.state.organic,
-            recyclable: this.state.recyclable,
-            nonRecyclable: this.state.nonRecyclable
+            bottle:this.state.bottle,
+            straw:this.state.straw,
+            foamBox:this.state.foamBox,
+            plasticBag:this.state.plasticBag,
+            photos:this.state.photos
         };
         //this.props.updateResult(result);
         console.log(result)
-        this.props.handleOpenResultForm(0);
+        this.props.handleOpenResultForm();
     };
 
     getUploadParams = ({meta}) => {
@@ -109,13 +80,16 @@ class EventResultForm extends Component {
     };
 
     handleSubmitImage = (files) => {
-        // const {creator, locationId, history} = this.props;
         files.forEach(f => {
             const img = f.file;
             const reader = new FileReader();
             reader.onloadend = () => {
-                console.log(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
-            };
+                const list = this.state.photos
+                list.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
+                this.setState({
+                    photos:list
+                })
+            }
             reader.readAsDataURL(img)
         })
     };
@@ -128,9 +102,9 @@ class EventResultForm extends Component {
     };
 
     componentDidMount() {
-        if (this.props.locations !== undefined) {
+        if (this.props.location !== undefined) {
             this.setState({
-                participants: this.props.locations[0].registeredUsers
+                participants: this.props.location.registeredUsers
             })
         }
     }
@@ -147,17 +121,19 @@ class EventResultForm extends Component {
 
     render() {
         const {classes, open, handleOpenResultForm} = this.props;
-        const {participants, weight, organic, recyclable, nonRecyclable} = this.state;
+        const {participants, weight, organic, bottle, foamBox, straw,plasticBag,} = this.state;
 
         return (
-            <Dialog open={open} onClose={() => handleOpenResultForm()}>
+            <Dialog open={open} onClose={() => handleOpenResultForm()}
+                maxWidth="md"
+            >
                 <DialogTitle>Kết quả sự kiện</DialogTitle>
                 <DialogContent>
                     <Paper className={classes.paper}>
-                        <div className={classes.form}>
+                        <div>
                             <div>
                                 <Typography>Danh sách người tham gia</Typography>
-                                {participants.map((participant, index) =>
+                                {participants !==undefined && participants.map((participant, index) =>
                                     (
                                         <Chip
                                             label={participant}
@@ -167,8 +143,8 @@ class EventResultForm extends Component {
                                     )
                                 )}
                                 <br/>
+                                <Typography>Tổng khối lượng rác thu được (kg)</Typography>
                                 <TextField
-                                    label="Tổng khối lượng rác thu được (kg)"
                                     type="number"
                                     name="weight"
                                     placeholder="Tổng khối lượng rác thu được"
@@ -177,9 +153,9 @@ class EventResultForm extends Component {
                                     value={weight}
                                     fullWidth
                                 />
-
+                                <br/>
+                                <Typography>Khối lượng rác hữu cơ (kg)</Typography>
                                 <TextField
-                                    label="Khối lượng rác hữu cơ (kg)"
                                     type="number"
                                     name="organic"
                                     placeholder="Khối lượng rác hữu cơ"
@@ -188,29 +164,55 @@ class EventResultForm extends Component {
                                     value={organic}
                                     fullWidth
                                 />
+                                <br/>
+                                <Typography>Số lượng chai nhựa (cái)</Typography>
 
                                 <TextField
-                                    label="Khối lượng rác tái chế (kg)"
+
                                     type="number"
-                                    name="recyclable"
-                                    placeholder="Khối lượng rác tái chế"
+                                    name="bottle"
+                                    placeholder="Số lượng chai nhựa"
                                     className={classes.formInput}
                                     onChange={this.handleChange}
-                                    value={recyclable}
+                                    value={bottle}
+                                    fullWidth
+                                />
+                                <Typography>Số lượng ống hút (cái)</Typography>
+                                <TextField
+
+                                    type="number"
+                                    name="straw"
+                                    placeholder="Số lượng ống hút"
+                                    className={classes.formInput}
+                                    onChange={this.handleChange}
+                                    value={straw}
+                                    fullWidth
+                                />
+                                <Typography>Số lượng hộp xốp (cái)</Typography>
+                                <TextField
+
+                                    type="number"
+                                    name="foamBox"
+                                    placeholder="Số lượng hộp xốp"
+                                    className={classes.formInput}
+                                    onChange={this.handleChange}
+                                    value={foamBox}
+                                    fullWidth
+                                />
+                                <Typography>Số lượng túi nhựa (cái)</Typography>
+                                <TextField
+
+                                    type="number"
+                                    name="plasticBag"
+                                    placeholder="Số lượng túi nhựa"
+                                    className={classes.formInput}
+                                    onChange={this.handleChange}
+                                    value={plasticBag}
                                     fullWidth
                                 />
 
-                                <TextField
-                                    label="Khối lượng rác không tái chế (kg)"
-                                    type="number"
-                                    name="nonRecyclable"
-                                    placeholder="Khối lượng rác không tái chế"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={nonRecyclable}
-                                    fullWidth
-                                />
-
+                                <br/>
+                                <Typography>Hình ảnh sự kiện</Typography>
                                 <Dropzone
                                     getUploadParams={this.getUploadParams}
                                     onChangeStatus={this.handleChangeStatus}
@@ -255,8 +257,8 @@ class EventResultForm extends Component {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={() => this.submit()}>Submit</Button>
-                    <Button onClick={() => handleOpenResultForm()}>Close</Button>
+                    <Button onClick={() => this.submit()}>Lưu</Button>
+                    <Button onClick={() => handleOpenResultForm()}>Hủy</Button>
                 </DialogActions>
             </Dialog>
 

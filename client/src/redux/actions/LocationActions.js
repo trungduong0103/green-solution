@@ -4,7 +4,8 @@ import {
     CREATE_NEW_LOCATION,
     CREATING_LOCATION,
     DEFAULT_URL,
-    DELETE_LOCATION,
+    DELETE_LOCATION, DELETE_LOCATION_COMPLETE,
+    DELETING_LOCATION,
     DONE_UPLOAD_LOCATION_LOGO,
     GET_ALL_LOCATIONS,
     GET_LOCATION,
@@ -17,11 +18,11 @@ import {
     LOADING_FORM,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
-    UPDATE_LOCATION,
+    UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE,
+    UPDATING_LOCATION,
     UPLOADING_LOCATION_LOGO
 } from "../types";
 import axios from "axios";
-import {closeUpdateSiteForm} from "./FormActions";
 
 //GET ALL LOCATIONS
 export function getAllLocations() {
@@ -57,39 +58,36 @@ export function getLocation(locationId) {
 }
 
 //UPDATE LOCATION
-export function updateLocation(locationData, email) {
+export function updateLocation(locationData, id) {
+    const token = sessionStorage.getItem("FBIdToken");
     return function (dispatch) {
-        console.log(locationData);
+        dispatch({type: UPDATING_LOCATION});
         axios
-            .put(`${DEFAULT_URL}/update_clean_site/${locationData.id}`, locationData)
+            .put(`${DEFAULT_URL}/update_clean_site/${id}`, locationData,
+                {headers: {"Authorization": token}})
             .then((res) => {
-                dispatch({
-                    type: UPDATE_LOCATION,
-                    payload: res.data.updateData
-                });
+                dispatch({type: UPDATE_LOCATION, payload: res.data});
+                dispatch({type: UPDATE_LOCATION_COMPLETE});
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE});
+                }, 2000);
             })
-            .then(() => {
-                dispatch(closeUpdateSiteForm());
-            })
-            .then(() => {
-                dispatch(getAllRegisteredLocationsWithEmail({email: email}))
-            });
     }
 }
 
 //DELETE LOCATION
-export function deleteLocation(locationId, email) {
+export function deleteLocation(locationId, history) {
+    const token = sessionStorage.getItem("FBIdToken");
     return function (dispatch) {
+        dispatch({type: DELETING_LOCATION});
         axios
-            .delete(`${DEFAULT_URL}/delete_clean_site/${locationId}`)
+            .delete(`${DEFAULT_URL}/delete_clean_site/${locationId}`, {headers: {"Authorization": token}})
             .then((res) => {
-                dispatch({
-                    type: DELETE_LOCATION,
-                    payload: res.data
-                })
-            })
-            .then(() => {
-                dispatch(getAllRegisteredLocationsWithEmail({email: email}))
+                dispatch({type: DELETE_LOCATION, payload: res.data});
+                dispatch({type: DELETE_LOCATION_COMPLETE});
+                setTimeout(() => {
+                    history.push("/profile");
+                }, 2000);
             });
     };
 }
@@ -102,10 +100,7 @@ export function createNewLocation(location) {
         axios
             .post(`${DEFAULT_URL}/create_clean_site`, location, {headers: {"Authorization": token}})
             .then((res) => {
-                dispatch({
-                    type: CREATE_NEW_LOCATION,
-                    payload: res.data
-                });
+                dispatch({type: CREATE_NEW_LOCATION, payload: res.data});
                 dispatch({type: CREATE_LOCATION_COMPLETE});
                 setTimeout(() => {
                     dispatch({type: RESET_UI_STATE})
@@ -123,12 +118,12 @@ export function joinLocation(info) {
         dispatch({type: JOINING_CLEAN_SITE});
         axios.post(`${DEFAULT_URL}/join_clean_site`, info)
             .then((response) => {
-                if (response.message === "registration successful") return dispatch({type: JOINED_CLEAN_SITE});
+                if (response.data.message === "registration successful") return dispatch({type: JOINED_CLEAN_SITE});
                 return dispatch({type: ALREADY_JOINED_CLEAN_SITE});
             })
             .then(() => {
                 setTimeout(() => {
-                    dispatch({type: RESET_UI_STATE})
+                    dispatch({type: RESET_UI_STATE});
                 }, 1000);
             })
             .catch((err) => {
