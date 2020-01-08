@@ -19,12 +19,32 @@ import {
     OPEN_SIGN_OUT_SNACKBAR,
     CLOSE_SIGN_OUT_SNACKBAR,
     ENLARGE_MARKER,
-    MINIMIZE_MARKER, ALREADY_JOINED_CLEAN_SITE
+    MINIMIZE_MARKER, ALREADY_JOINED_CLEAN_SITE, UPDATING_LOCATION, UPDATE_LOCATION_COMPLETE
 } from "../types";
 
 const initialState = {
     doneCreateLocation: false,
     doneJoinLocation: false,
+    doneDeleteLocation: false,
+    doneUpdateLocation: false,
+    alreadyJoinedLocation: false,
+    loadRegisteredLocations: false,
+    loadCreatedLocations: false,
+    loading: false,
+    doneSignUp: false,
+    doneSignIn: false,
+    openAuthenticationSnackbar: false,
+    openSignOutSnackbar: false,
+    errors: {},
+    showInfoWindow: false,
+    infoWindowIndex: 0
+};
+
+const defaultState = {
+    doneCreateLocation: false,
+    doneJoinLocation: false,
+    doneDeleteLocation: false,
+    doneUpdateLocation: false,
     alreadyJoinedLocation: false,
     loadRegisteredLocations: false,
     loadCreatedLocations: false,
@@ -64,6 +84,10 @@ export default function (state = initialState, action) {
             return {...state, loading: true};
         case JOINED_CLEAN_SITE:
             return {...state, loading: false, doneJoinLocation: true};
+        case UPDATING_LOCATION:
+            return {...state, loading: true};
+        case UPDATE_LOCATION_COMPLETE:
+            return {...state, loading: false, doneUpdateLocation: true};
         case ALREADY_JOINED_CLEAN_SITE:
             return {...state, loading: false, alreadyJoinedLocation: true};
         case GETTING_REGISTERED_LOCATIONS:
@@ -92,7 +116,7 @@ export default function (state = initialState, action) {
                 infoWindowIndex: -1
             };
         case RESET_UI_STATE:
-            return {...state, state: initialState};
+            return state = defaultState;
         default:
             return state;
     }

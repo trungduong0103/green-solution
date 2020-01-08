@@ -71,7 +71,7 @@ exports.updateCleanUpLocation = (req, res) => {
     return db.collection("cleanUpLocations").doc(locationId)
         .update(updateData)
         .then(() => {
-            return res.json({updateData});
+            return res.json(req.body);
         })
         .catch((err) => {
             console.log(err);
@@ -138,9 +138,10 @@ function checkUserAlreadyCreatedInFirestore(email) {
 }
 
 function createUserUsingEmail(record) {
+    const userInfo = record.userInfo;
     return db.collection("users")
-        .doc(record.email)
-        .set({phoneNumber: record.phoneNumber, verified: 0});
+        .doc(userInfo.email)
+        .set({phoneNumber: userInfo.phoneNumber, verified: 0});
 }
 
 function checkUserAlreadyRegisteredToLocation(locationId, email) {

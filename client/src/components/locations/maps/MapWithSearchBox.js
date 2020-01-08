@@ -5,8 +5,7 @@ import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 import React from "react";
 
-
-export const CreateCleanUpMap = compose(
+export const MapWithSearchBox = compose(
     withProps({
         googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
         loadingElement: <div style={{height: `100%`}}/>,
@@ -30,9 +29,7 @@ export const CreateCleanUpMap = compose(
 
             this.setState({
                 bounds: null,
-                center: {
-                    lat: 10.812675, lng: 106.656734
-                },
+                center: this.props.center,
 
                 markers: [],
 
@@ -89,7 +86,7 @@ export const CreateCleanUpMap = compose(
     withGoogleMap,
 )(props =>
     <GoogleMap
-        defaultZoom={11}
+        defaultZoom={15}
         center={props.center}
         onClick={props.onMapClick}
     >
@@ -115,6 +112,7 @@ export const CreateCleanUpMap = compose(
                     outline: `none`,
                     textOverflow: `ellipses`,
                 }}
+                defaultValue={props.street}
             />
         </SearchBox>
         {props.markers.map((marker, index) =>
@@ -124,12 +122,21 @@ export const CreateCleanUpMap = compose(
                     scaledSize: {width: 50, height: 50}
                 }}
                 key={index}
-                draggable={true}
                 ref={props.onMarkerMounted}
                 onPositionChanged={props.onPositionChanged}
                 position={marker.position}
             />
         )}
-
+        {props.markers.length === 0 &&
+        <Marker
+            icon={{
+                url: require("../../../assets/imgs/marker.png"),
+                scaledSize: {width: 50, height: 50}
+            }}
+            ref={props.onMarkerMounted}
+            onPositionChanged={props.onPositionChanged}
+            position={props.center}
+        />
+        }
     </GoogleMap>
 );
