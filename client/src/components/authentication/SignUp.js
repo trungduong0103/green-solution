@@ -44,9 +44,6 @@ const styles = {
             outline: "none"
         }
     },
-    progress: {
-        marginTop:"5%"
-    },
     icon: {
         color: "white"
     },
@@ -74,9 +71,6 @@ const styles = {
     },
     input: {
         fontFamily: "'Quicksand', sans-serif;",
-    },
-    tick: {
-        marginTop: "5%"
     }
 
 };
@@ -85,7 +79,6 @@ class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             signUpEmail: "",
             signUpPassword: "",
             signUpConfirmPassword: "",
@@ -157,7 +150,8 @@ class SignUp extends Component {
                         InputProps={
                             {
                                 disableUnderline: true,
-                                className: classes.input}}
+                                className: classes.input
+                            }}
                     >
                     </TextField>
                     <TextField
@@ -175,7 +169,8 @@ class SignUp extends Component {
                         InputProps={
                             {
                                 disableUnderline: true,
-                                className: classes.input}}
+                                className: classes.input
+                            }}
                     >
                     </TextField>
                     <TextField
@@ -193,14 +188,15 @@ class SignUp extends Component {
                         InputProps={
                             {
                                 disableUnderline: true,
-                                className: classes.input}}
+                                className: classes.input
+                            }}
                     >
                     </TextField>
 
 
                     {loading ? (
-                        <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
-                    ) : doneSignUp ? (<CheckIcon fontSize="large" className={classes.tick} />) : (<Button
+                        <CircularProgress variant="indeterminate" size={32} style={{marginTop: "5%"}}/>
+                    ) : doneSignUp ? (<CheckIcon fontSize="large" style={{marginTop: "5%"}}/>) : (<Button
                         variant="contained"
                         onClick={this.signUpWithEmail}
                         className={classes.registerBtn}

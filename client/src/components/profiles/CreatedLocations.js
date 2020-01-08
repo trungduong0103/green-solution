@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -47,69 +47,53 @@ const styles = {
 class CreatedLocations extends Component {
 
     constructor(props) {
-        super(props)
-
+        super(props);
         this.state = {
             grid: 6,
             openResultForm: false,
-            currentEvent:0,
-        }
+            currentEvent: 0,
+        };
 
-        this.setGrid = this.setGrid.bind(this)
-        this.setList = this.setList.bind(this)
+        this.setGrid = this.setGrid.bind(this);
+        this.setList = this.setList.bind(this);
     }
 
     setGrid = () => {
-        this.setState({
-            grid: 6
-        })
+        this.setState({grid: 6});
     };
 
     setList = () => {
-        this.setState({
-            grid: 12
-        })
+        this.setState({grid: 12});
     };
 
-    handleOpenResultForm = (index) => {
-        this.setState({
-            openResultForm: !this.state.openResultForm,
-            currentEvent:index,
-        })
-    }
 
     render() {
-        const { classes,
-            locations,
-            loaded} = this.props;
-        const { grid} = this.state;
+        const {classes, locations, loaded} = this.props;
+        const {grid} = this.state;
         return (
             <div>
                 {loaded ?
-
-                    <CircularProgress variant="indeterminate" className={classes.locationProgress2} />
+                    <CircularProgress variant="indeterminate" className={classes.locationProgress2}/>
                     :
                     <div>
-                        <div style={{ width: '100%', textAlign: 'right' }}>
+                        <div style={{width: '100%', textAlign: 'right'}}>
                             <IconButton onClick={this.setGrid}>
-                                <AppsIcon />
+                                <AppsIcon/>
                             </IconButton>
                             <IconButton onClick={this.setList}>
-                                <ViewListIcon />
+                                <ViewListIcon/>
                             </IconButton>
                         </div>
 
-
-
                         <Grid container spacing={5} className={classes.wrapper}>
-                            {locations.map((location,index) => (
+                            {locations.map((location) => (
                                 <Grid item xs={grid} key={location.id} className={classes.gridForm}>
                                     <Card>
                                         {grid === 6 && <CardMedia component="img"
-                                            height="140"
-                                            image={locationAvatar}
-                                            alt="Site's Image"
-                                            title="Site's Image"
+                                                                  height="140"
+                                                                  image={locationAvatar}
+                                                                  alt="Site's Image"
+                                                                  title="Site's Image"
                                         />}
                                         <CardContent>
 
@@ -125,8 +109,6 @@ class CreatedLocations extends Component {
                                 </Grid>
                             ))}
                         </Grid>
-
-
                     </div>
                 }
                 <br />
