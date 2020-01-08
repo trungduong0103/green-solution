@@ -16,6 +16,8 @@ import NavBar from "../../navigation/NavBar";
 
 import CleanSitesList from "../../pages/home/CleanSitesList";
 import CleanSitesGrid from "../../pages/home/CleanSitesGrid"
+import Filter from "../../pages/home/Filter";
+import Search from "../../pages/home/Search";
 
 import {enlargeMarker, minimizeMarker} from "../../../redux/actions/UIActions";
 import IconButton from "@material-ui/core/IconButton";
@@ -26,7 +28,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const styles = {
     wrapper: {
-        padding: '10px'
+        padding: '10px',
+        height: "75vh"
     },
     title: {
         fontFamily: "'Quicksand', sans-serif;",
@@ -59,7 +62,7 @@ class JoinCleanUp extends Component {
             locations: [],
             list: false,
             grid: true,
-            map: false
+            map: true
         }
     }
 
@@ -85,12 +88,19 @@ class JoinCleanUp extends Component {
     };
 
     render() {
-        const {classes, locations, enlargeMarker, minimizeMarker, showInfoWindow, infoWindowIndex} = this.props;
+        const {classes, locations, enlargeMarker, minimizeMarker,
+                showInfoWindow, infoWindowIndex, filteredLocations} = this.props;
         const {list, grid, map} = this.state;
         return (
             <div>
                 <NavBar/>
                 <h1 align="center" className={classes.title}>Địa điểm sự kiện bạn muốn tham dự </h1>
+
+                <Grid container>
+                    <Search />
+                    <Filter/>
+                </Grid>
+
                 {map ? <Grid container className={classes.wrapper}>
                         <Grid item sm={6}>
                             <div className={classes.icon}>
@@ -102,9 +112,11 @@ class JoinCleanUp extends Component {
                                 </IconButton>
                             </div>
                             {list &&
-                            <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}/>}
-                            {grid && <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}
-                                                     grid={6}/>}
+                            <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker}
+                                            locations={filteredLocations ? filteredLocations : locations}/>}
+                            {grid && 
+                            <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker}
+                                            locations={filteredLocations ? filteredLocations : locations} grid={6}/>}
                         </Grid>
                         <Grid item sm={6}>
                             <div className={classes.icon}>
@@ -115,7 +127,7 @@ class JoinCleanUp extends Component {
                                     label="Mở bản đồ"
                                 />
                             </div>
-                            <JoinCleanUpMap locations={locations}
+                            <JoinCleanUpMap locations={filteredLocations ? filteredLocations : locations}
                                             enlarge={this.handleEnlargeMarker}
                                             minimize={minimizeMarker}
                                             showInfoWindow={showInfoWindow}
@@ -139,10 +151,11 @@ class JoinCleanUp extends Component {
                             />
                         </div>
                         {list &&
-                        <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}/>}
+                        <CleanSitesList enlarge={enlargeMarker} minimize={minimizeMarker}
+                                        locations={filteredLocations ? filteredLocations : locations}/>}
                         {grid &&
-                        <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker} locations={locations}
-                                                 grid={4}/>}
+                        <CleanSitesGrid enlarge={enlargeMarker} minimize={minimizeMarker}
+                                        locations={filteredLocations ? filteredLocations : locations} grid={4}/>}
 
                     </div>}
             </div>
@@ -155,7 +168,8 @@ const mapStateToProps = state => ({
     locations: state.locationsData.locations,
     formState: state.formState,
     showInfoWindow: state.UI.showInfoWindow,
-    infoWindowIndex: state.UI.infoWindowIndex
+    infoWindowIndex: state.UI.infoWindowIndex,
+    filteredLocations: state.locationsData.filteredLocations,
 });
 
 const mapDispatchToProps = {

@@ -231,7 +231,7 @@ class UpdateProfile extends Component {
 
                 <DialogActions>
                     <Button className={classes.confirmBtn} onClick={() => this.submit()}>Lưu</Button>
-                    <Button className={classes.closeBtn} onClick={() => handleOpenUpdateProfile()}>Đóng</Button>
+                    <Button className={classes.closeBtn} onClick={() => handleOpenUpdateProfile()}>Hủy</Button>
                 </DialogActions>
             </Dialog>
 

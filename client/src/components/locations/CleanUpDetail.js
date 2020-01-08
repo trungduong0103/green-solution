@@ -1,19 +1,14 @@
 import React from 'react';
-import {connect} from "react-redux";
-import {CleanUpDetailMap} from "./maps/CleanUpDetailMap";
-import jwtDecode from "jwt-decode";
+import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
+import { CleanUpDetailMap } from "./maps/CleanUpDetailMap";
+import jwtDecode from "jwt-decode";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button"
 import Chip from "@material-ui/core/Chip"
 import Divider from "@material-ui/core/Divider";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
 import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
 import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
-import DeleteIcon from "@material-ui/icons/Delete";
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import EditIcon from "@material-ui/icons/Edit";
 import withStyles from "@material-ui/core/styles/withStyles";
 import NavBar from "../navigation/NavBar";
 import placeholderImage from "../../assets/imgs/home_page_img.jpg";
@@ -24,6 +19,13 @@ import ImageGridList from "../locations/clean_site_detail/ImageGridList";
 import UserGridList from "../locations/clean_site_detail/UserGridList";
 import UpdatePhotos from "../locations/clean_site_detail/UpdatePhotos";
 import JoinCleanUpForm from "./join_clean_site/JoinCleanUpForm";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import Tooltip from '@material-ui/core/Tooltip';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { openUpdateSiteForm } from "../../redux/actions/FormActions";
+import EventResultForm from "../profiles/EventResultForm";
 import {getUser} from "../../redux/actions/UserActions";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import UpdateCleanSiteForm from "./update_clean_site/UpdateCleanSiteForm";
@@ -200,11 +202,12 @@ class CleanUpDetail extends React.Component {
         this.state = {
             maxStep: imageList.length,
             location: {},
+            openDropImage: false,
+            openResultForm: false,
             joinLocation: false,
             updateLocation: false,
             openDeleteDialog: false,
             deleteLocation: false,
-            openDropImage: false
         }
     }
 
@@ -213,13 +216,13 @@ class CleanUpDetail extends React.Component {
         this.props.getLocation(locationId);
         if ("FBIdToken" in sessionStorage) {
             const decodedToken = jwtDecode(sessionStorage.getItem("FBIdToken"));
-            this.props.getUser({email: decodedToken.email});
+            this.props.getUser({ email: decodedToken.email });
         }
     }
 
     static getDerivedStateFromProps(props, state) {
         if (props.location !== state.location) {
-            return {location: props.location};
+            return { location: props.location };
         }
         return null;
     }
@@ -237,17 +240,25 @@ class CleanUpDetail extends React.Component {
     };
 
     handleOpenDropImage = () => {
-        this.setState({openDropImage: !this.state.openDropImage});
+        this.setState({
+            openDropImage: !this.state.openDropImage
+        })
+    }
+
+    handleOpenResultForm = () => {
+        this.setState({
+            openResultForm: !this.state.openResultForm
+        })
     };
 
     render() {
         const {classes, user, location, history} = this.props;
-        const {joinLocation, updateLocation, deleteLocation, openDropImage} = this.state;
+        const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm} = this.state;
         return (
             <div>
-                <NavBar/>
+                <NavBar />
                 <Grid container>
-                    <ImageGridList imageList={imageList} open={this.handleOpenDropImage}/>
+                    <ImageGridList imageList={imageList} open={this.handleOpenDropImage} />
                 </Grid>
 
                 <Grid container className={classes.gridHeader}>
@@ -269,7 +280,7 @@ class CleanUpDetail extends React.Component {
                                             <Typography variant="h6" className={classes.title}>Trạng thái:</Typography>
                                         </Grid>
                                         <Grid item sm={9}>
-                                            <Chip className={classes.activeStatus} label="Còn chỗ"/>
+                                            <Chip className={classes.activeStatus} label="Còn chỗ" />
                                         </Grid>
                                     </Grid>
 
@@ -280,7 +291,7 @@ class CleanUpDetail extends React.Component {
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
-                                                <EventNoteOutlinedIcon className={classes.icon}/>
+                                                <EventNoteOutlinedIcon className={classes.icon} />
                                                 {`${location.startDate}`}
                                             </Typography>
                                         </Grid>
@@ -292,7 +303,7 @@ class CleanUpDetail extends React.Component {
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
-                                                <AccessTimeOutlinedIcon className={classes.icon}/>
+                                                <AccessTimeOutlinedIcon className={classes.icon} />
                                                 {`${location.startTime} - ${location.endTime}`}
                                             </Typography>
                                         </Grid>
@@ -300,13 +311,13 @@ class CleanUpDetail extends React.Component {
                                 </Grid>
                             </Grid>
 
-                            <Grid item sm={1}/>
+                            <Grid item sm={1} />
 
                             <Grid item sm={3}>
                                 <Grid container direction="column"
                                       alignItems="center" justify="center" className={classes.organizerAvatar}>
                                     <img src={location.logoUrl ? location.logoUrl : placeholderImage}
-                                         alt="location-avatar" className={classes.image}/>
+                                        alt="location-avatar" className={classes.image} />
                                     <Typography variant="subtitle1"
                                                 className={classes.text}>{location.organization}</Typography>
                                     <br/>
@@ -323,6 +334,7 @@ class CleanUpDetail extends React.Component {
                                             <Tooltip title="Đánh dấu đã hoàn thành">
                                                 <IconButton
                                                     className={classes.button}
+                                                    onClick={() => this.handleOpenResultForm()}>
                                                 >
                                                     <CheckCircleOutlineIcon/>
                                                 </IconButton>
@@ -356,7 +368,7 @@ class CleanUpDetail extends React.Component {
                                 <Grid container direction="column">
                                     <Typography className={classes.title} variant="h6">Miêu tả:</Typography>
                                     <Typography className={classes.text}
-                                                paragraph>{location.description}</Typography>
+                                        paragraph>{location.description}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -366,7 +378,7 @@ class CleanUpDetail extends React.Component {
                                 <Grid container direction="column">
                                     <Typography className={classes.title} variant="h6">Lịch trình:</Typography>
                                     <Typography className={classes.text}
-                                                paragraph>{location.agenda}</Typography>
+                                        paragraph>{location.agenda}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -401,14 +413,17 @@ class CleanUpDetail extends React.Component {
                                      email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
                 <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
+                <EventResultForm location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
             </div>
         )
     }
 }
 
+
 const mapStateToProps = (state) => ({
     location: state.locationsData.location,
-    user: state.user.user
+    user: state.user.user,
+    openUpdateSite: state.formState.openUpdateSite,
 });
 
 const mapDispatchToProps = {
@@ -416,7 +431,8 @@ const mapDispatchToProps = {
     updateLocation,
     getAllLocations,
     deleteLocation,
-    getUser
+    getUser,
+    openUpdateSiteForm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CleanUpDetail));
