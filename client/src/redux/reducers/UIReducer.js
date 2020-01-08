@@ -19,7 +19,12 @@ import {
     OPEN_SIGN_OUT_SNACKBAR,
     CLOSE_SIGN_OUT_SNACKBAR,
     ENLARGE_MARKER,
-    MINIMIZE_MARKER, ALREADY_JOINED_CLEAN_SITE, UPDATING_LOCATION, UPDATE_LOCATION_COMPLETE
+    MINIMIZE_MARKER,
+    ALREADY_JOINED_CLEAN_SITE,
+    UPDATING_LOCATION,
+    UPDATE_LOCATION_COMPLETE,
+    DELETING_LOCATION,
+    DELETE_LOCATION_COMPLETE
 } from "../types";
 
 const initialState = {
@@ -80,6 +85,10 @@ export default function (state = initialState, action) {
             return {...state, loading: true};
         case CREATE_LOCATION_COMPLETE:
             return {...state, loading: false, doneCreateLocation: true};
+        case DELETING_LOCATION:
+            return {...state, loading: true};
+        case DELETE_LOCATION_COMPLETE:
+            return {...state, loading: false, doneDeleteLocation: true};
         case JOINING_CLEAN_SITE:
             return {...state, loading: true};
         case JOINED_CLEAN_SITE:

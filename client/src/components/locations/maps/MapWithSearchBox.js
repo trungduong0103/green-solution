@@ -26,11 +26,10 @@ export const MapWithSearchBox = compose(
     lifecycle({
         componentWillMount() {
             const refs = {};
-
+            const {center} = this.props;
             this.setState({
                 bounds: null,
-                center: this.props.center,
-
+                center: center ? center : {lat: 10.821, lng: 106.6297},
                 markers: [],
 
                 onMarkerMounted: ref => {
