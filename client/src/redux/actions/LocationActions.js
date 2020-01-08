@@ -4,7 +4,8 @@ import {
     CREATE_NEW_LOCATION,
     CREATING_LOCATION,
     DEFAULT_URL,
-    DELETE_LOCATION,
+    DELETE_LOCATION, DELETE_LOCATION_COMPLETE,
+    DELETING_LOCATION,
     DONE_UPLOAD_LOCATION_LOGO,
     GET_ALL_LOCATIONS,
     GET_LOCATION,
@@ -17,7 +18,8 @@ import {
     LOADING_FORM,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
-    UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE, UPDATING_LOCATION,
+    UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE,
+    UPDATING_LOCATION,
     UPLOADING_LOCATION_LOGO
 } from "../types";
 import axios from "axios";
@@ -74,18 +76,18 @@ export function updateLocation(locationData, id) {
 }
 
 //DELETE LOCATION
-export function deleteLocation(locationId, email) {
+export function deleteLocation(locationId, history) {
+    const token = sessionStorage.getItem("FBIdToken");
     return function (dispatch) {
+        dispatch({type: DELETING_LOCATION});
         axios
-            .delete(`${DEFAULT_URL}/delete_clean_site/${locationId}`)
+            .delete(`${DEFAULT_URL}/delete_clean_site/${locationId}`, {headers: {"Authorization": token}})
             .then((res) => {
-                dispatch({
-                    type: DELETE_LOCATION,
-                    payload: res.data
-                })
-            })
-            .then(() => {
-                dispatch(getAllRegisteredLocationsWithEmail({email: email}))
+                dispatch({type: DELETE_LOCATION, payload: res.data});
+                dispatch({type: DELETE_LOCATION_COMPLETE});
+                setTimeout(() => {
+                    history.push("/profile");
+                }, 2000);
             });
     };
 }

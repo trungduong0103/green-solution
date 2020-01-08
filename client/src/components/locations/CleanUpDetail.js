@@ -207,7 +207,7 @@ class CleanUpDetail extends React.Component {
             joinLocation: false,
             updateLocation: false,
             openDeleteDialog: false,
-            
+            deleteLocation: false,
         }
     }
 
@@ -235,8 +235,8 @@ class CleanUpDetail extends React.Component {
         this.setState({updateLocation: !this.state.updateLocation});
     };
 
-    openDeleteDialog = () => {
-        this.setState({openDeleteDialog: true});
+    toggleDeleteForm = () => {
+        this.setState({deleteLocation: !this.state.deleteLocation});
     };
 
     handleOpenDropImage = () => {
@@ -252,8 +252,8 @@ class CleanUpDetail extends React.Component {
     };
 
     render() {
-        const {classes, user, location, history,} = this.props;
-        const {joinLocation, updateLocation, openDeleteDialog, openDropImage,openResultForm } = this.state;
+        const {classes, user, location, history} = this.props;
+        const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm} = this.state;
         return (
             <div>
                 <NavBar />
@@ -342,7 +342,7 @@ class CleanUpDetail extends React.Component {
                                             <Tooltip title="Xóa sự kiện">
                                                 <IconButton
                                                     className={classes.button}
-                                                    onClick={this.openDeleteDialog}
+                                                    onClick={this.toggleDeleteForm}
                                                 >
                                                     <DeleteIcon/>
                                                 </IconButton>
@@ -409,13 +409,12 @@ class CleanUpDetail extends React.Component {
 
                 <JoinCleanUpForm location={location} user={user} locationId={location.id}
                                  open={joinLocation} close={this.toggleJoinForm}/>
-                <UpdateCleanSiteForm history={history} close={this.toggleUpdateForm} email={user.email} open={updateLocation}/>
-                <DeleteCleanSiteDialog open={openDeleteDialog}/>
-                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage} />
+                <UpdateCleanSiteForm close={this.toggleUpdateForm}
+                                     email={user.email} open={updateLocation}/>
+                <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
+                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
                 <EventResultForm location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
-
             </div>
-
         )
     }
 }
