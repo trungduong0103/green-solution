@@ -26,17 +26,20 @@ import {Typography} from "@material-ui/core";
 const styles = {
     confirmBtn: {
         fontFamily: "'Quicksand', sans-serif;",
+        backgroundColor: "rgb(99,151,68)",
+        color: "white",
         "&:hover":{
             backgroundColor: "rgb(99,151,68)",
         }
     },
     closeBtn: {
         fontFamily: "'Quicksand', sans-serif;",
+        backgroundColor: "rgb(255,84,83)",
         "&:hover":{
             backgroundColor: "rgb(255,84,83)",
         }
     },
-    collapseTitle: {
+    title: {
         fontFamily: "'Quicksand', sans-serif;",
         paddingLeft: "1em"
     },
@@ -220,7 +223,7 @@ class JoinCleanUpForm extends Component {
                 <FormControlLabel style={{paddingLeft: "1em"}} control={<Checkbox  color="primary"/>}
                                   onChange={this.requestTool} label={<Typography style={{fontFamily: "'Quicksand', sans-serif"}}>Yêu cầu dụng cụ</Typography>}/>
                 <Collapse in={checked}>
-                    <Typography className={classes.collapseTitle}>Chọn size áo</Typography>
+                    <Typography className={classes.title} variant="subtitle1">Chọn size áo</Typography>
                     {availableSizes.map((size) =>
                         <FormControlLabel
                             key={size}
@@ -239,7 +242,7 @@ class JoinCleanUpForm extends Component {
                                name="tools"
                                onChange={this.handleEquipmentChange}/>
                 </Collapse>
-                {alreadyJoinedLocation ? <h4>Đã đăng ký tham gia</h4> :
+                {alreadyJoinedLocation ? <Typography variant="h5" className={classes.title}>Đã đăng ký tham gia</Typography> :
                     <CardActions>
                         <Button style={{marginLeft: "auto"}} onClick={openJoinLocationForm} className={classes.closeBtn}>Đóng</Button>
                         {doneJoinLocation ?

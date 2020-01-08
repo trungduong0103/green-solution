@@ -1,30 +1,32 @@
 import React, {Component} from 'react';
-
 //React Redux
 import {connect} from "react-redux";
-
 //React Router
 import {Link} from "react-router-dom";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import logo from "../../assets/imgs/website_logo.png"
-
 //Material UI
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
+import Avatar from "@material-ui/core/Avatar";
 import AppBar from "@material-ui/core/AppBar";
+import avatar from "../../assets/imgs/img2.jpg"
 // import PropTypes from 'prop-types';
 
 import {openAuthenticationSnackbar} from "../../redux/actions/UIActions";
 import {signUserOut} from "../../redux/actions/UserActions";
 import jwtDecode from "jwt-decode";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import {Popover} from "@material-ui/core";
 
 const styles = {
     appBar: {
         backgroundColor: "white",
         height: "80px",
-        // height: "100px",
         justifyContent: "center"
     },
     navBtn: {
@@ -45,13 +47,8 @@ const styles = {
         },
         marginTop: 15
     },
-    logo: {
-        width: 200,
-        height: 60
-    },
     logoBtn: {
         marginRight: "auto",
-        // display: "flex",
         outline: "none",
         textDecoration: "none",
         textTransform: "none",
@@ -63,10 +60,6 @@ const styles = {
             outline: "none",
             border: "none"
         },
-        // padding: 25,
-    },
-    toolbar: {
-        padding: "0 2% 0 2%",
     },
     signUpBtn: {
         fontSize: 15,
@@ -79,12 +72,44 @@ const styles = {
             backgroundColor: "#7F986F",
         },
         marginTop: 15,
+    },
+    avatar: {
+        width: "50px",
+        height: "50px",
+    },
+    avatarBtn: {
+        "&:hover": {
+            backgroundColor: "transparent"
+        }
+    },
+    popoverMenu: {
+        width: 300,
+        height: 300
     }
 };
 
+
 class NavBar extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            anchorEl: null
+        }
+    }
+
+    handleProfileMenu = (event) => {
+        this.setState({
+            open: !this.state.open,
+            anchorEl: event.currentTarget
+        })
+    };
+
+
     render() {
+
         const {classes} = this.props;
+        const {anchorEl, open} = this.state;
         const auth = sessionStorage.getItem("FBIdToken");
         let email = "";
         if (auth) {
@@ -94,7 +119,7 @@ class NavBar extends Component {
 
         return (
             <AppBar position="sticky" className={classes.appBar}>
-                <Toolbar className={classes.toolbar} >
+                <Toolbar className={classes.toolbar} style={{padding: "0 2% 0 2%"}} >
                     <Grid container>
                         <Grid item sm={3}>
                             <Button
@@ -102,7 +127,7 @@ class NavBar extends Component {
                                 to="/home"
                                 className={classes.logoBtn}
                             >
-                                <img src={logo} className={classes.logo} alt="logo"/>
+                                <img src={logo} className={classes.logo} alt="logo" style={{ width: 200, height: 60}}/>
                             </Button>
                         </Grid>
 
@@ -151,13 +176,23 @@ class NavBar extends Component {
                         <Grid item sm={3}>
                             <Grid container>
                                 <Grid item sm={3}/>
-                                <Grid item sm={9} >
+                                <Grid item sm={9}>
                                     {auth ? (
-                                        <Button variant="contained"
-                                                className={classes.signUpBtn}
-                                                onClick={() => this.props.signUserOut()}>
-                                            {`${email}`}
-                                        </Button>
+                                        <Grid container justify="center" alignContent="center">
+                                            <IconButton className={classes.avatarBtn} onClick={this.handleProfileMenu}>
+                                                <Avatar
+                                                    src={avatar}
+                                                    className={classes.avatar}
+                                                >
+                                                </Avatar>
+                                            </IconButton>
+                                        </Grid>
+                                        // <Button variant="contained"
+                                        //         className={classes.signUpBtn}
+                                        //         onClick={() => this.props.signUserOut()}>
+                                        //     {`${email}`}
+                                        // </Button>
+
                                     ) : (
                                         <Button
                                             variant="contained"
@@ -172,6 +207,26 @@ class NavBar extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={this.handleProfileMenu}
+                        // anchorOrigin={{
+                        //     vertical: "bottom",
+                        //     horizontal: "left"
+                        // }}
+                        // transformOrigin={{
+                        //     vertical: "top",
+                        //     horizontal: "left"
+                        //
+                        // }}
+                    >
+
+                        <MenuItem  to="/profile" component={Link} style={{fontFamily: "Quicksand, sans-serif"}}>Profile</MenuItem>
+                        <MenuItem  style={{fontFamily: "Quicksand, sans-serif"}}>Logout</MenuItem>
+
+                    </Menu>
                 </Toolbar>
             </AppBar>
         );

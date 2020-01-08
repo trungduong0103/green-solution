@@ -111,21 +111,21 @@ class EventResultForm extends Component {
     handleSubmitImage = (files) => {
         // const {creator, locationId, history} = this.props;
         files.forEach(f => {
-            const img = f.file
-            const reader = new FileReader()
+            const img = f.file;
+            const reader = new FileReader();
             reader.onloadend = () => {
                 console.log(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
-            }
+            };
             reader.readAsDataURL(img)
         })
     };
 
     handleRemove = (participant) => {
-        const filteredList = this.state.participants.filter(p => p !== participant)
+        const filteredList = this.state.participants.filter(p => p !== participant);
         this.setState({
             participants: filteredList
         })
-    }
+    };
 
     componentDidMount() {
         if (this.props.locations !== undefined) {

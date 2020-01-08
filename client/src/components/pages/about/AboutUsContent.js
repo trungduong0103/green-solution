@@ -29,8 +29,7 @@ const styles = {
         border: "1px solid rgb(74,117,58)",
     },
     typoTitle: {
-        fontFamily: "'Merriweather', serif",
-        fontWeight: "fontWeightMedium",
+        fontFamily: "'Quicksand', sans-serif;",
         fontSize: 50,
         color: "white"
     },
@@ -43,14 +42,9 @@ const styles = {
         textAlign: "center"
     },
     text: {
+        color: "white",
         paddingTop: 20,
         fontFamily: "'Quicksand', serif",
-    },
-    subText: {
-        marginTop: 15,
-        fontSize: 17,
-        fontFamily: "'Quicksand', sans-serif;",
-        color: "black"
     }
 };
 
@@ -86,8 +80,8 @@ class AboutUsContent extends PureComponent {
                         trường.
                     </Typography>
 
-                    <Typography variant="h4" className={classes.text}>Ngày trái đất 2020</Typography>
-                    <Typography className={classes.subText} paragraph>
+                    <Typography variant="h4" className={classes.text} gutterBottom>Ngày trái đất 2020</Typography>
+                    <Typography className={classes.typoText} paragraph>
                         Theo như thông lệ hằng năm thì Giờ trái đất sẽ được tổ chức vào thứ 7 cuối cùng của tháng 3.
                         Như vậy năm nay sẽ diễn ra từ 20.30 tới 21.30 ngày 28.03.2020 chung toàn thế giới.
                     </Typography>

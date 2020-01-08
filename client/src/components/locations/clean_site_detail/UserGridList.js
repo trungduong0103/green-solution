@@ -68,8 +68,8 @@ class UserGridList extends React.Component {
                                             <Grid item sm={10}>
                                                 <Grid container direction="column" className={classes.cardContent}>
                                                     <Typography  className={classes.text}>{user.email}</Typography>
-                                                    <Typography  className={classes.text}>Mua dụng cụ: {user.buyTools === true ? "Có" : "Không"}</Typography>
-                                                    <Typography  className={classes.text}>Size áo: {user.size}</Typography>
+                                                    <Typography  className={classes.text}>Mua dụng cụ: {user.tools === true ? "Có" : "Không"}</Typography>
+                                                    <Typography  className={classes.text}>Size áo: {user.tShirtSize}</Typography>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
