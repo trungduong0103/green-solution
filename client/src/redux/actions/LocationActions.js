@@ -17,11 +17,10 @@ import {
     LOADING_FORM,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
-    UPDATE_LOCATION,
+    UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE, UPDATING_LOCATION,
     UPLOADING_LOCATION_LOGO
 } from "../types";
 import axios from "axios";
-import {closeUpdateSiteForm} from "./FormActions";
 
 //GET ALL LOCATIONS
 export function getAllLocations() {
@@ -57,23 +56,20 @@ export function getLocation(locationId) {
 }
 
 //UPDATE LOCATION
-export function updateLocation(locationData, email) {
+export function updateLocation(locationData, id) {
+    const token = sessionStorage.getItem("FBIdToken");
     return function (dispatch) {
-        console.log(locationData);
+        dispatch({type: UPDATING_LOCATION});
         axios
-            .put(`${DEFAULT_URL}/update_clean_site/${locationData.id}`, locationData)
+            .put(`${DEFAULT_URL}/update_clean_site/${id}`, locationData,
+                {headers: {"Authorization": token}})
             .then((res) => {
-                dispatch({
-                    type: UPDATE_LOCATION,
-                    payload: res.data.updateData
-                });
+                dispatch({type: UPDATE_LOCATION, payload: res.data});
+                dispatch({type: UPDATE_LOCATION_COMPLETE});
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE});
+                }, 2000);
             })
-            .then(() => {
-                dispatch(closeUpdateSiteForm());
-            })
-            .then(() => {
-                dispatch(getAllRegisteredLocationsWithEmail({email: email}))
-            });
     }
 }
 
@@ -104,7 +100,9 @@ export function createNewLocation(location) {
             .then((res) => {
                 dispatch({type: CREATE_NEW_LOCATION, payload: res.data});
                 dispatch({type: CREATE_LOCATION_COMPLETE});
-                setTimeout(() => {dispatch({type: RESET_UI_STATE})}, 1000);
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE})
+                }, 1000);
             })
             .catch((err) => {
                 console.log(err);
@@ -122,7 +120,9 @@ export function joinLocation(info) {
                 return dispatch({type: ALREADY_JOINED_CLEAN_SITE});
             })
             .then(() => {
-                setTimeout(() => {dispatch({type: RESET_UI_STATE});}, 1000);
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE});
+                }, 1000);
             })
             .catch((err) => {
                 console.log(err);

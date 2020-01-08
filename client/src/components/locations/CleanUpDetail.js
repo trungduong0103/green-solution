@@ -9,7 +9,6 @@ import Chip from "@material-ui/core/Chip"
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
-import Backdrop from "@material-ui/core/Backdrop";
 import EventNoteOutlinedIcon from '@material-ui/icons/EventNoteOutlined';
 import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -72,8 +71,7 @@ const styles = {
     },
     mapContainer: {
         marginTop: "10px",
-        width: "500px",
-        height: "400px",
+        height: "550px",
         boxShadow: "0 10px 20px rgba(0,0,0,0.25)"
     },
     organizerAvatar: {
@@ -200,8 +198,8 @@ class CleanUpDetail extends React.Component {
         this.state = {
             maxStep: imageList.length,
             location: {},
-            backdrop: false,
-            updateLocation: true,
+            joinLocation: false,
+            updateLocation: false,
             openDeleteDialog: false
         }
     }
@@ -222,8 +220,8 @@ class CleanUpDetail extends React.Component {
         return null;
     }
 
-    openJoinLocationForm = () => {
-        this.setState({backdrop: !this.state.backdrop});
+    toggleJoinForm = () => {
+        this.setState({joinLocation: !this.state.joinLocation});
     };
 
     toggleUpdateForm = () => {
@@ -235,8 +233,9 @@ class CleanUpDetail extends React.Component {
     };
 
     render() {
-        const {classes, user, location} = this.props;
-        const {backdrop, updateLocation, openDeleteDialog, } = this.state;
+        console.log(this.state);
+        const {classes, user, location, history} = this.props;
+        const {joinLocation, updateLocation, openDeleteDialog} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -245,26 +244,18 @@ class CleanUpDetail extends React.Component {
                 </Grid>
 
                 <Grid container className={classes.gridHeader}>
-                    <Grid item sm={2}/>
+                    <Grid item sm={1}/>
 
-                    <Grid item sm={8}>
+                    <Grid item sm={10}>
                         <Grid container>
                             <Grid item sm={8}>
                                 <Grid container direction="column">
-                                    <Typography variant="h3"
+                                    <Typography gutterBottom variant="h3"
                                                 className={classes.title}>{location.name}</Typography>
 
-                                    <Grid container className={classes.margin}>
-                                        <Grid item sm={3}>
-                                            <Typography variant="h5" className={classes.title}>
-                                                {`Địa chỉ: ${location.street}`}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item sm={9}>
-                                            <Typography variant="h6"
-                                                        className={classes.text}>{location.address}</Typography>
-                                        </Grid>
-                                    </Grid>
+                                    <Typography variant="h5" className={classes.title}>
+                                        {`Địa chỉ: ${location.street}`}
+                                    </Typography>
 
                                     <Grid container className={classes.margin}>
                                         <Grid item sm={3}>
@@ -339,29 +330,20 @@ class CleanUpDetail extends React.Component {
                                             </Tooltip>
                                         </div>
                                         :
-                                        <Button className={classes.joinBtn} onClick={this.openJoinLocationForm}>Tham
+                                        <Button className={classes.joinBtn} onClick={this.toggleJoinForm}>Tham
                                             gia</Button>
                                     }
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item sm={2}/>
+                    <Grid item sm={1}/>
                 </Grid>
-
                 <br/>
-
-                <Grid container>
-                    <Grid item sm={3}/>
-                    <Grid item sm={6}>
-                        <Divider variant="middle"/>
-                    </Grid>
-                    <Grid item sm={3}/>
-                </Grid>
-
-                <Grid container className={classes.gridHeader} spacing={3}>
-                    <Grid item sm={2}/>
-                    <Grid item sm={4}>
+                <Divider style={{marginLeft: "25%", marginRight: "25%"}} variant="middle"/>
+                <Grid container className={classes.gridHeader}>
+                    <Grid item sm={1}/>
+                    <Grid item sm={5}>
                         <Grid container className={classes.gridContent}>
                             <Grid item>
                                 <Grid container direction="column">
@@ -383,43 +365,32 @@ class CleanUpDetail extends React.Component {
                         </Grid>
                     </Grid>
 
-                    <Grid item sm={6}>
-                        <Grid container style={{textAlign: "center"}}>
-                            <div>
-                                <Typography gutterBottom variant="h4" className={classes.title}>Bản đồ</Typography>
-                                {/*<div className={classes.mapContainer}>*/}
-                                {/*    {location.lat && location.lng ? <CleanUpDetailMap*/}
-                                {/*        center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}*/}
-                                {/*</div>*/}
-                            </div>
-                        </Grid>
+                    <Grid item sm={5}>
+                        <Typography align="center" gutterBottom variant="h4" className={classes.title}>Bản
+                            đồ</Typography>
+                        <div className={classes.mapContainer}>
+                            {location.lat && location.lng ? <CleanUpDetailMap
+                                center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}
+                        </div>
                     </Grid>
+                    <Grid item sm={1}/>
                 </Grid>
-
                 <br/>
 
-                <Grid container>
-                    <Grid item sm={3}/>
-                    <Grid item sm={6}>
-                        <Divider variant="middle"/>
-                    </Grid>
-                    <Grid item sm={3}/>
-                </Grid>
+
+                <Divider style={{marginLeft: "25%", marginRight: "25%"}} variant="middle"/>
 
                 <Grid container className={classes.gridHeader}>
-                    <Grid item sm={2}/>
-                    <Grid item sm={8}>
+                    <Grid item sm={1}/>
+                    <Grid item sm={10}>
                         <UserGridList userList={volunteers}/>
                     </Grid>
-                    <Grid item sm={2}/>
+                    <Grid item sm={1}/>
                 </Grid>
 
-                <Backdrop timeout={0} open={backdrop} className={classes.backdrop}>
-                    <JoinCleanUpForm location={location} user={user} locationId={location.id}
-                                     openJoinLocationForm={this.openJoinLocationForm}/>
-                </Backdrop>
-
-                <UpdateCleanSiteForm close={this.toggleUpdateForm} email={user.email} open={updateLocation} />
+                <JoinCleanUpForm location={location} user={user} locationId={location.id}
+                                 open={joinLocation} close={this.toggleJoinForm}/>
+                <UpdateCleanSiteForm history={history} close={this.toggleUpdateForm} email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog open={openDeleteDialog}/>
             </div>
 

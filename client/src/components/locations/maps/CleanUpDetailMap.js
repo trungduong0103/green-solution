@@ -17,7 +17,7 @@ export const CleanUpDetailMap = compose(
     withScriptjs,
     withGoogleMap
 )(props =>
-    <GoogleMap defaultZoom={11} center={props.center}>
+    <GoogleMap defaultZoom={15} center={props.center}>
         <Marker
             icon={{url: markerLogo, scaledSize: {width: 45, height: 45}}}
             position={props.center}
