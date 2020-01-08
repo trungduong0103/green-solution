@@ -12,6 +12,7 @@ import AboutUsContent from "../about/AboutUsContent";
 import { JoinCleanUpMap } from "../../locations/maps/JoinCleanUpMap";
 import { enlargeMarker, minimizeMarker } from "../../../redux/actions/UIActions";
 import { getAllLocations } from "../../../redux/actions/LocationActions";
+import SendEmailForm from "../../locations/forms/SendEmailForm";
 
 
 const styles = {
