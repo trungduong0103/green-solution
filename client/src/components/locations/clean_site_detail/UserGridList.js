@@ -51,33 +51,34 @@ class UserGridList extends React.Component {
     }
 
     render() {
-        const {classes, userList, emailList, clear, selectAll, handleOpenEmailForm} = this.props;
+        const {classes, userList, emailList, clear, selectAll, handleOpenEmailForm, checkUser} = this.props;
         return (
             <List className={classes.cardList}>
                 <Typography align="center" variant="h4" gutterBottom className={classes.title}>Danh sách tình nguyện
                     viên</Typography>
-                    <div style={{width:"100%",textAlign:"right"}}>
+                    {checkUser && <div style={{width:"100%",textAlign:"right"}}>
                         <Button disabled={userList===undefined || userList===null || userList.length===0}
                                 onClick={()=>selectAll()}>Select All</Button>
                         <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
                                 onClick={()=>clear()}>Clear</Button>
                         <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
                                 onClick={()=>handleOpenEmailForm()}>Send Email</Button>
-                    </div>
+                    </div>}
                 <Grid container>
-                    {userList.map(user => (
+                    {userList!== undefined && userList.map(user => (
                         <Grid item sm={4} key={user.id}>
                             <Card className={classes.cardWrapper}>
                                 <Grid container direction="row" alignItems="center" justify="center" spacing={4}>
-                                    <Grid item sm={3}>
-                                        <Avatar style={{marginLeft: "0.7em"}} alt="Remy Sharp" src={user.img}/>
-                                        <input onChange={this.handleChange} value={user.email} type="checkbox" checked={emailList.includes(user.email)}></input>
-                                    </Grid>
                                     <Grid item sm={9}>
-                                        <Typography className={classes.text}>{user.email}</Typography>
-                                        <Typography className={classes.text}>Mua dụng
+                                        {/* <Avatar style={{marginLeft: "0.7em"}} alt="Remy Sharp" src={user.img}/> */}
+                                        <Typography className={classes.text}>{user}</Typography>
+                                    </Grid>
+                                    <Grid item sm={3}>
+                                        
+                                        {checkUser && <input onChange={this.handleChange} value={user} type="checkbox" checked={emailList.includes(user)}></input>}
+                                        {/* <Typography className={classes.text}>Mua dụng
                                             cụ: {user.buyTools === true ? "Có" : "Không"}</Typography>
-                                        <Typography className={classes.text}>Size áo: {user.size}</Typography>
+                                        <Typography className={classes.text}>Size áo: {user.size}</Typography> */}
                                     </Grid>
                                 </Grid>
                             </Card>

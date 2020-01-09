@@ -194,6 +194,13 @@ const volunteers = [
         tools: false,
         tShirtSize: "XL"
     },
+    {
+        id: 7,
+        img: img2,
+        email: "quachboiboi.abc@gmail.com",
+        tools: false,
+        tShirtSize: "S"
+    },
 
 ];
 
@@ -285,12 +292,8 @@ class CleanUpDetail extends React.Component {
     }
 
     selectAllEmails = ()=>{
-        const emails = []
-        volunteers.forEach(volunteer=>{
-            emails.push(volunteer.email)
-        })
         this.setState({
-            emailList:emails
+            emailList:this.props.location.registeredUsers
         })
     }
 
@@ -444,7 +447,7 @@ class CleanUpDetail extends React.Component {
                 <Grid container className={classes.gridHeader}>
                     <Grid item sm={1}/>
                     <Grid item sm={10}>
-                        <UserGridList userList={volunteers} handleOpenEmailForm={this.handleOpenEmailForm} emailList={emailList} addEmail={this.addEmail} clear={this.clearEmailList} selectAll={this.selectAllEmails}/>
+                        <UserGridList checkUser={user.email === location.creator} userList={location.registeredUsers} handleOpenEmailForm={this.handleOpenEmailForm} emailList={emailList} addEmail={this.addEmail} clear={this.clearEmailList} selectAll={this.selectAllEmails}/>
                     </Grid>
                     <Grid item sm={1}/>
                 </Grid>
