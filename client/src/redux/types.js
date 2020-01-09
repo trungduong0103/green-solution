@@ -9,6 +9,8 @@ export const GOT_USER = "GOT_USER";
 export const UPDATING_USER = "UPDATING_USER";
 export const DONE_UPDATE_USER = "DONE_UPDATE_USER";
 export const UPLOAD_PROFILE_IMAGE = "UPLOAD_PROFILE_IMAGE";
+export const MARKING_AS_DONE = "MARKING_AS_DONE";
+export const LOCATION_MARKED_AS_DONE = "LOCATION_MARKED_AS_DONE";
 
 //locations types
 export const GET_ALL_LOCATIONS = "GET_ALL_LOCATIONS";
