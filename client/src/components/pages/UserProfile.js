@@ -138,7 +138,7 @@ class UserProfile extends Component {
         const {
             classes, userLoading, loadRegisteredLocations, locations,
             loadCreatedLocations, loadCompletedLocations,
-            updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
+            updateUser, userUpdating, doneUserUpdate, uploadImage, image
         } = this.props;
         const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email} = this.state;
         return (
