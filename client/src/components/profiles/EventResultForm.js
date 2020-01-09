@@ -37,6 +37,9 @@ const styles = {
         },
         paddingBottom: "10px"
     },
+    input: {
+        fontFamily: "'Quicksand', sans-serif"
+    },
     submitBtn: {
         fontFamily: "'Quicksand', sans-serif;",
         outline: "none",
@@ -67,6 +70,7 @@ const styles = {
             backgroundColor: "rgb(185,72,66)",
             outline: "none"
         }
+
     },
 };
 
@@ -157,7 +161,7 @@ class EventResultForm extends Component {
                         <div>
                             <div>
                                 <Typography  variant="h6" style={{fontFamily:"'Quicksand', sans-serif"}}>Danh sách người tham gia</Typography>
-                                {participants !== undefined && participants.map((participant, index) =>
+                               {participants !== undefined && participants.map((participant, index) =>
                                     (
                                         <Chip
                                             label={participant}
@@ -177,6 +181,8 @@ class EventResultForm extends Component {
                                             onChange={this.handleChange}
                                             value={weight}
                                             fullWidth
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
                                         />
                                     </Grid>
 
@@ -215,20 +221,55 @@ class EventResultForm extends Component {
                                             onChange={this.handleChange}
                                             value={straw}
                                             fullWidth
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
                                         />
                                     </Grid>
+
+
                                 </Grid>
 
                                 <Grid container spacing={3}>
                                     <Grid item sm={6}>
                                         <TextField
-                                            label="Số lượng hộp xốp (cái)"
+                                            label="Số lượng chai nhựa (cái)"
+                                            type="number"
+                                            name="bottle"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={bottle}
+                                            fullWidth
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
+                                        />
+                                    </Grid>
+
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Số lượng ống hút (cái)"
+                                            type="number"
+                                            name="straw"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={straw}
+                                            fullWidth
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={3}>
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Số lượng hộp xốp (cái"
                                             type="number"
                                             name="foamBox"
                                             className={classes.formInput}
                                             onChange={this.handleChange}
                                             value={foamBox}
                                             fullWidth
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
                                         />
                                     </Grid>
 
@@ -237,16 +278,17 @@ class EventResultForm extends Component {
                                             label="Số lượng túi nhựa (cái)"
                                             type="number"
                                             name="plasticBag"
-                                            placeholder="Số lượng túi nhựa"
                                             className={classes.formInput}
                                             onChange={this.handleChange}
                                             value={plasticBag}
                                             fullWidth
+                                            InputLabelProps={{className: classes.input}}
+                                            InputProps={{className: classes.input}}
                                         />
                                     </Grid>
                                 </Grid>
 
-                                <Typography variant="h6" style={{fontFamily:"'Quicksand', sans-serif"}}>Hình ảnh sự kiện</Typography>
+                                <Typography variant="h5" style={{fontFamily: "'Quicksand', sans-serif"}}>Hình ảnh sự kiện</Typography>
                                 <Dropzone
                                     getUploadParams={this.getUploadParams}
                                     onChangeStatus={this.handleChangeStatus}

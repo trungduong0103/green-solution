@@ -34,18 +34,18 @@ class DeleteCleanSiteDialog extends Component {
                             </div>) :
                         <div>
                             <DialogTitle
-                                id="alert-dialog-title">{"Are you sure you want to delete this location ?"}</DialogTitle>
+                                id="alert-dialog-title">{"Bạn có muốn huỷ bỏ sự kiện này không ?"}</DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-description">
-                                    This action cannot be reverted!
+                                    Không thể hoàn trả sự thay đổi này!
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={this.props.close} color="primary">
-                                    Disagree
+                                    Không
                                 </Button>
                                 <Button onClick={this.handleDeleteLocation} color="secondary" autoFocus>
-                                    Agree
+                                    Chấp nhận
                                 </Button>
                             </DialogActions>
                         </div>

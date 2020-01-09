@@ -293,7 +293,7 @@ class CleanUpDetail extends React.Component {
         return (
             <div>
                 <NavBar />
-
+                
                 {loading ? <div className={classes.progressContainer}>
                     <CircularProgress size={100} variant="indeterminate" className={classes.progress}/>
                 </div> :
@@ -464,7 +464,6 @@ class CleanUpDetail extends React.Component {
                 <EventResultForm history={history}  location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
                 <SendEmailForm clear={this.clearEmailList} open={emailForm} emailList={emailList} handleOpenEmailForm={this.handleOpenEmailForm} />
             </div>:<div className={classes.progressContainer}><Typography>Sự kiện không tồn tại :(.</Typography></div>}
-            
             </div>
         )
     }

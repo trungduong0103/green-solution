@@ -22,7 +22,7 @@ import {
     UPDATING_LOCATION,
     UPLOADING_LOCATION_LOGO,
     LOCATION_DOES_NOT_EXIST,
-    UPLOADING_LOCATION_PHOTOS
+    UPLOADING_LOCATION_PHOTOS,
 } from "../types";
 import axios from "axios";
 

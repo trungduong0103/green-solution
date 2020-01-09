@@ -15,7 +15,8 @@ import {
     FILTER_BY_START_DATE_WITH_CITY_AND_DISTRICT,
     FILTER_BY_CITY, FILTER_BY_CITY_WITH_START_DATE, FILTER_BY_DISTRICT, FILTER_BY_DISTRICT_WITH_CITY,
     LOCATION_DOES_NOT_EXIST,
-    GOT_COMPLETED_LOCATIONS, GOT_IMAGES, GETTING_IMAGES, DONE_UPLOAD_LOCATION_PHOTOS
+    GOT_COMPLETED_LOCATIONS, GOT_IMAGES, GETTING_IMAGES, DONE_UPLOAD_LOCATION_PHOTOS,
+    
 } from "../types";
 
 const initialState = {
@@ -28,8 +29,7 @@ const initialState = {
     filteredLocations: null,
     locationId: "",
     uploadingLogo: false,
-    doneUploadLogo: false,
-    locationExists:false,
+    doneUploadLogo: false
 };
 
 export default function (state = initialState, action) {
