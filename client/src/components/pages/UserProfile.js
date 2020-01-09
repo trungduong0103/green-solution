@@ -20,7 +20,11 @@ import AppBar from '@material-ui/core/AppBar';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import {updateUser, getUser} from "../../redux/actions/UserActions";
 import {
-    deleteLocation, getAllCreatedLocationsWithEmail, getAllRegisteredLocationsWithEmail, getAllLocations
+    deleteLocation,
+    getAllCreatedLocationsWithEmail,
+    getAllRegisteredLocationsWithEmail,
+    getAllCompletedLocationsWithEmail,
+    getAllLocations
 } from "../../redux/actions/LocationActions";
 import AdminLocations from "../profiles/AdminLocations"
 
@@ -74,6 +78,7 @@ class UserProfile extends Component {
         this.state = {
             registeredLocations: [],
             createdLocations: [],
+            completedLocations: [],
             email: "",
             tab: 0,
             openUpdateProfile: false,
@@ -96,6 +101,7 @@ class UserProfile extends Component {
         } else {
             this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
             this.props.getAllRegisteredLocationsWithEmail({email: decodedToken.email});
+            this.props.getAllCompletedLocationsWithEmail({email: decodedToken.email});
         }
         this.props.getUser({email: decodedToken.email});
     }
@@ -106,6 +112,9 @@ class UserProfile extends Component {
         }
         if (props.registeredLocations !== state.registeredLocations) {
             return {registeredLocations: props.registeredLocations}
+        }
+        if (props.completedLocations !== state.completedLocations) {
+            return {completedLocations: props.completedLocations}
         }
         if (props.user !== state.user) {
             return {user: props.user}
@@ -128,9 +137,10 @@ class UserProfile extends Component {
     render() {
         const {
             classes, userLoading, loadRegisteredLocations, locations,
-            loadCreatedLocations, updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
+            loadCreatedLocations, loadCompletedLocations,
+            updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
         } = this.props;
-        const {registeredLocations, createdLocations, tab, openUpdateProfile, user, email} = this.state;
+        const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -154,47 +164,25 @@ class UserProfile extends Component {
 
                     {/*insert admin's email here ↓*/}
                     <Grid item xs={9}>
-                    {email === "abc" ? 
-                    <AdminLocations locations={locations} />:<div>
-                        <AppBar position="static" color="inherit">
-                            <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
-                                  aria-label="simple tabs locations">
-                                <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)} className={classes.text}/>
-                                <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} className={classes.text}/>
-                                <Tab label="Sự kiện đã hoàn thành" {...this.tabProps(2)} className={classes.text} />
-                            </Tabs>
-                        </AppBar>
-                        {tab === 0 ?
-                            registeredLocations.length === 0 ?
-                                <Grid container style={{textAlign: "center", height: "250px"}}  alignContent="center" justify="center">
-                                    <Grid item sm={12}>
-                                        <Typography className={classes.text} variant="h5">Bạn chưa tham gia sự kiện nào</Typography>
-                                        <Typography className={classes.text}><a  href={`/join-cleanup`} target="_blank" rel="noopener noreferrer">Bấm vào đây để tham gia sự kiện</a></Typography>
-                                    </Grid>
-                                </Grid>
-                            :
-                            <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>
-                           : ""
-                        }
-
-
-                        {tab === 1 ?
-                            createdLocations.length === 0 ?
-                                <Grid container style={{textAlign: "center", height: "250px"}}  alignContent="center" justify="center">
-                                    <Grid item sm={12}>
-                                        <Typography className={classes.text} variant="h5">Bạn chưa tổ chức sự kiện nào</Typography>
-                                        <Typography className={classes.text}><a  href={`/create-cleanup`} target="_blank" rel="noopener noreferrer">Bấm vào đây để tồ chức sự kiện đầu tiên</a></Typography>
-                                    </Grid>
-                                </Grid>
-                            :
-                            <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={user.email}
-                                          delete={this.handleDeleteLocation} edit={this.handleEditLocation}
-                                          loaded={loadCreatedLocations} locations={createdLocations}/>
-                            : ""
-                        }
-
-                        {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations} />}
-                        </div>}
+                        {email === "abc" ?
+                            <AdminLocations locations={locations}/> : <div>
+                                <AppBar position="static" color="inherit">
+                                    <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
+                                          aria-label="simple tabs locations">
+                                        <Tab label="Sự kiện đã tham gia" {...this.tabProps(0)}
+                                             className={classes.text}/>
+                                        <Tab label="Sự kiện đã tạo" {...this.tabProps(1)} className={classes.text}/>
+                                        <Tab label="Sự kiện đã hoàn thành" {...this.tabProps(2)}
+                                             className={classes.text}/>
+                                    </Tabs>
+                                </AppBar>
+                                {tab === 0 &&
+                                <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>}
+                                {tab === 1 &&
+                                <CreatedLocations loaded={loadCreatedLocations} locations={createdLocations}/>}
+                                {tab === 2 &&
+                                <PastEvents locations={completedLocations} loaded={loadCompletedLocations}/>}
+                            </div>}
                     </Grid>
 
                 </Grid>
@@ -219,8 +207,10 @@ class UserProfile extends Component {
 const mapStateToProps = (state) => ({
     createdLocations: state.locationsData.createdLocations,
     registeredLocations: state.locationsData.registeredLocations,
+    completedLocations: state.locationsData.completedLocations,
     loadCreatedLocations: state.UI.loadCreatedLocations,
     loadRegisteredLocations: state.UI.loadRegisteredLocations,
+    loadCompletedLocations: state.UI.loadCompletedLocations,
     user: state.user.user,
     image: state.user.image,
     userLoading: state.user.loading,
@@ -232,6 +222,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getAllCreatedLocationsWithEmail,
     getAllRegisteredLocationsWithEmail,
+    getAllCompletedLocationsWithEmail,
     getAllLocations,
     deleteLocation,
     updateUser,
