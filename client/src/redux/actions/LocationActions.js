@@ -238,3 +238,16 @@ export function getAllLocationImages(infoObj) {
             });
     }
 }
+
+export function sendEmail(obj){
+    return function(dispatch){
+        axios
+            .post("https://gle8q1lhk3.execute-api.ap-southeast-1.amazonaws.com/prod/sendemail",obj)
+            .then(()=>{
+                return null;
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+    }
+}
