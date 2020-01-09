@@ -23,7 +23,8 @@ const styles = {
     cardWrapper: {
         maxWidth: "auto",
         maxHeight: "auto",
-        margin: 10
+        margin: 10,
+        padding:"20px"
     },
     text: {
         fontSize: 13,
