@@ -70,7 +70,6 @@ class EventResultForm extends Component {
         };
 
         this.props.markLocationAsDone(result, this.props.history);
-        this.props.handleOpenResultForm();
     };
 
     getUploadParams = ({meta}) => {
@@ -106,7 +105,7 @@ class EventResultForm extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.location !== this.props.location) {
             if (this.props.location !== undefined && this.props.location.registeredUsers !== undefined) {
                 this.setState({participants: this.props.location.registeredUsers});
@@ -246,12 +245,12 @@ class EventResultForm extends Component {
                     </Paper>
                 </DialogContent>
 
-                <DialogActions>
+                <DialogActions style={{display: "flex", justifyContent: "center", padding: "1em 1em 1em 1em"}}>
                     {doneMarkLocation ? (
-                        <CheckIcon/>
+                        <CheckIcon fontSize="large"/>
                     ) : (
                         loading ? (
-                            <CircularProgress/>
+                            <CircularProgress size={35}/>
                         ) : (
                             <div>
                                 <Button onClick={() => this.submit()}>Lưu</Button>

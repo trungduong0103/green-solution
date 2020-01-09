@@ -30,10 +30,7 @@ export function getAllLocations() {
         axios
             .get(`${DEFAULT_URL}/get_all_clean_sites`)
             .then((res) => {
-                dispatch({
-                    type: GET_ALL_LOCATIONS,
-                    payload: res.data
-                });
+                dispatch({type: GET_ALL_LOCATIONS, payload: res.data});
             })
             .catch((err) => {
                 console.log(err);
@@ -48,10 +45,7 @@ export function getLocation(locationId) {
         axios
             .get(`${DEFAULT_URL}/get_clean_site/${locationId}`)
             .then((res) => {
-                dispatch({
-                    type: GET_LOCATION,
-                    payload: res.data
-                });
+                dispatch({type: GET_LOCATION, payload: res.data});
                 dispatch({type: STOP_LOADING_FORM});
             });
     }
@@ -70,8 +64,8 @@ export function updateLocation(locationData, id) {
                 dispatch({type: UPDATE_LOCATION_COMPLETE});
                 setTimeout(() => {
                     dispatch({type: RESET_UI_STATE});
-                }, 2000);
-            })
+                }, 1000);
+            });
     }
 }
 
@@ -87,7 +81,7 @@ export function deleteLocation(locationId, history) {
                 dispatch({type: DELETE_LOCATION_COMPLETE});
                 setTimeout(() => {
                     history.push("/profile");
-                }, 2000);
+                }, 1000);
             });
     };
 }
@@ -142,7 +136,7 @@ export function markLocationAsDone(resultData, history) {
                 setTimeout(() => {
                     dispatch({type: RESET_UI_STATE});
                     history.push("/profile");
-                });
+                }, 1000);
             })
             .catch((err) => {
                 console.log(err);
@@ -202,7 +196,7 @@ export function uploadLocationLogo(updateObj, history, locationId) {
                 dispatch({type: DONE_UPLOAD_LOCATION_LOGO});
                 setTimeout(() => {
                     history.push(`/cleanup-detail/${locationId}`);
-                }, 2000);
+                }, 1000);
             })
             .catch((err) => {
                 console.log(err);

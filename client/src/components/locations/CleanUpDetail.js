@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import Typography from "@material-ui/core/Typography";
-import { CleanUpDetailMap } from "./maps/CleanUpDetailMap";
+import {CleanUpDetailMap} from "./maps/CleanUpDetailMap";
 import jwtDecode from "jwt-decode";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button"
@@ -24,7 +24,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Tooltip from '@material-ui/core/Tooltip';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { openUpdateSiteForm } from "../../redux/actions/FormActions";
+import {openUpdateSiteForm} from "../../redux/actions/FormActions";
 import EventResultForm from "../profiles/EventResultForm";
 import {getUser} from "../../redux/actions/UserActions";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
@@ -216,13 +216,13 @@ class CleanUpDetail extends React.Component {
         this.props.getLocation(locationId);
         if ("FBIdToken" in sessionStorage) {
             const decodedToken = jwtDecode(sessionStorage.getItem("FBIdToken"));
-            this.props.getUser({ email: decodedToken.email });
+            this.props.getUser({email: decodedToken.email});
         }
     }
 
     static getDerivedStateFromProps(props, state) {
         if (props.location !== state.location) {
-            return { location: props.location };
+            return {location: props.location};
         }
         return null;
     }
@@ -243,7 +243,7 @@ class CleanUpDetail extends React.Component {
         this.setState({
             openDropImage: !this.state.openDropImage
         })
-    }
+    };
 
     handleOpenResultForm = () => {
         this.setState({
@@ -256,9 +256,9 @@ class CleanUpDetail extends React.Component {
         const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm} = this.state;
         return (
             <div>
-                <NavBar />
+                <NavBar/>
                 <Grid container>
-                    <ImageGridList imageList={imageList} open={this.handleOpenDropImage} />
+                    <ImageGridList imageList={imageList} open={this.handleOpenDropImage}/>
                 </Grid>
 
                 <Grid container className={classes.gridHeader}>
@@ -280,7 +280,7 @@ class CleanUpDetail extends React.Component {
                                             <Typography variant="h6" className={classes.title}>Trạng thái:</Typography>
                                         </Grid>
                                         <Grid item sm={9}>
-                                            <Chip className={classes.activeStatus} label="Còn chỗ" />
+                                            <Chip className={classes.activeStatus} label="Còn chỗ"/>
                                         </Grid>
                                     </Grid>
 
@@ -291,7 +291,7 @@ class CleanUpDetail extends React.Component {
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
-                                                <EventNoteOutlinedIcon className={classes.icon} />
+                                                <EventNoteOutlinedIcon className={classes.icon}/>
                                                 {`${location.startDate}`}
                                             </Typography>
                                         </Grid>
@@ -303,7 +303,7 @@ class CleanUpDetail extends React.Component {
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="subtitle1" className={classes.text}>
-                                                <AccessTimeOutlinedIcon className={classes.icon} />
+                                                <AccessTimeOutlinedIcon className={classes.icon}/>
                                                 {`${location.startTime} - ${location.endTime}`}
                                             </Typography>
                                         </Grid>
@@ -311,38 +311,38 @@ class CleanUpDetail extends React.Component {
                                 </Grid>
                             </Grid>
 
-                            <Grid item sm={1} />
+                            <Grid item sm={1}/>
 
                             <Grid item sm={3}>
                                 <Grid container direction="column"
                                       alignItems="center" justify="center" className={classes.organizerAvatar}>
                                     <img src={location.logoUrl ? location.logoUrl : placeholderImage}
-                                        alt="location-avatar" className={classes.image} />
+                                         alt="location-avatar" className={classes.image}/>
                                     <Typography variant="subtitle1"
                                                 className={classes.text}>{location.organization}</Typography>
                                     <br/>
                                     {user.email === location.creator ?
-                                        <div style={{width: '100%', textAlign: 'center'}}>
-                                            <Tooltip title="Cập nhật thông tin">
-                                                <IconButton
-                                                    className={classes.button}
-                                                    onClick={this.toggleUpdateForm}
-                                                >
-                                                    <EditIcon/>
-                                                </IconButton>
+                                        <div style={{width: '100%', textAlign: 'center', display: "flex", justifyContent: "center"}}>
+                                            <Tooltip
+                                                title={location.done === 1 ? "Sự kiện đã hoàn thành" : "Cập nhật thông tin"}>
+                                                <div>
+                                                    <IconButton disabled={location.done === 1}
+                                                                onClick={this.toggleUpdateForm}>
+                                                        <EditIcon/>
+                                                    </IconButton>
+                                                </div>
                                             </Tooltip>
-                                            <Tooltip title="Đánh dấu đã hoàn thành">
-                                                <IconButton
-                                                    className={classes.button}
-                                                    onClick={() => this.handleOpenResultForm()}>
-                                                    <CheckCircleOutlineIcon/>
-                                                </IconButton>
+                                            <Tooltip
+                                                title={location.done === 1 ? "Sự kiện đã hoàn thành" : "Đánh dấu đã hoàn thành"}>
+                                                <div>
+                                                    <IconButton disabled={location.done === 1}
+                                                                onClick={() => this.handleOpenResultForm()}>
+                                                        <CheckCircleOutlineIcon/>
+                                                    </IconButton>
+                                                </div>
                                             </Tooltip>
                                             <Tooltip title="Xóa sự kiện">
-                                                <IconButton
-                                                    className={classes.button}
-                                                    onClick={this.toggleDeleteForm}
-                                                >
+                                                <IconButton className={classes.button} onClick={this.toggleDeleteForm}>
                                                     <DeleteIcon/>
                                                 </IconButton>
                                             </Tooltip>
@@ -367,7 +367,7 @@ class CleanUpDetail extends React.Component {
                                 <Grid container direction="column">
                                     <Typography className={classes.title} variant="h6">Miêu tả:</Typography>
                                     <Typography className={classes.text}
-                                        paragraph>{location.description}</Typography>
+                                                paragraph>{location.description}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -377,7 +377,7 @@ class CleanUpDetail extends React.Component {
                                 <Grid container direction="column">
                                     <Typography className={classes.title} variant="h6">Lịch trình:</Typography>
                                     <Typography className={classes.text}
-                                        paragraph>{location.agenda}</Typography>
+                                                paragraph>{location.agenda}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -412,7 +412,8 @@ class CleanUpDetail extends React.Component {
                                      email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
                 <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
-                <EventResultForm history={history} location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
+                <EventResultForm history={history} location={location} open={openResultForm}
+                                 handleOpenResultForm={this.handleOpenResultForm}/>
             </div>
         )
     }
