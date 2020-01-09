@@ -20,7 +20,10 @@ const {
     getRegisteredUsersOfLocation,
     uploadLocationLogo,
     markLocationAsDone,
-    getCompletedLocations
+    getCompletedLocations,
+    downloadAllEvents,
+    uploadLocationPhotos,
+    getLocationImages
 } = require("./handlers/cleanUpLocations");
 
 //User routes
@@ -34,6 +37,7 @@ app.post("/get_created_locations", getCreatedLocations);
 app.post("/get_completed_locations", getCompletedLocations);
 app.post("/join_clean_site", joinCleanUpLocation);
 app.post("/leave_clean_site", leaveCleanUpLocation);
+app.get("/download", downloadAllEvents);
 
 //clean up locations
 app.post("/create_clean_site", FBAuth, createNewLocation);
@@ -41,9 +45,11 @@ app.delete("/delete_clean_site/:location_id", FBAuth, deleteCleanUpLocation);
 app.put("/update_clean_site/:location_id", FBAuth, updateCleanUpLocation);
 app.get("/get_clean_site/:location_id", getCleanUpLocation);
 app.post("/upload_location_logo", uploadLocationLogo);
+app.post("/upload_location_photos", uploadLocationPhotos);
 app.get("/get_all_clean_sites", getAllCleanUpLocations);
 app.post("/get_registered_users", getRegisteredUsersOfLocation);
 app.post("/mark_location_as_done", markLocationAsDone);
+app.post("/get_location_images", getLocationImages);
 
 //topics
 app.get("/newtopic", createNewTopic);
