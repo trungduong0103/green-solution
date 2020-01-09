@@ -14,6 +14,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import {withStyles} from "@material-ui/core";
 import Dropzone from "react-dropzone-uploader"
 import {markLocationAsDone} from "../../redux/actions/LocationActions";
+import Grid from "@material-ui/core/Grid";
 
 const styles = {
     paper: {
@@ -35,6 +36,37 @@ const styles = {
             borderBottomColor: 'green'
         },
         paddingBottom: "10px"
+    },
+    submitBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        outline: "none",
+        color: "white",
+        backgroundColor: "rgb(103,156,69)",
+        padding: "5px 15px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "rgb(80,127,63)",
+            outline: "none"
+        }
+    },
+    cancelBtn: {
+        marginRight: 20,
+        fontFamily: "'Quicksand', sans-serif;",
+        outline: "none",
+        color: "black",
+        backgroundColor: "rgb(203,78,71)",
+        padding: "5px 15px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "rgb(185,72,66)",
+            outline: "none"
+        }
     },
 };
 
@@ -119,12 +151,12 @@ class EventResultForm extends Component {
 
         return (
             <Dialog open={open} onClose={() => handleOpenResultForm()} maxWidth="md">
-                <DialogTitle>Kết quả sự kiện</DialogTitle>
+                <Typography variant="h5" style={{fontFamily:"'Quicksand', sans-serif", textAlign:"center"}}>Kết quả sự kiện</Typography>
                 <DialogContent>
                     <Paper className={classes.paper}>
                         <div>
                             <div>
-                                <Typography>Danh sách người tham gia</Typography>
+                                <Typography  variant="h6" style={{fontFamily:"'Quicksand', sans-serif"}}>Danh sách người tham gia</Typography>
                                 {participants !== undefined && participants.map((participant, index) =>
                                     (
                                         <Chip
@@ -135,76 +167,86 @@ class EventResultForm extends Component {
                                     )
                                 )}
                                 <br/>
-                                <Typography>Tổng khối lượng rác thu được (kg)</Typography>
-                                <TextField
-                                    type="number"
-                                    name="weight"
-                                    placeholder="Tổng khối lượng rác thu được"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={weight}
-                                    fullWidth
-                                />
-                                <br/>
-                                <Typography>Khối lượng rác hữu cơ (kg)</Typography>
-                                <TextField
-                                    type="number"
-                                    name="organic"
-                                    placeholder="Khối lượng rác hữu cơ"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={organic}
-                                    fullWidth
-                                />
-                                <br/>
-                                <Typography>Số lượng chai nhựa (cái)</Typography>
+                                <Grid container spacing={3}>
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Tổng khối lượng rác thu được (kg)"
+                                            type="number"
+                                            name="weight"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={weight}
+                                            fullWidth
+                                        />
+                                    </Grid>
 
-                                <TextField
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Khối lượng rác hữu cơ (kg)"
+                                            type="number"
+                                            name="organic"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={organic}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                </Grid>
 
-                                    type="number"
-                                    name="bottle"
-                                    placeholder="Số lượng chai nhựa"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={bottle}
-                                    fullWidth
-                                />
-                                <Typography>Số lượng ống hút (cái)</Typography>
-                                <TextField
+                                <Grid container spacing={3}>
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Số lượng chai nhựa (cái)"
+                                            type="number"
+                                            name="bottle"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={bottle}
+                                            fullWidth
+                                        />
+                                    </Grid>
 
-                                    type="number"
-                                    name="straw"
-                                    placeholder="Số lượng ống hút"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={straw}
-                                    fullWidth
-                                />
-                                <Typography>Số lượng hộp xốp (cái)</Typography>
-                                <TextField
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Số lượng ống hút (cái)"
+                                            type="number"
+                                            name="straw"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={straw}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                </Grid>
 
-                                    type="number"
-                                    name="foamBox"
-                                    placeholder="Số lượng hộp xốp"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={foamBox}
-                                    fullWidth
-                                />
-                                <Typography>Số lượng túi nhựa (cái)</Typography>
-                                <TextField
+                                <Grid container spacing={3}>
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Số lượng hộp xốp (cái)"
+                                            type="number"
+                                            name="foamBox"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={foamBox}
+                                            fullWidth
+                                        />
+                                    </Grid>
 
-                                    type="number"
-                                    name="plasticBag"
-                                    placeholder="Số lượng túi nhựa"
-                                    className={classes.formInput}
-                                    onChange={this.handleChange}
-                                    value={plasticBag}
-                                    fullWidth
-                                />
+                                    <Grid item sm={6}>
+                                        <TextField
+                                            label="Số lượng túi nhựa (cái)"
+                                            type="number"
+                                            name="plasticBag"
+                                            placeholder="Số lượng túi nhựa"
+                                            className={classes.formInput}
+                                            onChange={this.handleChange}
+                                            value={plasticBag}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                </Grid>
 
-                                <br/>
-                                <Typography>Hình ảnh sự kiện</Typography>
+                                <Typography variant="h6" style={{fontFamily:"'Quicksand', sans-serif"}}>Hình ảnh sự kiện</Typography>
                                 <Dropzone
                                     getUploadParams={this.getUploadParams}
                                     onChangeStatus={this.handleChangeStatus}
@@ -253,8 +295,8 @@ class EventResultForm extends Component {
                             <CircularProgress size={35}/>
                         ) : (
                             <div>
-                                <Button onClick={() => this.submit()}>Lưu</Button>
-                                <Button onClick={() => handleOpenResultForm()}>Hủy</Button>
+                                <Button className={classes.cancelBtn} onClick={() => handleOpenResultForm()}>Hủy</Button>
+                                <Button className={classes.submitBtn} onClick={() => this.submit()}>Lưu</Button>
                             </div>
                         )
                     )}
