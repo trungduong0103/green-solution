@@ -5,8 +5,8 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogTitle from "@material-ui/core/DialogTitle"
 import Dropzone from "react-dropzone-uploader"
+import Typography from "@material-ui/core/Typography";
 
 const styles = {
     paper: {
@@ -67,7 +67,7 @@ class UpdatePhoto extends Component {
     }
 
     submit = () => {
-        console.log(this.state.images)
+        console.log(this.state.images);
         this.props.handleOpenDropImages();
     };
 
@@ -82,15 +82,15 @@ class UpdatePhoto extends Component {
 
     handleSubmitImage = (files) => {
         files.forEach(f => {
-            const img = f.file
-            const reader = new FileReader()
+            const img = f.file;
+            const reader = new FileReader();
             reader.onloadend = () => {
-                const imagesList=this.state.images
-                imagesList.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
+                const imagesList=this.state.images;
+                imagesList.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""));
                 this.setState({
                     images:imagesList
                 })
-            }
+            };
             reader.readAsDataURL(img)
         })
     };
@@ -101,7 +101,7 @@ class UpdatePhoto extends Component {
 
         return (
             <Dialog open={open} onClose={() => handleOpenDropImages()}>
-                <DialogTitle>Update Photos</DialogTitle>
+                <Typography variant="h5" style={{fontFamily: "'Quicksand', sans-serif", textAlign: "center", paddingTop: 20}}>Đăng ảnh sự kiện của bạn</Typography>
                 <DialogContent>
                     <Paper className={classes.paper}>
                         <div className={classes.form}>

@@ -37,7 +37,8 @@ const styles = {
     },
     icon: {
         width: '100%',
-        textAlign: 'right'
+        textAlign: 'right',
+        padding: "0 20px 20px 0"
     }
 
 };
