@@ -23,6 +23,7 @@ const styles = {
         position:"absolute"
     },
     text:{
+        fontFamily: "'Quicksand', sans-serif;",
         fontSize:"14px",
         paddingLeft:"5px"
     }
@@ -48,7 +49,7 @@ class ImageGridList extends React.Component {
                             className={classes.iconButton}
                             onClick={()=>open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>
@@ -67,7 +68,7 @@ class ImageGridList extends React.Component {
                             className={classes.iconButton}
                             onClick={()=>open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>
@@ -89,7 +90,7 @@ class ImageGridList extends React.Component {
                             className={classes.iconButton}
                             onClick={()=>open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>
@@ -114,7 +115,7 @@ class ImageGridList extends React.Component {
                             className={classes.iconButton}
                             onClick={()=>open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>

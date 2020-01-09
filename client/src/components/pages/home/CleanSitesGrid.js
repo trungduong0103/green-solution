@@ -18,8 +18,9 @@ const styles = {
         padding: "0 20px"
     },
     wrapper: {
+        maxHeight: 600,
+        overflowY: "scroll",
         width: '100%',
-        height: '100%',
         padding: '20px'
     },
     title: {
@@ -27,6 +28,10 @@ const styles = {
         color: "rgb(99,151,68)"
     },
     cardGridItem: {
+        boxShadow: "0 5px 10px rgba(0,0,0,0.25)",
+        textAlign: "center",
+        height: 270,
+        maxHeight: 300,
         "&:hover": {
             cursor: "pointer"
         }
