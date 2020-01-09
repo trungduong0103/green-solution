@@ -94,12 +94,23 @@ class PastEvents extends Component {
                             {locations.map(location => (
                                 <Grid item xs={grid} key={location.id} className={classes.gridForm}>
                                     <Card>
-                                        {grid===6 && <CardMedia component="img"
-                                            height="140"
-                                            image={locationAvatar}
-                                            alt="Site's Image"
-                                            title="Site's Image"
-                                        />}
+                                    {grid === 6 ? (location.locationImages !== undefined && location.locationImages.length > 0) ?
+                                            <CardMedia component="img"
+                                                height="140"
+                                                image={`${location.locationImages[0]}`}
+                                                alt="Site's Image"
+                                                title="Site's Image"
+                                            /> : location.logoUrl !== undefined ? <CardMedia component="img"
+                                                height="140"
+                                                image={`${location.logoUrl}`}
+                                                alt="Site's Image"
+                                                title="Site's Image"
+                                            /> : <CardMedia component="img"
+                                                height="140"
+                                                image={locationAvatar}
+                                                alt="Site's Image"
+                                                title="Site's Image"
+                                                /> : <div></div>}
                                         <CardContent>
                                             <Typography gutterBottom variant="h5" component="h2" className={classes.text}>
                                                 <a href={`/cleanup-detail/${location.id}`} target="_blank" rel="noopener noreferrer">{location.name}</a>

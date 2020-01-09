@@ -448,3 +448,15 @@ exports.downloadAllEvents = (req, res) => {
         })
 };
 
+exports.markLocationAsPaid = (req, res) => {
+    const data = req.body;
+    const locationId = data.id;
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationId)
+        .update({paid: 1})
+        .catch((err) => {
+            console.log(err);
+        });
+};
+

@@ -23,7 +23,8 @@ const {
     getCompletedLocations,
     downloadAllEvents,
     uploadLocationPhotos,
-    getLocationImages
+    getLocationImages,
+    markLocationAsPaid
 } = require("./handlers/cleanUpLocations");
 
 //User routes
@@ -50,6 +51,7 @@ app.get("/get_all_clean_sites", getAllCleanUpLocations);
 app.post("/get_registered_users", getRegisteredUsersOfLocation);
 app.post("/mark_location_as_done", markLocationAsDone);
 app.post("/get_location_images", getLocationImages);
+app.post("/mark_location_as_paid", markLocationAsPaid)
 
 //topics
 app.get("/newtopic", createNewTopic);
