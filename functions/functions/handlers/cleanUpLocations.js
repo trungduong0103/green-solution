@@ -20,7 +20,7 @@ exports.createNewLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return err;
+            return res.json({error: err});
         });
 };
 
@@ -40,8 +40,8 @@ exports.getAllCleanUpLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err.code});
-        })
+            return res.json({error: err});
+        });
 
 };
 
@@ -62,7 +62,7 @@ exports.getCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err.code});
+            return res.json({error: err});
         })
 };
 
@@ -77,6 +77,7 @@ exports.updateCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 };
 
@@ -90,6 +91,7 @@ exports.deleteCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 };
 
@@ -109,6 +111,7 @@ exports.joinCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 
     checkUserAlreadyRegisteredToLocation(additionalInfo.locationId, userInfo.email)
@@ -124,6 +127,7 @@ exports.joinCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         })
 };
 
@@ -217,7 +221,8 @@ exports.leaveCleanUpLocation = (req, res) => {
             });
         })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return res.json({error: err});
         });
 
     const deleteEmail = db.collection("cleanUpLocations")
@@ -232,7 +237,7 @@ exports.leaveCleanUpLocation = (req, res) => {
             return res.json({message: "success"})
         })
         .catch((err) => {
-            return res.json(err)
+            return res.json({error: err});
         });
 };
 
@@ -249,7 +254,7 @@ exports.markLocationAsDone = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({message: err});
+            return res.json({error: err});
         })
 };
 
@@ -282,6 +287,7 @@ exports.getUserRegisteredLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 };
 
@@ -304,7 +310,7 @@ exports.getCreatedLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({message: err});
+            return res.json({error: err});
         });
 };
 
@@ -328,7 +334,7 @@ exports.getCompletedLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({message: err});
+            return res.json({error: err});
         })
 };
 
@@ -348,10 +354,10 @@ exports.getRegisteredUsersOfLocation = (req, res) => {
             return res.json(registeredDocs);
         })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return res.json({error: err});
         });
 };
-
 
 //ADD LOCATION LOGO
 exports.uploadLocationLogo = (req, res) => {
@@ -367,7 +373,62 @@ exports.uploadLocationLogo = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         })
+};
+
+//UPLOAD LOCATION PHOTOS
+// API URL: https://ujp2dr3w2l.execute-api.ap-southeast-1.amazonaws.com/prod/UploadS3NoResize
+//
+//     Make a POST request with the following body:
+//
+// {
+//     "image": [Base64 encoded string of the image],
+//     "username": [username of the user for key],
+//     "event": [event for key]
+// }
+
+exports.uploadLocationPhotos = (req, res) => {
+    addImageUrlsToLocation(req.body);
+    return res.json({message: "success"});
+};
+
+function addImageUrlsToLocation(photosObj) {
+    const images = photosObj.images;
+    const username = photosObj.username;
+    const event = photosObj.event;
+
+    images.forEach((image) => {
+        axios.post(AWS_UPLOAD_IMAGE_API, {
+            image: image,
+            username: username,
+            event: event
+        })
+            .then((response) => {
+                return db
+                    .collection("cleanUpLocations")
+                    .doc(event)
+                    .update({locationImages: admin.firestore.FieldValue.arrayUnion(response.data.imageURL)});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
+}
+
+exports.getLocationImages = (req, res) => {
+    const locationID = req.body.locationId;
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationID)
+        .get()
+        .then((snap) => {
+            return res.json(snap.data().locationImages);
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({error: err});
+        });
 };
 
 //DOWNLOAD EVENTS LIST AS CSV

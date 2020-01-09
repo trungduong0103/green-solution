@@ -15,7 +15,8 @@ import {
     FILTER_BY_START_DATE_WITH_CITY_AND_DISTRICT,
     FILTER_BY_CITY, FILTER_BY_CITY_WITH_START_DATE,
     FILTER_BY_DISTRICT,
-    FILTER_BY_DISTRICT_WITH_CITY, GOT_COMPLETED_LOCATIONS
+    FILTER_BY_DISTRICT_WITH_CITY,
+    GOT_COMPLETED_LOCATIONS, GOT_IMAGES, GETTING_IMAGES
 } from "../types";
 
 const initialState = {
@@ -43,6 +44,12 @@ export default function (state = initialState, action) {
             return {...state, registeredLocations: action.payload};
         case GOT_COMPLETED_LOCATIONS:
             return {...state, completedLocations: action.payload};
+        case GETTING_IMAGES:
+            return {...state, loading: true};
+        case GOT_IMAGES:
+            const location = state.location;
+            state.location.locationImages = action.payload;
+            return {...state, loading: false, location: location};
         case CREATE_NEW_LOCATION:
             return {...state, locations: [...state.locations, action.payload], locationId: action.payload.id};
         case UPDATE_LOCATION:

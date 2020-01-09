@@ -28,7 +28,7 @@ import {
     GETTING_COMPLETED_LOCATIONS,
     GOT_COMPLETED_LOCATIONS,
     MARKING_AS_DONE,
-    LOCATION_MARKED_AS_DONE
+    LOCATION_MARKED_AS_DONE, UPLOADING_LOCATION_PHOTOS, DONE_UPLOAD_LOCATION_PHOTOS
 } from "../types";
 
 const initialState = {
@@ -37,6 +37,7 @@ const initialState = {
     doneDeleteLocation: false,
     doneUpdateLocation: false,
     doneMarkLocation: false,
+    doneUploadPhotos: false,
     alreadyJoinedLocation: false,
     loadRegisteredLocations: false,
     loadCreatedLocations: false,
@@ -57,6 +58,7 @@ const defaultState = {
     doneDeleteLocation: false,
     doneUpdateLocation: false,
     doneMarkLocation: false,
+    doneUploadPhotos: false,
     alreadyJoinedLocation: false,
     loadRegisteredLocations: false,
     loadCreatedLocations: false,
@@ -105,6 +107,10 @@ export default function (state = initialState, action) {
             return {...state, loading: true};
         case UPDATE_LOCATION_COMPLETE:
             return {...state, loading: false, doneUpdateLocation: true};
+        case UPLOADING_LOCATION_PHOTOS:
+            return {...state, loading: true};
+        case DONE_UPLOAD_LOCATION_PHOTOS:
+            return {...state, loading: false, doneUploadPhotos: true};
         case MARKING_AS_DONE:
             return {...state, loading: true};
         case LOCATION_MARKED_AS_DONE:

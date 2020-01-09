@@ -71,10 +71,10 @@ class Home extends Component {
                 <Grid container justify="center" alignContent="center" style={{padding: "10px 0 30px 0", marginBottom: 0}}>
                     <Grid item sm={2}>
                         <Grid container direction="row" justify="center" alignContent="center">
-                            <img style={{width: 150, height: 150, paddingTop: 10}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/a1.-HCMC-US-Consulate-logo-high-ress.png`}/>
-                            <img style={{width: 150, height: 150, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/Logo-WAVE.png`}/>
-                            <img style={{width: 150, height: 120, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/vespa-adventures.png`}/>
-                            <img style={{width: 220, height: 170}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/1.png`}/>
+                            <img style={{width: 150, height: 150, paddingTop: 10}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/a1.-HCMC-US-Consulate-logo-high-ress.png`} alt="home-1"/>
+                            <img style={{width: 150, height: 150, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/Logo-WAVE.png`} alt="home-2"/>
+                            <img style={{width: 150, height: 120, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/vespa-adventures.png`} alt="home-3"/>
+                            <img style={{width: 220, height: 170}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/1.png`} alt="home-4"/>
                         </Grid>
                     </Grid>
                     <Grid item sm={8}>
@@ -90,11 +90,10 @@ class Home extends Component {
 
                     <Grid item sm={2}>
                         <Grid container direction="row" justify="center" alignContent="center">
-                            <img style={{width: 150, height: 150, paddingTop: 10}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/aaAmChamss.png`}/>
-                            <img style={{width: 150, height: 150, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/a1.-SSISs.png`}/>
-
-                            <img style={{width: 150, height: 100, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/a2000px-Intel-logo.svgs_.png`}/>
-                            <img style={{width: 200, height: 60}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/heineken-vietnam-brewery-5a050226408b8.jpg`}/>
+                            <img style={{width: 150, height: 150, paddingTop: 10}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/aaAmChamss.png`} alt="home-5"/>
+                            <img style={{width: 150, height: 150, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/a1.-SSISs.png`} alt="home-6"/>
+                            <img style={{width: 150, height: 100, padding: "10px 0"}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/a2000px-Intel-logo.svgs_.png`} alt="home-7"/>
+                            <img style={{width: 200, height: 60}} src={`https://vietnamsachvaxanh.org/wp-content/uploads/heineken-vietnam-brewery-5a050226408b8.jpg`} alt="home-8"/>
                         </Grid>
                     </Grid>
                 </Grid>
