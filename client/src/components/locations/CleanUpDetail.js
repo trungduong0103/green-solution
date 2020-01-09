@@ -30,6 +30,7 @@ import {getUser} from "../../redux/actions/UserActions";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import UpdateCleanSiteForm from "./update_clean_site/UpdateCleanSiteForm";
 import DeleteCleanSiteDialog from "./delete_clean_site/DeleteCleanSiteDialog";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const styles = {
@@ -131,6 +132,13 @@ const styles = {
     },
     backdrop: {
         zIndex: 1
+    },
+    progress:{
+        padding:"30px"
+    },
+    progressContainer:{
+        width:"100%",
+        textAlign:"center"
     }
 };
 
@@ -252,11 +260,17 @@ class CleanUpDetail extends React.Component {
     };
 
     render() {
-        const {classes, user, location, history} = this.props;
+        const {classes, user, location, history, loading, locationExists} = this.props;
         const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm} = this.state;
         return (
             <div>
                 <NavBar />
+
+                {loading ? <div className={classes.progressContainer}>
+                    <CircularProgress size={100} variant="indeterminate" className={classes.progress}/>
+                </div> :
+                locationExists ?
+                <div>
                 <Grid container>
                     <ImageGridList imageList={imageList} open={this.handleOpenDropImage} />
                 </Grid>
@@ -414,6 +428,7 @@ class CleanUpDetail extends React.Component {
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
                 <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
                 <EventResultForm location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
+            </div>:<div className={classes.progressContainer}><Typography>Sự kiện không tồn tại :(.</Typography></div>}
             </div>
         )
     }
@@ -424,6 +439,8 @@ const mapStateToProps = (state) => ({
     location: state.locationsData.location,
     user: state.user.user,
     openUpdateSite: state.formState.openUpdateSite,
+    loading:state.formState.loading,
+    locationExists: state.locationsData.locationExists
 });
 
 const mapDispatchToProps = {

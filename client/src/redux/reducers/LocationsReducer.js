@@ -13,7 +13,8 @@ import {
     FILTER_BY_START_DATE,
     FILTER_BY_START_DATE_WITH_CITY,
     FILTER_BY_START_DATE_WITH_CITY_AND_DISTRICT,
-    FILTER_BY_CITY, FILTER_BY_CITY_WITH_START_DATE, FILTER_BY_DISTRICT, FILTER_BY_DISTRICT_WITH_CITY
+    FILTER_BY_CITY, FILTER_BY_CITY_WITH_START_DATE, FILTER_BY_DISTRICT, FILTER_BY_DISTRICT_WITH_CITY,
+    LOCATION_DOES_NOT_EXIST
 } from "../types";
 
 const initialState = {
@@ -25,7 +26,8 @@ const initialState = {
     filteredLocations: null,
     locationId: "",
     uploadingLogo: false,
-    doneUploadLogo: false
+    doneUploadLogo: false,
+    locationExists:false,
 };
 
 export default function (state = initialState, action) {
@@ -33,7 +35,7 @@ export default function (state = initialState, action) {
         case GET_ALL_LOCATIONS:
             return {...state, locations: action.payload};
         case GET_LOCATION:
-            return {...state, location: action.payload};
+            return {...state, location: action.payload, locationExists:true};
         case GOT_CREATED_LOCATIONS:
             return {...state, createdLocations: action.payload};
         case GOT_REGISTERED_LOCATIONS:
@@ -106,6 +108,8 @@ export default function (state = initialState, action) {
             return {...state, filteredLocations: filteredLocationsByDistrict1};
         case RESET_FILTERS:
             return {...state, filteredLocations: state.locations};
+        case LOCATION_DOES_NOT_EXIST:
+            return {...state, locationExists:false}
         default:
             return state;
     }
