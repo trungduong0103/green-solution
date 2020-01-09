@@ -53,7 +53,6 @@ class ThirdTab extends Component {
     handleSubmit = (files, allFiles) => {
         const {creator, locationId, history} = this.props;
         const image = files[0].file;
-        console.log(image);
         const reader = new FileReader();
         reader.onloadend = () => {
             this.props.uploadLocationLogo({
@@ -117,10 +116,7 @@ class ThirdTab extends Component {
                     </Card>
                 </Grid>
                 <Grid item sm={3}/>
-                <Backdrop
-                    className={classes.backdrop}
-                    open={uploadingLogo}
-                >
+                <Backdrop className={classes.backdrop} open={uploadingLogo} timeout={0}>
                     {doneUploadLogo ? (<CheckIcon fontSize="large"/>) : <CircularProgress color="inherit"/>}
                 </Backdrop>
             </Grid>

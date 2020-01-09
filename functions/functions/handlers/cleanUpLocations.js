@@ -1,14 +1,16 @@
 const {db} = require("../utils/admin");
 const {admin} = require("../utils/admin");
 const axios = require("axios");
-const {sendLocationConfirmationEmail}  = require("../utils/email");
-const {AWS_UPLOAD_IMAGE_API} = require("../environments/environments");
+const {sendLocationConfirmationEmail} = require("../utils/email");
+const {AWS_UPLOAD_IMAGE_API, AWS_BULK_UPLOAD_IMAGES_API} = require("../environments/environments");
+const json2csv = require("json2csv").parse;
 
 //CREATE NEW CLEAN SITE
 exports.createNewLocation = (req, res) => {
     const creationTime = new Date().toISOString();
     const newLocation = req.body;
-    req.body.createdAt = creationTime;
+    newLocation.createdAt = creationTime;
+    newLocation.done = 0;
     return db.collection("cleanUpLocations")
         .add(newLocation)
         .then((ref) => {
@@ -18,7 +20,7 @@ exports.createNewLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return err;
+            return res.json({error: err});
         });
 };
 
@@ -38,8 +40,8 @@ exports.getAllCleanUpLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err.code});
-        })
+            return res.json({error: err});
+        });
 
 };
 
@@ -60,7 +62,7 @@ exports.getCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err.code});
+            return res.json({error: err});
         })
 };
 
@@ -75,6 +77,7 @@ exports.updateCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 };
 
@@ -88,6 +91,7 @@ exports.deleteCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 };
 
@@ -107,6 +111,7 @@ exports.joinCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 
     checkUserAlreadyRegisteredToLocation(additionalInfo.locationId, userInfo.email)
@@ -122,6 +127,7 @@ exports.joinCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         })
 };
 
@@ -207,11 +213,16 @@ exports.leaveCleanUpLocation = (req, res) => {
         .where("email", "==", email)
         .get()
         .then((querySnapshot) => {
-            if (querySnapshot.empty) {return res.json({message: "no record exists"});}
-            return querySnapshot.forEach((snap) => {return snap.ref.delete()});
+            if (querySnapshot.empty) {
+                return res.json({message: "no record exists"});
+            }
+            return querySnapshot.forEach((snap) => {
+                return snap.ref.delete()
+            });
         })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return res.json({error: err});
         });
 
     const deleteEmail = db.collection("cleanUpLocations")
@@ -222,9 +233,40 @@ exports.leaveCleanUpLocation = (req, res) => {
         });
 
     return Promise.all([deleteRecord, deleteEmail])
-        .then(() => {return res.json({message: "success"})})
-        .catch((err) => {return res.json(err)});
+        .then(() => {
+            return res.json({message: "success"})
+        })
+        .catch((err) => {
+            return res.json({error: err});
+        });
 };
+
+//MARK LOCATION AS DONE
+exports.markLocationAsDone = (req, res) => {
+    const data = req.body;
+    const locationId = data.id;
+    return db
+        .collection("completedLocations")
+        .add(data)
+        .then(() => {
+            changeLocationStatusToDone(locationId);
+            return res.json({message: "success"});
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({error: err});
+        })
+};
+
+function changeLocationStatusToDone(locationId) {
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationId)
+        .update({done: 1})
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
 //GET REGISTERED CLEAN SITES
 exports.getUserRegisteredLocations = (req, res) => {
@@ -233,6 +275,7 @@ exports.getUserRegisteredLocations = (req, res) => {
     return db
         .collection("cleanUpLocations")
         .where("registeredUsers", "array-contains", email)
+        .where("done", "==", 0)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((snap) => {
@@ -244,25 +287,18 @@ exports.getUserRegisteredLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
 };
 
 //GET CREATED CLEAN SITES
 exports.getCreatedLocations = (req, res) => {
-    return getCreatedLocationsFromEmail(req.body.email)
-        .then((data) => {
-            return res.json(data);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
-
-function getCreatedLocationsFromEmail(email) {
+    const email = req.body.email;
     const documents = [];
     return db
         .collection("cleanUpLocations")
         .where("creator", "==", email)
+        .where("done", "==", 0)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((snap) => {
@@ -270,12 +306,37 @@ function getCreatedLocationsFromEmail(email) {
                 created.id = snap.id;
                 documents.push(created);
             });
-            return documents;
+            return res.json(documents);
         })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err});
         });
-}
+};
+
+//GET COMPLETED LOCATIONS
+exports.getCompletedLocations = (req, res) => {
+    const email = req.body.email;
+    const documents = [];
+
+    return db
+        .collection("cleanUpLocations")
+        .where("creator", "==", email)
+        .where("done", "==", 1)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((snap) => {
+                const created = snap.data();
+                created.id = snap.id;
+                documents.push(created);
+            });
+            return res.json(documents);
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({error: err});
+        })
+};
 
 //GET REGISTERED USERS
 exports.getRegisteredUsersOfLocation = (req, res) => {
@@ -287,12 +348,16 @@ exports.getRegisteredUsersOfLocation = (req, res) => {
         .where("email", "==", email)
         .get()
         .then((querySnapshot) => {
-            querySnapshot.forEach((snap) => {registeredDocs.push(snap.data())});
+            querySnapshot.forEach((snap) => {
+                registeredDocs.push(snap.data())
+            });
             return res.json(registeredDocs);
         })
-        .catch((err) => {console.log(err)});
+        .catch((err) => {
+            console.log(err);
+            return res.json({error: err});
+        });
 };
-
 
 //ADD LOCATION LOGO
 exports.uploadLocationLogo = (req, res) => {
@@ -307,6 +372,78 @@ exports.uploadLocationLogo = (req, res) => {
             return res.json({message: "logo upload successful."});
         })
         .catch((err) => {
+            console.log(err);
+            return res.json({error: err});
+        })
+};
+
+//UPLOAD LOCATION PHOTOS
+// API URL: https://ujp2dr3w2l.execute-api.ap-southeast-1.amazonaws.com/prod/UploadS3NoResize
+//
+//     Make a POST request with the following body:
+//
+// {
+//     "image": [Base64 encoded string of the image],
+//     "username": [username of the user for key],
+//     "event": [event for key]
+// }
+
+exports.uploadLocationPhotos = (req, res) => {
+    const images = req.body.images;
+    const username = req.body.username;
+    const event = req.body.event;
+
+    axios.post(AWS_BULK_UPLOAD_IMAGES_API, {
+        images: images,
+        username: username,
+        event: event
+    })
+        .then((response) => {
+             db
+                .collection("cleanUpLocations")
+                .doc(event)
+                .update({locationImages: response.data.imageURLs});
+             return res.json({message: "ok"});
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({message: err});
+        });
+};
+
+exports.getLocationImages = (req, res) => {
+    const locationID = req.body.locationId;
+    return db
+        .collection("cleanUpLocations")
+        .doc(locationID)
+        .get()
+        .then((snap) => {
+            return res.json(snap.data().locationImages);
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({error: err});
+        });
+};
+
+//DOWNLOAD EVENTS LIST AS CSV
+exports.downloadAllEvents = (req, res) => {
+    return db.collection("cleanUpLocations").get().then(querySnapshot => {
+        const events = [];
+        querySnapshot.forEach(snapshot => {
+            events.push(snapshot.data());
+        });
+
+        const csv = json2csv(events);
+        res.setHeader(
+            "Content-disposition",
+            "attachment; filename=events.csv"
+        );
+        res.set("Content-Type", "text/csv");
+        res.status(200).send(csv);
+        return null;
+    })
+        .catch(err => {
             console.log(err);
         })
 };

@@ -11,6 +11,11 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import AddCircleOutlineTwoToneIcon from '@material-ui/icons/AddCircleOutlineTwoTone';
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import {sendEmail} from "../../../redux/actions/LocationActions"
 
 const styles = {
     customBtn: {
@@ -82,14 +87,7 @@ class SendEmailForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            registeredUsers: [
-                "manhtrietvt@gmail.com",
-                "trungduong12@gmail.com",
-                "quach_toan@gmail.com",
-                "lamwibu123@gmail.com",
-                "hieu_1@gmail.com",
-                "loc_abc@gmail.com"
-            ],
+            registeredUsers: [],
             subject: "",
             content: "",
             addedUser: "",
@@ -105,6 +103,19 @@ class SendEmailForm extends Component {
         }
         return null;
     }
+
+    componentDidMount(){
+        this.setState({
+            registeredUsers:this.props.emailList
+        })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.emailList !== this.props.emailList) {
+            this.setState({
+                registeredUsers:this.props.emailList
+            })
+        }}
 
     validateDataBeforeSubmit(data) {
         const errors = {};
@@ -157,27 +168,39 @@ class SendEmailForm extends Component {
 
     submitEmailNotification = () => {
         const data = {
-            registeredUsers: this.state.registeredUsers,
+            email: this.state.registeredUsers,
             subject: this.state.subject,
             content: this.state.content,
         };
         if (this.validateDataBeforeSubmit(data)) {
             console.log(data);
+            this.props.sendEmail(data)
             this.clearForm()
+            this.props.clear()
+            this.props.handleOpenEmailForm()
         }
         else {
             alert("Please check your form again")
         }
     };
 
+    handleClose = ()=>{
+        this.props.clear()
+        this.props.handleOpenEmailForm()
+    }
+
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
     };
     render() {
-        const {errors} = this.state;
-        const {classes} = this.props;
+        const {errors,} = this.state;
+        const {classes, open,  handleOpenEmailForm, emailList} = this.props;
+        console.log(emailList)
         return (
             <div>
+                <Dialog open={open} onClose={() => handleOpenEmailForm()} maxWidth="md">
+                <DialogTitle>Kết quả sự kiện</DialogTitle>
+                <DialogContent>
                 <Grid container style={{marginTop: "50px"}}>
                     <Grid item sm={3}/>
 
@@ -185,7 +208,7 @@ class SendEmailForm extends Component {
                         <Card>
                             <CardContent>
                                 <Typography  style={{margin: "0.3em "}} variant="subtitle1" className={classes.input}>Người nhận:</Typography>
-                                {this.state.registeredUsers.map((participant, index) =>
+                                {this.state.registeredUsers!==undefined && this.state.registeredUsers.map((participant, index) =>
                                     (
                                         <Chip
                                             variant="outlined"
@@ -256,15 +279,17 @@ class SendEmailForm extends Component {
                                     InputProps={{className: classes.input}}
                                 />
                             </CardContent>
+
                             <CardActions style={{padding: "10px 16px"}}>
                                 <Button className={classes.submitBtn} onClick={this.submitEmailNotification} >Gửi</Button>
-                                <Button className={classes.cancelBtn} onClick={this.closeEmailNotification}>Huỷ</Button>
+                                <Button className={classes.cancelBtn} onClick={this.handleClose}>Huỷ</Button>
 
                             </CardActions>
                         </Card>
                     </Grid>
                     <Grid item sm={3}/>
                 </Grid>
+                </DialogContent></Dialog>
             </div>
         );
     }
@@ -277,7 +302,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDisPatchToProps = {
-
+    sendEmail
 };
 
 export default connect(mapStateToProps, mapDisPatchToProps)(withStyles(styles)(SendEmailForm));

@@ -6,22 +6,23 @@ import {
     DEFAULT_URL,
     DELETE_LOCATION, DELETE_LOCATION_COMPLETE,
     DELETING_LOCATION,
-    DONE_UPLOAD_LOCATION_LOGO,
+    DONE_UPLOAD_LOCATION_LOGO, DONE_UPLOAD_LOCATION_PHOTOS,
     GET_ALL_LOCATIONS,
-    GET_LOCATION,
-    GETTING_CREATED_LOCATIONS,
-    GETTING_REGISTERED_LOCATIONS,
-    GOT_CREATED_LOCATIONS,
+    GET_LOCATION, GETTING_COMPLETED_LOCATIONS,
+    GETTING_CREATED_LOCATIONS, GETTING_IMAGES,
+    GETTING_REGISTERED_LOCATIONS, GOT_COMPLETED_LOCATIONS,
+    GOT_CREATED_LOCATIONS, GOT_IMAGES,
     GOT_REGISTERED_LOCATIONS,
     JOINED_CLEAN_SITE,
     JOINING_CLEAN_SITE,
-    LOADING_FORM,
+    LOADING_FORM, LOCATION_MARKED_AS_DONE, MARKING_AS_DONE,
     RESET_UI_STATE,
     STOP_LOADING_FORM,
     UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE,
     UPDATING_LOCATION,
     UPLOADING_LOCATION_LOGO,
-    LOCATION_DOES_NOT_EXIST
+    LOCATION_DOES_NOT_EXIST,
+    UPLOADING_LOCATION_PHOTOS
 } from "../types";
 import axios from "axios";
 
@@ -31,10 +32,7 @@ export function getAllLocations() {
         axios
             .get(`${DEFAULT_URL}/get_all_clean_sites`)
             .then((res) => {
-                dispatch({
-                    type: GET_ALL_LOCATIONS,
-                    payload: res.data
-                });
+                dispatch({type: GET_ALL_LOCATIONS, payload: res.data});
             })
             .catch((err) => {
                 console.log(err);
@@ -76,8 +74,8 @@ export function updateLocation(locationData, id) {
                 dispatch({type: UPDATE_LOCATION_COMPLETE});
                 setTimeout(() => {
                     dispatch({type: RESET_UI_STATE});
-                }, 2000);
-            })
+                }, 1000);
+            });
     }
 }
 
@@ -93,7 +91,7 @@ export function deleteLocation(locationId, history) {
                 dispatch({type: DELETE_LOCATION_COMPLETE});
                 setTimeout(() => {
                     history.push("/profile");
-                }, 2000);
+                }, 1000);
             });
     };
 }
@@ -138,6 +136,24 @@ export function joinLocation(info) {
     };
 }
 
+//MARK LOCATION AS DONE
+export function markLocationAsDone(resultData, history) {
+    return function (dispatch) {
+        dispatch({type: MARKING_AS_DONE});
+        axios.post(`${DEFAULT_URL}/mark_location_as_done`, resultData)
+            .then(() => {
+                dispatch({type: LOCATION_MARKED_AS_DONE});
+                setTimeout(() => {
+                    dispatch({type: RESET_UI_STATE});
+                    history.push("/profile");
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+}
+
 //GET CREATED LOCATIONS
 export function getAllCreatedLocationsWithEmail(email) {
     return function (dispatch) {
@@ -166,6 +182,20 @@ export function getAllRegisteredLocationsWithEmail(email) {
     };
 }
 
+//GET COMPLETED LOCATIONS
+export function getAllCompletedLocationsWithEmail(email) {
+    return function (dispatch) {
+        dispatch({type: GETTING_COMPLETED_LOCATIONS});
+        axios.post(`${DEFAULT_URL}/get_completed_locations`, email)
+            .then((res) => {
+                dispatch({type: GOT_COMPLETED_LOCATIONS, payload: res.data});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+}
+
 //UPLOAD LOCATION LOGO
 export function uploadLocationLogo(updateObj, history, locationId) {
     return function (dispatch) {
@@ -176,9 +206,57 @@ export function uploadLocationLogo(updateObj, history, locationId) {
                 dispatch({type: DONE_UPLOAD_LOCATION_LOGO});
                 setTimeout(() => {
                     history.push(`/cleanup-detail/${locationId}`);
-                }, 2000);
+                }, 1000);
             })
             .catch((err) => {
+                console.log(err);
+            })
+    }
+}
+
+//UPLOAD LOCATION PHOTOS
+export function uploadLocationPhotos(uploadObj) {
+    return function (dispatch) {
+        dispatch({type: UPLOADING_LOCATION_PHOTOS});
+        axios
+            .post(`${DEFAULT_URL}/upload_location_photos`, uploadObj)
+            .then((response) => {
+                dispatch({type: DONE_UPLOAD_LOCATION_PHOTOS, payload: response.data});
+                setTimeout(() => {
+                    getLocation(uploadObj.event);
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+}
+
+//GET ALL LOCATION IMAGES
+export function getAllLocationImages(infoObj) {
+    return function (dispatch) {
+        dispatch({type: GETTING_IMAGES});
+        axios
+            .post(`https://vtdwhkk87g.execute-api.ap-southeast-1.amazonaws.com/prod/GetImagesS3`,
+                infoObj)
+            .then((response) => {
+                console.log(response.data);
+                dispatch({type: GOT_IMAGES, payload: response.data.imageURLs});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+}
+
+export function sendEmail(obj){
+    return function(dispatch){
+        axios
+            .post("https://gle8q1lhk3.execute-api.ap-southeast-1.amazonaws.com/prod/sendemail",obj)
+            .then(()=>{
+                return null;
+            })
+            .catch((err)=>{
                 console.log(err);
             })
     }

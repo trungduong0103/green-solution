@@ -24,7 +24,11 @@ import {
     UPDATING_LOCATION,
     UPDATE_LOCATION_COMPLETE,
     DELETING_LOCATION,
-    DELETE_LOCATION_COMPLETE
+    DELETE_LOCATION_COMPLETE,
+    GETTING_COMPLETED_LOCATIONS,
+    GOT_COMPLETED_LOCATIONS,
+    MARKING_AS_DONE,
+    LOCATION_MARKED_AS_DONE, UPLOADING_LOCATION_PHOTOS, DONE_UPLOAD_LOCATION_PHOTOS
 } from "../types";
 
 const initialState = {
@@ -32,9 +36,12 @@ const initialState = {
     doneJoinLocation: false,
     doneDeleteLocation: false,
     doneUpdateLocation: false,
+    doneMarkLocation: false,
+    doneUploadPhotos: false,
     alreadyJoinedLocation: false,
     loadRegisteredLocations: false,
     loadCreatedLocations: false,
+    loadCompletedLocations: false,
     loading: false,
     doneSignUp: false,
     doneSignIn: false,
@@ -50,9 +57,12 @@ const defaultState = {
     doneJoinLocation: false,
     doneDeleteLocation: false,
     doneUpdateLocation: false,
+    doneMarkLocation: false,
+    doneUploadPhotos: false,
     alreadyJoinedLocation: false,
     loadRegisteredLocations: false,
     loadCreatedLocations: false,
+    loadCompletedLocations: false,
     loading: false,
     doneSignUp: false,
     doneSignIn: false,
@@ -97,6 +107,14 @@ export default function (state = initialState, action) {
             return {...state, loading: true};
         case UPDATE_LOCATION_COMPLETE:
             return {...state, loading: false, doneUpdateLocation: true};
+        case UPLOADING_LOCATION_PHOTOS:
+            return {...state, loading: true};
+        case DONE_UPLOAD_LOCATION_PHOTOS:
+            return {...state, loading: false, doneUploadPhotos: true};
+        case MARKING_AS_DONE:
+            return {...state, loading: true};
+        case LOCATION_MARKED_AS_DONE:
+            return {...state, loading: false, doneMarkLocation: true};
         case ALREADY_JOINED_CLEAN_SITE:
             return {...state, loading: false, alreadyJoinedLocation: true};
         case GETTING_REGISTERED_LOCATIONS:
@@ -107,6 +125,10 @@ export default function (state = initialState, action) {
             return {...state, loadCreatedLocations: true};
         case GOT_CREATED_LOCATIONS:
             return {...state, loadCreatedLocations: false};
+        case GETTING_COMPLETED_LOCATIONS:
+            return {...state, loadCompletedLocations: true};
+        case GOT_COMPLETED_LOCATIONS:
+            return {...state, loadCompletedLocations: false};
         case SET_ERRORS:
             return {...state, loading: false, errors: action.payload};
         case CLEAR_ERRORS: {

@@ -22,7 +22,6 @@ class DeleteCleanSiteDialog extends Component {
 
     render() {
         const {open, loading, doneDeleteLocation} = this.props;
-        console.log(this.props);
         return (
             <Dialog open={open} onClose={this.props.close}>
                 {doneDeleteLocation ? (

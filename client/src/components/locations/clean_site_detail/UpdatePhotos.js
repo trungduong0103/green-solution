@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import {withStyles} from "@material-ui/core";
+import {connect} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogTitle from "@material-ui/core/DialogTitle"
+import Typography from "@material-ui/core/Typography";
+import {withStyles} from "@material-ui/core";
 import Dropzone from "react-dropzone-uploader"
+import {getAllLocationImages, uploadLocationPhotos} from "../../../redux/actions/LocationActions";
+import CheckIcon from "@material-ui/icons/Check";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = {
     paper: {
@@ -62,14 +66,15 @@ class UpdatePhoto extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            images:[]
+            images: []
         }
     }
 
-    submit = () => {
-        console.log(this.state.images)
-        this.props.handleOpenDropImages();
-    };
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.doneUploadPhotos !== this.props.doneUploadPhotos && this.props.doneUploadPhotos === true) {
+            this.props.handleOpenDropImages();
+        }
+    }
 
     getUploadParams = ({meta}) => {
         const url = `https://httpbin.org/post`;
@@ -82,26 +87,39 @@ class UpdatePhoto extends Component {
 
     handleSubmitImage = (files) => {
         files.forEach(f => {
-            const img = f.file
-            const reader = new FileReader()
+            const img = f.file;
+            const reader = new FileReader();
+            this.setState({images: []});
             reader.onloadend = () => {
-                const imagesList=this.state.images
-                imagesList.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""))
-                this.setState({
-                    images:imagesList
-                })
-            }
-            reader.readAsDataURL(img)
-        })
+                const imagesList = this.state.images;
+                imagesList.push(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""));
+                this.setState({images: imagesList});
+            };
+            reader.readAsDataURL(img);
+        });
+    };
+
+    submitToFirebase = () => {
+        const {location} = this.props;
+        const {images} = this.state;
+        const photosObj = {
+            images: images,
+            username: location.creator,
+            event: location.id
+        };
+        console.log(photosObj);
+        this.props.uploadLocationPhotos(photosObj);
     };
 
 
     render() {
-        const {classes, open, handleOpenDropImages} = this.props;
-
+        console.log(this.state);
+        const {classes, open, doneUploadPhotos, loading} = this.props;
         return (
-            <Dialog open={open} onClose={() => handleOpenDropImages()}>
-                <DialogTitle>Update Photos</DialogTitle>
+            <Dialog open={open} onClose={this.props.handleOpenDropImages}>
+                <Typography variant="h5"
+                            style={{fontFamily: "'Quicksand', sans-serif", textAlign: "center", paddingTop: 20}}>Đăng
+                    ảnh sự kiện của bạn</Typography>
                 <DialogContent>
                     <Paper className={classes.paper}>
                         <div className={classes.form}>
@@ -141,23 +159,42 @@ class UpdatePhoto extends Component {
                                         }
                                     }}
                                 />
-
-
                             </div>
-
                         </div>
                     </Paper>
                 </DialogContent>
-
-                <DialogActions>
-                    <Button onClick={() => this.submit()}>Submit</Button>
-                    <Button onClick={() => handleOpenDropImages()}>Close</Button>
+                <DialogActions style={{display: "flex", justifyContent: "center", padding: "1em 1em 1em 1em"}}>
+                    {doneUploadPhotos ? (<CheckIcon fontSize="large"/>) :
+                        (loading ? (<CircularProgress size={35}/>) :
+                                (
+                                    <div>
+                                        <Button onClick={this.props.handleOpenDropImages} color="primary">
+                                            Disagree
+                                        </Button>
+                                        <Button disabled={this.state.images.length === 0}
+                                                onClick={this.submitToFirebase} color="secondary" autoFocus>
+                                            Agree
+                                        </Button>
+                                    </div>
+                                )
+                        )}
                 </DialogActions>
             </Dialog>
-
         );
     }
 }
 
 
-export default (withStyles(styles)(UpdatePhoto));
+const mapStateToProps = (state) => ({
+    location: state.locationsData.location,
+    doneUploadPhotos: state.UI.doneUploadPhotos,
+    loading: state.UI.loading,
+    imageLoading: state.locationsData.loading
+});
+
+const mapDispatchToProps = {
+    uploadLocationPhotos,
+    getAllLocationImages
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UpdatePhoto));
