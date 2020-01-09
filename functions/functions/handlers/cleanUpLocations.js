@@ -3,6 +3,7 @@ const {admin} = require("../utils/admin");
 const axios = require("axios");
 const {sendLocationConfirmationEmail} = require("../utils/email");
 const {AWS_UPLOAD_IMAGE_API} = require("../environments/environments");
+const json2csv = require("json2csv").parse;
 
 //CREATE NEW CLEAN SITE
 exports.createNewLocation = (req, res) => {
@@ -368,4 +369,26 @@ exports.uploadLocationLogo = (req, res) => {
             console.log(err);
         })
 };
+
+//DOWNLOAD EVENTS LIST AS CSV
+exports.downloadAllEvents = (req,res)=>{
+    return db.collection("cleanUpLocations").get().then(querySnapshot=>{
+        const events = [];
+        querySnapshot.forEach(snapshot=>{
+            events.push(snapshot.data());
+        })
+
+        const csv = json2csv(events);
+        res.setHeader(
+            "Content-disposition",
+            "attachment; filename=events.csv"
+        );
+        res.set("Content-Type","text/csv");
+        res.status(200).send(csv);
+        return null;
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+}
 

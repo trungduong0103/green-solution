@@ -20,7 +20,8 @@ const {
     getRegisteredUsersOfLocation,
     uploadLocationLogo,
     markLocationAsDone,
-    getCompletedLocations
+    getCompletedLocations,
+    downloadAllEvents
 } = require("./handlers/cleanUpLocations");
 
 //User routes
@@ -34,6 +35,7 @@ app.post("/get_created_locations", getCreatedLocations);
 app.post("/get_completed_locations", getCompletedLocations);
 app.post("/join_clean_site", joinCleanUpLocation);
 app.post("/leave_clean_site", leaveCleanUpLocation);
+app.get("/download", downloadAllEvents);
 
 //clean up locations
 app.post("/create_clean_site", FBAuth, createNewLocation);
