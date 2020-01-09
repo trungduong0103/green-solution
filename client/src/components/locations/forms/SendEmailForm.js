@@ -201,10 +201,6 @@ class SendEmailForm extends Component {
                 <Dialog open={open} onClose={() => handleOpenEmailForm()} maxWidth="md">
                 <DialogTitle>Kết quả sự kiện</DialogTitle>
                 <DialogContent>
-                <Grid container style={{marginTop: "50px"}}>
-                    <Grid item sm={3}/>
-
-                    <Grid item sm={6}>
                         <Card>
                             <CardContent>
                                 <Typography  style={{margin: "0.3em "}} variant="subtitle1" className={classes.input}>Người nhận:</Typography>
@@ -286,9 +282,6 @@ class SendEmailForm extends Component {
 
                             </CardActions>
                         </Card>
-                    </Grid>
-                    <Grid item sm={3}/>
-                </Grid>
                 </DialogContent></Dialog>
             </div>
         );
