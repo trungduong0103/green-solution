@@ -21,6 +21,8 @@ const {
     uploadLocationLogo,
     markLocationAsDone,
     getCompletedLocations,
+    downloadAllEvents
+    getCompletedLocations,
     uploadLocationPhotos,
     getLocationImages
 } = require("./handlers/cleanUpLocations");
@@ -36,6 +38,7 @@ app.post("/get_created_locations", getCreatedLocations);
 app.post("/get_completed_locations", getCompletedLocations);
 app.post("/join_clean_site", joinCleanUpLocation);
 app.post("/leave_clean_site", leaveCleanUpLocation);
+app.get("/download", downloadAllEvents);
 
 //clean up locations
 app.post("/create_clean_site", FBAuth, createNewLocation);
