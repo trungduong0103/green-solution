@@ -200,12 +200,12 @@ class UserProfile extends Component {
                                         </Grid>
                                         :
                                         <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={user.email}
-                                                          delete={this.handleDeleteLocation} edit={this.handleEditLocation}
+                                                          delete={this.handleDeleteLocation}
                                                           loaded={loadCreatedLocations} locations={createdLocations}/>
                                     : ""
                                 }
 
-                                {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations} />}
+                                {tab === 2 && <PastEvents locations={completedLocations} loaded={loadCompletedLocations} />}
                             </div>}
                     </Grid>
 
