@@ -287,7 +287,7 @@ class CleanUpDetail extends React.Component {
                 <Grid container>
                     <ImageGridList
                         imageList={location.locationImages && location.locationImages.length !== 0 ? location.locationImages : imageList}
-                        open={this.toggleUpdatePhotos}/>
+                        open={this.toggleUpdatePhotos} checkUser={user.email === location.creator} />
                 </Grid>
 
                 <Grid container className={classes.gridHeader}>

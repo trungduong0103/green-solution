@@ -37,20 +37,20 @@ class ImageGridList extends React.Component {
         this.state = {}
     }
 
-    static displayImageGrid(imageList, classes, open) {
+    static displayImageGrid(imageList, classes, open, checkUser) {
 
         if (imageList.length === 1) {
             return (
                 <GridList cellHeight={400}>
                     <GridListTile>
                         <img className={classes.locationImg} src={imageList[0]} alt={imageList[0]}/>
-                        <Button
+                        {checkUser && <Button
                             size="medium"
                             className={classes.iconButton}
                             onClick={() => open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Đăng ảnh</Typography>
-                        </Button>
+                             <Typography className={classes.text}>Đăng ảnh</Typography>
+                        </Button>}
                     </GridListTile>
                 </GridList>
             )
@@ -62,13 +62,13 @@ class ImageGridList extends React.Component {
                     </GridListTile>
                     <GridListTile>
                         <img className={classes.locationImg} src={imageList[1]} alt={imageList[1]}/>
-                        <Button
+                        {checkUser && <Button
                             size="medium"
                             className={classes.iconButton}
                             onClick={() => open()}>
                             <AddAPhotoIcon/>
                             <Typography className={classes.text}>Đăng ảnh</Typography>
-                        </Button>
+                        </Button>}
                     </GridListTile>
                 </GridList>
             )
@@ -83,13 +83,13 @@ class ImageGridList extends React.Component {
                     </GridListTile>
                     <GridListTile>
                         <img className={classes.locationImg} src={imageList[2]} alt={imageList[2]}/>
-                        <Button
+                        {checkUser && <Button
                             size="medium"
                             className={classes.iconButton}
                             onClick={() => open()}>
                             <AddAPhotoIcon/>
                             <Typography className={classes.text}>Đăng ảnh</Typography>
-                        </Button>
+                        </Button>}
                     </GridListTile>
                 </GridList>
             )
@@ -107,13 +107,13 @@ class ImageGridList extends React.Component {
                     </GridListTile>
                     <GridListTile cols={2} rows={1}>
                         <img className={classes.locationImg} src={imageList[3]} alt={imageList[3]}/>
-                        <Button
+                        {checkUser && <Button
                             size="medium"
                             className={classes.iconButton}
                             onClick={() => open()}>
                             <AddAPhotoIcon/>
                             <Typography className={classes.text}>Đăng ảnh</Typography>
-                        </Button>
+                        </Button>}
                     </GridListTile>
                 </GridList>
             )
@@ -121,10 +121,10 @@ class ImageGridList extends React.Component {
     }
 
     render() {
-        const {imageList, classes, open} = this.props;
+        const {imageList, classes, open, checkUser} = this.props;
         return (
             <div style={{width: "100%"}}>
-                {ImageGridList.displayImageGrid(imageList, classes, open)}
+                {ImageGridList.displayImageGrid(imageList, classes, open, checkUser)}
             </div>
         )
     }
