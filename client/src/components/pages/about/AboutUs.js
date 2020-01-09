@@ -24,10 +24,7 @@ const styles = {
     },
     typoTitle: {
         padding: "0.5em 0 0 0",
-        fontFamily: "'Merriweather', serif",
-        fontWeight: "fontWeightMedium",
-        fontSize: 30,
-        color: "black",
+        fontFamily: "'Quicksand', sans-serif;",
         textAlign: "center"
     },
     typoText: {
@@ -99,7 +96,7 @@ class AboutUs extends Component {
                         </Card>
                     </GridListTile>
                 </GridList>
-                <Typography className={classes.typoTitle}>Nguồn cảm hứng</Typography>
+                <Typography variant="h4" className={classes.typoTitle}>Nguồn cảm hứng</Typography>
                 <GridList cols={4} cellHeight={400} spacing={5} style={{margin:0}}>
                     <GridListTile>
                         <img

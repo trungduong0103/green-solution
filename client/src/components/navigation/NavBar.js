@@ -13,6 +13,8 @@ import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import AppBar from "@material-ui/core/AppBar";
 import avatar from "../../assets/imgs/img2.jpg"
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import PropTypes from 'prop-types';
 
 import {openAuthenticationSnackbar} from "../../redux/actions/UIActions";
@@ -21,7 +23,8 @@ import jwtDecode from "jwt-decode";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {Popover} from "@material-ui/core";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Typography from "@material-ui/core/Typography";
 
 const styles = {
     appBar: {
@@ -105,6 +108,14 @@ class NavBar extends Component {
         })
     };
 
+    handleClose = () => {
+        this.setState({
+            open: false
+        })
+    };
+
+
+
 
     render() {
 
@@ -187,6 +198,8 @@ class NavBar extends Component {
                                                 </Avatar>
                                             </IconButton>
                                         </Grid>
+
+
                                         // <Button variant="contained"
                                         //         className={classes.signUpBtn}
                                         //         onClick={() => this.props.signUserOut()}>
@@ -208,25 +221,30 @@ class NavBar extends Component {
                         </Grid>
                     </Grid>
 
+
                     <Menu
                         anchorEl={anchorEl}
                         open={open}
                         onClose={this.handleProfileMenu}
-                        // anchorOrigin={{
-                        //     vertical: "bottom",
-                        //     horizontal: "left"
-                        // }}
-                        // transformOrigin={{
-                        //     vertical: "top",
-                        //     horizontal: "left"
-                        //
-                        // }}
+                        style={{width: 300}}
                     >
+                        <MenuItem  to="/profile" component={Link} >
+                            <ListItemIcon>
+                                <AccountBoxIcon/>
+                            </ListItemIcon>
+                            <Typography style={{fontFamily: "Quicksand, sans-serif"}}>Profile</Typography>
+                        </MenuItem>
 
-                        <MenuItem  to="/profile" component={Link} style={{fontFamily: "Quicksand, sans-serif"}}>Profile</MenuItem>
-                        <MenuItem  style={{fontFamily: "Quicksand, sans-serif"}}>Logout</MenuItem>
+                        <MenuItem onClick={() => this.props.signUserOut()}>
+                            <ListItemIcon>
+                                <ExitToAppIcon/>
+                            </ListItemIcon>
+                            <Typography   style={{fontFamily: "Quicksand, sans-serif"}}>Logout</Typography>
+                        </MenuItem>
 
                     </Menu>
+
+
                 </Toolbar>
             </AppBar>
         );

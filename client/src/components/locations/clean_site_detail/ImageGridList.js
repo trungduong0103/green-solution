@@ -7,24 +7,26 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 
 const styles = {
-    iconButton:{
-        right:"0",
-        bottom:"0",
-        position:"absolute",
-        color:"white",
-        "&:hover, &.Mui-focusVisible":{
-            backgroundColor:"rgba(255,255,255,0.3)"
+    iconButton: {
+        right: "0",
+        bottom: "0",
+        position: "absolute",
+        color: "black",
+        "&:hover": {
+            backgroundColor: "white"
         },
-        padding:"5px",
-        margin:"10px"
+        padding: "7px",
+        margin: "10px",
+        backgroundColor: "white"
     },
-    image:{
-        zIndex:0,
-        position:"absolute"
+    locationImg: {
+        width: "100%", height: "100%"
     },
-    text:{
-        fontSize:"14px",
-        paddingLeft:"5px"
+    text: {
+        fontFamily: "'Quicksand', sans-serif;",
+        fontSize: "14px",
+        paddingLeft: "5px",
+        fontWeight: "bold"
     }
 };
 
@@ -32,89 +34,85 @@ const styles = {
 class ImageGridList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     static displayImageGrid(imageList, classes, open) {
+
         if (imageList.length === 1) {
             return (
                 <GridList cellHeight={400}>
                     <GridListTile>
-                        <img src={imageList[0].img} alt={imageList[0].img}/>
-                        <Button 
+                        <img className={classes.locationImg} src={imageList[0]} alt={imageList[0]}/>
+                        <Button
                             size="medium"
                             className={classes.iconButton}
-                            onClick={()=>open()}>
+                            onClick={() => open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>
             )
-        }
-        else if (imageList.length === 2) {
+        } else if (imageList.length === 2) {
             return (
                 <GridList cellHeight={400} cols={2} spacing={0}>
                     <GridListTile>
-                        <img src={imageList[0].img} alt={imageList[0].img}/>
+                        <img className={classes.locationImg} src={imageList[0]} alt={imageList[0]}/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[1].img} alt={imageList[1].img}/>
-                        <Button 
+                        <img className={classes.locationImg} src={imageList[1]} alt={imageList[1]}/>
+                        <Button
                             size="medium"
                             className={classes.iconButton}
-                            onClick={()=>open()}>
+                            onClick={() => open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>
             )
-        }
-        else if (imageList.length === 3) {
+        } else if (imageList.length === 3) {
             return (
                 <GridList cellHeight={400} cols={3} spacing={0}>
                     <GridListTile>
-                        <img src={imageList[0].img} alt={imageList[0].img}/>
+                        <img className={classes.locationImg} src={imageList[0]} alt={imageList[0]}/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[1].img} alt={imageList[1].img}/>
+                        <img className={classes.locationImg} src={imageList[1]} alt={imageList[1]}/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[2].img} alt={imageList[2].img}/>
-                        <Button 
+                        <img className={classes.locationImg} src={imageList[2]} alt={imageList[2]}/>
+                        <Button
                             size="medium"
                             className={classes.iconButton}
-                            onClick={()=>open()}>
+                            onClick={() => open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>
             )
-        }
-        else if (imageList.length === 4) {
+        } else if (imageList.length === 4) {
             return (
                 <GridList cellHeight={200} cols={3} spacing={0}>
                     <GridListTile cols={2} rows={1}>
-                        <img src={imageList[0].img} alt={imageList[0].img}/>
+                        <img className={classes.locationImg} src={imageList[0]} alt={imageList[0]}/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[1].img} alt={imageList[1].img}/>
+                        <img className={classes.locationImg} src={imageList[1]} alt={imageList[1]}/>
                     </GridListTile>
                     <GridListTile>
-                        <img src={imageList[2].img} alt={imageList[2].img}/>
+                        <img className={classes.locationImg} src={imageList[2]} alt={imageList[2]}/>
                     </GridListTile>
                     <GridListTile cols={2} rows={1}>
-                        <img src={imageList[3].img} alt={imageList[3].img}/>
-                        <Button 
+                        <img className={classes.locationImg} src={imageList[3]} alt={imageList[3]}/>
+                        <Button
                             size="medium"
                             className={classes.iconButton}
-                            onClick={()=>open()}>
+                            onClick={() => open()}>
                             <AddAPhotoIcon/>
-                            <Typography className={classes.text}>Upload Photos</Typography>
+                            <Typography className={classes.text}>Đăng ảnh</Typography>
                         </Button>
                     </GridListTile>
                 </GridList>
@@ -123,9 +121,9 @@ class ImageGridList extends React.Component {
     }
 
     render() {
-        const { imageList, classes, open } = this.props;
-        return(
-            <div>
+        const {imageList, classes, open} = this.props;
+        return (
+            <div style={{width: "100%"}}>
                 {ImageGridList.displayImageGrid(imageList, classes, open)}
             </div>
         )

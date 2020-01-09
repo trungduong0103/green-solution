@@ -12,7 +12,7 @@ import {filterByKeyword, resetFilters} from "../../../redux/actions/LocationFilt
 
 const styles = {
     searchWrapper: {
-        padding: "1em 1em 1em 1em",
+        padding: "1em 1em 1em 2em",
         width: "100%",
         margin: "10px 0"
     },

@@ -340,7 +340,7 @@ class SecondTab extends Component {
                 </Grid>
 
                 <Grid item sm={7}>
-                    <MapWithSearchBox handleCall={this.getLocation}/>
+                    <MapWithSearchBox street={location.street} handleCall={this.getLocation}/>
                 </Grid>
 
                 <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
