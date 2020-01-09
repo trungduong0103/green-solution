@@ -24,7 +24,7 @@ const styles = {
         padding: '20px'
     },
     title: {
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         color: "rgb(99,151,68)"
     },
     cardGridItem: {
@@ -42,7 +42,7 @@ const styles = {
 class CleanSitesGrid extends Component {
 
     onCardGridItemClick = (id) => {
-        window.open(`/cleanup-detail/${id}`,'_blank')
+        window.open(`/cleanup-detail/${id}`, '_blank')
     };
 
     render() {
@@ -50,15 +50,26 @@ class CleanSitesGrid extends Component {
         return (
             <div>
                 <Grid container spacing={5} className={classes.wrapper}>
-                    {locations.map((location, index)=> (
+                    {locations.map((location, index) => (
                         <Grid item xs={grid} key={location.id} onMouseEnter={() => this.props.enlarge(index)} onClick={() => this.onCardGridItemClick(location.id)}>
                             <Card className={classes.cardGridItem}>
-                                <CardMedia component="img"
-                                    height="140"
-                                    image={avatar}
-                                    alt="Site's Image"
-                                    title="Site's Image"
-                                />
+                                {(location.locationImages !== undefined && location.locationImages.length > 0) ?
+                                    <CardMedia component="img"
+                                        height="140"
+                                        image={`${location.locationImages[0]}`}
+                                        alt="Site's Image"
+                                        title="Site's Image"
+                                    /> : location.logoUrl !== undefined ? <CardMedia component="img"
+                                        height="140"
+                                        image={`${location.logoUrl}`}
+                                        alt="Site's Image"
+                                        title="Site's Image"
+                                    /> : <CardMedia component="img"
+                                        height="140"
+                                        image={avatar}
+                                        alt="Site's Image"
+                                        title="Site's Image"
+                                        />}
                                 <CardContent>
                                     <Typography variant="h5" component="h5" className={classes.title}>{location.name}</Typography>
                                     <Typography variant="subtitle1" className={classes.text}>{location.address}</Typography>

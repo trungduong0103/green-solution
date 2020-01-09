@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
-import {Typography} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import avatar from "../../../assets/imgs/download.jpeg"
@@ -23,10 +23,10 @@ const styles = {
         marginRight: "auto"
     },
     text: {
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
     },
     title: {
-        fontFamily:"'Quicksand', sans-serif;",
+        fontFamily: "'Quicksand', sans-serif;",
         color: "rgb(99,151,68)"
     },
     locationCard: {
@@ -48,12 +48,12 @@ class CleanSitesList extends Component {
     }
 
     onCardListItemClick = (id) => {
-        window.open(`/cleanup-detail/${id}`,'_blank')
+        window.open(`/cleanup-detail/${id}`, '_blank')
     };
 
 
     render() {
-        const {locations, classes} = this.props;
+        const { locations, classes } = this.props;
         return (
             <List className={classes.listWrapper}>
                 {locations.map((location, index) =>
@@ -63,7 +63,11 @@ class CleanSitesList extends Component {
                                 <CardContent>
                                     <Grid container>
                                         <Grid item sm={4}>
-                                            <img alt="location-avatar" src={avatar} className={classes.locationAvatar}/>
+
+                                            {(location.locationImages !== undefined && location.locationImages.length > 0) ?
+                                                <img alt="location-avatar" src={`${location.locationImages[0]}`} className={classes.locationAvatar} /> : location.logoUrl !== undefined ?
+                                                    <img alt="location-avatar" src={`${location.logoUrl}`} className={classes.locationAvatar} />
+                                                    : <img alt="location-avatar" src={avatar} className={classes.locationAvatar} />}
                                         </Grid>
                                         <Grid item sm={8}>
                                             <Typography variant="h5" component="h5" className={classes.title}>{location.name}</Typography>

@@ -17,6 +17,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
+import GetAppIcon from '@material-ui/icons/GetApp'
 
 const styles = {
     title: {
@@ -92,10 +93,14 @@ class AdminLocations extends Component {
 
     handlePaymentCheck=()=>{
         const id = this.state.locationId;
-        console.log(id);
-        //function here
+        //console.log(id);
+        this.props.markLocationAsPaid({id:id})
         this.handleCloseDialog()
     };
+
+    handleDownload=()=>{
+        this.props.download()
+    }
 
     render() {
         const { classes,
@@ -113,6 +118,14 @@ class AdminLocations extends Component {
                             <IconButton onClick={this.setList}>
                                 <ViewListIcon />
                             </IconButton>
+                            <Tooltip title="Tải danh sách sự kiện">
+                            <IconButton>
+                                
+                                <a href={`https://asia-northeast1-rmit-cloud-a2-c8905.cloudfunctions.net/api/download`} target="_blank" rel="noopener noreferrer">
+                                    <GetAppIcon />
+                                </a>
+                            </IconButton>
+                            </Tooltip>
                         </div>
 
 
@@ -121,12 +134,23 @@ class AdminLocations extends Component {
                             {locations.map((location,index) => (
                                 <Grid item xs={grid} key={location.id} className={classes.gridForm}>
                                     <Card>
-                                        {grid === 6 && <CardMedia component="img"
-                                            height="140"
-                                            image={locationAvatar}
-                                            alt="Site's Image"
-                                            title="Site's Image"
-                                        />}
+                                    {grid === 6 ? (location.locationImages !== undefined && location.locationImages.length > 0) ?
+                                            <CardMedia component="img"
+                                                height="140"
+                                                image={`${location.locationImages[0]}`}
+                                                alt="Site's Image"
+                                                title="Site's Image"
+                                            /> : location.logoUrl !== undefined ? <CardMedia component="img"
+                                                height="140"
+                                                image={`${location.logoUrl}`}
+                                                alt="Site's Image"
+                                                title="Site's Image"
+                                            /> : <CardMedia component="img"
+                                                height="140"
+                                                image={locationAvatar}
+                                                alt="Site's Image"
+                                                title="Site's Image"
+                                                /> : <div></div>}
                                         <CardContent>
 
                                             <Typography gutterBottom variant="h5" component="h2" className={classes.text}>
@@ -136,13 +160,13 @@ class AdminLocations extends Component {
                                                 {location.description}
                                             </Typography>
                                             <div style={{ width: '100%', textAlign: 'right' }}>
-                                                <Tooltip title="Đánh dấu đã thanh toán">
+                                                {location.paid!==undefined && location.paid===1 ? <div></div>: <Tooltip title="Đánh dấu đã thanh toán">
                                                     <IconButton
                                                         className={classes.button}
                                                         onClick={() => this.handleOpenDialog(location.id)}>
                                                         <CheckCircleOutlineIcon />
                                                     </IconButton>
-                                                </Tooltip>
+                                                </Tooltip>}
                                             </div>
 
                                         </CardContent>

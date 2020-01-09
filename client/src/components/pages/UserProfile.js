@@ -24,7 +24,9 @@ import {
     getAllCreatedLocationsWithEmail,
     getAllRegisteredLocationsWithEmail,
     getAllCompletedLocationsWithEmail,
-    getAllLocations
+    getAllLocations,
+    download,
+    markLocationAsPaid
 } from "../../redux/actions/LocationActions";
 import AdminLocations from "../profiles/AdminLocations"
 
@@ -96,7 +98,7 @@ class UserProfile extends Component {
 
         //fetch locations and user profile
         //insert admin's email here ↓
-        if (decodedToken.email === "abc") {
+        if (decodedToken.email === "quachboiboi.abc@gmail.com") {
             this.props.getAllLocations();
         } else {
             this.props.getAllCreatedLocationsWithEmail({email: decodedToken.email});
@@ -137,7 +139,7 @@ class UserProfile extends Component {
     render() {
         const {
             classes, userLoading, loadRegisteredLocations, locations,
-            loadCreatedLocations, loadCompletedLocations,
+            loadCreatedLocations, loadCompletedLocations, download, markLocationAsPaid,
             updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
         } = this.props;
         const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email} = this.state;
@@ -164,8 +166,8 @@ class UserProfile extends Component {
 
                     {/*insert admin's email here ↓*/}
                     <Grid item xs={9}>
-                        {email === "admin@gmail.com" ?
-                            <AdminLocations locations={locations}/> : <div>
+                        {email === "quachboiboi.abc@gmail.com" ?
+                            <AdminLocations download={download} locations={locations} markLocationAsPaid={markLocationAsPaid} /> : <div>
                                 <AppBar position="static" color="inherit">
                                     <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
                                           aria-label="simple tabs locations">
@@ -250,7 +252,9 @@ const mapDispatchToProps = {
     getAllLocations,
     deleteLocation,
     updateUser,
-    getUser
+    getUser,
+    download,
+    markLocationAsPaid
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserProfile));

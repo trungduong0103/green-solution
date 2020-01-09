@@ -1,8 +1,8 @@
 import React from "react";
-import {compose, lifecycle, withProps} from "recompose";
-import {REACT_APP_GOOGLE_KEY} from "../../../environments/Keys";
+import { compose, lifecycle, withProps } from "recompose";
+import { REACT_APP_GOOGLE_KEY } from "../../../environments/Keys";
 import _ from "lodash";
-import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
+import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
 import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 
 import markerLogo from "../../../assets/imgs/marker.png";
@@ -10,15 +10,15 @@ import locationAvatar from "../../../assets/imgs/download.jpeg";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import {Typography} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 export const JoinCleanUpMap = compose(
     withProps(props => {
         return {
             googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
-            loadingElement: <div style={{height: `100%`}}/>,
-            containerElement: <div style={{height: `100%`}}/>,
-            mapElement: <div style={{height: `100%`}}/>,
+            loadingElement: <div style={{ height: `100%` }} />,
+            containerElement: <div style={{ height: `100%` }} />,
+            mapElement: <div style={{ height: `100%` }} />,
             locationAvatar: {
                 height: "150px",
                 width: "150px",
@@ -34,7 +34,7 @@ export const JoinCleanUpMap = compose(
             const refs = {};
             this.setState({
                 bounds: null,
-                center: {lat: 10.812675, lng: 106.656734},
+                center: { lat: 10.812675, lng: 106.656734 },
 
                 onSearchBoxMounted: ref => {
                     refs.searchBox = ref;
@@ -63,7 +63,7 @@ export const JoinCleanUpMap = compose(
 
                 },
                 onInfoWindowClick: (id) => {
-                    window.open(`/cleanup-detail/${id}`,'mywindow')
+                    window.open(`/cleanup-detail/${id}`, 'mywindow')
                 }
             })
         }
@@ -101,30 +101,47 @@ export const JoinCleanUpMap = compose(
                 icon={{
                     url: markerLogo,
                     scaledSize: props.showInfoWindow && props.infoWindowIndex === index ?
-                        {width: 60, height: 60} :
-                        {width: 45, height: 45}
+                        { width: 60, height: 60 } :
+                        { width: 45, height: 45 }
                 }}
                 onClick={() => props.enlarge(index)}
                 key={marker.id}
-                position={{lat: marker.lat, lng: marker.lng}}
+                position={{ lat: marker.lat, lng: marker.lng }}
             >
                 {(props.showInfoWindow && props.infoWindowIndex === index) &&
-                <InfoWindow onCloseClick={props.onToggleOpen} onClick={()=>props.onInfoWindowClick(marker.id)}>
-                    <div onClick={()=>props.onInfoWindowClick(marker.id)} style={{cursor:'pointer'}}>
-                        <Card style={{maxWidth: "400px", maxHeight: "400px", width: "300px", height: "auto", alignContent: "center", justifyContent:"center"}}>
-                            <CardMedia style={props.locationAvatar} component="img" src={locationAvatar}/>
-                            <CardContent style={{textAlign: "center"}}>
+                    <InfoWindow onCloseClick={props.onToggleOpen} onClick={() => props.onInfoWindowClick(marker.id)}>
+                        <div onClick={() => props.onInfoWindowClick(marker.id)} style={{ cursor: 'pointer' }}>
+                            <Card style={{ maxWidth: "400px", maxHeight: "400px", width: "300px", height: "auto", alignContent: "center", justifyContent: "center" }}>
+                                
+                                {(marker.locationImages !== undefined && marker.locationImages.length > 0) ?
+                                    <CardMedia component="img"
+                                        style={props.locationAvatar}
+                                        src={`${marker.locationImages[0]}`}
+                                        alt="Site's Image"
+                                        title="Site's Image"
+                                    /> : marker.logoUrl !== undefined ? <CardMedia component="img"
+                                        style={props.locationAvatar}
+                                        src={`${marker.logoUrl}`}
+                                        alt="Site's Image"
+                                        title="Site's Image"
+                                    /> : <CardMedia component="img"
+                                        style={props.locationAvatar}
+                                        src={locationAvatar}
+                                        alt="Site's Image"
+                                        title="Site's Image"
+                                        />}
+                                <CardContent style={{ textAlign: "center" }}>
 
-                                <Typography style={{fontFamily: "Quicksand, sans-serif"}}  gutterBottom variant="h5">{marker.name}</Typography>
+                                    <Typography style={{ fontFamily: "Quicksand, sans-serif" }} gutterBottom variant="h5">{marker.name}</Typography>
 
-                                <Typography style={{fontFamily: "Quicksand, sans-serif"}} variant="body2" color="textSecondary"
-                                            component="h5">From: {marker.startDate}</Typography>
-                                <Typography style={{fontFamily: "Quicksand, sans-serif"}} variant="body2" color="textSecondary"
-                                            component="h5">Description: {marker.description}</Typography>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </InfoWindow>}
+                                    <Typography style={{ fontFamily: "Quicksand, sans-serif" }} variant="body2" color="textSecondary"
+                                        component="h5">From: {marker.startDate}</Typography>
+                                    <Typography style={{ fontFamily: "Quicksand, sans-serif" }} variant="body2" color="textSecondary"
+                                        component="h5">Description: {marker.description}</Typography>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    </InfoWindow>}
             </Marker>
         ))}
     </GoogleMap>

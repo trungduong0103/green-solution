@@ -261,3 +261,29 @@ export function sendEmail(obj){
             })
     }
 }
+
+export function download(){
+    console.log('called')
+    return function(dispatch){
+        axios
+            .get(`${DEFAULT_URL}/download`)
+            .then(()=>{
+                return null;
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
+}
+
+export function markLocationAsPaid(obj) {
+    return function (dispatch) {
+        axios.post(`${DEFAULT_URL}/mark_location_as_paid`, obj)
+            .then(() => {
+                dispatch(getAllLocations())
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+}
