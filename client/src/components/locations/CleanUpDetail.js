@@ -30,6 +30,7 @@ import {getUser} from "../../redux/actions/UserActions";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import UpdateCleanSiteForm from "./update_clean_site/UpdateCleanSiteForm";
 import DeleteCleanSiteDialog from "./delete_clean_site/DeleteCleanSiteDialog";
+import SendEmailForm from "./forms/SendEmailForm"
 
 
 const styles = {
@@ -208,6 +209,8 @@ class CleanUpDetail extends React.Component {
             updateLocation: false,
             openDeleteDialog: false,
             deleteLocation: false,
+            emailForm: false,
+            emailList:[]
         }
     }
 
@@ -251,9 +254,49 @@ class CleanUpDetail extends React.Component {
         })
     };
 
+    handleOpenEmailForm = ()=>{
+        this.setState({
+            emailForm:!this.state.emailForm
+        })
+    }
+
+    addEmail = (email)=>{
+        if(this.state.emailList.includes(email)){
+            const currentList = this.state.emailList
+            var index = currentList.indexOf(email)
+            currentList.splice(index,1)
+            this.setState({
+                emailList:currentList
+            })
+        }
+        else{
+            const currentList = this.state.emailList
+            currentList.push(email)
+            this.setState({
+                emailList:currentList
+            })
+        }
+    }
+
+    clearEmailList = ()=>{
+        this.setState({
+            emailList:[]
+        })
+    }
+
+    selectAllEmails = ()=>{
+        const emails = []
+        volunteers.forEach(volunteer=>{
+            emails.push(volunteer.email)
+        })
+        this.setState({
+            emailList:emails
+        })
+    }
+
     render() {
         const {classes, user, location, history} = this.props;
-        const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm} = this.state;
+        const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm, emailForm, emailList} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -401,7 +444,7 @@ class CleanUpDetail extends React.Component {
                 <Grid container className={classes.gridHeader}>
                     <Grid item sm={1}/>
                     <Grid item sm={10}>
-                        <UserGridList userList={volunteers}/>
+                        <UserGridList userList={volunteers} handleOpenEmailForm={this.handleOpenEmailForm} emailList={emailList} addEmail={this.addEmail} clear={this.clearEmailList} selectAll={this.selectAllEmails}/>
                     </Grid>
                     <Grid item sm={1}/>
                 </Grid>
@@ -414,6 +457,7 @@ class CleanUpDetail extends React.Component {
                 <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
                 <EventResultForm history={history} location={location} open={openResultForm}
                                  handleOpenResultForm={this.handleOpenResultForm}/>
+                <SendEmailForm clear={this.clearEmailList} open={emailForm} emailList={emailList} handleOpenEmailForm={this.handleOpenEmailForm} />
             </div>
         )
     }
