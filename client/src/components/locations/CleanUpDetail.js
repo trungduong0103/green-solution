@@ -30,6 +30,7 @@ import {getUser} from "../../redux/actions/UserActions";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
 import UpdateCleanSiteForm from "./update_clean_site/UpdateCleanSiteForm";
 import DeleteCleanSiteDialog from "./delete_clean_site/DeleteCleanSiteDialog";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import SendEmailForm from "./forms/SendEmailForm"
 
 const styles = {
@@ -131,6 +132,13 @@ const styles = {
     },
     backdrop: {
         zIndex: 1
+    },
+    progress:{
+        padding:"30px"
+    },
+    progressContainer:{
+        width:"100%",
+        textAlign:"center"
     }
 };
 
@@ -279,11 +287,18 @@ class CleanUpDetail extends React.Component {
     }
 
     render() {
-        const {classes, user, location, history} = this.props;
+        const {classes, user, location, history, loading, locationExists} = this.props;
         const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm, emailForm, emailList} = this.state;
+        
         return (
             <div>
-                <NavBar/>
+                <NavBar />
+                
+                {loading ? <div className={classes.progressContainer}>
+                    <CircularProgress size={100} variant="indeterminate" className={classes.progress}/>
+                </div> :
+                locationExists ?
+                <div>
                 <Grid container>
                     <ImageGridList
                         imageList={location.locationImages && location.locationImages.length !== 0 ? location.locationImages : imageList}
@@ -445,11 +460,10 @@ class CleanUpDetail extends React.Component {
                 <UpdateCleanSiteForm close={this.toggleUpdateForm}
                                      email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
-                <EventResultForm history={history} location={location} open={openResultForm}
-                                 handleOpenResultForm={this.handleOpenResultForm}/>
-                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.toggleUpdatePhotos}/>
-
+                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
+                <EventResultForm history={history}  location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
                 <SendEmailForm clear={this.clearEmailList} open={emailForm} emailList={emailList} handleOpenEmailForm={this.handleOpenEmailForm} />
+            </div>:<div className={classes.progressContainer}><Typography>Sự kiện không tồn tại :(.</Typography></div>}
             </div>
         )
     }
@@ -459,7 +473,9 @@ class CleanUpDetail extends React.Component {
 const mapStateToProps = (state) => ({
     location: state.locationsData.location,
     user: state.user.user,
-    openUpdateSite: state.formState.openUpdateSite
+    openUpdateSite: state.formState.openUpdateSite,
+    loading:state.formState.loading,
+    locationExists: state.locationsData.locationExists
 });
 
 const mapDispatchToProps = {

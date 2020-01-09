@@ -20,7 +20,9 @@ import {
     STOP_LOADING_FORM,
     UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE,
     UPDATING_LOCATION,
-    UPLOADING_LOCATION_LOGO, UPLOADING_LOCATION_PHOTOS
+    UPLOADING_LOCATION_LOGO,
+    LOCATION_DOES_NOT_EXIST,
+    UPLOADING_LOCATION_PHOTOS,
 } from "../types";
 import axios from "axios";
 
@@ -45,7 +47,15 @@ export function getLocation(locationId) {
         axios
             .get(`${DEFAULT_URL}/get_clean_site/${locationId}`)
             .then((res) => {
-                dispatch({type: GET_LOCATION, payload: res.data});
+                if(res.data.message!==undefined){
+                    dispatch({type: LOCATION_DOES_NOT_EXIST})
+                }
+                else{
+                    dispatch({
+                        type: GET_LOCATION,
+                        payload: res.data
+                    });
+                }
                 dispatch({type: STOP_LOADING_FORM});
             });
     }

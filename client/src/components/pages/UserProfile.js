@@ -164,7 +164,7 @@ class UserProfile extends Component {
 
                     {/*insert admin's email here ↓*/}
                     <Grid item xs={9}>
-                        {email === "abc" ?
+                        {email === "admin@gmail.com" ?
                             <AdminLocations locations={locations}/> : <div>
                                 <AppBar position="static" color="inherit">
                                     <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
