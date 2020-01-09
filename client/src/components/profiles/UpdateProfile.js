@@ -162,7 +162,6 @@ class UpdateProfile extends Component {
     render() {
         const {classes, open, handleOpenUpdateProfile} = this.props;
         const {firstName, lastName, phoneNumber} = this.state;
-        console.log(this.state);
         return (
             <Dialog open={open} onClose={() => handleOpenUpdateProfile()}>
                 <Typography variant="h5" className={classes.dialogTitle}>Cập nhật hồ sơ</Typography>
