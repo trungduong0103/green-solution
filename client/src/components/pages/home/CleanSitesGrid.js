@@ -11,10 +11,6 @@ import Typography from "@material-ui/core/Typography"
 const styles = {
     text: {
         fontFamily: "'Quicksand', sans-serif;",
-        "& a":{
-            color:'green',
-            textDecoration: 'none'
-        }
     },
     locationCard: {
         boxShadow: "0 5px 10px rgba(0,0,0,0.25)",
@@ -25,11 +21,24 @@ const styles = {
         width: '100%',
         height: '100%',
         padding: '20px'
+    },
+    title: {
+        fontFamily:"'Quicksand', sans-serif;",
+        color: "rgb(99,151,68)"
+    },
+    cardGridItem: {
+        "&:hover": {
+            cursor: "pointer"
+        }
     }
 
 };
 
 class CleanSitesGrid extends Component {
+
+    onCardGridItemClick = (id) => {
+        window.open(`/cleanup-detail/${id}`,'_blank')
+    };
 
     render() {
         const { classes, locations, grid } = this.props;
@@ -37,8 +46,8 @@ class CleanSitesGrid extends Component {
             <div>
                 <Grid container spacing={5} className={classes.wrapper}>
                     {locations.map((location, index)=> (
-                        <Grid item xs={grid} key={location.id} onMouseEnter={() => this.props.enlarge(index)}>
-                            <Card>
+                        <Grid item xs={grid} key={location.id} onMouseEnter={() => this.props.enlarge(index)} onClick={() => this.onCardGridItemClick(location.id)}>
+                            <Card className={classes.cardGridItem}>
                                 <CardMedia component="img"
                                     height="140"
                                     image={avatar}
@@ -46,9 +55,7 @@ class CleanSitesGrid extends Component {
                                     title="Site's Image"
                                 />
                                 <CardContent>
-                                    <Typography variant="h5" component="h5" className={classes.text}>
-                                        <a href={`/cleanup-detail/${location.id}`} target="_blank" rel="noopener noreferrer">{location.name}</a>
-                                    </Typography>
+                                    <Typography variant="h5" component="h5" className={classes.title}>{location.name}</Typography>
                                     <Typography variant="subtitle1" className={classes.text}>{location.address}</Typography>
                                     <Typography variant="subtitle2" className={classes.text}>{location.description}</Typography>
                                 </CardContent>

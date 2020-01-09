@@ -100,7 +100,7 @@ class AboutUs extends Component {
                     </GridListTile>
                 </GridList>
                 <Typography className={classes.typoTitle}>Nguồn cảm hứng</Typography>
-                <GridList cols={4} cellHeight={400} spacing={5} style={{margin: 0}}>
+                <GridList cols={4} cellHeight={400} spacing={5} style={{margin:0}}>
                     <GridListTile>
                         <img
                             className={classes.image}

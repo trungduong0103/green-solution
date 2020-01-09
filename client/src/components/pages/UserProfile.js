@@ -72,7 +72,7 @@ const styles = {
     }
 };
 
-class Home extends Component {
+class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -138,7 +138,7 @@ class Home extends Component {
         const {
             classes, userLoading, loadRegisteredLocations, locations,
             loadCreatedLocations, loadCompletedLocations,
-            updateUser, userUpdating, doneUserUpdate, uploadImage, image,
+            updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
         } = this.props;
         const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email} = this.state;
         return (
@@ -229,4 +229,4 @@ const mapDispatchToProps = {
     getUser
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserProfile));
