@@ -32,7 +32,6 @@ import UpdateCleanSiteForm from "./update_clean_site/UpdateCleanSiteForm";
 import DeleteCleanSiteDialog from "./delete_clean_site/DeleteCleanSiteDialog";
 import SendEmailForm from "./forms/SendEmailForm"
 
-
 const styles = {
     title: {
         fontFamily: "'Oswald', sans-serif;",
@@ -135,21 +134,7 @@ const styles = {
     }
 };
 
-const imageList = [
-    {
-        img: myImage,
-    },
-    {
-        img: placeholderImage,
-    },
-    {
-        img: img1,
-    },
-    {
-        img: img2,
-    },
-
-];
+const imageList = [myImage, placeholderImage, img1, img2];
 
 const volunteers = [
     {
@@ -249,16 +234,12 @@ class CleanUpDetail extends React.Component {
         this.setState({deleteLocation: !this.state.deleteLocation});
     };
 
-    handleOpenDropImage = () => {
-        this.setState({
-            openDropImage: !this.state.openDropImage
-        })
+    toggleUpdatePhotos = () => {
+        this.setState({openDropImage: !this.state.openDropImage});
     };
 
     handleOpenResultForm = () => {
-        this.setState({
-            openResultForm: !this.state.openResultForm
-        })
+        this.setState({openResultForm: !this.state.openResultForm});
     };
 
     handleOpenEmailForm = ()=>{
@@ -304,7 +285,9 @@ class CleanUpDetail extends React.Component {
             <div>
                 <NavBar/>
                 <Grid container>
-                    <ImageGridList imageList={imageList} open={this.handleOpenDropImage}/>
+                    <ImageGridList
+                        imageList={location.locationImages && location.locationImages.length !== 0 ? location.locationImages : imageList}
+                        open={this.toggleUpdatePhotos}/>
                 </Grid>
 
                 <Grid container className={classes.gridHeader}>
@@ -368,7 +351,12 @@ class CleanUpDetail extends React.Component {
                                                 className={classes.text}>{location.organization}</Typography>
                                     <br/>
                                     {user.email === location.creator ?
-                                        <div style={{width: '100%', textAlign: 'center', display: "flex", justifyContent: "center"}}>
+                                        <div style={{
+                                            width: '100%',
+                                            textAlign: 'center',
+                                            display: "flex",
+                                            justifyContent: "center"
+                                        }}>
                                             <Tooltip
                                                 title={location.done === 1 ? "Sự kiện đã hoàn thành" : "Cập nhật thông tin"}>
                                                 <div>
@@ -457,9 +445,10 @@ class CleanUpDetail extends React.Component {
                 <UpdateCleanSiteForm close={this.toggleUpdateForm}
                                      email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
-                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
                 <EventResultForm history={history} location={location} open={openResultForm}
                                  handleOpenResultForm={this.handleOpenResultForm}/>
+                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.toggleUpdatePhotos}/>
+
                 <SendEmailForm clear={this.clearEmailList} open={emailForm} emailList={emailList} handleOpenEmailForm={this.handleOpenEmailForm} />
             </div>
         )
@@ -470,7 +459,7 @@ class CleanUpDetail extends React.Component {
 const mapStateToProps = (state) => ({
     location: state.locationsData.location,
     user: state.user.user,
-    openUpdateSite: state.formState.openUpdateSite,
+    openUpdateSite: state.formState.openUpdateSite
 });
 
 const mapDispatchToProps = {
@@ -478,8 +467,7 @@ const mapDispatchToProps = {
     updateLocation,
     getAllLocations,
     deleteLocation,
-    getUser,
-    openUpdateSiteForm,
+    getUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CleanUpDetail));

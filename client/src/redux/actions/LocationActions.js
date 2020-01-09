@@ -6,12 +6,12 @@ import {
     DEFAULT_URL,
     DELETE_LOCATION, DELETE_LOCATION_COMPLETE,
     DELETING_LOCATION,
-    DONE_UPLOAD_LOCATION_LOGO,
+    DONE_UPLOAD_LOCATION_LOGO, DONE_UPLOAD_LOCATION_PHOTOS,
     GET_ALL_LOCATIONS,
     GET_LOCATION, GETTING_COMPLETED_LOCATIONS,
-    GETTING_CREATED_LOCATIONS,
+    GETTING_CREATED_LOCATIONS, GETTING_IMAGES,
     GETTING_REGISTERED_LOCATIONS, GOT_COMPLETED_LOCATIONS,
-    GOT_CREATED_LOCATIONS,
+    GOT_CREATED_LOCATIONS, GOT_IMAGES,
     GOT_REGISTERED_LOCATIONS,
     JOINED_CLEAN_SITE,
     JOINING_CLEAN_SITE,
@@ -20,7 +20,7 @@ import {
     STOP_LOADING_FORM,
     UPDATE_LOCATION, UPDATE_LOCATION_COMPLETE,
     UPDATING_LOCATION,
-    UPLOADING_LOCATION_LOGO
+    UPLOADING_LOCATION_LOGO, UPLOADING_LOCATION_PHOTOS
 } from "../types";
 import axios from "axios";
 
@@ -201,6 +201,41 @@ export function uploadLocationLogo(updateObj, history, locationId) {
             .catch((err) => {
                 console.log(err);
             })
+    }
+}
+
+//UPLOAD LOCATION PHOTOS
+export function uploadLocationPhotos(uploadObj) {
+    return function (dispatch) {
+        dispatch({type: UPLOADING_LOCATION_PHOTOS});
+        axios
+            .post(`${DEFAULT_URL}/upload_location_photos`, uploadObj)
+            .then((response) => {
+                dispatch({type: DONE_UPLOAD_LOCATION_PHOTOS, payload: response.data});
+                setTimeout(() => {
+                    getLocation(uploadObj.event);
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+}
+
+//GET ALL LOCATION IMAGES
+export function getAllLocationImages(infoObj) {
+    return function (dispatch) {
+        dispatch({type: GETTING_IMAGES});
+        axios
+            .post(`https://vtdwhkk87g.execute-api.ap-southeast-1.amazonaws.com/prod/GetImagesS3`,
+                infoObj)
+            .then((response) => {
+                console.log(response.data);
+                dispatch({type: GOT_IMAGES, payload: response.data.imageURLs});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 }
 

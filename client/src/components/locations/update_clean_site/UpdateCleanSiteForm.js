@@ -18,6 +18,7 @@ import {MapWithSearchBox} from "../maps/MapWithSearchBox";
 import {HCMC_DISTRICTS, VIETNAMESE_CITIES} from "../../../environments/Environments";
 import {closeUpdateSiteForm} from "../../../redux/actions/FormActions";
 import {updateLocation} from "../../../redux/actions/LocationActions";
+import {Typography} from "@material-ui/core";
 
 const styles = {
     formInput: {
@@ -29,6 +30,37 @@ const styles = {
     dialog: {
         width: '100%',
         height: '100%'
+    },
+    submitBtn: {
+        fontFamily: "'Quicksand', sans-serif;",
+        outline: "none",
+        color: "white",
+        backgroundColor: "rgb(103,156,69)",
+        padding: "5px 15px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "rgb(80,127,63)",
+            outline: "none"
+        }
+    },
+    cancelBtn: {
+        marginRight: 20,
+        fontFamily: "'Quicksand', sans-serif;",
+        outline: "none",
+        color: "black",
+        backgroundColor: "rgb(203,78,71)",
+        padding: "5px 15px",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+        transition: "all 350mx ease-in-out",
+        "&:hover": {
+            transition: "all 350ms ease-in-out",
+            backgroundColor: "rgb(185,72,66)",
+            outline: "none"
+        }
     },
 };
 
@@ -178,7 +210,7 @@ class UpdateCleanSiteForm extends Component {
             <Dialog style={{zIndex: 1}} fullWidth={step === 1} maxWidth={step === 1 ? "lg" : "md"} open={open}
                     onClose={this.props.close}>
                 <form>
-                    <DialogTitle>Cập nhật thông tin sự kiện</DialogTitle>
+                    <Typography variant="h6" style={{fontFamily: "'Quicksand', sans-serif", textAlign: "center"}}>Cập nhật thông tin sự kiện</Typography>
                     <DialogContent style={{overflow: "hidden"}} className={classes.dialog}>
                         {step === 0 &&
                         <Grid container spacing={5}>
@@ -387,13 +419,13 @@ class UpdateCleanSiteForm extends Component {
                                                          style={{marginTop: "5%", padding: "1.2em 0 1.2em 0"}}/>) :
                             <div>
                                 <Button variant="contained"
-                                        className={classes.customBtn}
+                                        className={classes.cancelBtn}
                                         onClick={this.goBack}>
                                     {step === 0 ? "Huỷ" : "Quay Lại"}
                                 </Button>
 
                                 <Button variant="contained"
-                                        className={classes.customBtn}
+                                        className={classes.submitBtn}
                                         onClick={this.moveToNextStep}>
                                     Tiếp tục
                                 </Button>

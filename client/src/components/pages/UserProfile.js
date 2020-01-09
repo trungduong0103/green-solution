@@ -176,12 +176,36 @@ class UserProfile extends Component {
                                              className={classes.text}/>
                                     </Tabs>
                                 </AppBar>
-                                {tab === 0 &&
-                                <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>}
-                                {tab === 1 &&
-                                <CreatedLocations loaded={loadCreatedLocations} locations={createdLocations}/>}
-                                {tab === 2 &&
-                                <PastEvents locations={completedLocations} loaded={loadCompletedLocations}/>}
+                                {tab === 0 ?
+                                    registeredLocations.length === 0 ?
+                                        <Grid container style={{textAlign: "center", height: "250px"}}  alignContent="center" justify="center">
+                                            <Grid item sm={12}>
+                                                <Typography className={classes.text} variant="h5">Bạn chưa tham gia sự kiện nào</Typography>
+                                                <Typography className={classes.text}><a  href={`/join-cleanup`} target="_blank" rel="noopener noreferrer">Bấm vào đây để tham gia sự kiện</a></Typography>
+                                            </Grid>
+                                        </Grid>
+                                        :
+                                        <RegisteredLocations loaded={loadRegisteredLocations} locations={registeredLocations}/>
+                                    : ""
+                                }
+
+
+                                {tab === 1 ?
+                                    createdLocations.length === 0 ?
+                                        <Grid container style={{textAlign: "center", height: "250px"}}  alignContent="center" justify="center">
+                                            <Grid item sm={12}>
+                                                <Typography className={classes.text} variant="h5">Bạn chưa tổ chức sự kiện nào</Typography>
+                                                <Typography className={classes.text}><a  href={`/create-cleanup`} target="_blank" rel="noopener noreferrer">Bấm vào đây để tồ chức sự kiện đầu tiên</a></Typography>
+                                            </Grid>
+                                        </Grid>
+                                        :
+                                        <CreatedLocations loading={loading} openUpdateSite={openUpdateSite} email={user.email}
+                                                          delete={this.handleDeleteLocation} edit={this.handleEditLocation}
+                                                          loaded={loadCreatedLocations} locations={createdLocations}/>
+                                    : ""
+                                }
+
+                                {tab === 2 && <PastEvents locations={createdLocations} loaded={loadCreatedLocations} />}
                             </div>}
                     </Grid>
 
