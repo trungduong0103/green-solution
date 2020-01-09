@@ -211,8 +211,7 @@ export function uploadLocationPhotos(uploadObj) {
         axios
             .post(`${DEFAULT_URL}/upload_location_photos`, uploadObj)
             .then((response) => {
-                dispatch({type: DONE_UPLOAD_LOCATION_PHOTOS});
-                console.log(response.data);
+                dispatch({type: DONE_UPLOAD_LOCATION_PHOTOS, payload: response.data});
                 setTimeout(() => {
                     getLocation(uploadObj.event);
                 }, 1000);

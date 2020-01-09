@@ -21,8 +21,7 @@ const {
     uploadLocationLogo,
     markLocationAsDone,
     getCompletedLocations,
-    downloadAllEvents
-    getCompletedLocations,
+    downloadAllEvents,
     uploadLocationPhotos,
     getLocationImages
 } = require("./handlers/cleanUpLocations");

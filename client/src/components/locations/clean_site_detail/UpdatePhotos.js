@@ -70,11 +70,11 @@ class UpdatePhoto extends Component {
         }
     }
 
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     if (prevProps.doneUploadPhotos !== this.props.doneUploadPhotos && this.props.doneUploadPhotos === true) {
-    //         this.props.getAllLocationImages({username: this.props.location.creator, event: this.props.location.id});
-    //     }
-    // }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.doneUploadPhotos !== this.props.doneUploadPhotos && this.props.doneUploadPhotos === true) {
+            this.props.handleOpenDropImages();
+        }
+    }
 
     getUploadParams = ({meta}) => {
         const url = `https://httpbin.org/post`;

@@ -2,7 +2,7 @@ const {db} = require("../utils/admin");
 const {admin} = require("../utils/admin");
 const axios = require("axios");
 const {sendLocationConfirmationEmail} = require("../utils/email");
-const {AWS_UPLOAD_IMAGE_API} = require("../environments/environments");
+const {AWS_UPLOAD_IMAGE_API, AWS_BULK_UPLOAD_IMAGES_API} = require("../environments/environments");
 const json2csv = require("json2csv").parse;
 
 //CREATE NEW CLEAN SITE
@@ -389,32 +389,27 @@ exports.uploadLocationLogo = (req, res) => {
 // }
 
 exports.uploadLocationPhotos = (req, res) => {
-    addImageUrlsToLocation(req.body);
-    return res.json({message: "success"});
-};
+    const images = req.body.images;
+    const username = req.body.username;
+    const event = req.body.event;
 
-function addImageUrlsToLocation(photosObj) {
-    const images = photosObj.images;
-    const username = photosObj.username;
-    const event = photosObj.event;
-
-    images.forEach((image) => {
-        axios.post(AWS_UPLOAD_IMAGE_API, {
-            image: image,
-            username: username,
-            event: event
+    axios.post(AWS_BULK_UPLOAD_IMAGES_API, {
+        images: images,
+        username: username,
+        event: event
+    })
+        .then((response) => {
+             db
+                .collection("cleanUpLocations")
+                .doc(event)
+                .update({locationImages: response.data.imageURLs});
+             return res.json({message: "ok"});
         })
-            .then((response) => {
-                return db
-                    .collection("cleanUpLocations")
-                    .doc(event)
-                    .update({locationImages: admin.firestore.FieldValue.arrayUnion(response.data.imageURL)});
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    });
-}
+        .catch((err) => {
+            console.log(err);
+            return res.json({message: err});
+        });
+};
 
 exports.getLocationImages = (req, res) => {
     const locationID = req.body.locationId;
@@ -432,24 +427,24 @@ exports.getLocationImages = (req, res) => {
 };
 
 //DOWNLOAD EVENTS LIST AS CSV
-exports.downloadAllEvents = (req,res)=>{
-    return db.collection("cleanUpLocations").get().then(querySnapshot=>{
+exports.downloadAllEvents = (req, res) => {
+    return db.collection("cleanUpLocations").get().then(querySnapshot => {
         const events = [];
-        querySnapshot.forEach(snapshot=>{
+        querySnapshot.forEach(snapshot => {
             events.push(snapshot.data());
-        })
+        });
 
         const csv = json2csv(events);
         res.setHeader(
             "Content-disposition",
             "attachment; filename=events.csv"
         );
-        res.set("Content-Type","text/csv");
+        res.set("Content-Type", "text/csv");
         res.status(200).send(csv);
         return null;
     })
-    .catch(err=>{
-        console.log(err);
-    })
-}
+        .catch(err => {
+            console.log(err);
+        })
+};
 
