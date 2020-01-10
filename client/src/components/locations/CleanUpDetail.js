@@ -460,7 +460,7 @@ class CleanUpDetail extends React.Component {
                 <UpdateCleanSiteForm close={this.toggleUpdateForm}
                                      email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
-                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
+                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.toggleUpdatePhotos}/>
                 <EventResultForm history={history}  location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
                 <SendEmailForm clear={this.clearEmailList} open={emailForm} emailList={emailList} handleOpenEmailForm={this.handleOpenEmailForm} />
             </div>:<div className={classes.progressContainer}><Typography>Sự kiện không tồn tại :(.</Typography></div>}

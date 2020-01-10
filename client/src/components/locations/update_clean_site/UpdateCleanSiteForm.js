@@ -86,6 +86,28 @@ class UpdateCleanSiteForm extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.location !== undefined) {
+            const location = this.state;
+            Object.entries(this.props.location).forEach(([key, value]) => {
+                location[key] = value;
+                if (key === "startDate") {
+                    const split = value.split("-");
+                    location[key] = new Date(split[0], split[1], split[2]);
+                }
+                if (key === "endTime") {
+                    const split = value.split(":");
+                    location[key] = new Date(0, 0, 0, split[0], split[1], 0);
+                }
+                if (key === "startTime") {
+                    const split = value.split(":");
+                    location[key] = new Date(0, 0, 0, split[0], split[1], 0);
+                }
+                this.setState(location);
+            });
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.location !== this.props.location) {
             if (this.props.location !== undefined) {

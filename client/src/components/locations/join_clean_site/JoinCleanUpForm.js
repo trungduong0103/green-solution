@@ -120,11 +120,7 @@ class JoinCleanUpForm extends Component {
             });
             this.clearForm();
         }
-        else {
-            //TODO OPEN MODAL
-            //MESSAGE: PLEASE CHECK YOUR FORM
-            alert("False")
-        }
+
     };
 
     clearForm = () => {
@@ -152,6 +148,7 @@ class JoinCleanUpForm extends Component {
     }
 
     render() {
+        console.log(this.state);
         const {classes, loading, doneJoinLocation, alreadyJoinedLocation, location, open} = this.props;
         const {errors, userInfo, additionalInfo, checked} = this.state;
         const availableSizes = ["S", "M", "L", "XL"];

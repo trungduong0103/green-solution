@@ -229,35 +229,35 @@ class EventResultForm extends Component {
 
                                 </Grid>
 
-                                <Grid container spacing={3}>
-                                    <Grid item sm={6}>
-                                        <TextField
-                                            label="Số lượng chai nhựa (cái)"
-                                            type="number"
-                                            name="bottle"
-                                            className={classes.formInput}
-                                            onChange={this.handleChange}
-                                            value={bottle}
-                                            fullWidth
-                                            InputLabelProps={{className: classes.input}}
-                                            InputProps={{className: classes.input}}
-                                        />
-                                    </Grid>
+                                {/*<Grid container spacing={3}>*/}
+                                {/*    <Grid item sm={6}>*/}
+                                {/*        <TextField*/}
+                                {/*            label="Số lượng chai nhựa (cái)"*/}
+                                {/*            type="number"*/}
+                                {/*            name="bottle"*/}
+                                {/*            className={classes.formInput}*/}
+                                {/*            onChange={this.handleChange}*/}
+                                {/*            value={bottle}*/}
+                                {/*            fullWidth*/}
+                                {/*            InputLabelProps={{className: classes.input}}*/}
+                                {/*            InputProps={{className: classes.input}}*/}
+                                {/*        />*/}
+                                {/*    </Grid>*/}
 
-                                    <Grid item sm={6}>
-                                        <TextField
-                                            label="Số lượng ống hút (cái)"
-                                            type="number"
-                                            name="straw"
-                                            className={classes.formInput}
-                                            onChange={this.handleChange}
-                                            value={straw}
-                                            fullWidth
-                                            InputLabelProps={{className: classes.input}}
-                                            InputProps={{className: classes.input}}
-                                        />
-                                    </Grid>
-                                </Grid>
+                                {/*    <Grid item sm={6}>*/}
+                                {/*        <TextField*/}
+                                {/*            label="Số lượng ống hút (cái)"*/}
+                                {/*            type="number"*/}
+                                {/*            name="straw"*/}
+                                {/*            className={classes.formInput}*/}
+                                {/*            onChange={this.handleChange}*/}
+                                {/*            value={straw}*/}
+                                {/*            fullWidth*/}
+                                {/*            InputLabelProps={{className: classes.input}}*/}
+                                {/*            InputProps={{className: classes.input}}*/}
+                                {/*        />*/}
+                                {/*    </Grid>*/}
+                                {/*</Grid>*/}
                                 <Grid container spacing={3}>
                                     <Grid item sm={6}>
                                         <TextField
