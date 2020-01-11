@@ -59,11 +59,11 @@ class UserGridList extends React.Component {
                     viên</Typography>
                     {checkUser && <div style={{width:"100%",textAlign:"right"}}>
                         <Button disabled={userList===undefined || userList===null || userList.length===0}
-                                onClick={()=>selectAll()}>Select All</Button>
+                                onClick={()=>selectAll()}>Chọn hết</Button>
                         <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
-                                onClick={()=>clear()}>Clear</Button>
+                                onClick={()=>clear()}>Bỏ chọn hết</Button>
                         <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
-                                onClick={()=>handleOpenEmailForm()}>Send Email</Button>
+                                onClick={()=>handleOpenEmailForm()}>Gửi email</Button>
                     </div>}
                 <Grid container>
                     {userList!== undefined && userList.map(user => (

@@ -102,6 +102,7 @@ export default function (state = initialState, action) {
         case JOINING_CLEAN_SITE:
             return {...state, loading: true};
         case JOINED_CLEAN_SITE:
+            console.log("done")
             return {...state, loading: false, doneJoinLocation: true};
         case UPDATING_LOCATION:
             return {...state, loading: true};

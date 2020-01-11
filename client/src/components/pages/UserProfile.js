@@ -84,7 +84,8 @@ class UserProfile extends Component {
             email: "",
             tab: 0,
             openUpdateProfile: false,
-            user: {}
+            user: {},
+            locations:[]
         };
     }
 
@@ -118,6 +119,9 @@ class UserProfile extends Component {
         if (props.completedLocations !== state.completedLocations) {
             return {completedLocations: props.completedLocations}
         }
+        if (props.locations !== state.locations) {
+            return {locations: props.locations}
+        }
         if (props.user !== state.user) {
             return {user: props.user}
         }
@@ -138,11 +142,11 @@ class UserProfile extends Component {
 
     render() {
         const {
-            classes, userLoading, loadRegisteredLocations, locations,
+            classes, userLoading, loadRegisteredLocations, 
             loadCreatedLocations, loadCompletedLocations, download, markLocationAsPaid,
             updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
         } = this.props;
-        const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email} = this.state;
+        const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email, locations,} = this.state;
         return (
             <div>
                 <NavBar/>

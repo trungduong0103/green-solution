@@ -169,11 +169,11 @@ class UpdatePhoto extends Component {
                                 (
                                     <div>
                                         <Button onClick={this.props.handleOpenDropImages} color="primary">
-                                            Disagree
+                                            Hủy
                                         </Button>
                                         <Button disabled={this.state.images.length === 0}
                                                 onClick={this.submitToFirebase} color="secondary" autoFocus>
-                                            Agree
+                                            Cập nhật
                                         </Button>
                                     </div>
                                 )
