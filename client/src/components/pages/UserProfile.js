@@ -25,8 +25,6 @@ import {
     getAllRegisteredLocationsWithEmail,
     getAllCompletedLocationsWithEmail,
     getAllLocations,
-    download,
-    markLocationAsPaid
 } from "../../redux/actions/LocationActions";
 import AdminLocations from "../profiles/AdminLocations"
 
@@ -142,11 +140,11 @@ class UserProfile extends Component {
 
     render() {
         const {
-            classes, userLoading, loadRegisteredLocations, 
-            loadCreatedLocations, loadCompletedLocations, download, markLocationAsPaid,
+            classes, userLoading, loadRegisteredLocations,  
+            loadCreatedLocations, loadCompletedLocations, 
             updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
         } = this.props;
-        const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email, locations,} = this.state;
+        const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email,} = this.state;
         return (
             <div>
                 <NavBar/>
@@ -171,7 +169,7 @@ class UserProfile extends Component {
                     {/*insert admin's email here ↓*/}
                     <Grid item xs={9}>
                         {email === "quachboiboi.abc@gmail.com" ?
-                            <AdminLocations download={download} locations={locations} markLocationAsPaid={markLocationAsPaid} /> : <div>
+                            <AdminLocations /> : <div>
                                 <AppBar position="static" color="inherit">
                                     <Tabs classes={{indicator: classes.indicator}} value={tab} onChange={this.switchTab}
                                           aria-label="simple tabs locations">
@@ -257,8 +255,6 @@ const mapDispatchToProps = {
     deleteLocation,
     updateUser,
     getUser,
-    download,
-    markLocationAsPaid
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserProfile));

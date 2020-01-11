@@ -24,7 +24,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Tooltip from '@material-ui/core/Tooltip';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import {openUpdateSiteForm} from "../../redux/actions/FormActions";
+//import {openUpdateSiteForm} from "../../redux/actions/FormActions";
 import EventResultForm from "../profiles/EventResultForm";
 import {getUser} from "../../redux/actions/UserActions";
 import {deleteLocation, getAllLocations, getLocation, updateLocation} from "../../redux/actions/LocationActions";
@@ -171,12 +171,12 @@ class CleanUpDetail extends React.Component {
         }
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.location !== state.location) {
-    //         return {location: props.location};
-    //     }
-    //     return null;
-    // }
+    static getDerivedStateFromProps(props, state) {
+        if (props.location !== state.location) {
+            return {location: props.location};
+        }
+        return null;
+    }
 
 
     toggleJoinForm = () => {
@@ -386,7 +386,7 @@ class CleanUpDetail extends React.Component {
                             đồ</Typography>
                         <div className={classes.mapContainer}>
                             {location.lat && location.lng ? <CleanUpDetailMap
-                                center={{lat: this.state.location.lat, lng: this.state.location.lng}}/> : ""}
+                                center={{lat: location.lat, lng: location.lng}}/> : ""}
                         </div>
                     </Grid>
                     <Grid item sm={1}/>

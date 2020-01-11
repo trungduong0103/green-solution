@@ -19,7 +19,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import {openAuthenticationSnackbar} from "../../redux/actions/UIActions";
 import {signUserOut} from "../../redux/actions/UserActions";
-import jwtDecode from "jwt-decode";
+
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -122,11 +122,11 @@ class NavBar extends Component {
         const {classes} = this.props;
         const {anchorEl, open} = this.state;
         const auth = sessionStorage.getItem("FBIdToken");
-        let email = "";
-        if (auth) {
-            const decodedIdToken = jwtDecode(auth);
-            email = decodedIdToken.email;
-        }
+        // let email = "";
+        // if (auth) {
+        //     const decodedIdToken = jwtDecode(auth);
+        //     email = decodedIdToken.email;
+        // }
 
         return (
             <AppBar position="sticky" className={classes.appBar}>
