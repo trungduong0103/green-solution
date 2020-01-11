@@ -1,8 +1,8 @@
-const {db} = require("../utils/admin");
-const {admin} = require("../utils/admin");
+const { db } = require("../utils/admin");
+const { admin } = require("../utils/admin");
 const axios = require("axios");
-const {sendLocationConfirmationEmail} = require("../utils/email");
-const {AWS_UPLOAD_IMAGE_API, AWS_BULK_UPLOAD_IMAGES_API} = require("../environments/environments");
+const { sendLocationConfirmationEmail } = require("../utils/email");
+const { AWS_UPLOAD_IMAGE_API, AWS_BULK_UPLOAD_IMAGES_API } = require("../environments/environments");
 const json2csv = require("json2csv").parse;
 
 //CREATE NEW CLEAN SITE
@@ -20,7 +20,7 @@ exports.createNewLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -40,7 +40,7 @@ exports.getAllCleanUpLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 
 };
@@ -58,11 +58,11 @@ exports.getCleanUpLocation = (req, res) => {
                 cleanUpData.lng = parseFloat(doc.data().lng);
                 return res.json(cleanUpData);
             }
-            return res.json({message: "clean up location not found."});
+            return res.json({ message: "clean up location not found." });
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         })
 };
 
@@ -77,7 +77,7 @@ exports.updateCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -91,7 +91,7 @@ exports.deleteCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -100,9 +100,35 @@ exports.joinCleanUpLocation = (req, res) => {
     const userInfo = req.body.userInfo;
     const additionalInfo = req.body.additionalInfo;
 
-    createNewRegistrationRecord(userInfo, additionalInfo);
-    addEmailToRegisteredUsers(userInfo.email, additionalInfo.locationId);
-    return sendConfirmationToUserEmail(userInfo.email, additionalInfo.locationId);
+    checkUserAlreadyCreatedInFirestore(userInfo.email)
+        .then((value) => {
+            if (value === false) {
+                console.log("no record found while joining, creating new record...");
+                return createUserUsingEmail(req.body);
+            }
+            console.log("record with user already exists");
+            return null;
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({ error: err });
+        });
+
+    checkUserAlreadyRegisteredToLocation(additionalInfo.locationId, userInfo.email)
+        .then(message => {
+            console.log("message", message);
+            if (message === "registered") return res.json({ message: "user already registered" });
+            else {
+                createNewRegistrationRecord(userInfo, additionalInfo);
+                addEmailToRegisteredUsers(userInfo.email, additionalInfo.locationId);
+                sendConfirmationToUserEmail(userInfo.email, additionalInfo.locationId);
+                return res.json({ message: "registration successful" });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.json({ error: err });
+        })
 };
 
 function checkUserAlreadyCreatedInFirestore(email) {
@@ -121,7 +147,7 @@ function createUserUsingEmail(record) {
     const userInfo = record.userInfo;
     return db.collection("users")
         .doc(userInfo.email)
-        .set({phoneNumber: userInfo.phoneNumber, verified: 0});
+        .set({ phoneNumber: userInfo.phoneNumber, verified: 0 });
 }
 
 function checkUserAlreadyRegisteredToLocation(locationId, email) {
@@ -162,7 +188,7 @@ function addEmailToRegisteredUsers(email, locationId) {
     return db
         .collection("cleanUpLocations")
         .doc(locationId)
-        .update({registeredUsers: admin.firestore.FieldValue.arrayUnion(email)});
+        .update({ registeredUsers: admin.firestore.FieldValue.arrayUnion(email) });
 }
 
 function sendConfirmationToUserEmail(email, locationId) {
@@ -188,7 +214,7 @@ exports.leaveCleanUpLocation = (req, res) => {
         .get()
         .then((querySnapshot) => {
             if (querySnapshot.empty) {
-                return res.json({message: "no record exists"});
+                return res.json({ message: "no record exists" });
             }
             return querySnapshot.forEach((snap) => {
                 return snap.ref.delete()
@@ -196,22 +222,22 @@ exports.leaveCleanUpLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 
     const deleteEmail = db.collection("cleanUpLocations")
         .doc(locationId)
-        .update({registeredUsers: admin.firestore.FieldValue.arrayRemove(email)})
+        .update({ registeredUsers: admin.firestore.FieldValue.arrayRemove(email) })
         .catch((err) => {
             console.log(err);
         });
 
     return Promise.all([deleteRecord, deleteEmail])
         .then(() => {
-            return res.json({message: "success"})
+            return res.json({ message: "success" })
         })
         .catch((err) => {
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -224,11 +250,11 @@ exports.markLocationAsDone = (req, res) => {
         .add(data)
         .then(() => {
             changeLocationStatusToDone(locationId);
-            return res.json({message: "success"});
+            return res.json({ message: "success" });
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         })
 };
 
@@ -236,7 +262,7 @@ function changeLocationStatusToDone(locationId) {
     return db
         .collection("cleanUpLocations")
         .doc(locationId)
-        .update({done: 1})
+        .update({ done: 1 })
         .catch((err) => {
             console.log(err);
         });
@@ -261,7 +287,7 @@ exports.getUserRegisteredLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -284,7 +310,7 @@ exports.getCreatedLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -308,7 +334,7 @@ exports.getCompletedLocations = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         })
 };
 
@@ -329,7 +355,7 @@ exports.getRegisteredUsersOfLocation = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -340,14 +366,14 @@ exports.uploadLocationLogo = (req, res) => {
             return db
                 .collection("cleanUpLocations")
                 .doc(req.body.event)
-                .update({logoUrl: res.data.imageURL});
+                .update({ logoUrl: res.data.imageURL });
         })
         .then(() => {
-            return res.json({message: "logo upload successful."});
+            return res.json({ message: "logo upload successful." });
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         })
 };
 
@@ -373,15 +399,15 @@ exports.uploadLocationPhotos = (req, res) => {
         event: event
     })
         .then((response) => {
-             db
+            db
                 .collection("cleanUpLocations")
                 .doc(event)
-                .update({locationImages: response.data.imageURLs});
-             return res.json({message: "ok"});
+                .update({ locationImages: response.data.imageURLs });
+            return res.json({ message: "ok" });
         })
         .catch((err) => {
             console.log(err);
-            return res.json({message: err});
+            return res.json({ message: err });
         });
 };
 
@@ -396,7 +422,7 @@ exports.getLocationImages = (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            return res.json({error: err});
+            return res.json({ error: err });
         });
 };
 
@@ -428,9 +454,13 @@ exports.markLocationAsPaid = (req, res) => {
     return db
         .collection("cleanUpLocations")
         .doc(locationId)
-        .update({paid: 1})
+        .update({ paid: 1 })
+        .then(() => { 
+            return res.json({message: "marked."}); 
+        })
         .catch((err) => {
             console.log(err);
+            return res.json({error: err})
         });
 };
 
