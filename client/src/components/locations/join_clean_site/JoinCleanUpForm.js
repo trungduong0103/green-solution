@@ -71,6 +71,19 @@ class JoinCleanUpForm extends Component {
         }
     }
 
+    componentDidMount(){
+        if (this.props.user!==undefined) {
+            const userInfo = this.props.user;
+            if (userInfo.phoneNumber === undefined) userInfo.phoneNumber = "";
+            this.setState({userInfo: this.props.user});
+        }
+        if (this.props.locationId!== undefined) {
+            const {additionalInfo} = this.state;
+            additionalInfo.locationId = this.props.locationId;
+            this.setState({additionalInfo});
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.user !== this.props.user) {
             const userInfo = this.props.user;
@@ -81,6 +94,9 @@ class JoinCleanUpForm extends Component {
             const {additionalInfo} = this.state;
             additionalInfo.locationId = this.props.locationId;
             this.setState({additionalInfo});
+        }
+        if (prevProps.doneJoinLocation !== this.props.doneJoinLocation && this.props.doneJoinLocation === true) {
+            this.props.close();
         }
     }
 
@@ -119,6 +135,7 @@ class JoinCleanUpForm extends Component {
                 additionalInfo: additionalInfo
             });
             this.clearForm();
+            //this.props.close();
         }
         else {
             //TODO OPEN MODAL
@@ -155,6 +172,7 @@ class JoinCleanUpForm extends Component {
         const {classes, loading, doneJoinLocation, alreadyJoinedLocation, location, open} = this.props;
         const {errors, userInfo, additionalInfo, checked} = this.state;
         const availableSizes = ["S", "M", "L", "XL"];
+        console.log(doneJoinLocation)
         return (
             <Dialog open={open} onClose={this.props.close}>
                 <Card className={classes.card}>

@@ -144,58 +144,6 @@ const styles = {
 
 const imageList = [myImage, placeholderImage, img1, img2];
 
-const volunteers = [
-    {
-        id: 1,
-        img: myImage,
-        email: "manhtrietvt@gmail.com",
-        tools: true,
-        tShirtSize: "XL"
-    },
-    {
-        id: 2,
-        img: placeholderImage,
-        email: "trungduong@gmail.com",
-        tools: true,
-        tShirtSize: "XL"
-    },
-    {
-        id: 3,
-        img: img1,
-        email: "khang_nguyen12@gmail.com",
-        tools: false,
-        tShirtSize: "M"
-    },
-    {
-        id: 4,
-        img: img2,
-        email: "nst@gmail.com",
-        tools: false,
-        tShirtSize: "L"
-    },
-    {
-        id: 5,
-        img: img2,
-        email: "quachtoan@gmail.com",
-        tools: true,
-        tShirtSize: "L"
-    },
-    {
-        id: 6,
-        img: img2,
-        email: "lam99@gmail.com",
-        tools: false,
-        tShirtSize: "XL"
-    },
-    {
-        id: 7,
-        img: img2,
-        email: "quachboiboi.abc@gmail.com",
-        tools: false,
-        tShirtSize: "S"
-    },
-
-];
 
 class CleanUpDetail extends React.Component {
     constructor(props) {
@@ -223,12 +171,13 @@ class CleanUpDetail extends React.Component {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.location !== state.location) {
-            return {location: props.location};
-        }
-        return null;
-    }
+    // static getDerivedStateFromProps(props, state) {
+    //     if (props.location !== state.location) {
+    //         return {location: props.location};
+    //     }
+    //     return null;
+    // }
+
 
     toggleJoinForm = () => {
         this.setState({joinLocation: !this.state.joinLocation});
@@ -287,7 +236,7 @@ class CleanUpDetail extends React.Component {
     }
 
     render() {
-        const {classes, user, location, history, loading, locationExists} = this.props;
+        const {location,classes, user,  history, loading, locationExists} = this.props;
         const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm, emailForm, emailList} = this.state;
         
         return (
@@ -460,7 +409,7 @@ class CleanUpDetail extends React.Component {
                 <UpdateCleanSiteForm close={this.toggleUpdateForm}
                                      email={user.email} open={updateLocation}/>
                 <DeleteCleanSiteDialog history={history} close={this.toggleDeleteForm} open={deleteLocation}/>
-                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.handleOpenDropImage}/>
+                <UpdatePhotos open={openDropImage} handleOpenDropImages={this.toggleUpdatePhotos}/>
                 <EventResultForm history={history}  location={location} open={openResultForm} handleOpenResultForm={this.handleOpenResultForm} />
                 <SendEmailForm clear={this.clearEmailList} open={emailForm} emailList={emailList} handleOpenEmailForm={this.handleOpenEmailForm} />
             </div>:<div className={classes.progressContainer}><Typography>Sự kiện không tồn tại :(.</Typography></div>}
