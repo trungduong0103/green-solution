@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List"
-import Avatar from "@material-ui/core/Avatar";
+//import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button"
 
 const styles = {
@@ -55,16 +55,17 @@ class UserGridList extends React.Component {
         const {classes, userList, emailList, clear, selectAll, handleOpenEmailForm, checkUser} = this.props;
         return (
             <List className={classes.cardList}>
+                {checkUser && <div>
                 <Typography align="center" variant="h4" gutterBottom className={classes.title}>Danh sách tình nguyện
                     viên</Typography>
-                    {checkUser && <div style={{width:"100%",textAlign:"right"}}>
+                    <div style={{width:"100%",textAlign:"right"}}>
                         <Button disabled={userList===undefined || userList===null || userList.length===0}
                                 onClick={()=>selectAll()}>Chọn hết</Button>
                         <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
                                 onClick={()=>clear()}>Bỏ chọn hết</Button>
                         <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
                                 onClick={()=>handleOpenEmailForm()}>Gửi email</Button>
-                    </div>}
+                    </div>
                 <Grid container>
                     {userList!== undefined && userList.map(user => (
                         <Grid item sm={4} key={user.id}>
@@ -86,6 +87,7 @@ class UserGridList extends React.Component {
                         </Grid>
                     ))}
                 </Grid>
+                </div>}
             </List>
         )
     }

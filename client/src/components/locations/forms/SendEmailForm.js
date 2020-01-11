@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {connect} from "react-redux";
 
-import Grid from "@material-ui/core/Grid";
+//import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import { Card, CardContent } from "@material-ui/core";
@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import AddCircleOutlineTwoToneIcon from '@material-ui/icons/AddCircleOutlineTwoTone';
 import Dialog from "@material-ui/core/Dialog"
-import DialogActions from "@material-ui/core/DialogActions"
+//import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import {sendEmail} from "../../../redux/actions/LocationActions"

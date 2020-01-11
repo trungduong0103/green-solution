@@ -28,6 +28,7 @@ import axios from "axios";
 
 //GET ALL LOCATIONS
 export function getAllLocations() {
+    
     return function (dispatch) {
         axios
             .get(`${DEFAULT_URL}/get_all_clean_sites`)
@@ -223,7 +224,7 @@ export function uploadLocationPhotos(uploadObj) {
             .then((response) => {
                 dispatch({type: DONE_UPLOAD_LOCATION_PHOTOS, payload: response.data});
                 setTimeout(() => {
-                    getLocation(uploadObj.event);
+                    dispatch(getLocation(uploadObj.event));
                 }, 1000);
             })
             .catch((err) => {
@@ -279,7 +280,8 @@ export function download(){
 export function markLocationAsPaid(obj) {
     return function (dispatch) {
         axios.post(`${DEFAULT_URL}/mark_location_as_paid`, obj)
-            .then(() => {
+            .then((res) => {
+                
                 dispatch(getAllLocations())
             })
             .catch((err) => {
