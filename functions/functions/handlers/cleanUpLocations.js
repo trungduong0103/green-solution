@@ -100,35 +100,9 @@ exports.joinCleanUpLocation = (req, res) => {
     const userInfo = req.body.userInfo;
     const additionalInfo = req.body.additionalInfo;
 
-    checkUserAlreadyCreatedInFirestore(userInfo.email)
-        .then((value) => {
-            if (value === false) {
-                console.log("no record found while joining, creating new record...");
-                return createUserUsingEmail(req.body);
-            }
-            console.log("record with user already exists");
-            return null;
-        })
-        .catch((err) => {
-            console.log(err);
-            return res.json({error: err});
-        });
-
-    checkUserAlreadyRegisteredToLocation(additionalInfo.locationId, userInfo.email)
-        .then(message => {
-            console.log("message", message);
-            if (message === "registered") return res.json({message: "user already registered"});
-            else {
-                createNewRegistrationRecord(userInfo, additionalInfo);
-                addEmailToRegisteredUsers(userInfo.email, additionalInfo.locationId);
-                sendConfirmationToUserEmail(userInfo.email, additionalInfo.locationId);
-                return res.json({message: "registration successful"});
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            return res.json({error: err});
-        })
+    createNewRegistrationRecord(userInfo, additionalInfo);
+    addEmailToRegisteredUsers(userInfo.email, additionalInfo.locationId);
+    return sendConfirmationToUserEmail(userInfo.email, additionalInfo.locationId);
 };
 
 function checkUserAlreadyCreatedInFirestore(email) {
