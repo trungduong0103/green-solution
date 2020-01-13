@@ -7,9 +7,10 @@ This website is made for Vietnam Sach Va Xanh organization. We didn't get the pa
 [Green Solution](https://green-solution-rmit.web.app/home)
 
 ## Getting Started
-Go to the client folder
 
-### `npm install` or `npm i`
+Go to the client folder and run:
+
+### `npm install` or `npm i` <br/>
 
 to install all of the packages needed for this website
 
