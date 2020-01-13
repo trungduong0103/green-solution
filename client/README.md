@@ -1,6 +1,6 @@
 # Green Solution
 
-This website is made for Vietnam Sach Va Xanh organization. We didn't get the part but here's the website anyways.
+This website is made for Vietnam Sach Va Xanh organization. We didn't get the part but here's the website anyways. The website is 100% Vietnamese.
 
 ## Demo
 
