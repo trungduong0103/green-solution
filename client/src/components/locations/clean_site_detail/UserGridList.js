@@ -37,7 +37,22 @@ const styles = {
         overflow: 'auto',
         maxHeight: 400,
         width: '100%',
+    },
+    customBtn: {
+        borderRadius: 20,
+        margin: "0 10px",
+        border: "1px solid black",
+        fontSize: 15,
+        fontFamily: "'Quicksand', sans-serif;",
+        backgroundColor: "white",
+        color: "black",
+        transition: "all 350ms ease-in-out",
+        "&:hover": {
+            backgroundColor: "#7F986F",
+        },
+        marginTop: 15,
     }
+
 
 };
 
@@ -59,11 +74,11 @@ class UserGridList extends React.Component {
                 <Typography align="center" variant="h4" gutterBottom className={classes.title}>Danh sách tình nguyện
                     viên</Typography>
                     <div style={{width:"100%",textAlign:"right"}}>
-                        <Button disabled={userList===undefined || userList===null || userList.length===0}
+                        <Button className={classes.customBtn} disabled={userList===undefined || userList===null || userList.length===0}
                                 onClick={()=>selectAll()}>Chọn hết</Button>
-                        <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
+                        <Button className={classes.customBtn} disabled={emailList===undefined || emailList===null || emailList.length===0}
                                 onClick={()=>clear()}>Bỏ chọn hết</Button>
-                        <Button disabled={emailList===undefined || emailList===null || emailList.length===0}
+                        <Button className={classes.customBtn} disabled={emailList===undefined || emailList===null || emailList.length===0}
                                 onClick={()=>handleOpenEmailForm()}>Gửi email</Button>
                     </div>
                 <Grid container>

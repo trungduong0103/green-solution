@@ -119,7 +119,7 @@ export default function (state = initialState, action) {
         case RESET_FILTERS:
             return {...state, filteredLocations: state.locations};
         case LOCATION_DOES_NOT_EXIST:
-            return {...state, locationExists:false}
+            return {...state, locationExists:false};
         default:
             return state;
     }

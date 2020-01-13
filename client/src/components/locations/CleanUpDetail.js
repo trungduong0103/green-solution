@@ -102,7 +102,7 @@ const styles = {
     },
     disableStatus: {
         fontFamily: "'Quicksand', sans-serif;",
-        backgroundColor: "rgb(255,96,88)",
+        backgroundColor: "rgb(185,72,66)",
         letterSpacing: 1,
         textTransform: "uppercase",
         color: "black"
@@ -203,7 +203,7 @@ class CleanUpDetail extends React.Component {
         this.setState({
             emailForm:!this.state.emailForm
         })
-    }
+    };
 
     addEmail = (email)=>{
         if(this.state.emailList.includes(email)){
@@ -233,12 +233,14 @@ class CleanUpDetail extends React.Component {
         this.setState({
             emailList:this.props.location.registeredUsers
         })
-    }
+    };
 
     render() {
-        const {location,classes, user,  history, loading, locationExists} = this.props;
+
+        const {location,classes, user,  history, loading, locationExists, done} = this.props;
         const {joinLocation, updateLocation, deleteLocation, openDropImage, openResultForm, emailForm, emailList} = this.state;
-        
+
+        console.log("Hoan thanh: "+ location.done);
         return (
             <div>
                 <NavBar />
@@ -273,7 +275,8 @@ class CleanUpDetail extends React.Component {
                                             <Typography variant="h6" className={classes.title}>Trạng thái:</Typography>
                                         </Grid>
                                         <Grid item sm={9}>
-                                            <Chip className={classes.activeStatus} label="Còn chỗ"/>
+                                            {location.done === 0 ? <Chip className={classes.activeStatus} label="Còn chỗ"/>
+                                            : <Chip className={classes.disableStatus} label="Kết thúc"/>}
                                         </Grid>
                                     </Grid>
 
