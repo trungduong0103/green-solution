@@ -1,68 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Green Solution
 
-## Available Scripts
+This website is made for Vietnam Sach Va Xanh organization. We didn't get the part but here's the website anyways.
 
-In the project directory, you can run:
+## Getting Started
 
-### `yarn start`
+This is the client folder, if you want it to run, please first clone the entire project to your machine, open a terminal and go to the /client directory of this repository, then run:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### `npm install` or `npm i`
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+to install all of the packages needed for this website
 
-### `yarn test`
+## Run
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Simply run this command:
 
-### `yarn build`
+### `npm start`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+to start the website. The website should run on http://locahost:8000 on your browser.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This website is deployed with Firebase Hosting and AWS Beanstalk, but the AWS version does not last long because AWS charges quite a lot of money to keep a website running.
 
-### `yarn eject`
+To deploy the webiste, first run:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### `npm run build`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+to bundle the website, a build folder should be created after the build is done.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Then run:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### `firebase deploy`
 
-## Learn More
+to deploy this website to your Firebase Hosting server (I won't cover how to set up one).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Built With
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* [ReactJS](https://reactjs.org/) - Very neat Frontend library for web development
+* [Redux](https://redux.js.org/) - State container for JS Applications, we use this library to manage our states, and for UI effects (loading, etc)
+* [Material UI + Material UI Icons](https://material-ui.com/) - CSS + Animation all in one package
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## License
 
-### Analyzing the Bundle Size
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Acknowledgments
 
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Thanks Triet, a Quang and Boi for making this website, great work guys!
