@@ -10,13 +10,13 @@ This website is made for Vietnam Sach Va Xanh organization. We didn't get the pa
 
 Go to the client folder and run:
 
-### `npm install` or `npm i` <br/>
+### `npm install` or `npm i`
 
 to install all of the packages needed for this website
 
 ## Run
 
-Simply run this command:
+Run this command:
 
 ### `npm start`
 
