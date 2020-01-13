@@ -2,6 +2,10 @@
 
 This website is made for Vietnam Sach Va Xanh organization. We didn't get the part but here's the website anyways.
 
+## Demo
+
+[Green Solution](https://green-solution-rmit.web.app/home)
+
 ## Getting Started
 
 This is the client folder, if you want it to run, please first clone the entire project to your machine, open a terminal and go to the /client directory of this repository, then run:
