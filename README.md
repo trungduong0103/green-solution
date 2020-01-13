@@ -52,7 +52,7 @@ Backend:
 Platform to build backend applications from scratch.
 * [Cloud Firestore](https://firebase.google.com/docs/firestore) - We used Firestore to build a NoSQL database for our backend.
 
-Hosted with * [Firebase Hosting](https://firebase.google.com/docs/hosting)
+Hosted with [Firebase Hosting](https://firebase.google.com/docs/hosting)
 
 
 
