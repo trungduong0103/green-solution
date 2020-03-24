@@ -175,16 +175,12 @@ class SignIn extends Component {
                         onChange={this.handleChange}
                         value={this.state.loginPassword}
                         InputLabelProps={{className: classes.input}}
-                        InputProps={
-                            {
-                                disableUnderline: true,
-                                className: classes.input
-                            }}
+                        InputProps={{disableUnderline: true, className: classes.input}}
                     />
                     <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
                     {loading ? (
                         <CircularProgress variant="indeterminate" size={32} className={classes.progress}/>
-                    ) : doneSignIn ? (<CheckIcon fontSize="large" className={classes.tick} />) : (<Button
+                    ) : doneSignIn ? (<CheckIcon fontSize="large" className={classes.tick}/>) : (<Button
                         variant="contained"
                         onClick={this.loginWithEmail}
                         className={doneSignIn ? classes.successBtn : classes.registerBtn}

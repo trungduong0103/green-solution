@@ -169,7 +169,7 @@ class JoinCleanUpForm extends Component {
         const {classes, loading, doneJoinLocation, alreadyJoinedLocation, location, open} = this.props;
         const {errors, userInfo, additionalInfo, checked} = this.state;
         const availableSizes = ["S", "M", "L", "XL"];
-        console.log(doneJoinLocation)
+
         return (
             <Dialog open={open} onClose={this.props.close}>
                 <Card className={classes.card}>

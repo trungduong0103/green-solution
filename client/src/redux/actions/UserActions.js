@@ -182,7 +182,7 @@ export function signUserOut() {
     return function (dispatch) {
         firebase.auth().signOut()
             .then(() => {
-                sessionStorage.clear();
+                localStorage.clear();
                 dispatch({type: OPEN_SIGN_OUT_SNACKBAR});
             })
             .then(() => {
@@ -208,7 +208,7 @@ const setSocialMediaToken = () => {
 
 const setAuthorizationHeader = (token) => {
     const FBIdToken = `Bearer ${token}`;
-    sessionStorage.setItem('FBIdToken', FBIdToken);
+    localStorage.setItem('FBIdToken', FBIdToken);
     //set Authorization header with token "Bearer ..."
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 };
