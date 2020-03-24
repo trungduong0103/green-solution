@@ -115,22 +115,14 @@ class NavBar extends Component {
     };
 
 
-
-
     render() {
-
         const {classes} = this.props;
         const {anchorEl, open} = this.state;
-        const auth = sessionStorage.getItem("FBIdToken");
-        // let email = "";
-        // if (auth) {
-        //     const decodedIdToken = jwtDecode(auth);
-        //     email = decodedIdToken.email;
-        // }
+        const auth = localStorage.getItem("FBIdToken");
 
         return (
             <AppBar position="sticky" className={classes.appBar}>
-                <Toolbar className={classes.toolbar} style={{padding: "0 2% 0 2%"}} >
+                <Toolbar className={classes.toolbar} style={{padding: "0 2% 0 2%"}}>
                     <Grid container>
                         <Grid item sm={3}>
                             <Button
@@ -138,7 +130,7 @@ class NavBar extends Component {
                                 to="/home"
                                 className={classes.logoBtn}
                             >
-                                <img src={logo} className={classes.logo} alt="logo" style={{ width: 200, height: 60}}/>
+                                <img src={logo} className={classes.logo} alt="logo" style={{width: 200, height: 60}}/>
                             </Button>
                         </Grid>
 
@@ -228,7 +220,7 @@ class NavBar extends Component {
                         onClose={this.handleProfileMenu}
                         style={{width: 300}}
                     >
-                        <MenuItem  to="/profile" component={Link} >
+                        <MenuItem to="/profile" component={Link}>
                             <ListItemIcon>
                                 <AccountBoxIcon/>
                             </ListItemIcon>
@@ -239,7 +231,7 @@ class NavBar extends Component {
                             <ListItemIcon>
                                 <ExitToAppIcon/>
                             </ListItemIcon>
-                            <Typography   style={{fontFamily: "Quicksand, sans-serif"}}>Logout</Typography>
+                            <Typography style={{fontFamily: "Quicksand, sans-serif"}}>Logout</Typography>
                         </MenuItem>
 
                     </Menu>
