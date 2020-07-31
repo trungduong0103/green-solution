@@ -74,4 +74,4 @@ export const CLOSE_UPDATE_SITE_FORM = "CLOSE_UPDATE_SITE_FORM";
 export const LOADING_FORM = "LOADING_FORM";
 export const STOP_LOADING_FORM = "STOP_LOADING_FORM";
 
-export const DEFAULT_URL = "https://asia-northeast1-rmit-cloud-a2-c8905.cloudfunctions.net/api";
+export const DEFAULT_URL = "https://asia-northeast1-green-solution-rmit.cloudfunctions.net/api";

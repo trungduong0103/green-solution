@@ -6,7 +6,7 @@ app.use(cors());
 
 const FBAuth = require("./utils/firebaseAuth");
 const {signUp, signIn, onUserCreateInAuth, onUserDeleteInAuth, getAuthenticatedUserProfile, updateUserProfile, updateUserAvatar} = require("./handlers/users");
-const {createNewTopic, publishMessageToTopic, sendEmailToUser} = require("./handlers/topics");
+const {createNewTopic, publishMessageToTopic} = require("./handlers/topics");
 const {
     createNewLocation,
     updateCleanUpLocation,

@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f7db303b-4964-498c-b188-adbf5aa3e0ef" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="f7db303b-4964-498c-b188-adbf5aa3e0ef" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/.gcloudignore" beforeDir="false" afterPath="$PROJECT_DIR$/functions/.gcloudignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/functions/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/environments/emailTemplates.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/environments/emailTemplates.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/environments/errorTemplates.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/environments/errorTemplates.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/handlers/cleanUpLocations.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/handlers/cleanUpLocations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/handlers/topics.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/handlers/topics.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/handlers/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/handlers/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/utils/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/utils/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/utils/email.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/utils/email.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/utils/firebaseAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/utils/firebaseAuth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/utils/oauthConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/utils/oauthConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/utils/validators.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/utils/validators.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/yarn.lock" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,7 +36,13 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -36,18 +59,6 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -84,6 +95,8 @@
       <workItem from="1575350005327" duration="113000" />
       <workItem from="1575350179372" duration="2670000" />
       <workItem from="1575354733314" duration="193000" />
+      <workItem from="1596186106603" duration="13000" />
+      <workItem from="1596186124748" duration="11000" />
     </task>
     <task id="LOCAL-00001" summary="add .idea folder and environment folder to gitignore">
       <created>1574912940591</created>
