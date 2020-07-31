@@ -13,7 +13,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { Typography } from "@material-ui/core";
 
 export const JoinCleanUpMap = compose(
-    withProps(props => {
+    withProps(() => {
         return {
             googleMapURL: `${REACT_APP_GOOGLE_KEY}`,
             loadingElement: <div style={{ height: `100%` }} />,
@@ -112,7 +112,7 @@ export const JoinCleanUpMap = compose(
                     <InfoWindow onCloseClick={props.onToggleOpen} onClick={() => props.onInfoWindowClick(marker.id)}>
                         <div onClick={() => props.onInfoWindowClick(marker.id)} style={{ cursor: 'pointer' }}>
                             <Card style={{ maxWidth: "400px", maxHeight: "400px", width: "300px", height: "auto", alignContent: "center", justifyContent: "center" }}>
-                                
+
                                 {(marker.locationImages !== undefined && marker.locationImages.length > 0) ?
                                     <CardMedia component="img"
                                         style={props.locationAvatar}

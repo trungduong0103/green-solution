@@ -32,14 +32,6 @@ const styles = {
 
 class Home extends Component {
 
-    componentDidMount() {
-        this.props.getAllLocations();
-        if ("FBIdToken" in localStorage) {
-            console.log(localStorage.getItem("FBIdToken"));
-
-        }
-    };
-
     handleEnlargeMarker = (index) => {
         this.props.enlargeMarker(index)
     };
