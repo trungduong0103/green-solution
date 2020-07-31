@@ -28,7 +28,7 @@ import axios from "axios";
 
 //GET ALL LOCATIONS
 export function getAllLocations() {
-    
+
     return function (dispatch) {
         axios
             .get(`${DEFAULT_URL}/get_all_clean_sites`)
@@ -64,7 +64,7 @@ export function getLocation(locationId) {
 
 //UPDATE LOCATION
 export function updateLocation(locationData, id) {
-    const token = sessionStorage.getItem("FBIdToken");
+    const token = localStorage.getItem("FBIdToken");
     return function (dispatch) {
         dispatch({type: UPDATING_LOCATION});
         axios
@@ -82,7 +82,7 @@ export function updateLocation(locationData, id) {
 
 //DELETE LOCATION
 export function deleteLocation(locationId, history) {
-    const token = sessionStorage.getItem("FBIdToken");
+    const token = localStorage.getItem("FBIdToken");
     return function (dispatch) {
         dispatch({type: DELETING_LOCATION});
         axios
@@ -99,7 +99,7 @@ export function deleteLocation(locationId, history) {
 
 //CREATE NEW LOCATION
 export function createNewLocation(location) {
-    const token = sessionStorage.getItem("FBIdToken");
+    const token = localStorage.getItem("FBIdToken");
     return function (dispatch) {
         dispatch({type: CREATING_LOCATION});
         axios
@@ -251,7 +251,7 @@ export function getAllLocationImages(infoObj) {
 }
 
 export function sendEmail(obj){
-    return function(dispatch){
+    return function(){
         axios
             .post("https://gle8q1lhk3.execute-api.ap-southeast-1.amazonaws.com/prod/sendemail",obj)
             .then(()=>{
@@ -264,8 +264,7 @@ export function sendEmail(obj){
 }
 
 export function download(){
-    console.log('called')
-    return function(dispatch){
+    return function(){
         axios
             .get(`${DEFAULT_URL}/download`)
             .then(()=>{
@@ -280,8 +279,8 @@ export function download(){
 export function markLocationAsPaid(obj) {
     return function (dispatch) {
         axios.post(`${DEFAULT_URL}/mark_location_as_paid`, obj)
-            .then((res) => {
-                
+            .then(() => {
+
                 dispatch(getAllLocations())
             })
             .catch((err) => {

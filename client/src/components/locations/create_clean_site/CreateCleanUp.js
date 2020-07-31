@@ -58,7 +58,7 @@ class CreateCleanUp extends Component {
     }
 
     componentDidMount() {
-        const auth = sessionStorage.getItem("FBIdToken");
+        const auth = localStorage.getItem("FBIdToken");
         if (!auth) window.location.href = "/authentication";
         const decodedToken = jwtDecode(auth);
         const location = this.state.location;

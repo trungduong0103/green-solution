@@ -88,7 +88,8 @@ class UserProfile extends Component {
     }
 
     componentDidMount() {
-        const auth = sessionStorage.getItem("FBIdToken");
+        const auth = localStorage.getItem("FBIdToken");
+
         if (!auth) {
             window.location.href = "/authentication";
         }
@@ -140,8 +141,8 @@ class UserProfile extends Component {
 
     render() {
         const {
-            classes, userLoading, loadRegisteredLocations,  
-            loadCreatedLocations, loadCompletedLocations, 
+            classes, userLoading, loadRegisteredLocations,
+            loadCreatedLocations, loadCompletedLocations,
             updateUser, userUpdating, doneUserUpdate, uploadImage, image, loading, openUpdateSite
         } = this.props;
         const {registeredLocations, createdLocations, completedLocations, tab, openUpdateProfile, user, email,} = this.state;
