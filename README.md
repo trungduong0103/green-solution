@@ -61,4 +61,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-Thanks Triet, a Quang and Boi for making this website, great work guys!
+Thanks Triet, anh Quang and Boi for making this website, great work guys!
