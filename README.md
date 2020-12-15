@@ -41,16 +41,15 @@ to deploy this website to your Firebase Hosting server (I won't cover how to set
 ## Built With
 
 Frontend:
-* [ReactJS](https://reactjs.org/) - Very neat Frontend library for web development
-* [Redux](https://redux.js.org/) - State container for JS Applications, we use this library to manage our states, and for 
+* [ReactJS](https://reactjs.org/) 
+* [Redux](https://redux.js.org/) 
 UI effects (loading, etc)
-* [Material UI + Material UI Icons](https://material-ui.com/) - CSS + Animation all in one package
+* [Material UI + Material UI Icons](https://material-ui.com/) 
 
 Backend:
-* [NodeJS](https://nodejs.org/en/) - 100% of our APIs are written in NodeJS, very powerful language for backend applications.
-* [Google Cloud Functions aka Firebase Functions](https://firebase.google.com/docs/functions) - Extrememly powerful Cloud 
-Platform to build backend applications from scratch.
-* [Cloud Firestore](https://firebase.google.com/docs/firestore) - We used Firestore to build a NoSQL database for our backend.
+* [NodeJS](https://nodejs.org/en/) 
+* [Google Cloud Functions aka Firebase Functions](https://firebase.google.com/docs/functions) 
+* [Cloud Firestore](https://firebase.google.com/docs/firestore)
 
 Hosted with [Firebase Hosting](https://firebase.google.com/docs/hosting)
 
